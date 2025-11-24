@@ -124,7 +124,7 @@ main {
 /* craft強調 */
 .card.craft {
   transform:scale(1.05);
-  border:2px solid #00b386;
+  border:2px solid #007b9e;
 }
 .card.craft:hover {
   transform:scale(1.08);
@@ -258,16 +258,16 @@ footer a:hover{text-decoration:underline;}
   transition:color 0.3s ease, text-shadow 0.3s ease;
 }
 .link.craft:hover {
-  color:#00b386;
-  text-shadow:0 0 8px rgba(0,179,134,0.5);
+color:#007b9e;
+text-shadow:0 0 8px rgba(0,123,158,0.5);
 }
 .link.field:hover {
-  color:#00a0b3;
-  text-shadow:0 0 8px rgba(0,160,179,0.5);
+color:#00b386;
+text-shadow:0 0 8px rgba(0,179,134,0.5);
 }
 .link.lab:hover {
-  color:#00806f;
-  text-shadow:0 0 8px rgba(0,128,111,0.5);
+color:#c0392b;
+text-shadow:0 0 8px rgba(192,57,43,0.5);
 }
 
 /* スマホ */
@@ -284,18 +284,23 @@ footer a:hover{text-decoration:underline;}
 
 <main>
   <div class="card craft" onclick="location.href='./craft/index.html'">
-    <img src="./assets/icon-craft.png" alt="craftアイコン" style="transform:scale(1.15);filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));">
-    <h2 style="color:#00b386;">adjustment-craft</h2>
+    <img src="./assets/icon-craft.png" alt="craftアイコン" style="transform:scale(1.15);filter:drop-shadow(0 4px 6px rgba(0,123,158,0.4));">
+    <h2 style="color:#007b9e;">adjustment-craft</h2>
     <p>制作部門<br>構造をデザインして伝える制作部門。<br>Web・UI・PWAを通して再現性を設計。</p>
   </div>
   <div class="card field" onclick="location.href='./field/index.html'">
-    <img src="./assets/icon-field.png" alt="fieldアイコン" style="opacity:0.8;filter:grayscale(0.2);">
-    <h2 style="color:#00b38699;">adjustment-field</h2>
+    <img src="./assets/icon-field.png"
+     alt="fieldアイコン"
+     style="opacity:0.9;
+            filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));">
+    <h2 style="color:#00b386;">adjustment-field</h2>
     <p>トレーナー部門<br>アスリートへtoughな構造を。<br>その再現性を高める実践拠点。</p>
   </div>
   <div class="card lab" onclick="location.href='./lab/index.html'">
-    <img src="./assets/icon-lab.png" alt="labアイコン" style="opacity:0.8;filter:grayscale(0.2);">
-    <h2 style="color:#00b38699;">adjustment-lab</h2>
+    <img src="./assets/icon-lab.png"
+     alt="labアイコン"
+     style="opacity:0.9;
+            filter:drop-shadow(0 4px 6px rgba(192,57,43,0.35));">    <h2 style="color:#c0392b;">adjustment-lab</h2>
     <p>開発部門<br>アプリやツールを開発。<br>理論を探究してcraftの<br>構造を支える研究部門。</p>
   </div>
 </main>
