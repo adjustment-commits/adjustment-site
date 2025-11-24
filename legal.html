@@ -47,14 +47,19 @@ tr:last-child td,tr:last-child th{border-bottom:none;}
   tr{margin-bottom:18px;}
   tr:last-child td{border-bottom:none;}
 }
-footer{text-align:center;color:var(--sub);font-size:0.9rem;margin-top:80px;}
-footer a{color:var(--accent);text-decoration:none;}
-footer a:hover{text-decoration:underline;}
-.back-home{text-align:center;margin:80px 0 40px;}
-.back-home button{
-  background:none;border:1px solid #00b386;color:#00b386;
-  padding:0.7em 1.6em;border-radius:4px;font-size:1rem;cursor:pointer;transition:0.3s;
+/* ===== フッター ===== */
+footer {
+text-align:center;
+padding:40px 0;
+font-size:0.85rem;
+color:#888;
 }
+footer a {
+color:var(--accent);
+text-decoration:none;
+}
+footer a:hover{text-decoration:underline;}
+
 .back-home button:hover{background:#00b386;color:#fff;}
 </style>
 </head>
@@ -98,14 +103,16 @@ footer a:hover{text-decoration:underline;}
   </table>
 </section>
 <div class="back-home">
-  <button onclick="window.location.href='/adjustment-lab/index.html'">← ホームへ戻る</button>
+  <button onclick="window.location.href='/adjustment-site/index.html'">← ホームへ戻る</button>
 </div>
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
-<div id="footer-area"></div>
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-  .then(r => r.text())
-  .then(d => document.getElementById("footer-area").innerHTML = d);
-</script>
+  
+<footer>
+  <p>
+    <a href="../legal.html">販売・利用規約</a>｜
+    <a href="../contact/index.html">お問い合わせ</a><br>
+    <small>© 2025 adjustment-lab</small>
+  </p>
+</footer>
+
 </body>
 </html>
