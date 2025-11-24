@@ -231,6 +231,19 @@ section p {
   margin:6px;
 }
 .cta button:hover {background:var(--accent);color:#fff;}
+.request-btn {
+  background: #007b9e;
+  color: #fff;
+  border: none;
+  padding: 0.9em 1.8em;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.request-btn:hover {
+  opacity: 0.9;
+}
 
 @media(max-width:768px){
   .hero h1{font-size:1.8rem;}
@@ -278,7 +291,7 @@ text-decoration: underline;
   理論を“使える形”に変換し、PWA・UI・Web制作で再現性を設計する。</p>
 </section>
 <section>
-  <h2>WORKS｜<br<>制作実績</h2>
+  <h2>WORKS｜<br>制作実績</h2>
   <p>adjustment-craftは、labで生まれた理論を“形”に変換します。<br>
   トレーニング教材・診断ツール・教育PWAを一貫してデザインしています。</p>
   <div class="works">
@@ -329,20 +342,20 @@ function showPreview(src){
 }
 </script>
 <section>
-  <h2>SERVICE｜<br<>提供領域</h2>
+  <h2>SERVICE｜<br>提供領域</h2>
   <div class="services">
     <div class="service-box">
       <h3>UI/UX設計</h3>
-      <p>スマートフォンを主軸とした<br<>操作性の高いUI。<br>
+      <p>スマートフォンを主軸とした<br>操作性の高いUI。<br>
       現場利用が前提のUXデザイン。</p>
     </div>
     <div class="service-box">
       <h3>Web制作・PWA構築</h3>
-      <p>HTMLベースの軽量設計。<br>manifest・SWによる<br<>完全オフライン対応。</p>
+      <p>HTMLベースの軽量設計。<br>manifest・SWによる<br>完全オフライン対応。</p>
     </div>
     <div class="service-box">
       <h3>ブランドデザイン</h3>
-      <p>教材・アプリ・SNSに<br<>共通する統一トーン。<br>
+      <p>教材・アプリ・SNSに<br>共通する統一トーン。<br>
       ロゴ・資料テンプレートも制作。</p>
     </div>
   </div>
@@ -351,12 +364,12 @@ function showPreview(src){
   <h2>CONCEPT<br>｜構造を伝える</h2>
   <p>
     構造を伝える。  
-    デザインは飾りではなく、<br<>
+    デザインは飾りではなく、<br>
     意味の再構成である。  
-    adjustment-craftは、<br<>
-    「整-adjustment-」の哲学を<br<>
+    adjustment-craftは、<br>
+    「整-adjustment-」の哲学を<br>
     “形”で届ける制作部門。  
-    技術と感性の交差点で<br<>
+    技術と感性の交差点で<br>
     再現性のある表現を創る。
   </p>
 </section>
@@ -381,7 +394,7 @@ function showPreview(src){
   </div>
 </section>
  <div class="cta">
-  <button onclick="window.location.href='./request.html'">制作依頼フォームへ</button>
+  <button class="request-btn" onclick="window.location.href='./request.html'">制作依頼フォームへ</button>
 </div> 
 <div class="cta">
   <button onclick="window.location.href='../lab/index.html'">adjustment-labを見る</button>
