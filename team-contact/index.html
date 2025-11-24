@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チーム契約フォーム｜adjustment-lab</title>
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#f8faf9">
+<style>
+:root {
+  --bg:#ffffff;
+  --text:#1a1a1a;
+  --sub:#555;
+  --accent:#00b386;
+  --line:rgba(0,0,0,0.08);
+  font-family:'Noto Sans JP',sans-serif;
+}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.9;
+}
+
+/* Header */
+header {
+  text-align:center;
+  padding:40px 20px 20px;
+}
+h1 {
+  font-size:2rem;
+  margin:0;
+  color:var(--accent);
+}
+p.sub {
+  color:var(--sub);
+  margin-top:6px;
+}
+
+/* Form */
+form {
+  max-width:720px;
+  margin:40px auto;
+  padding:24px 20px;
+  background:#f5f9fa;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
+label {
+  font-weight:600;
+  display:block;
+  margin-bottom:4px;
+  color:var(--accent);
+}
+input, select, textarea {
+  width:100%;
+  padding:10px 12px;
+  margin-bottom:20px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:#fff;
+  font-size:1rem;
+}
+textarea {min-height:120px; resize:vertical;}
+
+button {
+  width:100%;
+  padding:12px 0;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-size:1.05rem;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover {opacity:0.85;}
+
+/* back */
+.back {
+  text-align:center;
+  margin:30px 0;
+}
+.back button {
+  background:none;
+  border:1px solid var(--accent);
+  color:var(--accent);
+  padding:10px 24px;
+  border-radius:4px;
+  font-size:1rem;
+  cursor:pointer;
+}
+.back button:hover {background:var(--accent);color:#fff;}
+
+footer {
+  text-align:center;
+  padding:40px 0;
+  font-size:0.85rem;
+  color:#888;
+}
+footer a {
+  color:var(--accent);
+  text-decoration:none;
+}
+footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<header>
+  <h1>チーム契約フォーム</h1>
+  <p class="sub">年間サポート・スポット指導・測定会などのご相談はこちら</p>
+</header>
+<form action="https://docs.google.com/forms/d/e/1FAIpQLSfoaf3XsMEGVKQgG1xODwW9A-PQfhzTC9XmOr3cReTyp5gYMQ/formResponse"
+      method="POST" target="_blank">
+
+  <label>ご担当者名</label>
+  <input type="text" name="entry.911084272" required>
+
+  <label>メールアドレス</label>
+  <input type="email" name="entry.2130197720" required>
+
+  <label>チーム名 / 企業名</label>
+  <input type="text" name="entry.1468227312" required>
+
+  <label>ご希望のサポート形態</label>
+  <select name="entry.1693304528" required>
+    <option value="">選択してください</option>
+    <option value="年間契約">年間契約</option>
+    <option value="短期サポート">短期サポート</option>
+    <option value="単発（測定会・講習会）">単発（測定会・講習会）</option>
+  </select>
+
+  <label>ご相談内容</label>
+  <textarea name="entry.1384621942" required></textarea>
+
+  <label>希望開始時期</label>
+  <input type="text" name="entry.1389595747" placeholder="例：4月上旬から">
+
+  <label>参考URL（任意）</label>
+  <input type="url" name="entry.1592230180" placeholder="https://">
+
+  <button type="submit">送信する</button>
+</form>
+<div class="back">
+  <button onclick="history.back()">← 戻る</button>
+</div>
+<footer>
+  <a href="../legal.html">販売・利用規約</a>｜
+  <a href="../contact/index.html">お問い合わせ</a><br>
+  <small>© 2025 adjustment-lab</small>
+</footer>
+</body>
+</html>
