@@ -27,7 +27,7 @@ body {
 /* --- Hero（軽量版）--- */
 .hero {
   position: relative;
-  height: 45vh;
+  height: 58vh;
   background: url("../assets/gallery/adjustment/field-hero.jpg") center/cover no-repeat;
   display: flex;
   justify-content: center;
@@ -63,6 +63,10 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 @media (max-width: 768px) {
+  .hero {
+   height: 62vh; /* モバイル専用：もっと余裕を持たせる */
+  }
+
   .hero-icon {
     width: 56px;
     height: 56px;
