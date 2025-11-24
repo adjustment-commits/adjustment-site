@@ -7,16 +7,13 @@
 <link rel="manifest" href="../manifest.json">
 <meta name="description" content="adjustment-lab｜現場で生まれた理論を形にする。トレーニング・測定・回復を可視化するアプリと教材を提供。再現性を科学するデジタル拠点。">
 <meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-</script>
+
 <style>
 :root {
   --bg:#ffffff;
   --text:#1a1a1a;
   --sub:#666;
-  --accent:#00b386;
+  --accent:#c0392b;
   --line:rgba(0,0,0,0.05);
   font-family:'Noto Sans JP',sans-serif;
 }
@@ -239,6 +236,21 @@ section:nth-of-type(3) p {
   font-size:1rem;
   white-space:pre-line;
 }
+
+footer {
+text-align: center;
+padding: 40px 0;
+font-size: 0.85rem;
+color: #888;
+}
+footer a {
+color: var(--accent);
+text-decoration: none;
+}
+footer a:hover {
+text-decoration: underline;
+}
+
 </style>
 
 </head>
@@ -326,13 +338,16 @@ section:nth-of-type(3) p {
   <button onclick="window.location.href='../craft/index.html'">adjustment-craftを見る</button>
 </div>
 <div class="back-home">
-  <button onclick="window.location.href='/adjustment-lab/index.html'">← ホームへ戻る</button>
+  <button onclick="window.location.href='/adjustment-site/index.html'">← ホームへ戻る</button>
 </div>
-<div id="footer"></div>
-<script>
-fetch("../assets/footer-lite.html")
-  .then(r=>r.text())
-  .then(d=>{document.getElementById("footer").innerHTML=d;});
-</script>
+
+  <footer>
+  <p>
+    <a href="../legal.html">販売・利用規約</a>｜
+    <a href="../contact/index.html">お問い合わせ</a><br>
+    <small>© 2025 adjustment-lab</small>
+  </p>
+</footer>
+
 </body>
 </html>
