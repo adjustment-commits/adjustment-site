@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>制作依頼フォーム｜adjustment-craft</title>
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#007b9e">
+<style>
+:root {
+  --bg:#ffffff;
+  --text:#1a1a1a;
+  --sub:#555;
+  --accent:#007b9e;
+  --line:rgba(0,0,0,0.08);
+  font-family:'Noto Sans JP', sans-serif;
+}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.85;
+  padding:0 0 40px;
+}
+
+/* Header */
+header {
+  text-align:center;
+  padding:32px 0 18px;
+}
+header h1 {
+  font-size:1.8rem;
+  color:var(--accent);
+  margin:0;
+}
+header p {
+  color:var(--sub);
+  margin-top:4px;
+}
+
+/* Form layout */
+form {
+  max-width:720px;
+  margin:40px auto;
+  padding:24px 20px;
+  background:#f5f9fa;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
+
+label {
+  font-weight:600;
+  display:block;
+  margin-bottom:4px;
+  color:var(--accent);
+}
+input, textarea, select {
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  margin-bottom:18px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-size:1rem;
+  background:#fff;
+}
+textarea {
+  min-height:120px;
+  resize:vertical;
+}
+
+button {
+  width:100%;
+  padding:12px 0;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-size:1.05rem;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover {
+  opacity:0.85;
+}
+
+/* Back */
+.back {
+  text-align:center;
+  margin-top:20px;
+}
+.back button {
+  width:auto;
+  padding:10px 24px;
+  background:none;
+  border:1px solid var(--accent);
+  color:var(--accent);
+}
+.back button:hover {
+  background:var(--accent);
+  color:#fff;
+}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>制作依頼フォーム</h1>
+  <p>adjustment-craft｜構造をデザインし、伝える。</p>
+</header>
+<form action="https://docs.google.com/forms/d/e/xxxxxxxxxxxxxxxxxxxx/formResponse" method="POST" target="_blank">
+ご担当者名
+
+
+メールアドレス
+
+
+企業名 / チーム名（任意）
+
+
+希望プラン
+
+選択してください
+Mini Plan（ライト制作）
+Standard Plan（構造設計型）
+Pro Plan（ブランド統合）
+
+
+制作内容（具体的にご記入ください） 
+<textarea name="entry.details" placeholder="例：Webサイト＋PWA化、教材テンプレ制作、UIデザイン構築など" required></textarea>
+希望納期
+
+
+参考URL（任意）
+
+
+送信する
+</form>
+<div class="back">
+  <button onclick="history.back()">← 戻る</button>
+</div>
+</body>
+</html>
+
