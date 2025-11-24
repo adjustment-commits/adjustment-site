@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>contact｜思考を共有する</title>
-
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#ffffff">
-
 <style>
 *,
 *::before,
@@ -160,26 +158,28 @@ footer a:hover{text-decoration:underline;}
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <h1>contact</h1>
   <p class="sub">思考を共有し、現場を変える対話へ。</p>
 </header>
+<!-- Googleフォームへ送信 -->
+<form id="contactForm"
+  action="https://docs.google.com/forms/d/e/1FAIpQLScwQjGggPl8kY4APVn5LvC14kPLkM-f5D60So0LWi1_O8fVhg/formResponse"
+  method="POST"
+  target="_blank">
 
-<form id="contactForm" action="mailto:example@example.com" method="post" enctype="text/plain">
-  <label for="name">お名前</label>
-  <input type="text" id="name" name="お名前" required>
+  <label>お名前</label>
+  <input type="text" name="entry.349420975" required>
 
-  <label for="team">チーム名（任意）</label>
-  <input type="text" id="team" name="チーム名">
+  <label>チーム名（任意）</label>
+  <input type="text" name="entry.937748586">
 
-  <label for="email">メールアドレス</label>
-  <input type="email" id="email" name="メールアドレス" required>
+  <label>メールアドレス</label>
+  <input type="email" name="entry.1445538402" required>
 
-  <label for="type">ご相談の内容</label>
-  <select id="type" name="お問い合わせ種別" required>
+  <label>ご相談の内容</label>
+  <select name="entry.393390493" required>
     <option value="">選択してください</option>
     <option value="パフォーマンス測定">パフォーマンス測定</option>
     <option value="チームトレーナー契約">チームトレーナー契約</option>
@@ -187,42 +187,37 @@ footer a:hover{text-decoration:underline;}
     <option value="その他">その他</option>
   </select>
 
-  <label for="message">内容</label>
-  <textarea id="message" name="内容" placeholder="ご希望や課題、現場で感じていることをお聞かせください。"></textarea>
+  <label>内容</label>
+  <textarea name="entry.1427467978"
+    placeholder="ご希望や課題、現場で感じていることをお聞かせください。"></textarea>
 
   <button type="submit" class="submit">送信する</button>
 </form>
-
 <div id="thanks">
   <p>送信が完了しました。</p>
   <p>次の思考へ、共に進みましょう。</p>
   <button onclick="window.location.href='/adjustment-site/index.html'">ホームへ戻る</button>
 </div>
-
 <div class="back-home">
   <button onclick="window.location.href='/adjustment-site/index.html'">← ホームへ戻る</button>
 </div>  
-
-  <footer>
+<footer>
   <p>
     <a href="../legal.html">販売・利用規約</a>｜
     <a href="../contact/index.html">お問い合わせ</a><br>
     <small>© 2025 adjustment-lab</small>
   </p>
 </footer>
-
 <script>
-// ✅ 送信完了オーバーレイ制御
+// 送信完了オーバーレイ
 const form = document.getElementById('contactForm');
 const thanks = document.getElementById('thanks');
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+form.addEventListener('submit', () => {
   setTimeout(() => {
     thanks.classList.add('active');
   }, 800);
 });
 </script>
-
 </body>
 </html>
