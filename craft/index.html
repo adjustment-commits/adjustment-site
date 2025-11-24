@@ -11,10 +11,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="../assets/icon-craft.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-</script>
+
 <style>
 :root {
   --bg:#ffffff;
@@ -232,8 +229,8 @@ section p {
 }
 .back-home button {
   background:none;
-  border:1px solid #00b386;
-  color:#00b386;
+  border:1px var(--accent);
+  color:var(--accent);
   padding:0.7em 1.6em;
   border-radius:4px;
   font-size:1rem;
@@ -321,7 +318,7 @@ function showPreview(src){
   </div>
 </section>
 <section class="concept">
-  <h2>CONCEPT｜<br<>構造を伝えるデザイン</h2>
+  <h2>CONCEPT<br>｜構造を伝えるデザイン</h2>
   <p>
     構造を伝える。  
     デザインは飾りではなく、<br<>
@@ -334,7 +331,7 @@ function showPreview(src){
   </p>
 </section>
 <section>
-  <h2>PLAN｜<br<>制作プランと料金</h2>
+  <h2>PLAN<br>｜制作プランと料金</h2>
   <p>目的や規模に合わせた3つの<br<>制作プランをご用意。<br>
   打ち合わせから納品まで一貫対応。</p>
   <div class="plan-grid">
@@ -361,12 +358,14 @@ function showPreview(src){
 <div class="back-home">
   <button onclick="window.location.href='/adjustment-lab/index.html'">← ホームへ戻る</button>
 </div>
-<!-- ✅ フッター -->
-<div id="footer"></div>
-<script>
-fetch("../assets/footer-lite.html")
-  .then(res=>res.text())
-  .then(data=>{document.getElementById("footer").innerHTML=data;});
-</script>
+
+<footer>
+  <p>
+    <a href="../legal.html">販売・利用規約</a>｜
+    <a href="../contact/index.html">お問い合わせ</a><br>
+    <small>© 2025 adjustment-lab</small>
+  </p>
+</footer>
+
 </body>
 </html>
