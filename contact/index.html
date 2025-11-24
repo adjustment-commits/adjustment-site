@@ -8,11 +8,6 @@
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#ffffff">
 
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-</script>
-
 <style>
 :root {
   --bg: #ffffff;
@@ -126,20 +121,18 @@ button.submit:hover {
   color: #fff;
 }
 
-/* Footer */
+/* ===== フッター ===== */
 footer {
-  text-align: center;
-  color: var(--sub);
-  font-size: 0.9rem;
-  margin: 100px 0 40px;
+text-align:center;
+padding:40px 0;
+font-size:0.85rem;
+color:#888;
 }
 footer a {
-  color: var(--accent);
-  text-decoration: none;
+color:var(--accent);
+text-decoration:none;
 }
-footer a:hover {
-  text-decoration: underline;
-}
+footer a:hover{text-decoration:underline;}
 </style>
 </head>
 
@@ -183,20 +176,18 @@ footer a:hover {
 <div id="thanks">
   <p>送信が完了しました。</p>
   <p>次の思考へ、共に進みましょう。</p>
-  <button onclick="window.location.href='/adjustment-lab/index.html'">ホームへ戻る</button>
+  <button onclick="window.location.href='/adjustment-site/index.html'">ホームへ戻る</button>
 </div>
 
-<!-- ===== 共通フッター ===== -->
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
-<div id="footer"></div>
+  <footer>
+  <p>
+    <a href="../legal.html">販売・利用規約</a>｜
+    <a href="../contact/index.html">お問い合わせ</a><br>
+    <small>© 2025 adjustment-lab</small>
+  </p>
+</footer>
 
 <script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-  });
-
 // ✅ 送信完了オーバーレイ制御
 const form = document.getElementById('contactForm');
 const thanks = document.getElementById('thanks');
