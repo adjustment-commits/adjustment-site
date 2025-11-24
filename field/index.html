@@ -6,11 +6,8 @@
 <title>adjustment-field｜現場で生まれる実践部門</title>
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#f8faf9">
-<link rel="stylesheet" href="/adjustment-lab/assets/footer-lite.css">
 <meta name="description" content="富山を拠点に活動するアスリート専門トレーナー。社会人野球選手を中心に、動作評価・フィジカルトレーニング・チーム指導を行う『整【アジャストメント】』公式サイト。">
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-</script>
+
 <style>
 :root {
   --bg: #f8faf9;
@@ -136,21 +133,19 @@ section.content p {
   transform: scale(1.02);
 }
 
-/* --- Footer / Buttons --- */
+/* ===== フッター ===== */
 footer {
-  text-align: center;
-  color: var(--sub);
-  font-size: 0.9rem;
-  margin: 100px 0 40px;
+text-align:center;
+padding:40px 0;
+font-size:0.85rem;
+color:#888;
 }
 footer a {
-  color: var(--accent);
-  text-decoration: none;
+color:var(--accent);
+text-decoration:none;
 }
-footer a:hover {
-  text-decoration: underline;
-}
-
+footer a:hover{text-decoration:underline;}
+  
 .back-home {
   text-align: center;
   margin: 80px 0 40px;
@@ -214,7 +209,8 @@ footer a:hover {
 #contact {
   text-align: center;
 }
-  
+
+
 @media (max-width: 768px)  { 
   
   .hero-content h1 { font-size: 1.6rem; }
@@ -248,7 +244,28 @@ footer a:hover {
   font-size: 0.95rem;
   color: #333;
 }
+
+/* === 実績：スマホ最適化（読みやすく調整） === */
+@media (max-width: 768px) {
+.career {
+padding: 20px 16px;
+margin-top: 32px;
 }
+.career h3 {
+font-size: 1.1rem;
+margin-bottom: 0.8em;
+}
+.career ul {
+margin-top: 4px;
+}
+.career li {
+font-size: 0.92rem;
+line-height: 1.65;
+padding: 8px 0 8px 10px;
+margin-bottom: 6px;
+}
+}
+
 </style>
 </head>
 <body>
@@ -354,7 +371,7 @@ footer a:hover {
     </div>
     <div class="price-card">
       <h3>オンライン講習</h3>
-      <p>1回60分（Zoom、Teams、Meetなど）</p>
+      <p>1回60分（Zoom、Teams、Meet）</p>
       <strong>￥6,600（税込）</strong>
       <p>テーマ別・選手、指導者向け内容</p>
     </div>
@@ -369,7 +386,7 @@ footer a:hover {
   <div class="profile">
     <p><b>西本　裕</b><br>
       整-adjustment-／スポーツトレーナー</p>
-    <p>富山を拠点に社会人硬式野球選手を<br>中心としたフィジカルトレーニング・<br<>コンディション調整・動作設計を行う。
+    <p>富山を拠点に社会人硬式野球選手を<br>中心としたフィジカルトレーニング・<br>コンディション調整・動作設計を行う。
       解剖学・運動学・力学を基盤に<br>現場の再現性を最重視した<br>プログラム設計を行う。</p>
     <p>選手の思考と身体を“整え”、<br>勝負で力を出し切るための<br>Toughな構造づくりを支援。</p>
   </div>
@@ -392,7 +409,7 @@ footer a:hover {
 </section>
 <section class="content" id="contact" style="background:#f8faf9;">
   <h2>お問い合わせ</h2>
-  <p>トレーニング依頼・チーム契約・<br<>講習会のご相談はこちら。</p>
+  <p>トレーニング依頼・チーム契約・<br>講習会のご相談はこちら。</p>
   <button class="contact-btn" onclick="window.location.href='../contact/index.html'">
     お問い合わせフォームへ
   </button>
@@ -402,13 +419,16 @@ footer a:hover {
   <button onclick="window.location.href='../craft/index.html'">adjustment-craftを見る</button>
 </div>
 <div class="back-home">
-  <button onclick="window.location.href='/adjustment-lab/index.html'">← ホームへ戻る</button>
+  <button onclick="window.location.href='/adjustment-site/index.html'">← ホームへ戻る</button>
 </div>
-<div id="footer"></div>
-<script>
-fetch("/adjustment-lab/assets/footer-lite.html")
-  .then(r=>r.text())
-  .then(h=>{document.getElementById("footer").innerHTML=h;});
-</script>
+
+<footer>
+  <p>
+    <a href="../legal.html">販売・利用規約</a>｜
+    <a href="../contact/index.html">お問い合わせ</a><br>
+    <small>© 2025 adjustment-lab</small>
+  </p>
+</footer>
+
 </body>
 </html>
