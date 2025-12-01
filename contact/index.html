@@ -178,27 +178,29 @@ footer a:hover{text-decoration:underline;}
   <label>メールアドレス</label>
   <input type="email" name="entry.1445538402" required>
 
- <label>ご相談の内容</label>
+  <label>ご利用区分</label>
 <select name="entry.393390493" required>
   <option value="">選択してください</option>
-  <option value="パフォーマンス測定">パフォーマンス測定</option>
-  <option value="チームトレーナー契約">チームトレーナー契約</option>
-  <option value="パーソナルトレーニング">パーソナルトレーニング</option>
-  <option value="その他">その他</option>
+  <option value="初回">初回</option>
+  <option value="継続">継続</option>
 </select>
 
-<div id="courseWrapper" style="display:none;">
-  <label>希望コース（パーソナル）</label>
-  <select name="entry.253594082" id="courseSelect">
-    <option value="">選択してください</option>
-    <option value="30分コース（¥5,500）">30分コース（¥5,500）</option>
-    <option value="60分コース（¥8,800）">60分コース（¥8,800）</option>
-  </select>
-</div>
+<label>希望コース（パーソナル）</label>
+<select name="entry.253594082" required>
+  <option value="">選択してください</option>
+  <option value="30分（5,500円）">30分（¥5,500）</option>
+  <option value="60分（8,800円）">60分（¥8,800）</option>
+</select>
 
-  <label>内容</label>
-  <textarea name="entry.1427467978"
-    placeholder="ご希望や課題、現場で感じていることをお聞かせください。"></textarea>
+<label>パーソナルトレーニングの目的</label>
+<select name="entry.1427467978" required>
+  <option value="">選択してください</option>
+  <option value="動作改善">動作改善</option>
+  <option value="パフォーマンス向上">パフォーマンス向上</option>
+  <option value="可動域改善">可動域改善</option>
+  <option value="不調の原因チェック">不調の原因チェック</option>
+  <option value="その他">その他</option>
+</select>
 
   <button type="submit" class="submit">送信する</button>
 </form>
@@ -218,7 +220,6 @@ footer a:hover{text-decoration:underline;}
   </p>
 </footer>
 <script>
-// 送信完了オーバーレイ
 const form = document.getElementById('contactForm');
 const thanks = document.getElementById('thanks');
 
@@ -226,18 +227,6 @@ form.addEventListener('submit', () => {
   setTimeout(() => {
     thanks.classList.add('active');
   }, 800);
-});
-const consultSelect = document.querySelector('select[name="entry.393390493"]');
-const courseWrapper = document.getElementById('courseWrapper');
-const courseSelect = document.getElementById('courseSelect');
-
-consultSelect.addEventListener('change', () => {
-  if (consultSelect.value === "パーソナルトレーニング") {
-    courseWrapper.style.display = "block";
-  } else {
-    courseWrapper.style.display = "none";
-    courseSelect.value = "";
-  }
 });
 </script>
 </body>
