@@ -202,11 +202,17 @@ footer a:hover{text-decoration:underline;}
   <option value="その他">その他</option>
 </select>
 
+<div id="otherPurposeWrapper" style="display:none;">
+  <label>その他の内容（任意）</label>
+  <textarea name="entry.67558877"
+    placeholder="その他の場合は内容をご記入ください。"></textarea>
+</div>
+
   <button type="submit" class="submit">送信する</button>
 </form>
 <div id="thanks">
   <p>送信が完了しました。</p>
-  <p>次の思考へ、共に進みましょう。</p>
+  <p>toughな体作りへ！共に進みましょう！</p>
   <button onclick="window.location.href='https://adjustment.jp'">ホームへ戻る</button>
 </div>
 <div class="back-home">
@@ -222,12 +228,23 @@ footer a:hover{text-decoration:underline;}
 <script>
 const form = document.getElementById('contactForm');
 const thanks = document.getElementById('thanks');
+const purposeSelect = document.querySelector('select[name="entry.1427467978"]');
+const otherPurposeWrapper = document.getElementById('otherPurposeWrapper');
 
 form.addEventListener('submit', () => {
   setTimeout(() => {
     thanks.classList.add('active');
   }, 800);
 });
+
+purposeSelect.addEventListener('change', () => {
+  if (purposeSelect.value === "その他") {
+    otherPurposeWrapper.style.display = "block";
+  } else {
+    otherPurposeWrapper.style.display = "none";
+  }
+});
 </script>
+
 </body>
 </html>
