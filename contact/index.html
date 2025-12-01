@@ -187,13 +187,14 @@ footer a:hover{text-decoration:underline;}
   <option value="その他">その他</option>
 </select>
 
-<label>希望コース（パーソナル）</label>
-<select name="entry.253594082">
-  <option value="">選択してください</option>
-  <option value="30分コース（¥5,500）">30分コース（¥5,500）</option>
-  <option value="60分コース（¥8,800）">60分コース（¥8,800）</option>
-</select>
-
+<div id="courseWrapper" style="display:none;">
+  <label>希望コース（パーソナル）</label>
+  <select name="entry.253594082" id="courseSelect">
+    <option value="">選択してください</option>
+    <option value="30分コース（¥5,500）">30分コース（¥5,500）</option>
+    <option value="60分コース（¥8,800）">60分コース（¥8,800）</option>
+  </select>
+</div>
 
   <label>内容</label>
   <textarea name="entry.1427467978"
@@ -225,6 +226,18 @@ form.addEventListener('submit', () => {
   setTimeout(() => {
     thanks.classList.add('active');
   }, 800);
+});
+const consultSelect = document.querySelector('select[name="entry.393390493"]');
+const courseWrapper = document.getElementById('courseWrapper');
+const courseSelect = document.getElementById('courseSelect');
+
+consultSelect.addEventListener('change', () => {
+  if (consultSelect.value === "パーソナルトレーニング") {
+    courseWrapper.style.display = "block";
+  } else {
+    courseWrapper.style.display = "none";
+    courseSelect.value = "";
+  }
 });
 </script>
 </body>
