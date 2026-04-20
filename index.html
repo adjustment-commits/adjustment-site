@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>整-adjustment-｜field・lab・craft</title>
-<!-- ✅ PWA設定 -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#f8faf9">
 <link rel="apple-touch-icon" sizes="192x192" href="./assets/icon-192.png">
@@ -13,10 +12,11 @@
   --bg:#f8faf9;
   --text:#1a1a1a;
   --accent:#00b386;
-  --card:#fff;
+  --card:#ffffff;
   --line:rgba(0,0,0,0.08);
   font-family:'Noto Sans JP',sans-serif;
 }
+
 body {
   margin:0;
   background:var(--bg);
@@ -28,7 +28,7 @@ body {
   text-rendering:optimizeLegibility;
 }
 
-/* ===== Header（ロゴのみ） ===== */
+/* ===== Header ===== */
 header {
   text-align:center;
   padding:30px 0 10px;
@@ -40,11 +40,11 @@ header img {
   animation:float 4s ease-in-out infinite;
 }
 @keyframes float {
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-5px);}
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-5px); }
 }
 
-/* ===== Hero（イントロ） ===== */
+/* ===== Hero ===== */
 .hero {
   width:100%;
   background:linear-gradient(180deg,#ffffff 0%,#eef6f5 100%);
@@ -74,7 +74,117 @@ header img {
   letter-spacing:0.03em;
 }
 
-/* ===== カードレイアウト（PC） ===== */
+/* ===== Principles Intro ===== */
+.principles-intro {
+  width:100%;
+  background:#ffffff;
+  padding:40px 20px 48px;
+  box-sizing:border-box;
+  border-top:1px solid rgba(0,0,0,0.04);
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.principles-inner {
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.principles-label {
+  display:inline-block;
+  margin-bottom:14px;
+  padding:6px 12px;
+  border:1px solid rgba(0,179,134,0.18);
+  border-radius:999px;
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:0.06em;
+  color:var(--accent);
+  background:rgba(0,179,134,0.06);
+}
+.principles-intro h2 {
+  margin:0 0 14px;
+  font-size:1.2rem;
+  color:#1a1a1a;
+}
+.principles-intro p {
+  margin:0 auto;
+  max-width:720px;
+  font-size:0.95rem;
+  line-height:1.95;
+  color:#333;
+}
+.principles-list {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin:24px 0 0;
+  padding:0;
+  list-style:none;
+}
+.principles-list li {
+  padding:10px 14px;
+  border-radius:999px;
+  background:#f4fbf9;
+  border:1px solid rgba(0,179,134,0.10);
+  font-size:0.86rem;
+  color:#185a4a;
+}
+.principles-cta {
+  display:inline-block;
+  margin-top:24px;
+  padding:12px 22px;
+  border-radius:999px;
+  background:var(--accent);
+  color:#ffffff;
+  text-decoration:none;
+  font-size:0.92rem;
+  font-weight:700;
+  transition:transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  box-shadow:0 6px 16px rgba(0,179,134,0.18);
+}
+.principles-cta:hover {
+  transform:translateY(-2px);
+  opacity:0.96;
+}
+
+/* ===== Selector ===== */
+.selector {
+  width:100%;
+  background:linear-gradient(180deg,#f8faf9 0%,#eef5f3 100%);
+  padding:30px 20px 40px;
+  text-align:center;
+  box-sizing:border-box;
+}
+.selector-inner {
+  max-width:720px;
+  margin:0 auto;
+}
+.selector p {
+  font-size:0.95rem;
+  line-height:2;
+  color:#222;
+  margin:10px 0;
+}
+.link {
+  font-weight:600;
+  cursor:pointer;
+  position:relative;
+  transition:color 0.3s ease, text-shadow 0.3s ease;
+}
+.link.craft:hover {
+  color:#007b9e;
+  text-shadow:0 0 8px rgba(0,123,158,0.5);
+}
+.link.field:hover {
+  color:#00b386;
+  text-shadow:0 0 8px rgba(0,179,134,0.5);
+}
+.link.lab:hover {
+  color:#c0392b;
+  text-shadow:0 0 8px rgba(192,57,43,0.5);
+}
+
+/* ===== Cards ===== */
 main {
   display:grid;
   grid-template-columns:repeat(2,280px);
@@ -115,16 +225,20 @@ main {
   color:#444;
   line-height:1.6;
 }
+.card.craft {
+  grid-area:craft;
+  width:600px;
+  justify-self:center;
+}
+.card.field {
+  grid-area:field;
+}
+.card.lab {
+  grid-area:lab;
+}
 
-/* ===== 個別配置 ===== */
-.card.craft { grid-area:craft; width:600px; justify-self:center; }
-.card.field { grid-area:field; }
-.card.lab   { grid-area:lab; }
-
-
-  
-/* ===== スマホ ===== */
-@media(max-width:700px){
+/* ===== Mobile ===== */
+@media (max-width:700px) {
   main {
     display:flex;
     flex-direction:column;
@@ -136,32 +250,31 @@ main {
     margin:0 auto;
     max-width:420px;
     box-sizing:border-box;
-    }
+  }
   .card {
-    width:100%; 
-    margin:0 auto; 
+    width:100%;
+    margin:0 auto;
     padding:28px 16px;
     box-sizing:border-box;
-
   }
   .card img {
     width:72px;
     margin-bottom:12px;
   }
   .card h2 {
-   font-size:0.95rem;
+    font-size:0.95rem;
   }
   .card p {
-   font-size:0.82rem;
-   line-height:1.55;
-   text-align:center;
+    font-size:0.82rem;
+    line-height:1.55;
+    text-align:center;
   }
   .card.craft {
-  width:100%;
-  border:1px solid var(--line);
-  transform:none;
-  margin:0 auto;       
-  box-sizing:border-box;
+    width:100%;
+    border:1px solid var(--line);
+    transform:none;
+    margin:0 auto;
+    box-sizing:border-box;
   }
   header img {
     width:100px;
@@ -176,11 +289,40 @@ main {
   .hero p {
     font-size:0.9rem;
     line-height:1.8;
-
+  }
+  .principles-intro {
+    padding:30px 16px 36px;
+  }
+  .principles-intro h2 {
+    font-size:1.02rem;
+    line-height:1.6;
+  }
+  .principles-intro p {
+    font-size:0.88rem;
+    line-height:1.85;
+  }
+  .principles-list {
+    gap:8px;
+  }
+  .principles-list li {
+    font-size:0.8rem;
+    padding:9px 12px;
+  }
+  .principles-cta {
+    width:100%;
+    max-width:280px;
+    box-sizing:border-box;
+  }
+  .selector {
+    padding:24px 10px 32px;
+  }
+  .selector p {
+    font-size:0.9rem;
+    line-height:1.9;
   }
 }
 
-/* ===== フッター ===== */
+/* ===== Footer ===== */
 footer {
   text-align:center;
   padding:40px 0;
@@ -191,13 +333,17 @@ footer a {
   color:var(--accent);
   text-decoration:none;
 }
-footer a:hover{text-decoration:underline;}
+footer a:hover {
+  text-decoration:underline;
+}
 </style>
+
 </head>
 <body>
 <header>
   <img src="./assets/logo-sei.png" alt="整ロゴ">
 </header>
+
 <section class="hero">
   <p>
     「整 -adjustment-」は、<br>
@@ -212,68 +358,31 @@ footer a:hover{text-decoration:underline;}
   </p>
 </section>
 
-<section class="selector">
-  <div class="selector-inner">
-    <p>Webサイト・資料デザイン制作 → 
-      <span class="link craft" onclick="location.href='./craft/index.html'">craft</span>
+<section class="principles-intro">
+  <div class="principles-inner">
+    <div class="principles-label">ADJUSTMENT PRINCIPLES</div>
+    <h2>原理原則を、現場で使える言葉へ。</h2>
+    <p>
+      adjustmentでは、動作を直接いじるのではなく、<br>
+      動作が変わる条件を整えることを重視しています。<br>
+      その土台となる考え方を「adjustmentの原理原則」として整理しています。
     </p>
-    <p>トレーナー指導・チームサポート → 
-      <span class="link field" onclick="location.href='./field/index.html'">field</span>
-    </p>
-    <p>現場の課題をデジタルで解決 → 
-      <span class="link lab" onclick="location.href='./lab/index.html'">lab</span>
-    </p>
+    <ul class="principles-list">
+      <li>動作は通り道で決まる</li>
+      <li>変えるべきはコンマ何秒</li>
+      <li>出力は条件の結果</li>
+    </ul>
+    <a class="principles-cta" href="./principles/index.html">原理原則を見る</a>
   </div>
 </section>
 
-<style>
-.selector {
-  width:100%;
-  background:linear-gradient(180deg,#f8faf9 0%,#eef5f3 100%);
-  padding:30px 20px 40px;
-  text-align:center;
-  box-sizing:border-box;
-}
-.selector-inner {
-  max-width:720px;
-  margin:0 auto;
-}
-.selector p {
-  font-size:0.95rem;
-  line-height:2;
-  color:#222;
-  margin:10px 0;
-}
-.link {
-  font-weight:600;
-  cursor:pointer;
-  position:relative;
-  transition:color 0.3s ease, text-shadow 0.3s ease;
-}
-.link.craft:hover {
-color:#007b9e;
-text-shadow:0 0 8px rgba(0,123,158,0.5);
-}
-.link.field:hover {
-color:#00b386;
-text-shadow:0 0 8px rgba(0,179,134,0.5);
-}
-.link.lab:hover {
-color:#c0392b;
-text-shadow:0 0 8px rgba(192,57,43,0.5);
-}
-
-/* スマホ */
-@media(max-width:700px){
-  .selector {
-    padding:24px 10px 32px;
-  }
-  .selector p {
-    font-size:0.9rem;
-    line-height:1.9;
-  }
-}
-</style>
+<section class="selector">
+  <div class="selector-inner">
+    <p>Webサイト・資料デザイン制作 → <span class="link craft" onclick="location.href='./craft/index.html'">craft</span></p>
+    <p>トレーナー指導・チームサポート → <span class="link field" onclick="location.href='./field/index.html'">field</span></p>
+    <p>現場の課題をデジタルで解決 → <span class="link lab" onclick="location.href='./lab/index.html'">lab</span></p>
+  </div>
+</section>
 
 <main>
   <div class="card craft" onclick="location.href='./craft/index.html'">
@@ -281,22 +390,20 @@ text-shadow:0 0 8px rgba(192,57,43,0.5);
     <h2 style="color:#007b9e;">adjustment-craft</h2>
     <p>制作部門<br>構造をデザインして伝える制作部門。<br>Web・UI・PWAを通して再現性を設計。</p>
   </div>
+
   <div class="card field" onclick="location.href='./field/index.html'">
-    <img src="./assets/icon-field.png"
-     alt="fieldアイコン"
-     style="opacity:0.9;
-            filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));">
+    <img src="./assets/icon-field.png" alt="fieldアイコン" style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));">
     <h2 style="color:#00b386;">adjustment-field</h2>
     <p>トレーナー部門<br>アスリートへtoughな構造を。<br>その再現性を高める実践拠点。</p>
   </div>
+
   <div class="card lab" onclick="location.href='./lab/index.html'">
-    <img src="./assets/icon-lab.png"
-     alt="labアイコン"
-     style="opacity:0.9;
-            filter:drop-shadow(0 4px 6px rgba(192,57,43,0.35));">    <h2 style="color:#c0392b;">adjustment-lab</h2>
+    <img src="./assets/icon-lab.png" alt="labアイコン" style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(192,57,43,0.35));">
+    <h2 style="color:#c0392b;">adjustment-lab</h2>
     <p>開発部門<br>アプリやツールを開発。<br>理論を探究してcraftの<br>構造を支える研究部門。</p>
   </div>
 </main>
+
 <footer>
   <p>
     <a href="./legal.html">販売・利用規約</a>｜
