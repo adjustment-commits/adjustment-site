@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>adjustment-craft｜構造をデザインし、伝える。</title>
-<!-- ✅ PWA設定 -->
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#007b9e">
 <link rel="apple-touch-icon" sizes="192x192" href="../assets/icon-craft.png">
@@ -85,6 +84,49 @@ section p {
   color:var(--text);
   opacity:0.9;
   margin-bottom:1.4em;
+}
+
+/* ===== CRAFT PRINCIPLES ===== */
+.principles-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  margin-top:34px;
+}
+.principle-card {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  text-align:left;
+  padding:24px 20px;
+  transition:0.3s;
+}
+.principle-card:hover {
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  transform:translateY(-4px);
+}
+.principle-num {
+  display:inline-block;
+  margin-bottom:10px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(0,123,158,0.08);
+  color:var(--accent);
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:0.05em;
+}
+.principle-card h3 {
+  color:var(--accent);
+  font-size:1.02rem;
+  margin:0 0 10px;
+  line-height:1.6;
+}
+.principle-card p {
+  color:var(--sub);
+  font-size:0.92rem;
+  line-height:1.8;
+  margin:0;
 }
 
 /* ===== WORKS ===== */
@@ -232,23 +274,37 @@ section p {
 }
 .cta button:hover {background:var(--accent);color:#fff;}
 .request-btn {
-  background: #007b9e;
-  color: #fff;
-  border: none;
-  padding: 0.9em 1.8em;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
+  background:#007b9e;
+  color:#fff;
+  border:none;
+  padding:0.9em 1.8em;
+  border-radius:6px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:0.3s;
 }
 .request-btn:hover {
-  opacity: 0.9;
+  opacity:0.9;
 }
 
 @media(max-width:768px){
   .hero h1{font-size:1.8rem;}
   .hero p{font-size:0.95rem;}
   section{margin:60px 16px;}
+  .principles-grid {
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .principle-card {
+    padding:18px 16px;
+  }
+  .principle-card h3 {
+    font-size:0.96rem;
+  }
+  .principle-card p {
+    font-size:0.88rem;
+    line-height:1.8;
+  }
 }
 
 .back-home {
@@ -268,28 +324,71 @@ section p {
 .back-home button:hover {background:var(--accent);color:#fff;}
 
 footer {
-text-align: center;
-padding: 40px 0;
-font-size: 0.85rem;
-color: #888;
+  text-align:center;
+  padding:40px 0;
+  font-size:0.85rem;
+  color:#888;
 }
 footer a {
-color: var(--accent);
-text-decoration: none;
+  color:var(--accent);
+  text-decoration:none;
 }
 footer a:hover {
-text-decoration: underline;
+  text-decoration:underline;
 }
-
 </style>
+
 </head>
+
 <body>
+
 <section class="hero">
+
   <img src="../assets/icon-craft.png" alt="craft icon" class="hero-icon">
+
   <h1>adjustment-craft</h1>
+
   <p>構造をデザインし、伝える。<br>
+
   理論を“使える形”に変換し、PWA・UI・Web制作で再現性を設計する。</p>
+
 </section>
+
+<section>
+  <h2>craftで重視する3つの原理</h2>
+  <p>
+    adjustment-craftでは、現場やlabで整理された構造を、<br>
+    使える画面、読める資料、伝わる導線へ変換します。<br>
+    制作・設計・表現の土台として、特に次の3項目を重視しています。
+  </p>
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-num">01</div>
+      <h3>動作は通り道で決まる</h3>
+      <p>
+        craftでは、情報もまた通り道で決まると考えます。<br>
+        何をどの順で見せるか、どこを通って理解に至るかを設計し、伝達の再現性を高めます。
+      </p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02</div>
+      <h3>本質は相対運動にある</h3>
+      <p>
+        単体の見た目ではなく、要素同士の関係性をどう見せるかが重要です。<br>
+        craftは、構造、順序、対比、接続を整理して、意味が伝わる形へ再構成します。
+      </p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03</div>
+      <h3>トレーニングは発生条件への介入である</h3>
+      <p>
+        制作も同じく、見た目を飾ることではなく、理解と行動が起こる条件を整える仕事です。<br>
+        UI、PWA、資料、導線のすべてを発生条件として設計します。
+      </p>
+    </div>
+  </div>
+</section>
+
 <section>
   <h2>WORKS｜<br>制作実績</h2>
   <p>adjustment-craftは、labで生まれた理論を“形”に変換します。<br>
@@ -300,47 +399,48 @@ text-decoration: underline;
       <h3>高校野球トレーニング2025</h3>
       <p>全16回＋番外編の教育PWA。<br>思考と体の成長をつなぐ教材。</p>
     </div>
-<div class="work-card" onclick="showPreview('../assets/selfcheck-lite-preview.jpg')">
-  <img src="../assets/icon-selfcheck-lite.png" alt="セルフチェックLITE">
-  <h3>セルフチェック LITE</h3>
-  <p>腰・肩・肘・足首を即時判定。<br>医療知識×UXのセルフ評価PWA。</p>
-</div>
-
-<div class="work-card" onclick="showPreview('../assets/alti-drink-check-preview.jpg')">
-  <img src="../assets/icon-alti-drink-check.png" alt="ALTI飲酒タイプ診断">
-  <h3>ALTI飲酒タイプ診断</h3>
-  <p>体質と行動心理を融合。<br>“遊び×科学”の診断ツール。</p>
-</div>
-
-<div class="work-card" onclick="showPreview('../assets/run-tracker-preview.jpg')">
-  <img src="../products/apps/run-tracker/icon-192.png" alt="Run Tracker">
-  <h3>Run Tracker</h3>
-  <p>距離・強度・心拍を記録。<br>ランニングを数値で見える化。</p>
-</div>
-
-<div class="work-card" onclick="showPreview('../assets/recovery-tracker-preview.jpg')">
-  <img src="../products/apps/recovery-tracker/icon-192.png" alt="Recovery Tracker">
-  <h3>Recovery Tracker</h3>
-  <p>疲労・睡眠・メンタルを管理。<br>自己回復を構造化するPWA。</p>
-</div>
-
-<div class="work-card" onclick="showPreview('../assets/preview-sei-site.jpg')">
-  <img src="../assets/icon-sei.png" alt="整公式サイト">
-  <h3>整-adjustment- 公式サイト</h3>
-  <p>「整」「lab」「craft」の<br>3構造展開。<br>PWA対応・モバイル最適化。</p>
-</div>  </div>
+    <div class="work-card" onclick="showPreview('../assets/selfcheck-lite-preview.jpg')">
+      <img src="../assets/icon-selfcheck-lite.png" alt="セルフチェックLITE">
+      <h3>セルフチェック LITE</h3>
+      <p>腰・肩・肘・足首を即時判定。<br>医療知識×UXのセルフ評価PWA。</p>
+    </div>
+    <div class="work-card" onclick="showPreview('../assets/alti-drink-check-preview.jpg')">
+      <img src="../assets/icon-alti-drink-check.png" alt="ALTI飲酒タイプ診断">
+      <h3>ALTI飲酒タイプ診断</h3>
+      <p>体質と行動心理を融合。<br>“遊び×科学”の診断ツール。</p>
+    </div>
+    <div class="work-card" onclick="showPreview('../assets/run-tracker-preview.jpg')">
+      <img src="../products/apps/run-tracker/icon-192.png" alt="Run Tracker">
+      <h3>Run Tracker</h3>
+      <p>距離・強度・心拍を記録。<br>ランニングを数値で見える化。</p>
+    </div>
+    <div class="work-card" onclick="showPreview('../assets/recovery-tracker-preview.jpg')">
+      <img src="../products/apps/recovery-tracker/icon-192.png" alt="Recovery Tracker">
+      <h3>Recovery Tracker</h3>
+      <p>疲労・睡眠・メンタルを管理。<br>自己回復を構造化するPWA。</p>
+    </div>
+    <div class="work-card" onclick="showPreview('../assets/preview-sei-site.jpg')">
+      <img src="../assets/icon-sei.png" alt="整公式サイト">
+      <h3>整-adjustment- 公式サイト</h3>
+      <p>「整」「lab」「craft」の<br>3構造展開。<br>PWA対応・モバイル最適化。</p>
+    </div>
+  </div>
 </section>
+
 <div id="previewModal">
   <img id="previewImg" src="">
 </div>
+
 <script>
 function showPreview(src){
-  const m=document.getElementById("previewModal");
-  const i=document.getElementById("previewImg");
-  i.src=src; m.style.display="flex";
-  m.onclick=()=>m.style.display="none";
+  const m = document.getElementById("previewModal");
+  const i = document.getElementById("previewImg");
+  i.src = src;
+  m.style.display = "flex";
+  m.onclick = () => m.style.display = "none";
 }
 </script>
+
 <section>
   <h2>SERVICE｜<br>提供領域</h2>
   <div class="services">
@@ -360,6 +460,7 @@ function showPreview(src){
     </div>
   </div>
 </section>
+
 <section class="concept">
   <h2>CONCEPT<br>｜構造を伝える</h2>
   <p>
@@ -373,9 +474,24 @@ function showPreview(src){
     再現性のある表現を創る。
   </p>
 </section>
+
+<section class="concept">
+  <h2>CONCEPT<br>｜構造を伝える</h2>
+  <p>
+    構造を伝える。  
+    デザインは飾りではなく、<br>
+    意味の再構成である。  
+    adjustment-craftは、<br>
+    「整-adjustment-」の哲学を<br>
+    “形”で届ける制作部門。  
+    技術と感性の交差点で<br>
+    再現性のある表現を創る。
+  </p>
+</section>
+
 <section>
   <h2>PLAN<br>｜制作プランと料金</h2>
-  <p>目的や規模に合わせた3つの<br<>制作プランをご用意。<br>
+  <p>目的や規模に合わせた3つの<br>制作プランをご用意。<br>
   打ち合わせから納品まで一貫対応。</p>
   <div class="plan-grid">
     <div class="plan-card">
@@ -393,9 +509,11 @@ function showPreview(src){
     </div>
   </div>
 </section>
- <div class="cta">
+
+<div class="cta">
   <button class="request-btn" onclick="window.location.href='./request.html?v=2'">制作依頼フォームへ</button>
-</div> 
+</div>
+
 <div class="cta">
   <button onclick="window.location.href='../lab/index.html'">adjustment-labを見る</button>
   <button onclick="window.location.href='../field/index.html'">adjustment-fieldを見る</button>
