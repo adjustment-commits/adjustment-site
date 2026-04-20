@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>adjustmentの原理原則 | adjustment</title>
+<meta name="theme-color" content="#f8faf9">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" sizes="192x192" href="../assets/icon-192.png">
+<style>
+:root {
+  --bg:#f8faf9;
+  --bg2:#ffffff;
+  --text:#1a1a1a;
+  --muted:#5f6b66;
+  --accent:#00b386;
+  --line:rgba(0,0,0,0.08);
+  --card:#ffffff;
+  --shadow:0 8px 24px rgba(0,0,0,0.06);
+  font-family:'Noto Sans JP',sans-serif;
+}
+* {
+  box-sizing:border-box;
+}
+html, body {
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  text-rendering:optimizeLegibility;
+}
+body {
+  min-height:100vh;
+}
+a {
+  color:inherit;
+}
+.page {
+  width:100%;
+}
+.header {
+  width:100%;
+  background:linear-gradient(180deg,#ffffff 0%,#edf7f4 100%);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+}
+.header-inner {
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  padding:20px 20px 18px;
+}
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+.brand img {
+  width:56px;
+  height:auto;
+  display:block;
+}
+.brand-text {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.brand-name {
+  font-size:0.95rem;
+  font-weight:700;
+  letter-spacing:0.03em;
+}
+.brand-sub {
+  font-size:0.76rem;
+  color:var(--muted);
+}
+.back-link {
+  text-decoration:none;
+  font-size:0.88rem;
+  color:var(--accent);
+  font-weight:700;
+  white-space:nowrap;
+}
+.hero {
+  padding:8px 0 6px;
+}
+.label {
+  display:inline-block;
+  margin-bottom:14px;
+  padding:6px 12px;
+  border:1px solid rgba(0,179,134,0.18);
+  border-radius:999px;
+  font-size:0.76rem;
+  font-weight:700;
+  letter-spacing:0.08em;
+  color:var(--accent);
+  background:rgba(0,179,134,0.06);
+}
+.hero h1 {
+  margin:0 0 14px;
+  font-size:2rem;
+  line-height:1.35;
+  letter-spacing:0.01em;
+}
+.hero p {
+  margin:0;
+  max-width:760px;
+  font-size:1rem;
+  line-height:1.95;
+  color:#2d3834;
+}
+.hero-note {
+  margin-top:18px;
+  font-size:0.9rem;
+  color:var(--muted);
+}
+.main {
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  padding:30px 20px 56px;
+}
+.summary {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:24px;
+}
+.summary-card {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px 16px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.03);
+}
+.summary-card h2 {
+  margin:0 0 8px;
+  font-size:0.96rem;
+  color:var(--accent);
+}
+.summary-card p {
+  margin:0;
+  font-size:0.88rem;
+  line-height:1.8;
+  color:#39443f;
+}
+.section-title {
+  margin:34px 0 14px;
+  font-size:1.22rem;
+  line-height:1.5;
+}
+.section-text {
+  margin:0 0 22px;
+  font-size:0.95rem;
+  line-height:1.95;
+  color:#36403c;
+}
+.principles {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+.principle {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px 20px 20px;
+  box-shadow:var(--shadow);
+}
+.principle-head {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:12px;
+}
+.num {
+  flex:0 0 auto;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,179,134,0.10);
+  color:var(--accent);
+  font-weight:800;
+  font-size:0.95rem;
+}
+.principle-head h3 {
+  margin:2px 0 0;
+  font-size:1.05rem;
+  line-height:1.5;
+}
+.definition {
+  margin:0 0 14px;
+  font-size:0.95rem;
+  line-height:1.9;
+  color:#26302c;
+}
+.meta {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:10px;
+}
+.meta-box {
+  background:#fbfdfc;
+  border:1px solid rgba(0,0,0,0.05);
+  border-radius:12px;
+  padding:14px 14px 12px;
+}
+.meta-box strong {
+  display:block;
+  margin-bottom:8px;
+  font-size:0.84rem;
+  color:var(--accent);
+  letter-spacing:0.03em;
+}
+.meta-box p {
+  margin:0;
+  font-size:0.88rem;
+  line-height:1.85;
+  color:#3a4540;
+}
+.use-list {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:10px;
+}
+.use-card {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px 16px;
+}
+.use-card h3 {
+  margin:0 0 8px;
+  font-size:0.95rem;
+  color:var(--accent);
+}
+.use-card p {
+  margin:0;
+  font-size:0.88rem;
+  line-height:1.8;
+  color:#39443f;
+}
+.cta {
+  margin-top:32px;
+  padding:22px 20px;
+  background:linear-gradient(180deg,#ffffff 0%,#f1fbf8 100%);
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:16px;
+}
+.cta h2 {
+  margin:0 0 10px;
+  font-size:1.08rem;
+}
+.cta p {
+  margin:0 0 16px;
+  font-size:0.92rem;
+  line-height:1.9;
+  color:#36403c;
+}
+.cta-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.button {
+  display:inline-block;
+  text-decoration:none;
+  border-radius:999px;
+  padding:12px 18px;
+  font-size:0.9rem;
+  font-weight:700;
+  transition:transform 0.2s ease, opacity 0.2s ease;
+}
+.button:hover {
+  transform:translateY(-2px);
+  opacity:0.96;
+}
+.button-primary {
+  background:var(--accent);
+  color:#ffffff;
+}
+.button-secondary {
+  background:#ffffff;
+  color:var(--accent);
+  border:1px solid rgba(0,179,134,0.24);
+}
+.footer {
+  width:100%;
+  border-top:1px solid rgba(0,0,0,0.06);
+  background:#ffffff;
+}
+.footer-inner {
+  max-width:980px;
+  margin:0 auto;
+  padding:22px 20px 30px;
+  text-align:center;
+  color:#7a847f;
+  font-size:0.84rem;
+  line-height:1.8;
+}
+.footer-inner a {
+  text-decoration:none;
+  color:var(--accent);
+}
+.footer-inner a:hover {
+  text-decoration:underline;
+}
+@media (max-width:820px) {
+  .summary {
+    grid-template-columns:1fr;
+  }
+  .use-list {
+    grid-template-columns:1fr;
+  }
+  .meta {
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:700px) {
+  .header-inner {
+    padding:16px 16px 16px;
+  }
+  .topbar {
+    align-items:flex-start;
+    flex-direction:column;
+    margin-bottom:16px;
+  }
+  .brand img {
+    width:48px;
+  }
+  .hero h1 {
+    font-size:1.45rem;
+    line-height:1.45;
+  }
+  .hero p {
+    font-size:0.92rem;
+    line-height:1.9;
+  }
+  .hero-note {
+    font-size:0.84rem;
+    line-height:1.8;
+  }
+  .main {
+    padding:24px 16px 46px;
+  }
+  .section-title {
+    margin:28px 0 12px;
+    font-size:1.08rem;
+  }
+  .section-text {
+    font-size:0.9rem;
+    line-height:1.9;
+  }
+  .principle {
+    padding:18px 16px 16px;
+    border-radius:14px;
+  }
+  .principle-head {
+    gap:12px;
+  }
+  .num {
+    width:38px;
+    height:38px;
+    font-size:0.88rem;
+  }
+  .principle-head h3 {
+    font-size:0.98rem;
+  }
+  .definition {
+    font-size:0.9rem;
+    line-height:1.85;
+  }
+  .meta-box p,
+  .summary-card p,
+  .use-card p,
+  .cta p {
+    font-size:0.86rem;
+    line-height:1.85;
+  }
+  .button {
+    width:100%;
+    text-align:center;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <div class="header-inner">
+      <div class="topbar">
+        <a class="brand" href="../index.html">
+          <img src="../assets/logo-sei.png" alt="整ロゴ">
+          <div class="brand-text">
+            <div class="brand-name">adjustment</div>
+            <div class="brand-sub">field | lab | craft</div>
+          </div>
+        </a>
+        <a class="back-link" href="../index.html">← topへ戻る</a>
+      </div>
+
+  <div class="hero">
+    <div class="label">ADJUSTMENT PRINCIPLES</div>
+    <h1>原理原則を、<br>現場で使える言葉へ。</h1>
+    <p>
+      adjustmentでは、動作を直接いじることよりも、
+      動作が変わる条件を整えることを重視しています。
+      ここにまとめた10項目は、感覚的な表現を再現可能な構造へ整理するための土台です。
+    </p>
+    <p class="hero-note">
+      野球選手、指導者、チームサポート、教材制作、評価設計。
+      それぞれの現場で、何を見るか、何を変えるか、なぜそれを行うかを明確にするための基準です。
+    </p>
+  </div>
+</div>
+
+  </header>
+  <main class="main">
+    <section class="summary">
+      <div class="summary-card">
+        <h2>何のための原理原則か</h2>
+        <p>
+          フォームを直接なぞるのではなく、フォームが変わる条件を整理するため。
+        </p>
+      </div>
+      <div class="summary-card">
+        <h2>何を整理するのか</h2>
+        <p>
+          通り道、相対運動、方向転換、可変性、代償、出力の発生条件を整理します。
+        </p>
+      </div>
+      <div class="summary-card">
+        <h2>どう使うのか</h2>
+        <p>
+          選手評価、エクササイズ選択、指導言語、教材設計の共通基準として使います。
+        </p>
+      </div>
+    </section>
+
+<h2 class="section-title">adjustment原理原則 10項目</h2>
+<p class="section-text">
+  それ以上でもそれ以下でもない、再現性のある普遍を目指して整理した10項目です。
+  それぞれを「定義」「見る点」「現場的意味」で短く固定しています。
+</p>
+
+<section class="principles">
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">01</div>
+      <h3>動作は通り道で決まる</h3>
+    </div>
+    <p class="definition">
+      動作の再現性は、末端をどう操作したかではなく、末端が毎回どの通り道を通ったかで決まる。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>手部、前腕、バット、ボールの通過位置。リリースやインパクト前のズレ。ミスの散り方。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>制球、打球方向、故障リスクは末端軌道の安定性に依存する。まず見るべきは「どう振ったか」ではなく「どこを通ったか」。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">02</div>
+      <h3>肘角度は結果である</h3>
+    </div>
+    <p class="definition">
+      肘の屈曲・伸展は主役ではなく、上腕骨の動きと末端軌道の結果として決まる。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>上腕骨が前に入ると肘が自然にほどけるか。後ろに入ると肘が自然にたたまれるか。肘を自分で作りにいっていないか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>肘を直接いじるより、上腕骨の通り道を整える方が本質。肘主導の修正は代償を増やしやすい。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">03</div>
+      <h3>肩甲平面は基準面である</h3>
+    </div>
+    <p class="definition">
+      肩甲平面を基準に、上腕骨が水平内転すれば肘は伸展傾向、水平外転すれば肘は屈曲傾向を示す。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>肩甲平面後方で肘がたたまれるか。肩甲平面へ戻る中で肘がほどけるか。前方で伸展傾向が強まるか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>肩甲平面は肘角度の正解位置ではなく、肘傾向の切り替え基準。角度ではなく運動傾向で捉える。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">04</div>
+      <h3>本質は相対運動にある</h3>
+    </div>
+    <p class="definition">
+      動作は局所の形ではなく、「何に対して何がどう動いたか」という相対運動で決まる。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>胸郭に対する肩甲帯。肩甲帯に対する上腕骨。骨盤に対する大腿骨。一緒に動いているのか、相対差があるのか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>「胸椎伸展している」「肩甲骨が動いている」だけでは浅い。形ではなく関係性で評価する。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">05</div>
+      <h3>しなりは胸郭先行で生まれる</h3>
+    </div>
+    <p class="definition">
+      しなりの本質は大きく反ることではなく、肩甲帯に対して胸郭の方向転換が先行することで生まれる相対差である。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>切り返しで胸郭が先に向きを変えられるか。肩甲帯ごと一緒に回っていないか。腰を反って代償していないか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>「反る」より「胸郭が先に切り返す」の方が現象に近い。投球でも打撃でも通用しやすい。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">06</div>
+      <h3>エクササイズは可変性の学習である</h3>
+    </div>
+    <p class="definition">
+      エクササイズで入れるべきものは、モーションそのものではなく、必要局面で使える可変性である。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>胸椎の屈曲伸展や股関節回旋が出るか。その可変性が実動作の方向転換や切り返しに活きているか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>可動域を増やすこと自体が目的ではない。必要なタイミングで使えることが目的である。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">07</div>
+      <h3>トレーニングは発生条件への介入である</h3>
+    </div>
+    <p class="definition">
+      トレーニングはフォームを直接変えるものではなく、フォームが変わる条件を身体へ入れるものである。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>どの局面を変えたいのかが明確か。エクササイズ後に狙った局面が変わったか。今の癖を再生産していないか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>モーションをなぞるだけでは現状の動きを強化しやすい。変えたいなら発生条件へ介入する。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">08</div>
+      <h3>変えるべきはコンマ何秒である</h3>
+    </div>
+    <p class="definition">
+      野球選手のトレーニングは、動作全体を変えるためではなく、勝負を分ける一瞬の質を変えるために行う。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>接地、切り返し、胸郭方向転換、肘のほどけ、末端通過などの一瞬に変化があるか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>全体をいじるのではなく、一瞬の質を変えることで結果として全体が変わる。ここが身体教育の中核である。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">09</div>
+      <h3>バラつきと故障は代償の結果である</h3>
+    </div>
+    <p class="definition">
+      通り道が不安定なとき、身体は局所で帳尻を合わせる。その代償の集中がバラつきと故障を生む。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>前腕回外、手首操作、肩すくめ、急停止などで合わせていないか。肘内側や肩前方へ負担が集中していないか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>再現性低下と故障は別問題ではない。同じ根から生まれる。通り道の乱れを局所で修正し続けた結果である。</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="principle">
+    <div class="principle-head">
+      <div class="num">10</div>
+      <h3>出力は条件の結果である</h3>
+    </div>
+    <p class="definition">
+      出力は「出すもの」ではなく、「出る条件が揃った結果」として現れる。
+    </p>
+    <div class="meta">
+      <div class="meta-box">
+        <strong>見る点</strong>
+        <p>力まなくても腕やバットが走るか。通り道が整うと結果が上がるか。出そうとした瞬間に壊れていないか。</p>
+      </div>
+      <div class="meta-box">
+        <strong>現場的意味</strong>
+        <p>球速や打球速度は、力感より条件整備の質で決まる。まず出力が通る構造を整える。</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<h2 class="section-title">この原理原則をどう使うか</h2>
+<div class="use-list">
+  <div class="use-card">
+    <h3>選手を見るとき</h3>
+    <p>何が悪いかではなく、どの原理が崩れているかで観察する。評価の焦点を絞りやすくなる。</p>
+  </div>
+  <div class="use-card">
+    <h3>種目を選ぶとき</h3>
+    <p>効きそうだからではなく、どの原理の前提条件を入れるかでエクササイズを選ぶ。</p>
+  </div>
+  <div class="use-card">
+    <h3>説明するとき</h3>
+    <p>感覚語だけで終わらせず、何に対して何がどう動くかで伝える。再現性が上がる。</p>
+  </div>
+</div>
+
+<div class="cta">
+  <h2>現場・開発・制作へつなぐ</h2>
+  <p>
+    この原理原則は、fieldでの指導、labでの設計、craftでの可視化に接続するための土台です。
+    必要に応じて各部門ページも参照してください。
+  </p>
+  <div class="cta-links">
+    <a class="button button-primary" href="../field/index.html">fieldを見る</a>
+    <a class="button button-secondary" href="../lab/index.html">labを見る</a>
+    <a class="button button-secondary" href="../contact/index.html">問い合わせる</a>
+  </div>
+</div>
+
+  </main>
+    <footer class="footer">
+    <div class="footer-inner">
+      <a href="../index.html">top</a> ｜ 
+      <a href="../legal.html">販売・利用規約</a> ｜ 
+      <a href="../contact/index.html">お問い合わせ</a><br>
+      <small>© 2025 adjustment-lab</small>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
