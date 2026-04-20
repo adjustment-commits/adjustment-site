@@ -7,7 +7,6 @@
 <link rel="manifest" href="../manifest.json">
 <meta name="description" content="adjustment-lab｜現場で生まれた理論を形にする。トレーニング・測定・回復を可視化するアプリと教材を提供。再現性を科学するデジタル拠点。">
 <meta name="theme-color" content="#ffffff">
-
 <style>
 :root {
   --bg:#ffffff;
@@ -99,12 +98,57 @@ section p {
 section:nth-of-type(2) h2,
 section:nth-of-type(2) p,
 section:nth-of-type(3) h2,
-section:nth-of-type(3) p {
+section:nth-of-type(3) p,
+section:nth-of-type(4) h2,
+section:nth-of-type(4) p {
   text-align:center;
   border-left:none;
   padding-left:0;
   margin-left:auto;
   margin-right:auto;
+}
+
+/* ----- Principles ----- */
+.principles {
+  margin-top:36px;
+}
+.principles-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:24px;
+}
+.principle-card {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:24px 20px;
+  text-align:left;
+  box-shadow:0 4px 14px rgba(0,0,0,0.03);
+}
+.principle-num {
+  display:inline-block;
+  margin-bottom:10px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(192,57,43,0.08);
+  color:var(--accent);
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:0.05em;
+}
+.principle-card h3 {
+  margin:0 0 10px;
+  color:var(--accent);
+  font-size:1.02rem;
+  line-height:1.6;
+}
+.principle-card p {
+  margin:0;
+  color:var(--sub);
+  font-size:0.92rem;
+  line-height:1.8;
+  text-align:left;
 }
 
 /* ----- App Cards ----- */
@@ -213,6 +257,20 @@ section:nth-of-type(3) p {
   .hero h1{font-size:1.8rem;}
   .hero p{font-size:0.95rem;}
   section{margin:60px 16px;}
+  .principles-grid {
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .principle-card {
+    padding:18px 16px;
+  }
+  .principle-card h3 {
+    font-size:0.96rem;
+  }
+  .principle-card p {
+    font-size:0.88rem;
+    line-height:1.8;
+  }
 }
 
 /* ----- Concept ----- */
@@ -238,27 +296,59 @@ section:nth-of-type(3) p {
 }
 
 footer {
-text-align: center;
-padding: 40px 0;
-font-size: 0.85rem;
-color: #888;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 0.85rem;
+  color: #888;
 }
 footer a {
-color: var(--accent);
-text-decoration: none;
+  color: var(--accent);
+  text-decoration: none;
 }
 footer a:hover {
-text-decoration: underline;
+  text-decoration: underline;
 }
-
 </style>
-
 </head>
 <body>
 <section class="hero">
   <img src="../assets/icon-lab.png" alt="lab icon" class="hero-icon">
   <h1>adjustment-lab</h1>
   <p>思考を形にして再現を科学する。<br>トレーニング・リカバリー・測定を<br>可視化するアプリ群。</p>
+</section>
+<section>
+  <h2>labで重視する3つの原理</h2>
+  <p>
+    adjustment-labでは、現場で生まれた感覚や理論を、<br>
+    説明できる構造へ整理し、可視化し、再現可能な形へ落とし込みます。<br>
+    設計・検証・開発の土台として、特に次の3項目を重視しています。
+  </p>
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-num">01</div>
+      <h3>本質は相対運動にある</h3>
+      <p>
+        単独の関節角度や見た目の形ではなく、何に対して何がどう動いたかを整理する。<br>
+        labでは、この相対関係を言語化・可視化することを重視します。
+      </p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02</div>
+      <h3>エクササイズは可変性の学習である</h3>
+      <p>
+        種目そのものを増やすのではなく、必要局面で使える可変性をどう獲得するかを設計する。<br>
+        labは、その準備条件をアプリ・教材・評価へ翻訳します。
+      </p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03</div>
+      <h3>トレーニングは発生条件への介入である</h3>
+      <p>
+        フォームを直接なぞるのではなく、フォームが変わる条件をどのように入れるかを考える。<br>
+        labは、その発生条件を整理し、再現しやすい形へ組み直す部門です。
+      </p>
+    </div>
+  </div>
 </section>
 <section>
   <h2>BASICトラッカーアプリ</h2>
@@ -294,7 +384,6 @@ text-decoration: underline;
       <p>クーパー走やYoYoテストから最大酸素摂取量を推定するツール。</p>
       <a href="../products/apps/vo2max-lite/index.html">開く</a>
     </div>
-    
   </div>
 </section>
 <section>
@@ -340,14 +429,12 @@ text-decoration: underline;
 <div class="back-home">
   <button onclick="window.location.href='https://adjustment.jp'">← ホームへ戻る</button>
 </div>
-
-  <footer>
+<footer>
   <p>
     <a href="../legal.html">販売・利用規約</a>｜
     <a href="../contact/index.html">お問い合わせ</a><br>
     <small>© 2025 adjustment-lab</small>
   </p>
 </footer>
-
 </body>
 </html>
