@@ -18,489 +18,588 @@
 }
 
 body {
-margin:0;
-background:var(--bg);
-color:var(--text);
-display:flex;
-flex-direction:column;
-align-items:center;
-min-height:100vh;
-text-rendering:optimizeLegibility;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  text-rendering:optimizeLegibility;
 }
 
 /* ===== Header ===== */
 header {
-text-align:center;
-padding:30px 0 10px;
+  text-align:center;
+  padding:30px 0 10px;
 }
+
 header img {
-width:120px;
-max-width:20vw;
-height:auto;
-animation:float 4s ease-in-out infinite;
+  width:120px;
+  max-width:20vw;
+  height:auto;
+  animation:float 4s ease-in-out infinite;
 }
+
 @keyframes float {
-0%,100% { transform:translateY(0); }
-50% { transform:translateY(-5px); }
+  0%,100% {
+    transform:translateY(0);
+  }
+
+  50% {
+    transform:translateY(-5px);
+  }
 }
 
 /* ===== Hero ===== */
 .hero {
-width:100%;
-background:linear-gradient(180deg,#ffffff 0%,#eef6f5 100%);
-text-align:center;
-padding:40px 20px 50px;
-box-sizing:border-box;
+  width:100%;
+  background:linear-gradient(180deg,#ffffff 0%,#eef6f5 100%);
+  text-align:center;
+  padding:40px 20px 50px;
+  box-sizing:border-box;
 }
+
 .hero p {
-font-size:1.05rem;
-line-height:1.9;
-color:#222;
-max-width:720px;
-margin:0 auto;
+  font-size:1.05rem;
+  line-height:1.9;
+  color:#222;
+  max-width:720px;
+  margin:0 auto;
 }
+
 .hero hr {
-width:40%;
-height:1px;
-background:#00b386;
-border:none;
-margin:28px auto;
-opacity:0.6;
+  width:40%;
+  height:1px;
+  background:#00b386;
+  border:none;
+  margin:28px auto;
+  opacity:0.6;
 }
+
 .hero .phrase {
-font-size:1rem;
-color:#00b386;
-font-weight:600;
-letter-spacing:0.03em;
+  font-size:1rem;
+  color:#00b386;
+  font-weight:600;
+  letter-spacing:0.03em;
 }
 
 /* ===== Principles Intro ===== */
 .principles-intro {
-width:100%;
-background:#ffffff;
-padding:40px 20px 48px;
-box-sizing:border-box;
-border-top:1px solid rgba(0,0,0,0.04);
-border-bottom:1px solid rgba(0,0,0,0.04);
+  width:100%;
+  background:#ffffff;
+  padding:40px 20px 48px;
+  box-sizing:border-box;
+  border-top:1px solid rgba(0,0,0,0.04);
+  border-bottom:1px solid rgba(0,0,0,0.04);
 }
+
 .principles-inner {
-max-width:760px;
-margin:0 auto;
-text-align:center;
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
 }
+
 .principles-label {
-display:inline-block;
-margin-bottom:14px;
-padding:6px 12px;
-border:1px solid rgba(0,179,134,0.18);
-border-radius:999px;
-font-size:0.78rem;
-font-weight:700;
-letter-spacing:0.06em;
-color:var(--accent);
-background:rgba(0,179,134,0.06);
+  display:inline-block;
+  margin-bottom:14px;
+  padding:6px 12px;
+  border:1px solid rgba(0,179,134,0.18);
+  border-radius:999px;
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:0.06em;
+  color:var(--accent);
+  background:rgba(0,179,134,0.06);
 }
+
 .principles-intro h2 {
-margin:0 0 14px;
-font-size:1.2rem;
-color:#1a1a1a;
+  margin:0 0 14px;
+  font-size:1.2rem;
+  color:#1a1a1a;
 }
+
 .principles-intro p {
-margin:0 auto;
-max-width:720px;
-font-size:0.95rem;
-line-height:1.95;
-color:#333;
+  margin:0 auto;
+  max-width:720px;
+  font-size:0.95rem;
+  line-height:1.95;
+  color:#333;
 }
+
 .principles-list {
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-margin:24px 0 0;
-padding:0;
-list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin:24px 0 0;
+  padding:0;
+  list-style:none;
 }
+
 .principles-list li {
-padding:10px 14px;
-border-radius:999px;
-background:#f4fbf9;
-border:1px solid rgba(0,179,134,0.10);
-font-size:0.86rem;
-color:#185a4a;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#f4fbf9;
+  border:1px solid rgba(0,179,134,0.10);
+  font-size:0.86rem;
+  color:#185a4a;
 }
+
 .principles-cta {
-display:inline-block;
-margin-top:24px;
-padding:12px 22px;
-border-radius:999px;
-background:var(--accent);
-color:#ffffff;
-text-decoration:none;
-font-size:0.92rem;
-font-weight:700;
-transition:transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
-box-shadow:0 6px 16px rgba(0,179,134,0.18);
+  display:inline-block;
+  margin-top:24px;
+  padding:12px 22px;
+  border-radius:999px;
+  background:var(--accent);
+  color:#ffffff;
+  text-decoration:none;
+  font-size:0.92rem;
+  font-weight:700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+  box-shadow:0 6px 16px rgba(0,179,134,0.18);
 }
+
 .principles-cta:hover {
-transform:translateY(-2px);
-opacity:0.96;
+  transform:translateY(-2px);
+  opacity:0.96;
 }
 
 /* ===== Digital Research Campus ===== */
 .campus-entry {
-width:100%;
-padding:64px 20px;
-box-sizing:border-box;
-background:
-radial-gradient(circle at 18% 20%,rgba(0,179,134,0.16),transparent 30%),
-radial-gradient(circle at 82% 78%,rgba(0,123,158,0.18),transparent 34%),
-linear-gradient(135deg,#0b1720 0%,#102d35 52%,#0a1c25 100%);
-color:#ffffff;
+  width:100%;
+  padding:64px 20px;
+  box-sizing:border-box;
+  background:
+    radial-gradient(
+      circle at 18% 20%,
+      rgba(0,179,134,0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(0,123,158,0.18),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #0b1720 0%,
+      #102d35 52%,
+      #0a1c25 100%
+    );
+  color:#ffffff;
 }
+
 .campus-entry-inner {
-max-width:960px;
-margin:0 auto;
-display:grid;
-grid-template-columns:minmax(0,1.3fr) minmax(280px,0.7fr);
-gap:44px;
-align-items:center;
+  max-width:960px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(280px,0.7fr);
+  gap:44px;
+  align-items:center;
 }
+
 .campus-eyebrow {
-margin:0 0 14px;
-font-size:0.76rem;
-font-weight:700;
-letter-spacing:0.16em;
-color:#73e4c7;
+  margin:0 0 14px;
+  font-size:0.76rem;
+  font-weight:700;
+  letter-spacing:0.16em;
+  color:#73e4c7;
 }
+
 .campus-entry h2 {
-margin:0;
-font-size:clamp(1.75rem,4vw,3rem);
-line-height:1.18;
-letter-spacing:-0.02em;
+  margin:0;
+  font-size:clamp(1.75rem,4vw,3rem);
+  line-height:1.18;
+  letter-spacing:-0.02em;
 }
+
 .campus-subtitle {
-margin:12px 0 0;
-font-size:1rem;
-font-weight:600;
-color:#bfeee3;
+  margin:12px 0 0;
+  font-size:1rem;
+  font-weight:600;
+  color:#bfeee3;
 }
+
 .campus-description {
-margin:24px 0 0;
-max-width:620px;
-font-size:0.94rem;
-line-height:1.95;
-color:rgba(255,255,255,0.82);
+  margin:24px 0 0;
+  max-width:620px;
+  font-size:0.94rem;
+  line-height:1.95;
+  color:rgba(255,255,255,0.82);
 }
+
 .campus-cta {
-display:inline-flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-margin-top:28px;
-padding:14px 24px;
-border:1px solid rgba(115,228,199,0.48);
-border-radius:999px;
-background:#73e4c7;
-color:#092028;
-text-decoration:none;
-font-size:0.9rem;
-font-weight:800;
-letter-spacing:0.04em;
-box-shadow:0 12px 28px rgba(0,0,0,0.22);
-transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:28px;
+  padding:14px 24px;
+  border:1px solid rgba(115,228,199,0.48);
+  border-radius:999px;
+  background:#73e4c7;
+  color:#092028;
+  text-decoration:none;
+  font-size:0.9rem;
+  font-weight:800;
+  letter-spacing:0.04em;
+  box-shadow:0 12px 28px rgba(0,0,0,0.22);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
+
 .campus-cta::after {
-content:“→”;
-font-size:1rem;
+  content:"→";
+  font-size:1rem;
 }
+
 .campus-cta:hover {
-transform:translateY(-2px);
-background:#8ff0d8;
-box-shadow:0 16px 34px rgba(0,0,0,0.28);
+  transform:translateY(-2px);
+  background:#8ff0d8;
+  box-shadow:0 16px 34px rgba(0,0,0,0.28);
 }
+
 .campus-map {
-position:relative;
-min-height:300px;
-padding:22px;
-border:1px solid rgba(255,255,255,0.16);
-border-radius:20px;
-background:rgba(255,255,255,0.07);
-box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 20px 50px rgba(0,0,0,0.22);
-backdrop-filter:blur(10px);
--webkit-backdrop-filter:blur(10px);
+  position:relative;
+  min-height:300px;
+  padding:22px;
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:20px;
+  background:rgba(255,255,255,0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 20px 50px rgba(0,0,0,0.22);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
+
 .campus-map-label {
-margin:0 0 18px;
-font-size:0.72rem;
-font-weight:700;
-letter-spacing:0.14em;
-color:rgba(255,255,255,0.58);
+  margin:0 0 18px;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.14em;
+  color:rgba(255,255,255,0.58);
 }
+
 .campus-buildings {
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:12px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
 }
+
 .campus-building {
-min-height:84px;
-padding:14px;
-border:1px solid rgba(255,255,255,0.12);
-border-radius:12px;
-background:rgba(3,19,27,0.52);
-box-sizing:border-box;
+  min-height:84px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;
+  background:rgba(3,19,27,0.52);
+  box-sizing:border-box;
 }
+
 .campus-building strong {
-display:block;
-margin-bottom:7px;
-font-size:0.82rem;
-color:#ffffff;
+  display:block;
+  margin-bottom:7px;
+  font-size:0.82rem;
+  color:#ffffff;
 }
+
 .campus-building span {
-display:block;
-font-size:0.72rem;
-line-height:1.55;
-color:rgba(255,255,255,0.62);
+  display:block;
+  font-size:0.72rem;
+  line-height:1.55;
+  color:rgba(255,255,255,0.62);
 }
+
 .campus-status {
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-top:16px;
-padding-top:16px;
-border-top:1px solid rgba(255,255,255,0.11);
-font-size:0.7rem;
-color:rgba(255,255,255,0.58);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,0.11);
+  font-size:0.7rem;
+  color:rgba(255,255,255,0.58);
 }
+
 .campus-status strong {
-color:#73e4c7;
+  color:#73e4c7;
 }
 
 /* ===== Selector ===== */
 .selector {
-width:100%;
-background:linear-gradient(180deg,#f8faf9 0%,#eef5f3 100%);
-padding:30px 20px 40px;
-text-align:center;
-box-sizing:border-box;
+  width:100%;
+  background:linear-gradient(180deg,#f8faf9 0%,#eef5f3 100%);
+  padding:30px 20px 40px;
+  text-align:center;
+  box-sizing:border-box;
 }
+
 .selector-inner {
-max-width:720px;
-margin:0 auto;
+  max-width:720px;
+  margin:0 auto;
 }
+
 .selector p {
-font-size:0.95rem;
-line-height:2;
-color:#222;
-margin:10px 0;
+  font-size:0.95rem;
+  line-height:2;
+  color:#222;
+  margin:10px 0;
 }
+
 .link {
-font-weight:600;
-cursor:pointer;
-position:relative;
-transition:color 0.3s ease, text-shadow 0.3s ease;
+  font-weight:600;
+  cursor:pointer;
+  position:relative;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
 }
+
 .link.craft:hover {
-color:#007b9e;
-text-shadow:0 0 8px rgba(0,123,158,0.5);
+  color:#007b9e;
+  text-shadow:0 0 8px rgba(0,123,158,0.5);
 }
+
 .link.field:hover {
-color:#00b386;
-text-shadow:0 0 8px rgba(0,179,134,0.5);
+  color:#00b386;
+  text-shadow:0 0 8px rgba(0,179,134,0.5);
 }
+
 .link.lab:hover {
-color:#c0392b;
-text-shadow:0 0 8px rgba(192,57,43,0.5);
+  color:#c0392b;
+  text-shadow:0 0 8px rgba(192,57,43,0.5);
 }
 
 /* ===== Cards ===== */
 main {
-display:grid;
-grid-template-columns:repeat(2,280px);
-grid-template-areas:
-“craft craft”
-“field lab”;
-gap:28px 32px;
-justify-content:center;
-padding:50px 10px 40px;
-max-width:960px;
-box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(2,280px);
+  grid-template-areas:
+    "craft craft"
+    "field lab";
+  gap:28px 32px;
+  justify-content:center;
+  padding:50px 10px 40px;
+  max-width:960px;
+  box-sizing:border-box;
 }
+
 .card {
-background:var(--card);
-border:1px solid var(--line);
-border-radius:10px;
-text-align:center;
-padding:32px 20px;
-box-shadow:0 2px 6px rgba(0,0,0,0.05);
-transition:transform 0.3s ease, box-shadow 0.3s ease;
-cursor:pointer;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  text-align:center;
+  padding:32px 20px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor:pointer;
 }
+
 .card:hover {
-transform:translateY(-4px);
-box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
 }
+
 .card img {
-width:80px;
-margin-bottom:16px;
+  width:80px;
+  margin-bottom:16px;
 }
+
 .card h2 {
-font-size:1.1rem;
-margin-bottom:10px;
-color:var(--accent);
+  font-size:1.1rem;
+  margin-bottom:10px;
+  color:var(--accent);
 }
+
 .card p {
-font-size:0.9rem;
-color:#444;
-line-height:1.6;
+  font-size:0.9rem;
+  color:#444;
+  line-height:1.6;
 }
+
 .card.craft {
-grid-area:craft;
-width:600px;
-justify-self:center;
+  grid-area:craft;
+  width:600px;
+  justify-self:center;
 }
+
 .card.field {
-grid-area:field;
+  grid-area:field;
 }
+
 .card.lab {
-grid-area:lab;
+  grid-area:lab;
 }
 
 /* ===== Mobile ===== */
 @media (max-width:700px) {
-main {
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-width:100%;
-gap:28px;
-margin:0 auto;
-max-width:420px;
-box-sizing:border-box;
-}
-.card {
-width:100%;
-margin:0 auto;
-padding:28px 16px;
-box-sizing:border-box;
-}
-.card img {
-width:72px;
-margin-bottom:12px;
-}
-.card h2 {
-font-size:0.95rem;
-}
-.card p {
-font-size:0.82rem;
-line-height:1.55;
-text-align:center;
-}
-.card.craft {
-width:100%;
-border:1px solid var(--line);
-transform:none;
-margin:0 auto;
-box-sizing:border-box;
-}
-header img {
-width:100px;
-}
-.hero {
-padding:30px 16px 40px;
-margin:0 auto;
-text-align:center;
-max-width:90%;
-box-sizing:border-box;
-}
-.hero p {
-font-size:0.9rem;
-line-height:1.8;
-}
-.principles-intro {
-padding:30px 16px 36px;
-}
-.principles-intro h2 {
-font-size:1.02rem;
-line-height:1.6;
-}
-.principles-intro p {
-font-size:0.88rem;
-line-height:1.85;
-}
-.principles-list {
-gap:8px;
-}
-.principles-list li {
-font-size:0.8rem;
-padding:9px 12px;
-}
-.principles-cta {
-width:100%;
-max-width:280px;
-box-sizing:border-box;
-}
-.campus-entry {
-padding:48px 16px;
-}
-.campus-entry-inner {
-grid-template-columns:1fr;
-gap:30px;
-text-align:center;
-}
-.campus-description {
-margin-left:auto;
-margin-right:auto;
-font-size:0.88rem;
-line-height:1.85;
-}
-.campus-cta {
-width:100%;
-max-width:300px;
-box-sizing:border-box;
-}
-.campus-map {
-min-height:auto;
-padding:18px;
-text-align:left;
-}
-.campus-buildings {
-grid-template-columns:1fr;
-}
-.campus-building {
-min-height:auto;
-}
-.selector {
-padding:24px 10px 32px;
-}
-.selector p {
-font-size:0.9rem;
-line-height:1.9;
-}
+  main {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    width:100%;
+    gap:28px;
+    margin:0 auto;
+    max-width:420px;
+    box-sizing:border-box;
+  }
+
+  .card {
+    width:100%;
+    margin:0 auto;
+    padding:28px 16px;
+    box-sizing:border-box;
+  }
+
+  .card img {
+    width:72px;
+    margin-bottom:12px;
+  }
+
+  .card h2 {
+    font-size:0.95rem;
+  }
+
+  .card p {
+    font-size:0.82rem;
+    line-height:1.55;
+    text-align:center;
+  }
+
+  .card.craft {
+    width:100%;
+    border:1px solid var(--line);
+    transform:none;
+    margin:0 auto;
+    box-sizing:border-box;
+  }
+
+  header img {
+    width:100px;
+  }
+
+  .hero {
+    padding:30px 16px 40px;
+    margin:0 auto;
+    text-align:center;
+    max-width:90%;
+    box-sizing:border-box;
+  }
+
+  .hero p {
+    font-size:0.9rem;
+    line-height:1.8;
+  }
+
+  .principles-intro {
+    padding:30px 16px 36px;
+  }
+
+  .principles-intro h2 {
+    font-size:1.02rem;
+    line-height:1.6;
+  }
+
+  .principles-intro p {
+    font-size:0.88rem;
+    line-height:1.85;
+  }
+
+  .principles-list {
+    gap:8px;
+  }
+
+  .principles-list li {
+    font-size:0.8rem;
+    padding:9px 12px;
+  }
+
+  .principles-cta {
+    width:100%;
+    max-width:280px;
+    box-sizing:border-box;
+  }
+
+  .campus-entry {
+    padding:48px 16px;
+  }
+
+  .campus-entry-inner {
+    grid-template-columns:1fr;
+    gap:30px;
+    text-align:center;
+  }
+
+  .campus-description {
+    margin-left:auto;
+    margin-right:auto;
+    font-size:0.88rem;
+    line-height:1.85;
+  }
+
+  .campus-cta {
+    width:100%;
+    max-width:300px;
+    box-sizing:border-box;
+  }
+
+  .campus-map {
+    min-height:auto;
+    padding:18px;
+    text-align:left;
+  }
+
+  .campus-buildings {
+    grid-template-columns:1fr;
+  }
+
+  .campus-building {
+    min-height:auto;
+  }
+
+  .selector {
+    padding:24px 10px 32px;
+  }
+
+  .selector p {
+    font-size:0.9rem;
+    line-height:1.9;
+  }
 }
 
 /* ===== Footer ===== */
 footer {
-text-align:center;
-padding:40px 0;
-font-size:0.85rem;
-color:#888;
+  text-align:center;
+  padding:40px 0;
+  font-size:0.85rem;
+  color:#888;
 }
+
 footer a {
-color:var(--accent);
-text-decoration:none;
+  color:var(--accent);
+  text-decoration:none;
 }
+
 footer a:hover {
-text-decoration:underline;
+  text-decoration:underline;
 }
+</style>
 </head>
+
 <body>
 <header>
   <img src="./assets/logo-sei.png" alt="整ロゴ">
 </header>
-
 <section class="hero">
   <p>
     「整 -adjustment-」は、<br>
@@ -508,109 +607,230 @@ text-decoration:underline;
     現場（field）と研究（lab）の融合で<br>
     “再現できる構造”を創造するブランド。
   </p>
-  <hr>
+<hr>
   <p class="phrase">
     Structure. Intelligence. Toughness.<br>
     すべては現場から、再現性のために。
   </p>
 </section>
-
 <section class="principles-intro">
   <div class="principles-inner">
-    <div class="principles-label">ADJUSTMENT PRINCIPLES</div>
-    <h2>原理原則を、現場で使える言葉へ。</h2>
-    <p>
-      adjustmentでは、動作を直接いじるのではなく、<br>
-      動作が変わる条件を整えることを重視しています。<br>
-      その土台となる考え方を「adjustmentの原理原則」として整理しています。
-    </p>
-    <ul class="principles-list">
-      <li>動作は通り道で決まる</li>
-      <li>変えるべきはコンマ何秒</li>
-      <li>出力は条件の結果</li>
-    </ul>
-    <a class="principles-cta" href="./principles/index.html">原理原則を見る</a>
+    <div class="principles-label">
+      ADJUSTMENT PRINCIPLES
+    </div>
+<h2>
+  原理原則を、現場で使える言葉へ。
+</h2>
+
+<p>
+  adjustmentでは、動作を直接いじるのではなく、<br>
+  動作が変わる条件を整えることを重視しています。<br>
+  その土台となる考え方を「adjustmentの原理原則」として整理しています。
+</p>
+
+<ul class="principles-list">
+  <li>動作は通り道で決まる</li>
+  <li>変えるべきはコンマ何秒</li>
+  <li>出力は条件の結果</li>
+</ul>
+
+<a
+  class="principles-cta"
+  href="./principles/index.html"
+>
+  原理原則を見る
+</a>
   </div>
 </section>
 
-<section class="campus-entry" aria-labelledby="campus-title">
+  <section
+  class="campus-entry"
+  aria-labelledby="campus-title"
+>
   <div class="campus-entry-inner">
     <div class="campus-copy">
-      <p class="campus-eyebrow">ADJUSTMENT-LAB DIGITAL RESEARCH CAMPUS</p>
-      <h2 id="campus-title">ネット上に構築する、<br>競技パフォーマンス研究施設。</h2>
-      <p class="campus-subtitle">Performance is Designed.</p>
-      <p class="campus-description">
-        Research Note、PDS、Case Study、Dictionaryを蓄積し、<br>
-        現場から生まれた仮説を検証・更新していくデジタル研究空間です。
+      <p class="campus-eyebrow">
+        ADJUSTMENT-LAB DIGITAL RESEARCH CAMPUS
       </p>
-      <a class="campus-cta" href="./campus/index.html">DIGITAL RESEARCH CAMPUSへ入る</a>
-    </div>
+  <h2 id="campus-title">
+    ネット上に構築する、<br>
+    競技パフォーマンス研究施設。
+  </h2>
 
-<div class="campus-map" aria-label="Digital Research Campusの主要施設">
-  <p class="campus-map-label">CAMPUS MAP / PHASE 1</p>
+  <p class="campus-subtitle">
+    Performance is Designed.
+  </p>
+
+  <p class="campus-description">
+    Research Note、PDS、Case Study、Dictionaryを蓄積し、<br>
+    現場から生まれた仮説を検証・更新していくデジタル研究空間です。
+  </p>
+
+  <a
+    class="campus-cta"
+    href="./campus/index.html"
+  >
+    DIGITAL RESEARCH CAMPUSへ入る
+  </a>
+</div>
+
+<div
+  class="campus-map"
+  aria-label="Digital Research Campusの主要施設"
+>
+  <p class="campus-map-label">
+    CAMPUS MAP / PHASE 1
+  </p>
+
   <div class="campus-buildings">
     <div class="campus-building">
       <strong>Research Hall</strong>
-      <span>研究ノート・仮説・研究ロードマップ</span>
+      <span>
+        研究ノート・仮説・研究ロードマップ
+      </span>
     </div>
+
     <div class="campus-building">
       <strong>PDS Center</strong>
-      <span>PDSの思想・評価体系・更新履歴</span>
+      <span>
+        PDSの思想・評価体系・更新履歴
+      </span>
     </div>
+
     <div class="campus-building">
       <strong>Case Library</strong>
-      <span>匿名症例・現場検証・経過記録</span>
+      <span>
+        匿名症例・現場検証・経過記録
+      </span>
     </div>
+
     <div class="campus-building">
       <strong>Digital Library</strong>
-      <span>用語辞典・資料・研究アーカイブ</span>
+      <span>
+        用語辞典・資料・研究アーカイブ
+      </span>
     </div>
   </div>
+
   <div class="campus-status">
     <span>PROJECT CAMPUS-01</span>
     <strong>UNDER CONSTRUCTION</strong>
   </div>
 </div>
-
   </div>
-</section>
-
+  </section>
+  
 <section class="selector">
   <div class="selector-inner">
-    <p>Webサイト・資料デザイン制作 → <span class="link craft" onclick="location.href='./craft/index.html'">craft</span></p>
-    <p>トレーナー指導・チームサポート → <span class="link field" onclick="location.href='./field/index.html'">field</span></p>
-    <p>現場の課題をデジタルで解決 → <span class="link lab" onclick="location.href='./lab/index.html'">lab</span></p>
+    <p>
+      Webサイト・資料デザイン制作 →
+      <span
+        class="link craft"
+        onclick="location.href='./craft/index.html'"
+      >
+        craft
+      </span>
+    </p><p>
+  トレーナー指導・チームサポート →
+  <span
+    class="link field"
+    onclick="location.href='./field/index.html'"
+  >
+    field
+  </span>
+</p>
+
+<p>
+  現場の課題をデジタルで解決 →
+  <span
+    class="link lab"
+    onclick="location.href='./lab/index.html'"
+  >
+    lab
+  </span>
+</p>
   </div>
 </section>
 
-<section class="selector">
-  <div class="selector-inner">
-    <p>Webサイト・資料デザイン制作 → <span class="link craft" onclick="location.href='./craft/index.html'">craft</span></p>
-    <p>トレーナー指導・チームサポート → <span class="link field" onclick="location.href='./field/index.html'">field</span></p>
-    <p>現場の課題をデジタルで解決 → <span class="link lab" onclick="location.href='./lab/index.html'">lab</span></p>
-  </div>
-</section>
+<main>
+  <div
+    class="card craft"
+    onclick="location.href='./craft/index.html'"
+  >
+    <img
+      src="./assets/icon-craft.png"
+      alt="craftアイコン"
+      style="transform:scale(1.15);filter:drop-shadow(0 4px 6px rgba(0,123,158,0.4));"
+    >
+<h2 style="color:#007b9e;">
+  adjustment-craft
+</h2>
 
-  <div class="card field" onclick="location.href='./field/index.html'">
-    <img src="./assets/icon-field.png" alt="fieldアイコン" style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));">
-    <h2 style="color:#00b386;">adjustment-field</h2>
-    <p>トレーナー部門<br>アスリートへtoughな構造を。<br>その再現性を高める実践拠点。</p>
+<p>
+  制作部門<br>
+  構造をデザインして伝える制作部門。<br>
+  Web・UI・PWAを通して再現性を設計。
+</p>
   </div>
 
-  <div class="card lab" onclick="location.href='./lab/index.html'">
-    <img src="./assets/icon-lab.png" alt="labアイコン" style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(192,57,43,0.35));">
-    <h2 style="color:#c0392b;">adjustment-lab</h2>
-    <p>開発部門<br>アプリやツールを開発。<br>理論を探究してcraftの<br>構造を支える研究部門。</p>
+  <div
+    class="card field"
+    onclick="location.href='./field/index.html'"
+  >
+    <img
+      src="./assets/icon-field.png"
+      alt="fieldアイコン"
+      style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(0,179,134,0.4));"
+    >
+<h2 style="color:#00b386;">
+  adjustment-field
+</h2>
+
+<p>
+  トレーナー部門<br>
+  アスリートへtoughな構造を。<br>
+  その再現性を高める実践拠点。
+</p>
+  </div>
+
+  <div
+    class="card lab"
+    onclick="location.href='./lab/index.html'"
+  >
+    <img
+      src="./assets/icon-lab.png"
+      alt="labアイコン"
+      style="opacity:0.9;filter:drop-shadow(0 4px 6px rgba(192,57,43,0.35));"
+    >
+<h2 style="color:#c0392b;">
+  adjustment-lab
+</h2>
+
+<p>
+  開発部門<br>
+  アプリやツールを開発。<br>
+  理論を探究してcraftの<br>
+  構造を支える研究部門。
+</p>
   </div>
 </main>
-
 <footer>
   <p>
-    <a href="./legal.html">販売・利用規約</a>｜
-    <a href="./contact/index.html">お問い合わせ</a><br>
-    <small>© 2025 adjustment-lab</small>
+    <a href="./legal.html">
+      販売・利用規約
+    </a>
+    ｜
+    <a href="./contact/index.html">
+      お問い合わせ
+    </a>
+    <br>
+    <small>
+      © 2025 adjustment-lab
+    </small>
   </p>
 </footer>
 </body>
 </html>
 
+
+  
