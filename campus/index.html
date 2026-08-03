@@ -1,1 +1,3091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07141d">
+<meta name="description" content="adjustment-lab Digital Research Campus。競技パフォーマンスに関する研究、PDS、ケース、用語を蓄積・検証するデジタル研究施設。">
+<title>Digital Research Campus｜adjustment-lab</title>
+<style>
+:root {
+  --bg:#071019;
+  --bg-deep:#040b11;
+  --panel:#0c1a24;
+  --panel-soft:#10232e;
+  --panel-light:#142c38;
+  --line:rgba(255,255,255,0.10);
+  --line-strong:rgba(255,255,255,0.18);
+  --text:#f4fbfa;
+  --text-soft:#bdcfce;
+  --text-muted:#7f9798;
+  --accent:#67e6c3;
+  --accent-dark:#123f3c;
+  --blue:#62b7ff;
+  --purple:#a98cff;
+  --orange:#ffaf5f;
+  --yellow:#f4d66d;
+  --red:#ff7f7f;
+  --green:#6ce09e;
+  --shadow:0 24px 60px rgba(0,0,0,0.30);
+  --radius-xl:24px;
+  --radius-lg:18px;
+  --radius-md:14px;
+  --radius-sm:10px;
+  --sidebar-width:238px;
+  --right-width:310px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Yu Gothic",
+    "YuGothic",
+    "Noto Sans JP",
+    sans-serif;
+}
 
+* {
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  margin:0;
+  min-width:320px;
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(28,103,108,0.26),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28,72,112,0.20),
+      transparent 34%
+    ),
+    var(--bg);
+  color:var(--text);
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+button,
+a,
+input {
+  font:inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color:transparent;
+}
+
+button {
+  color:inherit;
+}
+
+a {
+  color:inherit;
+}
+
+img,
+svg {
+  display:block;
+  max-width:100%;
+}
+
+::selection {
+  background:rgba(103,230,195,0.26);
+  color:#ffffff;
+}
+
+/* ===== Accessibility ===== */
+.skip-link {
+  position:fixed;
+  top:12px;
+  left:12px;
+  z-index:1000;
+  transform:translateY(-160%);
+  padding:10px 14px;
+  border-radius:10px;
+  background:var(--accent);
+  color:#08201d;
+  font-weight:800;
+  text-decoration:none;
+  transition:transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform:translateY(0);
+}
+
+:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+
+/* ===== Layout ===== */
+.campus-shell {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:var(--sidebar-width) minmax(0,1fr);
+}
+
+.sidebar {
+  position:sticky;
+  top:0;
+  height:100vh;
+  z-index:30;
+  display:flex;
+  flex-direction:column;
+  padding:22px 16px;
+  border-right:1px solid var(--line);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8,22,31,0.98),
+      rgba(5,15,23,0.98)
+    );
+  box-shadow:14px 0 40px rgba(0,0,0,0.18);
+  overflow-y:auto;
+}
+
+.content-shell {
+  min-width:0;
+}
+
+.topbar {
+  position:sticky;
+  top:0;
+  z-index:20;
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:14px 26px;
+  border-bottom:1px solid var(--line);
+  background:rgba(7,16,25,0.84);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.dashboard {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) var(--right-width);
+  gap:22px;
+  width:100%;
+  max-width:1600px;
+  margin:0 auto;
+  padding:24px;
+}
+
+.main-column,
+.right-column {
+  min-width:0;
+}
+
+.main-column {
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.right-column {
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* ===== Sidebar ===== */
+.brand {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:4px 5px 20px;
+  text-decoration:none;
+}
+
+.brand-mark {
+  position:relative;
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(103,230,195,0.34);
+  border-radius:13px;
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(103,230,195,0.26),
+      transparent 55%
+    ),
+    #0c2630;
+  color:var(--accent);
+  font-size:1.2rem;
+  font-weight:900;
+  box-shadow:0 8px 24px rgba(0,0,0,0.24);
+}
+
+.brand-mark::after {
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:1px solid rgba(103,230,195,0.15);
+  border-radius:8px;
+}
+
+.brand-text {
+  min-width:0;
+}
+
+.brand-name {
+  display:block;
+  overflow:hidden;
+  color:#ffffff;
+  font-size:0.93rem;
+  font-weight:800;
+  letter-spacing:0.01em;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.brand-sub {
+  display:block;
+  margin-top:3px;
+  color:var(--text-muted);
+  font-size:0.66rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+.sidebar-section-label {
+  margin:8px 9px 9px;
+  color:#637d80;
+  font-size:0.65rem;
+  font-weight:800;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+}
+
+.facility-nav {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.facility-button {
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border:1px solid transparent;
+  border-radius:12px;
+  background:transparent;
+  cursor:pointer;
+  text-align:left;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.facility-button:hover {
+  transform:translateX(2px);
+  background:rgba(255,255,255,0.05);
+  border-color:rgba(255,255,255,0.06);
+}
+
+.facility-button.is-active {
+  border-color:rgba(103,230,195,0.20);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(103,230,195,0.15),
+      rgba(103,230,195,0.04)
+    );
+}
+
+.facility-icon {
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  color:var(--text-soft);
+  font-size:0.94rem;
+}
+
+.facility-button.is-active .facility-icon {
+  background:rgba(103,230,195,0.16);
+  color:var(--accent);
+}
+
+.facility-copy {
+  min-width:0;
+}
+
+.facility-copy strong {
+  display:block;
+  overflow:hidden;
+  font-size:0.78rem;
+  font-weight:750;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.facility-copy span {
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  color:var(--text-muted);
+  font-size:0.63rem;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.sidebar-spacer {
+  flex:1;
+  min-height:18px;
+}
+
+.sidebar-status {
+  margin-top:18px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,0.035);
+}
+
+.status-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  color:var(--text-soft);
+  font-size:0.68rem;
+}
+
+.live-dot {
+  width:8px;
+  height:8px;
+  flex:0 0 8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 5px rgba(108,224,158,0.10);
+}
+
+.status-version {
+  margin-top:10px;
+  color:#ffffff;
+  font-size:1rem;
+  font-weight:850;
+}
+
+.status-description {
+  margin:5px 0 0;
+  color:var(--text-muted);
+  font-size:0.66rem;
+  line-height:1.6;
+}
+
+.back-home {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  color:var(--text-soft);
+  font-size:0.7rem;
+  font-weight:750;
+  text-decoration:none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.back-home:hover {
+  color:#ffffff;
+  border-color:rgba(103,230,195,0.26);
+  background:rgba(103,230,195,0.08);
+}
+
+/* ===== Topbar ===== */
+.mobile-menu-button {
+  display:none;
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  place-items:center;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;
+}
+
+.topbar-heading {
+  min-width:0;
+}
+
+.topbar-heading p {
+  margin:0 0 3px;
+  color:var(--text-muted);
+  font-size:0.67rem;
+  font-weight:750;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+
+.topbar-heading h1 {
+  margin:0;
+  overflow:hidden;
+  font-size:1.05rem;
+  line-height:1.35;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.topbar-actions {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.search-box {
+  position:relative;
+  width:min(320px,29vw);
+}
+
+.search-box input {
+  width:100%;
+  min-height:42px;
+  padding:10px 42px 10px 15px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+  background:rgba(255,255,255,0.05);
+  color:#ffffff;
+  font-size:0.78rem;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.search-box input::placeholder {
+  color:#658083;
+}
+
+.search-box input:focus {
+  border-color:rgba(103,230,195,0.40);
+  background:rgba(255,255,255,0.07);
+}
+
+.search-icon {
+  position:absolute;
+  top:50%;
+  right:14px;
+  transform:translateY(-50%);
+  color:#6f898b;
+  pointer-events:none;
+}
+
+.research-badge {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:42px;
+  padding:9px 13px;
+  border:1px solid rgba(103,230,195,0.18);
+  border-radius:12px;
+  background:rgba(103,230,195,0.08);
+  color:var(--accent);
+  font-size:0.71rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+/* ===== Generic panels ===== */
+.panel {
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.052),
+      rgba(255,255,255,0.025)
+    );
+  box-shadow:0 14px 36px rgba(0,0,0,0.16);
+}
+
+.panel-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:20px 20px 0;
+}
+
+.panel-heading {
+  min-width:0;
+}
+
+.panel-eyebrow {
+  margin:0 0 5px;
+  color:var(--accent);
+  font-size:0.65rem;
+  font-weight:850;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+}
+
+.panel-title {
+  margin:0;
+  font-size:1.04rem;
+  line-height:1.4;
+}
+
+.panel-description {
+  margin:6px 0 0;
+  color:var(--text-muted);
+  font-size:0.72rem;
+  line-height:1.65;
+}
+
+.panel-action {
+  flex:0 0 auto;
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(255,255,255,0.04);
+  color:var(--text-soft);
+  font-size:0.67rem;
+  font-weight:750;
+  cursor:pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.panel-action:hover {
+  color:#ffffff;
+  border-color:rgba(103,230,195,0.26);
+  background:rgba(103,230,195,0.08);
+}
+
+/* ===== Hero Campus ===== */
+.campus-hero {
+  position:relative;
+  isolation:isolate;
+  min-height:340px;
+  overflow:hidden;
+  padding:34px;
+  border:1px solid rgba(103,230,195,0.16);
+  border-radius:var(--radius-xl);
+  background:
+    linear-gradient(
+      100deg,
+      rgba(4,15,22,0.96) 0%,
+      rgba(7,27,35,0.86) 47%,
+      rgba(9,42,46,0.52) 100%
+    );
+  box-shadow:var(--shadow);
+}
+
+.campus-hero::before {
+  content:"";
+  position:absolute;
+  z-index:-2;
+  inset:0;
+  background:
+    radial-gradient(
+      circle at 78% 36%,
+      rgba(103,230,195,0.28),
+      transparent 17%
+    ),
+    radial-gradient(
+      circle at 84% 68%,
+      rgba(98,183,255,0.18),
+      transparent 25%
+    ),
+    linear-gradient(
+      155deg,
+      transparent 0 40%,
+      rgba(255,255,255,0.025) 40% 41%,
+      transparent 41% 100%
+    );
+}
+
+.campus-hero::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:430px;
+  height:250px;
+  right:-40px;
+  bottom:-18px;
+  opacity:0.80;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 11%,
+      rgba(103,230,195,0.20) 11% 12%,
+      transparent 12% 24%,
+      rgba(103,230,195,0.14) 24% 25%,
+      transparent 25% 100%
+    ),
+    linear-gradient(
+      0deg,
+      transparent 0 14%,
+      rgba(103,230,195,0.18) 14% 15%,
+      transparent 15% 34%,
+      rgba(103,230,195,0.12) 34% 35%,
+      transparent 35% 100%
+    );
+  transform:perspective(500px) rotateX(62deg) rotateZ(-8deg);
+  transform-origin:center;
+}
+
+.hero-kicker {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border:1px solid rgba(103,230,195,0.22);
+  border-radius:999px;
+  background:rgba(103,230,195,0.08);
+  color:var(--accent);
+  font-size:0.66rem;
+  font-weight:850;
+  letter-spacing:0.1em;
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+  max-width:650px;
+}
+
+.hero-title {
+  margin:24px 0 0;
+  font-size:clamp(2rem,4.7vw,4.35rem);
+  line-height:1.02;
+  letter-spacing:-0.045em;
+}
+
+.hero-title span {
+  display:block;
+  margin-top:10px;
+  color:var(--accent);
+  font-size:0.42em;
+  font-weight:750;
+  letter-spacing:0.02em;
+}
+
+.hero-text {
+  max-width:590px;
+  margin:22px 0 0;
+  color:var(--text-soft);
+  font-size:0.89rem;
+  line-height:1.9;
+}
+
+.hero-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:26px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:10px 16px;
+  border-radius:12px;
+  font-size:0.74rem;
+  font-weight:850;
+  text-decoration:none;
+  cursor:pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.primary-button {
+  border:1px solid rgba(103,230,195,0.44);
+  background:var(--accent);
+  color:#09201d;
+  box-shadow:0 10px 26px rgba(103,230,195,0.16);
+}
+
+.primary-button:hover {
+  transform:translateY(-2px);
+  box-shadow:0 15px 32px rgba(103,230,195,0.22);
+}
+
+.secondary-button {
+  border:1px solid var(--line-strong);
+  background:rgba(255,255,255,0.05);
+  color:#ffffff;
+}
+
+.secondary-button:hover {
+  transform:translateY(-2px);
+  border-color:rgba(103,230,195,0.30);
+  background:rgba(103,230,195,0.08);
+}
+
+.hero-metrics {
+  position:absolute;
+  right:28px;
+  top:28px;
+  z-index:3;
+  display:grid;
+  grid-template-columns:repeat(2,108px);
+  gap:9px;
+}
+
+.hero-metric {
+  padding:13px;
+  border:1px solid rgba(255,255,255,0.11);
+  border-radius:13px;
+  background:rgba(4,17,23,0.56);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.hero-metric strong {
+  display:block;
+  color:#ffffff;
+  font-size:1rem;
+}
+
+.hero-metric span {
+  display:block;
+  margin-top:3px;
+  color:var(--text-muted);
+  font-size:0.61rem;
+  line-height:1.45;
+}
+
+/* ===== Facility grid ===== */
+.facility-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  padding:20px;
+}
+
+.facility-card {
+  position:relative;
+  overflow:hidden;
+  min-height:174px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.055),
+      rgba(255,255,255,0.018)
+    );
+  cursor:pointer;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.facility-card::after {
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  right:-30px;
+  bottom:-30px;
+  border-radius:50%;
+  background:var(--card-glow,rgba(103,230,195,0.12));
+  filter:blur(2px);
+}
+
+.facility-card:hover {
+  transform:translateY(-4px);
+  border-color:var(--card-border,rgba(103,230,195,0.26));
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.075),
+      rgba(255,255,255,0.025)
+    );
+  box-shadow:0 16px 34px rgba(0,0,0,0.20);
+}
+
+.facility-card.is-selected {
+  border-color:var(--card-border,rgba(103,230,195,0.42));
+  box-shadow:
+    inset 0 0 0 1px var(--card-border,rgba(103,230,195,0.20)),
+    0 16px 34px rgba(0,0,0,0.20);
+}
+
+.facility-card[data-section="research"] {
+  --card-color:var(--blue);
+  --card-glow:rgba(98,183,255,0.13);
+  --card-border:rgba(98,183,255,0.34);
+}
+
+.facility-card[data-section="pds"] {
+  --card-color:var(--accent);
+  --card-glow:rgba(103,230,195,0.13);
+  --card-border:rgba(103,230,195,0.34);
+}
+
+.facility-card[data-section="cases"] {
+  --card-color:var(--purple);
+  --card-glow:rgba(169,140,255,0.13);
+  --card-border:rgba(169,140,255,0.34);
+}
+
+.facility-card[data-section="library"] {
+  --card-color:var(--orange);
+  --card-glow:rgba(255,175,95,0.13);
+  --card-border:rgba(255,175,95,0.34);
+}
+
+.facility-card-icon {
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:color-mix(
+    in srgb,
+    var(--card-color) 15%,
+    transparent
+  );
+  color:var(--card-color);
+  font-size:1.05rem;
+}
+
+.facility-card h3 {
+  margin:17px 0 0;
+  font-size:0.88rem;
+}
+
+.facility-card p {
+  margin:8px 0 0;
+  color:var(--text-muted);
+  font-size:0.69rem;
+  line-height:1.65;
+}
+
+.facility-card-footer {
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--text-muted);
+  font-size:0.62rem;
+}
+
+.facility-card-footer strong {
+  color:var(--card-color);
+  font-size:0.65rem;
+}
+
+/* ===== Research views ===== */
+.research-view {
+  display:none;
+}
+
+.research-view.is-active {
+  display:block;
+  animation:fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity:0;
+    transform:translateY(5px);
+  }
+
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.view-body {
+  padding:20px;
+}
+
+.filter-row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.filter-chip {
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,0.035);
+  color:var(--text-muted);
+  font-size:0.65rem;
+  font-weight:750;
+  cursor:pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.filter-chip:hover,
+.filter-chip.is-active {
+  color:#09201d;
+  border-color:rgba(103,230,195,0.30);
+  background:var(--accent);
+}
+
+.note-list {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.note-item {
+  display:grid;
+  grid-template-columns:76px minmax(0,1fr) auto;
+  gap:14px;
+  align-items:center;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,0.025);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.note-item:hover {
+  transform:translateY(-2px);
+  border-color:rgba(103,230,195,0.22);
+  background:rgba(255,255,255,0.04);
+}
+
+.note-number {
+  color:var(--accent);
+  font-size:0.68rem;
+  font-weight:900;
+  letter-spacing:0.08em;
+}
+
+.note-main {
+  min-width:0;
+}
+
+.note-main h3 {
+  margin:0;
+  font-size:0.81rem;
+  line-height:1.5;
+}
+
+.note-main p {
+  margin:5px 0 0;
+  color:var(--text-muted);
+  font-size:0.66rem;
+  line-height:1.55;
+}
+
+.note-meta {
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.tag {
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:4px 8px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--text-soft);
+  font-size:0.59rem;
+  font-weight:750;
+  white-space:nowrap;
+}
+
+.tag.green {
+  border-color:rgba(108,224,158,0.18);
+  background:rgba(108,224,158,0.08);
+  color:var(--green);
+}
+
+.tag.blue {
+  border-color:rgba(98,183,255,0.18);
+  background:rgba(98,183,255,0.08);
+  color:var(--blue);
+}
+
+.tag.purple {
+  border-color:rgba(169,140,255,0.18);
+  background:rgba(169,140,255,0.08);
+  color:var(--purple);
+}
+
+.tag.orange {
+  border-color:rgba(255,175,95,0.18);
+  background:rgba(255,175,95,0.08);
+  color:var(--orange);
+}
+
+/* ===== PDS ===== */
+.pds-overview {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.pds-stage {
+  position:relative;
+  min-height:165px;
+  padding:17px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,0.025);
+}
+
+.pds-stage::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:17px;
+  right:17px;
+  height:2px;
+  border-radius:2px;
+  background:var(--stage-color,var(--accent));
+}
+
+.pds-stage:nth-child(1) {
+  --stage-color:var(--blue);
+}
+
+.pds-stage:nth-child(2) {
+  --stage-color:var(--accent);
+}
+
+.pds-stage:nth-child(3) {
+  --stage-color:var(--purple);
+}
+
+.pds-stage:nth-child(4) {
+  --stage-color:var(--orange);
+}
+
+.pds-stage-label {
+  margin-top:4px;
+  color:var(--stage-color);
+  font-size:0.64rem;
+  font-weight:900;
+  letter-spacing:0.1em;
+}
+
+.pds-stage h3 {
+  margin:13px 0 0;
+  font-size:0.83rem;
+}
+
+.pds-stage p {
+  margin:8px 0 0;
+  color:var(--text-muted);
+  font-size:0.65rem;
+  line-height:1.6;
+}
+
+.pds-stage-status {
+  position:absolute;
+  left:17px;
+  bottom:15px;
+  color:var(--text-soft);
+  font-size:0.6rem;
+}
+
+/* ===== Case Library ===== */
+.case-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.case-card {
+  min-height:190px;
+  padding:17px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,0.025);
+}
+
+.case-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.case-id {
+  color:var(--purple);
+  font-size:0.63rem;
+  font-weight:900;
+  letter-spacing:0.1em;
+}
+
+.case-card h3 {
+  margin:15px 0 0;
+  font-size:0.82rem;
+  line-height:1.5;
+}
+
+.case-card p {
+  margin:9px 0 0;
+  color:var(--text-muted);
+  font-size:0.66rem;
+  line-height:1.65;
+}
+
+.case-result {
+  margin-top:16px;
+  padding-top:13px;
+  border-top:1px solid var(--line);
+}
+
+.case-result span {
+  display:block;
+  color:var(--text-muted);
+  font-size:0.58rem;
+}
+
+.case-result strong {
+  display:block;
+  margin-top:4px;
+  color:#ffffff;
+  font-size:0.76rem;
+}
+
+/* ===== Dictionary ===== */
+.dictionary-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+
+.dictionary-item {
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,0.025);
+}
+
+.dictionary-item-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.dictionary-item h3 {
+  margin:0;
+  color:var(--orange);
+  font-size:0.8rem;
+}
+
+.dictionary-item p {
+  margin:8px 0 0;
+  color:var(--text-muted);
+  font-size:0.65rem;
+  line-height:1.65;
+}
+
+.dictionary-status {
+  color:var(--text-muted);
+  font-size:0.58rem;
+  white-space:nowrap;
+}
+
+/* ===== Right column ===== */
+.side-panel {
+  padding:17px;
+}
+
+.side-panel-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 0 15px;
+}
+
+.side-panel-title h2 {
+  margin:0;
+  font-size:0.81rem;
+}
+
+.side-panel-title span {
+  color:var(--text-muted);
+  font-size:0.58rem;
+}
+
+.project-list {
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.project-item {
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,0.025);
+}
+
+.project-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.project-top strong {
+  font-size:0.69rem;
+}
+
+.project-top span {
+  color:var(--text-muted);
+  font-size:0.59rem;
+}
+
+.progress-track {
+  height:5px;
+  margin-top:10px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,0.07);
+}
+
+.progress-bar {
+  height:100%;
+  border-radius:inherit;
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--blue)
+    );
+}
+
+.project-description {
+  margin:8px 0 0;
+  color:var(--text-muted);
+  font-size:0.61rem;
+  line-height:1.5;
+}
+
+.review-scale {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.review-item {
+  display:grid;
+  grid-template-columns:12px minmax(0,1fr) auto;
+  gap:9px;
+  align-items:center;
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.review-item:last-child {
+  border-bottom:none;
+}
+
+.review-dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--review-color,var(--text-muted));
+}
+
+.review-item strong {
+  font-size:0.65rem;
+}
+
+.review-item span {
+  color:var(--text-muted);
+  font-size:0.58rem;
+}
+
+.review-item[data-status="verified"] {
+  --review-color:var(--green);
+}
+
+.review-item[data-status="review"] {
+  --review-color:var(--yellow);
+}
+
+.review-item[data-status="draft"] {
+  --review-color:var(--blue);
+}
+
+.review-item[data-status="critical"] {
+  --review-color:var(--red);
+}
+
+.log-list {
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.log-item {
+  position:relative;
+  padding-left:18px;
+}
+
+.log-item::before {
+  content:"";
+  position:absolute;
+  left:2px;
+  top:5px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 4px rgba(103,230,195,0.09);
+}
+
+.log-item::after {
+  content:"";
+  position:absolute;
+  left:5px;
+  top:17px;
+  bottom:-14px;
+  width:1px;
+  background:var(--line);
+}
+
+.log-item:last-child::after {
+  display:none;
+}
+
+.log-date {
+  color:var(--text-muted);
+  font-size:0.56rem;
+}
+
+.log-item strong {
+  display:block;
+  margin-top:3px;
+  font-size:0.65rem;
+  line-height:1.5;
+}
+
+.log-item p {
+  margin:4px 0 0;
+  color:var(--text-muted);
+  font-size:0.59rem;
+  line-height:1.5;
+}
+
+.critical-box {
+  padding:15px;
+  border:1px solid rgba(255,127,127,0.18);
+  border-radius:12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,127,127,0.07),
+      rgba(255,255,255,0.02)
+    );
+}
+
+.critical-label {
+  color:var(--red);
+  font-size:0.6rem;
+  font-weight:900;
+  letter-spacing:0.1em;
+}
+
+.critical-box h3 {
+  margin:9px 0 0;
+  font-size:0.75rem;
+  line-height:1.5;
+}
+
+.critical-box p {
+  margin:8px 0 0;
+  color:var(--text-muted);
+  font-size:0.62rem;
+  line-height:1.6;
+}
+
+/* ===== Empty state ===== */
+.empty-state {
+  display:none;
+  padding:28px;
+  border:1px dashed var(--line-strong);
+  border-radius:13px;
+  color:var(--text-muted);
+  text-align:center;
+  font-size:0.72rem;
+}
+
+/* ===== Footer ===== */
+.campus-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  width:100%;
+  max-width:1600px;
+  margin:0 auto;
+  padding:0 24px 30px;
+  color:var(--text-muted);
+  font-size:0.64rem;
+}
+
+.campus-footer-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.campus-footer a {
+  color:var(--text-soft);
+  text-decoration:none;
+}
+
+.campus-footer a:hover {
+  color:var(--accent);
+}
+
+/* ===== Tablet ===== */
+@media (max-width:1180px) {
+  :root {
+    --sidebar-width:220px;
+  }
+
+  .dashboard {
+    grid-template-columns:minmax(0,1fr);
+  }
+
+  .right-column {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .right-column .panel:last-child {
+    grid-column:1 / -1;
+  }
+
+  .facility-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .pds-overview {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .case-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:920px) {
+  .campus-shell {
+    display:block;
+  }
+
+  .sidebar {
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:min(300px,86vw);
+    height:100dvh;
+    transform:translateX(-105%);
+    transition:transform 0.28s ease;
+  }
+
+  body.menu-open {
+    overflow:hidden;
+  }
+
+  body.menu-open .sidebar {
+    transform:translateX(0);
+  }
+
+  .mobile-backdrop {
+    position:fixed;
+    z-index:25;
+    inset:0;
+    display:none;
+    background:rgba(0,0,0,0.60);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+
+  body.menu-open .mobile-backdrop {
+    display:block;
+  }
+
+  .mobile-menu-button {
+    display:grid;
+  }
+
+  .topbar {
+    padding:12px 16px;
+  }
+
+  .topbar-heading {
+    flex:1;
+  }
+
+  .research-badge {
+    display:none;
+  }
+
+  .search-box {
+    width:min(280px,40vw);
+  }
+
+  .dashboard {
+    padding:18px;
+  }
+
+  .campus-footer {
+    padding:0 18px 24px;
+  }
+}
+
+/* ===== Mobile ===== */
+@media (max-width:700px) {
+  .topbar {
+    gap:10px;
+  }
+
+  .topbar-heading p {
+    display:none;
+  }
+
+  .topbar-heading h1 {
+    font-size:0.86rem;
+  }
+
+  .search-box {
+    width:42px;
+  }
+
+  .search-box input {
+    width:42px;
+    padding:0;
+    color:transparent;
+    cursor:pointer;
+  }
+
+  .search-box input::placeholder {
+    color:transparent;
+  }
+
+  .search-box:focus-within {
+    position:absolute;
+    left:64px;
+    right:14px;
+    z-index:10;
+    width:auto;
+  }
+
+  .search-box:focus-within input {
+    width:100%;
+    padding:10px 42px 10px 15px;
+    color:#ffffff;
+    cursor:text;
+  }
+
+  .search-box:focus-within input::placeholder {
+    color:#658083;
+  }
+
+  .dashboard {
+    gap:16px;
+    padding:14px;
+  }
+
+  .main-column,
+  .right-column {
+    gap:14px;
+  }
+
+  .campus-hero {
+    min-height:auto;
+    padding:24px 20px;
+    border-radius:19px;
+  }
+
+  .hero-content {
+    max-width:none;
+  }
+
+  .hero-title {
+    margin-top:20px;
+    font-size:clamp(2rem,12vw,3.25rem);
+  }
+
+  .hero-text {
+    font-size:0.8rem;
+    line-height:1.85;
+  }
+
+  .hero-metrics {
+    position:static;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    margin-top:23px;
+  }
+
+  .hero-metric {
+    background:rgba(4,17,23,0.72);
+  }
+
+  .hero-actions {
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width:100%;
+  }
+
+  .panel {
+    border-radius:16px;
+  }
+
+  .panel-header {
+    padding:17px 16px 0;
+  }
+
+  .panel-description {
+    font-size:0.67rem;
+  }
+
+  .facility-grid {
+    grid-template-columns:1fr;
+    padding:16px;
+  }
+
+  .facility-card {
+    min-height:150px;
+  }
+
+  .view-body {
+    padding:16px;
+  }
+
+  .note-item {
+    grid-template-columns:1fr;
+    gap:7px;
+  }
+
+  .note-meta {
+    justify-content:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .pds-overview,
+  .case-grid,
+  .dictionary-grid {
+    grid-template-columns:1fr;
+  }
+
+  .pds-stage {
+    min-height:145px;
+  }
+
+  .right-column {
+    display:flex;
+  }
+
+  .campus-footer {
+    flex-direction:column;
+    align-items:flex-start;
+    padding:0 14px 22px;
+  }
+}
+
+@media (max-width:420px) {
+  .dashboard {
+    padding:10px;
+  }
+
+  .topbar {
+    padding:10px;
+  }
+
+  .campus-hero {
+    padding:21px 17px;
+  }
+
+  .hero-kicker {
+    font-size:0.58rem;
+  }
+
+  .hero-metrics {
+    grid-template-columns:1fr;
+  }
+
+  .facility-grid,
+  .view-body {
+    padding:13px;
+  }
+
+  .panel-header {
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .panel-action {
+    align-self:flex-start;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion:reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior:auto !important;
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">メインコンテンツへ移動</a>
+<div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
+<div class="campus-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Campus施設ナビゲーション">
+    <a class="brand" href="./index.html" aria-label="Digital Research Campus ホーム">
+      <span class="brand-mark" aria-hidden="true">整</span>
+  <span class="brand-text">
+    <span class="brand-name">adjustment-lab</span>
+    <span class="brand-sub">Digital Research Campus</span>
+  </span>
+</a>
+
+<p class="sidebar-section-label">Campus Facilities</p>
+
+<nav class="facility-nav">
+  <button
+    class="facility-button is-active"
+    type="button"
+    data-view-target="entrance"
+    aria-pressed="true"
+  >
+    <span class="facility-icon" aria-hidden="true">⌂</span>
+    <span class="facility-copy">
+      <strong>Entrance Hall</strong>
+      <span>研究施設の現在地</span>
+    </span>
+  </button>
+
+  <button
+    class="facility-button"
+    type="button"
+    data-view-target="research"
+    aria-pressed="false"
+  >
+    <span class="facility-icon" aria-hidden="true">R</span>
+    <span class="facility-copy">
+      <strong>Research Hall</strong>
+      <span>仮説・研究ノート</span>
+    </span>
+  </button>
+
+  <button
+    class="facility-button"
+    type="button"
+    data-view-target="pds"
+    aria-pressed="false"
+  >
+    <span class="facility-icon" aria-hidden="true">P</span>
+    <span class="facility-copy">
+      <strong>PDS Center</strong>
+      <span>評価・検証体系</span>
+    </span>
+  </button>
+
+  <button
+    class="facility-button"
+    type="button"
+    data-view-target="cases"
+    aria-pressed="false"
+  >
+    <span class="facility-icon" aria-hidden="true">C</span>
+    <span class="facility-copy">
+      <strong>Case Library</strong>
+      <span>現場事例・経過記録</span>
+    </span>
+  </button>
+
+  <button
+    class="facility-button"
+    type="button"
+    data-view-target="library"
+    aria-pressed="false"
+  >
+    <span class="facility-icon" aria-hidden="true">D</span>
+    <span class="facility-copy">
+      <strong>Digital Library</strong>
+      <span>辞書・資料・用語</span>
+    </span>
+  </button>
+</nav>
+
+<div class="sidebar-spacer"></div>
+
+<div class="sidebar-status">
+  <div class="status-title">
+    <span>Campus Status</span>
+    <span class="live-dot" aria-hidden="true"></span>
+  </div>
+
+  <div class="status-version">Campus v0.1</div>
+
+  <p class="status-description">
+    Phase 1：研究施設の基礎構造を建設中。
+  </p>
+</div>
+
+<a class="back-home" href="../index.html">
+  <span aria-hidden="true">←</span>
+  adjustmentトップへ戻る
+</a>
+  </aside>
+
+  <div class="content-shell">
+    <header class="topbar">
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="施設メニューを開く"
+        aria-controls="sidebar"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+  <div class="topbar-heading">
+    <p>adjustment-lab Digital Research Campus</p>
+    <h1 id="currentViewTitle">Entrance Hall</h1>
+  </div>
+
+  <div class="topbar-actions">
+    <label class="search-box">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        id="campusSearch"
+        type="search"
+        placeholder="研究・PDS・ケース・用語を検索"
+        aria-label="Campus内を検索"
+        autocomplete="off"
+      >
+    </label>
+
+    <div class="research-badge">
+      <span class="live-dot" aria-hidden="true"></span>
+      4 PROJECTS ACTIVE
+    </div>
+  </div>
+</header>
+
+<main class="dashboard" id="main-content">
+  <div class="main-column">
+    <section class="campus-hero" aria-labelledby="campusHeroTitle">
+      <div class="hero-content">
+        <div class="hero-kicker">
+          PROJECT CAMPUS-01
+        </div>
+
+        <h2 class="hero-title" id="campusHeroTitle">
+          Digital Research Campus
+          <span>Performance is Designed.</span>
+        </h2>
+
+        <p class="hero-text">
+          現場から生まれた問いを、仮説・検証・更新の過程ごと蓄積する
+          デジタル研究施設です。完成された答えを並べるのではなく、
+          競技パフォーマンスに関する知識が育つ過程を公開します。
+        </p>
+
+        <div class="hero-actions">
+          <button
+            class="primary-button"
+            type="button"
+            data-view-target="research"
+          >
+            最新の研究を見る
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <button
+            class="secondary-button"
+            type="button"
+            data-view-target="pds"
+          >
+            PDS Centerへ移動
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-metrics" aria-label="Campus概要">
+        <div class="hero-metric">
+          <strong>04</strong>
+          <span>Phase 1 Facilities</span>
+        </div>
+
+        <div class="hero-metric">
+          <strong>10</strong>
+          <span>Research Themes</span>
+        </div>
+
+        <div class="hero-metric">
+          <strong>08</strong>
+          <span>Dictionary Terms</span>
+        </div>
+
+        <div class="hero-metric">
+          <strong>v0.1</strong>
+          <span>Campus Version</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="facilityTitle">
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">Campus Map</p>
+          <h2 class="panel-title" id="facilityTitle">
+            Phase 1 主要施設
+          </h2>
+          <p class="panel-description">
+            施設を選択すると、対応する研究区画へ移動します。
+          </p>
+        </div>
+
+        <button
+          class="panel-action"
+          type="button"
+          data-view-target="entrance"
+        >
+          全体表示
+        </button>
+      </div>
+
+      <div class="facility-grid">
+        <article
+          class="facility-card"
+          data-section="research"
+          data-view-target="research"
+          tabindex="0"
+          role="button"
+          aria-label="Research Hallを開く"
+        >
+          <div class="facility-card-icon" aria-hidden="true">R</div>
+          <h3>Research Hall</h3>
+          <p>
+            研究ノート、仮説、検証状況、更新履歴を管理する研究棟。
+          </p>
+
+          <div class="facility-card-footer">
+            <span>Research Notes</span>
+            <strong>OPEN</strong>
+          </div>
+        </article>
+
+        <article
+          class="facility-card"
+          data-section="pds"
+          data-view-target="pds"
+          tabindex="0"
+          role="button"
+          aria-label="PDS Centerを開く"
+        >
+          <div class="facility-card-icon" aria-hidden="true">P</div>
+          <h3>PDS Center</h3>
+          <p>
+            基本機能、角度、出力、競技データを統合する評価研究棟。
+          </p>
+
+          <div class="facility-card-footer">
+            <span>PDS 1.0–4.0</span>
+            <strong>ACTIVE</strong>
+          </div>
+        </article>
+
+        <article
+          class="facility-card"
+          data-section="cases"
+          data-view-target="cases"
+          tabindex="0"
+          role="button"
+          aria-label="Case Libraryを開く"
+        >
+          <div class="facility-card-icon" aria-hidden="true">C</div>
+          <h3>Case Library</h3>
+          <p>
+            匿名化した現場事例、介入、反応、再評価を蓄積する記録棟。
+          </p>
+
+          <div class="facility-card-footer">
+            <span>Field Cases</span>
+            <strong>OPEN</strong>
+          </div>
+        </article>
+
+        <article
+          class="facility-card"
+          data-section="library"
+          data-view-target="library"
+          tabindex="0"
+          role="button"
+          aria-label="Digital Libraryを開く"
+        >
+          <div class="facility-card-icon" aria-hidden="true">D</div>
+          <h3>Digital Library</h3>
+          <p>
+            adjustment独自の用語、定義、資料、関連概念を管理する図書棟。
+          </p>
+
+          <div class="facility-card-footer">
+            <span>Dictionary</span>
+            <strong>OPEN</strong>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="panel research-view is-active"
+      id="view-entrance"
+      data-view="entrance"
+      aria-labelledby="entranceTitle"
+    >
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">Today’s Research</p>
+          <h2 class="panel-title" id="entranceTitle">
+            現在進行中の研究
+          </h2>
+          <p class="panel-description">
+            Digital Research Campusで優先的に検証しているテーマです。
+          </p>
+        </div>
+
+        <button
+          class="panel-action"
+          type="button"
+          data-view-target="research"
+        >
+          Research Hallへ
+        </button>
+      </div>
+
+      <div class="view-body">
+        <div class="note-list searchable-list">
+          <article
+            class="note-item searchable-item"
+            data-search="勝てるフィジカル 国際大会 野球 定義 出力 再現性"
+          >
+            <div class="note-number">PRIORITY A</div>
+
+            <div class="note-main">
+              <h3>野球の国際大会における「勝てるフィジカル」の定義</h3>
+              <p>
+                単純な最大出力ではなく、試合状況で再現できる身体能力を整理する。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag green">FIELD REVIEW</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-search="加速距離 ボール 移動距離 コッキング リリース 球速"
+          >
+            <div class="note-number">PRIORITY A</div>
+
+            <div class="note-main">
+              <h3>コッキングからリリースまでのボール移動距離</h3>
+              <p>
+                身長、体格、球速と加速可能距離の関連を定量化する。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag blue">HYPOTHESIS</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-search="胸郭 肩甲帯 投球 分類 衝突 胸郭先行 肩甲帯先行"
+          >
+            <div class="note-number">PRIORITY B</div>
+
+            <div class="note-main">
+              <h3>投球における胸郭・肩甲帯反応の分類</h3>
+              <p>
+                ヒンジドロップ後に、どの部位が最初に反応するかを分類する。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag purple">CLASSIFICATION</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty-state">
+          検索条件に一致する研究はありません。
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="panel research-view"
+      id="view-research"
+      data-view="research"
+      aria-labelledby="researchTitle"
+      hidden
+    >
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">Research Hall</p>
+          <h2 class="panel-title" id="researchTitle">
+            Research Notes
+          </h2>
+          <p class="panel-description">
+            完成された正解ではなく、現時点の仮説と検証状況を記録します。
+          </p>
+        </div>
+
+        <button class="panel-action" type="button">
+          Note Index
+        </button>
+      </div>
+
+      <div class="view-body">
+        <div class="filter-row" aria-label="Research Note絞り込み">
+          <button
+            class="filter-chip is-active"
+            type="button"
+            data-filter="all"
+          >
+            すべて
+          </button>
+
+          <button
+            class="filter-chip"
+            type="button"
+            data-filter="batting"
+          >
+            打撃
+          </button>
+
+          <button
+            class="filter-chip"
+            type="button"
+            data-filter="pitching"
+          >
+            投球
+          </button>
+
+          <button
+            class="filter-chip"
+            type="button"
+            data-filter="physical"
+          >
+            フィジカル
+          </button>
+
+          <button
+            class="filter-chip"
+            type="button"
+            data-filter="concept"
+          >
+            概念
+          </button>
+        </div>
+
+        <div class="note-list searchable-list" id="researchNoteList">
+          <article
+            class="note-item searchable-item"
+            data-category="concept"
+            data-search="勝てるフィジカル 定義 競技力 国際大会"
+          >
+            <div class="note-number">NOTE 001</div>
+
+            <div class="note-main">
+              <h3>「勝てるフィジカル」とは何か</h3>
+              <p>
+                高い測定値と、試合で勝つための身体能力を分けて考える。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag green">v0.3</span>
+              <span class="tag">検証中</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-category="batting"
+            data-search="打撃不振 加速距離 打球速度 タイミング 軌道"
+          >
+            <div class="note-number">NOTE 002</div>
+
+            <div class="note-main">
+              <h3>チーム全体の打撃不振をどう分類するか</h3>
+              <p>
+                タイミング、軌道、加速距離のどこに共通課題があるかを見る。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag blue">v0.2</span>
+              <span class="tag">仮説</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-category="pitching"
+            data-search="投球 ヒンジドロップ 胸郭 肩甲帯 並進 衝突"
+          >
+            <div class="note-number">NOTE 003</div>
+
+            <div class="note-main">
+              <h3>ヒンジドロップ後に何が反応するか</h3>
+              <p>
+                胸郭反応、肩甲帯反応、衝突後反応を分類する。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag purple">v0.4</span>
+              <span class="tag">分類案</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-category="physical"
+            data-search="体重 質量 受け止める 利用 フィジカル 地面反力"
+          >
+            <div class="note-number">NOTE 004</div>
+
+            <div class="note-main">
+              <h3>自分の質量を受け止め、利用できるか</h3>
+              <p>
+                出力の大きさではなく、身体質量を止めて再利用する能力を見る。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag orange">v0.2</span>
+              <span class="tag">現場検証</span>
+            </div>
+          </article>
+
+          <article
+            class="note-item searchable-item"
+            data-category="concept"
+            data-search="フォーム 現象 原因 パフォーマンス 設計"
+          >
+            <div class="note-number">NOTE 005</div>
+
+            <div class="note-main">
+              <h3>なぜフォームではなく現象を見るのか</h3>
+              <p>
+                見た目を修正する前に、その動作を生む条件を整理する。
+              </p>
+            </div>
+
+            <div class="note-meta">
+              <span class="tag green">v0.1</span>
+              <span class="tag">Draft</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty-state">
+          検索・絞り込み条件に一致するResearch Noteはありません。
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="panel research-view"
+      id="view-pds"
+      data-view="pds"
+      aria-labelledby="pdsTitle"
+      hidden
+    >
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">PDS Center</p>
+          <h2 class="panel-title" id="pdsTitle">
+            Physical Design Screening
+          </h2>
+          <p class="panel-description">
+            基本機能から競技データまでを、段階的に統合する評価体系です。
+          </p>
+        </div>
+
+        <button class="panel-action" type="button">
+          PDS Update Log
+        </button>
+      </div>
+
+      <div class="view-body">
+        <div class="pds-overview searchable-list">
+          <article
+            class="pds-stage searchable-item"
+            data-search="PDS 1.0 基本機能 胸郭 肩甲帯 骨盤 可動 連動"
+          >
+            <div class="pds-stage-label">PDS 1.0</div>
+            <h3>基本機能</h3>
+            <p>
+              胸郭・肩甲帯・骨盤の可動性と連動性を簡易評価する。
+            </p>
+            <div class="pds-stage-status">STATUS：ACTIVE</div>
+          </article>
+
+          <article
+            class="pds-stage searchable-item"
+            data-search="PDS 2.0 角度 伸展 側屈 回旋 スプリットスタンス"
+          >
+            <div class="pds-stage-label">PDS 2.0</div>
+            <h3>角度評価</h3>
+            <p>
+              スプリットスタンスで胸腰部の伸展・側屈・回旋を定量化する。
+            </p>
+            <div class="pds-stage-status">STATUS：ACTIVE</div>
+          </article>
+
+          <article
+            class="pds-stage searchable-item"
+            data-search="PDS 3.0 出力 CMJ RSI メディシンボール スロー"
+          >
+            <div class="pds-stage-label">PDS 3.0</div>
+            <h3>出力評価</h3>
+            <p>
+              ジャンプ、RSI、メディシンボール種目から出力特性を見る。
+            </p>
+            <div class="pds-stage-status">STATUS：DEVELOPING</div>
+          </article>
+
+          <article
+            class="pds-stage searchable-item"
+            data-search="PDS 4.0 統合 ラプソード トラックマン BLAST 競技データ"
+          >
+            <div class="pds-stage-label">PDS 4.0</div>
+            <h3>競技統合</h3>
+            <p>
+              PDSとRapsodo、TrackMan、BLAST等の競技データを統合する。
+            </p>
+            <div class="pds-stage-status">STATUS：PLANNED</div>
+          </article>
+        </div>
+
+        <div class="empty-state">
+          検索条件に一致するPDS項目はありません。
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="panel research-view"
+      id="view-cases"
+      data-view="cases"
+      aria-labelledby="casesTitle"
+      hidden
+    >
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">Case Library</p>
+          <h2 class="panel-title" id="casesTitle">
+            Field Case Archive
+          </h2>
+          <p class="panel-description">
+            個人が特定されない形で、観察・仮説・介入・再評価を記録します。
+          </p>
+        </div>
+
+        <button class="panel-action" type="button">
+          Case Index
+        </button>
+      </div>
+
+      <div class="view-body">
+        <div class="case-grid searchable-list">
+          <article
+            class="case-card searchable-item"
+            data-search="投手 高校生 球速 加速距離 胸郭 ハーフニーリング"
+          >
+            <div class="case-head">
+              <span class="case-id">CASE 001</span>
+              <span class="tag blue">PITCHER</span>
+            </div>
+
+            <h3>加速距離が短い高校生投手</h3>
+
+            <p>
+              球速向上を目標とするが、胸郭の動きがボール移動距離を制限している可能性。
+            </p>
+
+            <div class="case-result">
+              <span>PRIMARY HYPOTHESIS</span>
+              <strong>胸郭反応の遅れ</strong>
+            </div>
+          </article>
+
+          <article
+            class="case-card searchable-item"
+            data-search="打者 社会人 スラッガー 軸足 体重 加速距離 打撃"
+          >
+            <div class="case-head">
+              <span class="case-id">CASE 002</span>
+              <span class="tag purple">BATTER</span>
+            </div>
+
+            <h3>出力は高いが余裕の少ない打者</h3>
+
+            <p>
+              最大筋力は高い一方、軸足で質量を受ける時間が短く、対応幅が狭い。
+            </p>
+
+            <div class="case-result">
+              <span>PRIMARY HYPOTHESIS</span>
+              <strong>加速開始の早期化</strong>
+            </div>
+          </article>
+
+          <article
+            class="case-card searchable-item"
+            data-search="投手 左投手 伸張反射 スプリント プライオ 筋力 質量"
+          >
+            <div class="case-head">
+              <span class="case-id">CASE 003</span>
+              <span class="tag orange">PHYSICAL</span>
+            </div>
+
+            <h3>伸張反射を感じにくい左投手</h3>
+
+            <p>
+              筋力・スプリント・プライオ能力が低く、質量を受け止める経験が少ない。
+            </p>
+
+            <div class="case-result">
+              <span>PRIMARY HYPOTHESIS</span>
+              <strong>受容局面の欠如</strong>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty-state">
+          検索条件に一致するケースはありません。
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="panel research-view"
+      id="view-library"
+      data-view="library"
+      aria-labelledby="libraryTitle"
+      hidden
+    >
+      <div class="panel-header">
+        <div class="panel-heading">
+          <p class="panel-eyebrow">Digital Library</p>
+          <h2 class="panel-title" id="libraryTitle">
+            adjustment Dictionary
+          </h2>
+          <p class="panel-description">
+            adjustment-labで使用する用語と、その時点での定義を管理します。
+          </p>
+        </div>
+
+        <button class="panel-action" type="button">
+          Dictionary Index
+        </button>
+      </div>
+
+      <div class="view-body">
+        <div class="dictionary-grid searchable-list">
+          <article
+            class="dictionary-item searchable-item"
+            data-search="Performance Design パフォーマンスデザイン 競技力 設計"
+          >
+            <div class="dictionary-item-head">
+              <h3>Performance Design</h3>
+              <span class="dictionary-status">v0.2</span>
+            </div>
+
+            <p>
+              競技中に起こる現象を観察し、身体・技術・環境の条件から再現可能な構造を設計する考え方。
+            </p>
+          </article>
+
+          <article
+            class="dictionary-item searchable-item"
+            data-search="加速距離 ボール バット 移動距離 出力"
+          >
+            <div class="dictionary-item-head">
+              <h3>加速距離</h3>
+              <span class="dictionary-status">v0.4</span>
+            </div>
+
+            <p>
+              ボールやバットなどの対象物が、目的方向へ速度を高められる実質的な移動区間。
+            </p>
+          </article>
+
+          <article
+            class="dictionary-item searchable-item"
+            data-search="勝てるフィジカル 試合 再現性 国際大会"
+          >
+            <div class="dictionary-item-head">
+              <h3>勝てるフィジカル</h3>
+              <span class="dictionary-status">検証中</span>
+            </div>
+
+            <p>
+              高い測定値だけでなく、試合状況の制約下で必要な出力を反復・調整できる身体能力。
+            </p>
+          </article>
+
+          <article
+            class="dictionary-item searchable-item"
+            data-search="ヒンジドロップ 股関節 落下 反発 投球"
+          >
+            <div class="dictionary-item-head">
+              <h3>ヒンジドロップ</h3>
+              <span class="dictionary-status">v0.3</span>
+            </div>
+
+            <p>
+              股関節ヒンジを保持しながら身体質量を落下させ、その反発を次の動作へ接続する局面。
+            </p>
+          </article>
+
+          <article
+            class="dictionary-item searchable-item"
+            data-search="衝突胸郭型 並進 衝突 胸郭 ドリフト 投手"
+          >
+            <div class="dictionary-item-head">
+              <h3>衝突胸郭型</h3>
+              <span class="dictionary-status">分類案</span>
+            </div>
+
+            <p>
+              並進の勢いを踏み込み局面で受け、胸郭の三次元動作によって投球へ変換するタイプ。
+            </p>
+          </article>
+
+          <article
+            class="dictionary-item searchable-item"
+            data-search="PDS Physical Design Screening 評価 胸郭 肩甲帯 骨盤"
+          >
+            <div class="dictionary-item-head">
+              <h3>PDS</h3>
+              <span class="dictionary-status">v1.0</span>
+            </div>
+
+            <p>
+              胸郭・肩甲帯・骨盤の可動、連動、出力と競技データを段階的に統合する評価体系。
+            </p>
+          </article>
+        </div>
+
+        <div class="empty-state">
+          検索条件に一致する用語はありません。
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <aside class="right-column" aria-label="Campus進行状況">
+    <section class="panel side-panel">
+      <div class="side-panel-title">
+        <h2>Current Projects</h2>
+        <span>4 ACTIVE</span>
+      </div>
+
+      <div class="project-list">
+        <article class="project-item">
+          <div class="project-top">
+            <strong>Campus Foundation</strong>
+            <span>72%</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-bar" style="width:72%;"></div>
+          </div>
+
+          <p class="project-description">
+            Phase 1の4施設と基本動線を構築。
+          </p>
+        </article>
+
+        <article class="project-item">
+          <div class="project-top">
+            <strong>PDS Framework</strong>
+            <span>64%</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-bar" style="width:64%;"></div>
+          </div>
+
+          <p class="project-description">
+            PDS 1.0〜4.0の評価体系を整理。
+          </p>
+        </article>
+
+        <article class="project-item">
+          <div class="project-top">
+            <strong>Research Dictionary</strong>
+            <span>18%</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-bar" style="width:18%;"></div>
+          </div>
+
+          <p class="project-description">
+            初版50語に向けて定義を作成中。
+          </p>
+        </article>
+
+        <article class="project-item">
+          <div class="project-top">
+            <strong>Case Archive</strong>
+            <span>10%</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-bar" style="width:10%;"></div>
+          </div>
+
+          <p class="project-description">
+            匿名化と公開範囲の基準を設計中。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel side-panel">
+      <div class="side-panel-title">
+        <h2>Review Status</h2>
+        <span>QUALITY CONTROL</span>
+      </div>
+
+      <div class="review-scale">
+        <div class="review-item" data-status="verified">
+          <span class="review-dot" aria-hidden="true"></span>
+          <strong>Field Verified</strong>
+          <span>2</span>
+        </div>
+
+        <div class="review-item" data-status="review">
+          <span class="review-dot" aria-hidden="true"></span>
+          <strong>Internal Review</strong>
+          <span>4</span>
+        </div>
+
+        <div class="review-item" data-status="draft">
+          <span class="review-dot" aria-hidden="true"></span>
+          <strong>Draft</strong>
+          <span>6</span>
+        </div>
+
+        <div class="review-item" data-status="critical">
+          <span class="review-dot" aria-hidden="true"></span>
+          <strong>Critical Review</strong>
+          <span>3</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel side-panel">
+      <div class="side-panel-title">
+        <h2>Critical Review Board</h2>
+        <span>反対派チーム</span>
+      </div>
+
+      <div class="critical-box">
+        <div class="critical-label">CURRENT QUESTION</div>
+
+        <h3>
+          胸郭の動きと加速距離の関連を、どの指標で判定するのか。
+        </h3>
+
+        <p>
+          単一の角度だけでは説明できない可能性があるため、
+          動作速度・開始時点・ボール移動距離との統合が必要。
+        </p>
+      </div>
+    </section>
+
+    <section class="panel side-panel">
+      <div class="side-panel-title">
+        <h2>Construction Log</h2>
+        <span>PROJECT HISTORY</span>
+      </div>
+
+      <div class="log-list">
+        <article class="log-item">
+          <span class="log-date">2026.08.03</span>
+          <strong>Campus Entrance v0.1</strong>
+          <p>
+            主要4施設とレスポンシブ構造を実装。
+          </p>
+        </article>
+
+        <article class="log-item">
+          <span class="log-date">2026.08.02</span>
+          <strong>Project CAMPUS-01始動</strong>
+          <p>
+            ネット上の研究施設という構想を正式採用。
+          </p>
+        </article>
+
+        <article class="log-item">
+          <span class="log-date">2026.08.02</span>
+          <strong>Critical Review Board設置</strong>
+          <p>
+            仮説を反証・再検討する専門チームを追加。
+          </p>
+        </article>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<footer class="campus-footer">
+  <div>
+    © 2026 adjustment-lab Digital Research Campus
+  </div>
+
+  <div class="campus-footer-links">
+    <a href="../index.html">adjustmentトップ</a>
+    <a href="../principles/index.html">原理原則</a>
+    <a href="../contact/index.html">お問い合わせ</a>
+  </div>
+</footer>
+
+    </div>
+</div>
+<script>
+(function () {
+  "use strict";
+
+  const body = document.body;
+  const sidebar = document.getElementById("sidebar");
+  const mobileMenuButton = document.getElementById("mobileMenuButton");
+  const mobileBackdrop = document.getElementById("mobileBackdrop");
+  const currentViewTitle = document.getElementById("currentViewTitle");
+  const campusSearch = document.getElementById("campusSearch");
+
+  const viewTitles = {
+    entrance: "Entrance Hall",
+    research: "Research Hall",
+    pds: "PDS Center",
+    cases: "Case Library",
+    library: "Digital Library"
+  };
+
+  const viewButtons = Array.from(
+    document.querySelectorAll("[data-view-target]")
+  );
+
+  const navigationButtons = Array.from(
+    document.querySelectorAll(".facility-button")
+  );
+
+  const facilityCards = Array.from(
+    document.querySelectorAll(".facility-card")
+  );
+
+  const views = Array.from(
+    document.querySelectorAll(".research-view")
+  );
+
+  const filterButtons = Array.from(
+    document.querySelectorAll(".filter-chip")
+  );
+
+  let currentView = "entrance";
+  let currentFilter = "all";
+
+  function openMenu() {
+    body.classList.add("menu-open");
+    mobileMenuButton.setAttribute("aria-expanded", "true");
+    mobileMenuButton.setAttribute("aria-label", "施設メニューを閉じる");
+    mobileBackdrop.setAttribute("aria-hidden", "false");
+  }
+
+  function closeMenu() {
+    body.classList.remove("menu-open");
+    mobileMenuButton.setAttribute("aria-expanded", "false");
+    mobileMenuButton.setAttribute("aria-label", "施設メニューを開く");
+    mobileBackdrop.setAttribute("aria-hidden", "true");
+  }
+
+  function toggleMenu() {
+    if (body.classList.contains("menu-open")) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  function setView(viewName, shouldScroll) {
+    if (!viewTitles[viewName]) {
+      return;
+    }
+
+    currentView = viewName;
+    currentViewTitle.textContent = viewTitles[viewName];
+
+    views.forEach(function (view) {
+      const isTarget = view.dataset.view === viewName;
+
+      view.classList.toggle("is-active", isTarget);
+      view.hidden = !isTarget;
+    });
+
+    navigationButtons.forEach(function (button) {
+      const isTarget = button.dataset.viewTarget === viewName;
+
+      button.classList.toggle("is-active", isTarget);
+      button.setAttribute("aria-pressed", String(isTarget));
+    });
+
+    facilityCards.forEach(function (card) {
+      const isTarget = card.dataset.viewTarget === viewName;
+      card.classList.toggle("is-selected", isTarget);
+    });
+
+    closeMenu();
+    applySearch();
+
+    if (shouldScroll) {
+      const targetView = document.querySelector(
+        '.research-view[data-view="' + viewName + '"]'
+      );
+
+      if (targetView) {
+        const topbarHeight =
+          document.querySelector(".topbar").offsetHeight || 0;
+
+        const targetPosition =
+          targetView.getBoundingClientRect().top +
+          window.scrollY -
+          topbarHeight -
+          14;
+
+        window.scrollTo({
+          top:targetPosition,
+          behavior:"smooth"
+        });
+      }
+    }
+
+    history.replaceState(
+      null,
+      "",
+      viewName === "entrance"
+        ? window.location.pathname
+        : "#" + viewName
+    );
+  }
+
+  function activateViewFromElement(element) {
+    const viewName = element.dataset.viewTarget;
+
+    if (viewName) {
+      setView(viewName, true);
+    }
+  }
+
+  viewButtons.forEach(function (element) {
+    element.addEventListener("click", function () {
+      activateViewFromElement(element);
+    });
+  });
+
+  facilityCards.forEach(function (card) {
+    card.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activateViewFromElement(card);
+      }
+    });
+  });
+
+  mobileMenuButton.addEventListener("click", toggleMenu);
+  mobileBackdrop.addEventListener("click", closeMenu);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 920) {
+      closeMenu();
+    }
+  });
+
+  filterButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      currentFilter = button.dataset.filter || "all";
+
+      filterButtons.forEach(function (filterButton) {
+        filterButton.classList.toggle(
+          "is-active",
+          filterButton === button
+        );
+      });
+
+      applySearch();
+    });
+  });
+
+  function normalizeText(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function applySearch() {
+    const query = normalizeText(campusSearch.value);
+    const activeView = document.querySelector(
+      '.research-view[data-view="' + currentView + '"]'
+    );
+
+    if (!activeView) {
+      return;
+    }
+
+    const items = Array.from(
+      activeView.querySelectorAll(".searchable-item")
+    );
+
+    let visibleCount = 0;
+
+    items.forEach(function (item) {
+      const searchText = normalizeText(
+        item.dataset.search + " " + item.textContent
+      );
+
+      const category = item.dataset.category || "";
+      const matchesQuery =
+        query === "" || searchText.includes(query);
+
+      const matchesFilter =
+        currentView !== "research" ||
+        currentFilter === "all" ||
+        category === currentFilter;
+
+      const shouldShow = matchesQuery && matchesFilter;
+
+      item.hidden = !shouldShow;
+
+      if (shouldShow) {
+        visibleCount += 1;
+      }
+    });
+
+    const emptyState = activeView.querySelector(".empty-state");
+
+    if (emptyState) {
+      emptyState.style.display =
+        items.length > 0 && visibleCount === 0
+          ? "block"
+          : "none";
+    }
+  }
+
+  campusSearch.addEventListener("input", applySearch);
+
+  campusSearch.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      campusSearch.value = "";
+      campusSearch.blur();
+      applySearch();
+    }
+  });
+
+  function initializeFromHash() {
+    const hash = window.location.hash.replace("#", "");
+
+    if (viewTitles[hash]) {
+      setView(hash, false);
+    } else {
+      setView("entrance", false);
+    }
+  }
+
+  window.addEventListener("hashchange", initializeFromHash);
+
+  initializeFromHash();
+})();
+</script>
+</body>
+</html>
