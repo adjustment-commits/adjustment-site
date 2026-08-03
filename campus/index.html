@@ -2,1794 +2,61 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 <meta name="theme-color" content="#05090e">
 <meta
   name="description"
-  content="adjustmentが現場の現象をどのように捉え、関連付け、仮説を立て、検証するのか。その思考を探索するDigital Research Campus。"
+  content="野球・競技パフォーマンスの現場で起きる現象を、観察・関連付け・仮説・検証の過程から探索するadjustment Digital Research Campus。"
+>
+<meta
+  name="keywords"
+  content="野球,競技パフォーマンス,投球,打撃,PDS,フィジカル,動作分析,トレーニング,adjustment"
+>
+<meta name="robots" content="index,follow">
+<meta
+property="og:title"
+content="adjustmentの思考を歩く｜Digital Research Campus">
+
+<meta
+property="og:description"
+content="野球・競技パフォーマンスの現象から、adjustmentがどのように仮説を立て、検証するのかを探索する思考図書館。">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta
+  property="og:image"
+  content="../assets/campus-library-hero.webp"
 >
 <title>adjustmentの思考を歩く｜Digital Research Campus</title>
-<style>
-:root {
-  --bg:#05090e;
-  --bg-deep:#020509;
-  --panel:#0b141d;
-  --panel-soft:#101d27;
-  --panel-light:#152632;
-  --text:#f4faf9;
-  --text-soft:#b9cac9;
-  --text-muted:#748789;
-  --accent:#69e7c5;
-  --accent-soft:rgba(105,231,197,0.14);
-  --blue:#6bbcff;
-  --purple:#ae91ff;
-  --orange:#ffb260;
-  --red:#ff8585;
-  --green:#72e2a3;
-  --yellow:#f1d36b;
-  --line:rgba(255,255,255,0.10);
-  --line-strong:rgba(255,255,255,0.18);
-  --shadow:0 24px 70px rgba(0,0,0,0.36);
-  --radius-xl:26px;
-  --radius-lg:18px;
-  --radius-md:14px;
-  --radius-sm:10px;
-  --content-width:1180px;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans",
-    "Yu Gothic",
-    "YuGothic",
-    "Noto Sans JP",
-    sans-serif;
-}
-
-* {
-  box-sizing:border-box;
-}
-
-html {
-  scroll-behavior:smooth;
-}
-
-body {
-  margin:0;
-  min-width:320px;
-  overflow-x:hidden;
-  background:
-    radial-gradient(
-      circle at 12% 2%,
-      rgba(24,105,105,0.19),
-      transparent 29%
-    ),
-    radial-gradient(
-      circle at 92% 16%,
-      rgba(49,76,124,0.15),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      #061018 0%,
-      var(--bg) 42%,
-      var(--bg-deep) 100%
-    );
-  color:var(--text);
-  text-rendering:optimizeLegibility;
-  -webkit-font-smoothing:antialiased;
-}
-
-body.menu-open {
-  overflow:hidden;
-}
-
-button,
-input {
-  font:inherit;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color:transparent;
-}
-
-button {
-  color:inherit;
-}
-
-a {
-  color:inherit;
-}
-
-[hidden] {
-  display:none !important;
-}
-
-::selection {
-  background:rgba(105,231,197,0.25);
-  color:#ffffff;
-}
-
-:focus-visible {
-  outline:2px solid var(--accent);
-  outline-offset:3px;
-}
-
-/* ===== Accessibility ===== */
-.skip-link {
-  position:fixed;
-  top:12px;
-  left:12px;
-  z-index:1000;
-  transform:translateY(-160%);
-  padding:10px 14px;
-  border-radius:10px;
-  background:var(--accent);
-  color:#09201d;
-  font-weight:850;
-  text-decoration:none;
-  transition:transform 0.2s ease;
-}
-
-.skip-link:focus {
-  transform:translateY(0);
-}
-
-/* ===== Shared ===== */
-.site-width {
-  width:min(var(--content-width),calc(100% - 48px));
-  margin:0 auto;
-}
-
-.section {
-  padding:76px 0;
-}
-
-.section-compact {
-  padding:54px 0;
-}
-
-.eyebrow {
-  margin:0 0 8px;
-  color:var(--accent);
-  font-size:0.68rem;
-  font-weight:850;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-}
-
-.section-heading {
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:28px;
-  margin-bottom:27px;
-}
-
-.section-heading-copy {
-  min-width:0;
-}
-
-.section-title {
-  margin:0;
-  font-size:clamp(1.55rem,3vw,2.4rem);
-  line-height:1.3;
-  letter-spacing:-0.028em;
-}
-
-.section-description {
-  max-width:720px;
-  margin:10px 0 0;
-  color:var(--text-muted);
-  font-size:0.84rem;
-  line-height:1.85;
-}
-
-.panel {
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.052),
-      rgba(255,255,255,0.019)
-    );
-  box-shadow:0 16px 40px rgba(0,0,0,0.18);
-}
-
-.tag {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:24px;
-  padding:4px 8px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:var(--text-soft);
-  font-size:0.58rem;
-  font-weight:800;
-  line-height:1;
-  white-space:nowrap;
-}
-
-.tag-green {
-  border-color:rgba(114,226,163,0.20);
-  background:rgba(114,226,163,0.08);
-  color:var(--green);
-}
-
-.tag-blue {
-  border-color:rgba(107,188,255,0.20);
-  background:rgba(107,188,255,0.08);
-  color:var(--blue);
-}
-
-.tag-purple {
-  border-color:rgba(174,145,255,0.20);
-  background:rgba(174,145,255,0.08);
-  color:var(--purple);
-}
-
-.tag-orange {
-  border-color:rgba(255,178,96,0.20);
-  background:rgba(255,178,96,0.08);
-  color:var(--orange);
-}
-
-.tag-red {
-  border-color:rgba(255,133,133,0.20);
-  background:rgba(255,133,133,0.08);
-  color:var(--red);
-}
-
-/* ===== Header ===== */
-.site-header {
-  position:sticky;
-  top:0;
-  z-index:60;
-  border-bottom:1px solid var(--line);
-  background:rgba(4,10,15,0.84);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-}
-
-.header-inner {
-  min-height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:24px;
-}
-
-.brand {
-  display:flex;
-  align-items:center;
-  gap:11px;
-  min-width:0;
-  text-decoration:none;
-}
-
-.brand-mark {
-  position:relative;
-  width:42px;
-  height:42px;
-  flex:0 0 42px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(105,231,197,0.31);
-  border-radius:13px;
-  background:
-    radial-gradient(
-      circle at 30% 25%,
-      rgba(105,231,197,0.28),
-      transparent 55%
-    ),
-    #0b2630;
-  color:var(--accent);
-  font-size:1.14rem;
-  font-weight:900;
-  box-shadow:0 8px 24px rgba(0,0,0,0.24);
-}
-
-.brand-mark::after {
-  content:"";
-  position:absolute;
-  inset:6px;
-  border:1px solid rgba(105,231,197,0.14);
-  border-radius:8px;
-}
-
-.brand-copy {
-  min-width:0;
-}
-
-.brand-copy strong {
-  display:block;
-  overflow:hidden;
-  font-size:0.86rem;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.brand-copy span {
-  display:block;
-  margin-top:3px;
-  overflow:hidden;
-  color:var(--text-muted);
-  font-size:0.59rem;
-  letter-spacing:0.09em;
-  text-overflow:ellipsis;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
-
-.desktop-nav {
-  display:flex;
-  align-items:center;
-  gap:4px;
-}
-
-.desktop-nav a {
-  padding:9px 11px;
-  border-radius:9px;
-  color:var(--text-muted);
-  font-size:0.67rem;
-  font-weight:760;
-  text-decoration:none;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
-}
-
-.desktop-nav a:hover {
-  color:#ffffff;
-  background:rgba(255,255,255,0.05);
-}
-
-.header-actions {
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.header-live {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--text-soft);
-  font-size:0.63rem;
-  font-weight:760;
-  white-space:nowrap;
-}
-
-.live-dot {
-  width:8px;
-  height:8px;
-  flex:0 0 8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 0 5px rgba(114,226,163,0.09);
-}
-
-.top-link {
-  min-height:38px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  color:var(--text-soft);
-  font-size:0.64rem;
-  font-weight:800;
-  text-decoration:none;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.top-link:hover {
-  color:#ffffff;
-  border-color:rgba(105,231,197,0.28);
-  background:rgba(105,231,197,0.07);
-}
-
-.mobile-menu-button {
-  display:none;
-  width:40px;
-  height:40px;
-  place-items:center;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:rgba(255,255,255,0.04);
-  cursor:pointer;
-}
-
-.mobile-nav {
-  display:none;
-  padding-bottom:14px;
-}
-
-.mobile-nav.is-open {
-  display:grid;
-}
-
-.mobile-nav a {
-  padding:11px 4px;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  color:var(--text-soft);
-  font-size:0.72rem;
-  font-weight:760;
-  text-decoration:none;
-}
-
-/* ===== Hero ===== */
-.hero {
-  position:relative;
-  isolation:isolate;
-  min-height:calc(100vh - 70px);
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  padding:82px 0 72px;
-}
-
-.hero::before {
-  content:"";
-  position:absolute;
-  z-index:-3;
-  inset:0;
-  background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(105,231,197,0.08),
-      transparent 23%
-    ),
-    radial-gradient(
-      circle at 78% 38%,
-      rgba(107,188,255,0.10),
-      transparent 28%
-    );
-}
-
-.hero::after {
-  content:"";
-  position:absolute;
-  z-index:-2;
-  inset:0;
-  opacity:0.65;
-  background-image:
-    radial-gradient(
-      circle,
-      rgba(255,255,255,0.34) 0 1px,
-      transparent 1.4px
-    );
-  background-size:54px 54px;
-  mask-image:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,0.8),
-      transparent 92%
-    );
-}
-
-.hero-orbit {
-  position:absolute;
-  z-index:-1;
-  top:50%;
-  left:50%;
-  width:min(880px,90vw);
-  aspect-ratio:1;
-  transform:translate(-50%,-50%);
-  border:1px solid rgba(105,231,197,0.06);
-  border-radius:50%;
-  pointer-events:none;
-}
-
-.hero-orbit::before,
-.hero-orbit::after {
-  content:"";
-  position:absolute;
-  border:1px solid rgba(105,231,197,0.055);
-  border-radius:50%;
-}
-
-.hero-orbit::before {
-  inset:13%;
-}
-
-.hero-orbit::after {
-  inset:28%;
-}
-
-.hero-inner {
-  position:relative;
-  z-index:2;
-  max-width:920px;
-  text-align:center;
-}
-
-.hero-label {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:7px 11px;
-  border:1px solid rgba(105,231,197,0.22);
-  border-radius:999px;
-  background:rgba(105,231,197,0.07);
-  color:var(--accent);
-  font-size:0.64rem;
-  font-weight:850;
-  letter-spacing:0.13em;
-}
-
-.hero h1 {
-  margin:27px 0 0;
-  font-size:clamp(3rem,8vw,7rem);
-  line-height:0.95;
-  letter-spacing:-0.062em;
-}
-
-.hero h1 span {
-  display:block;
-  margin-top:20px;
-  color:var(--accent);
-  font-size:0.27em;
-  font-weight:740;
-  letter-spacing:0.04em;
-}
-
-.hero-lead {
-  max-width:710px;
-  margin:29px auto 0;
-  color:var(--text-soft);
-  font-size:0.94rem;
-  line-height:2;
-}
-
-.hero-guide {
-  margin:27px 0 0;
-  color:var(--text-muted);
-  font-size:0.67rem;
-  letter-spacing:0.06em;
-}
-
-.hero-actions {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:11px;
-  margin-top:27px;
-}
-
-.primary-button,
-.secondary-button {
-  min-height:46px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  padding:10px 17px;
-  border-radius:12px;
-  font-size:0.72rem;
-  font-weight:850;
-  text-decoration:none;
-  cursor:pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.primary-button {
-  border:1px solid rgba(105,231,197,0.46);
-  background:var(--accent);
-  color:#09201d;
-  box-shadow:0 11px 28px rgba(105,231,197,0.15);
-}
-
-.primary-button:hover {
-  transform:translateY(-2px);
-  box-shadow:0 16px 34px rgba(105,231,197,0.21);
-}
-
-.secondary-button {
-  border:1px solid var(--line-strong);
-  background:rgba(255,255,255,0.04);
-  color:#ffffff;
-}
-
-.secondary-button:hover {
-  transform:translateY(-2px);
-  border-color:rgba(105,231,197,0.30);
-  background:rgba(105,231,197,0.08);
-}
-
-/* ===== Mind Library ===== */
-.mind-section {
-  position:relative;
-  overflow:hidden;
-  border-top:1px solid rgba(255,255,255,0.05);
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.012),
-      rgba(255,255,255,0.004)
-    );
-}
-
-.mind-section::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:0.34;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 88px,
-      rgba(255,255,255,0.018) 89px,
-      transparent 90px
-    );
-  pointer-events:none;
-}
-
-.mind-layout {
-  position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(300px,0.85fr);
-  gap:20px;
-  align-items:stretch;
-}
-
-.library-stage {
-  position:relative;
-  min-height:610px;
-  overflow:hidden;
-  padding:26px;
-  border:1px solid var(--line);
-  border-radius:var(--radius-xl);
-  background:
-    radial-gradient(
-      circle at 50% 44%,
-      rgba(105,231,197,0.08),
-      transparent 26%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.044),
-      rgba(255,255,255,0.013)
-    );
-  box-shadow:var(--shadow);
-}
-
-.library-stage::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:0.32;
-  background-image:
-    radial-gradient(
-      circle,
-      rgba(255,255,255,0.24) 0 1px,
-      transparent 1.5px
-    );
-  background-size:47px 47px;
-  pointer-events:none;
-}
-
-.library-heading {
-  position:relative;
-  z-index:2;
-  text-align:center;
-}
-
-.library-heading p {
-  margin:0;
-  color:var(--accent);
-  font-size:0.62rem;
-  font-weight:850;
-  letter-spacing:0.13em;
-}
-
-.library-heading h3 {
-  margin:9px 0 0;
-  font-size:1.15rem;
-}
-
-.phenomenon-list {
-  position:relative;
-  z-index:3;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:8px;
-  margin:20px auto 0;
-  max-width:620px;
-}
-
-.phenomenon-button {
-  min-height:35px;
-  padding:7px 11px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:rgba(255,255,255,0.035);
-  color:var(--text-muted);
-  font-size:0.63rem;
-  font-weight:800;
-  cursor:pointer;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.phenomenon-button:hover {
-  transform:translateY(-2px);
-  color:#ffffff;
-  border-color:rgba(105,231,197,0.23);
-}
-
-.phenomenon-button.is-active {
-  color:#09201d;
-  border-color:rgba(105,231,197,0.50);
-  background:var(--accent);
-  box-shadow:0 9px 24px rgba(105,231,197,0.14);
-}
-
-.bookshelf {
-  position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;
-  margin-top:33px;
-}
-
-.book {
-  position:relative;
-  min-height:142px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  overflow:hidden;
-  padding:15px;
-  border:1px solid var(--line);
-  border-radius:7px 12px 12px 7px;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.075) 0 8px,
-      transparent 8px 100%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.05),
-      rgba(255,255,255,0.018)
-    );
-  opacity:0.42;
-  transform:translateY(0);
-  cursor:pointer;
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s ease,
-    border-color 0.28s ease,
-    background 0.28s ease,
-    box-shadow 0.28s ease;
-}
-
-.book::before {
-  content:"";
-  position:absolute;
-  top:13px;
-  left:15px;
-  width:29px;
-  height:3px;
-  border-radius:999px;
-  background:var(--book-color,var(--accent));
-  opacity:0.72;
-}
-
-.book:hover {
-  opacity:0.75;
-  transform:translateY(-3px);
-}
-
-.book.is-related {
-  opacity:1;
-  transform:translateY(-7px);
-  border-color:var(--book-border,rgba(105,231,197,0.38));
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(
-        in srgb,
-        var(--book-color) 23%,
-        transparent
-      ) 0 8px,
-      transparent 8px 100%
-    ),
-    linear-gradient(
-      145deg,
-      color-mix(
-        in srgb,
-        var(--book-color) 12%,
-        transparent
-      ),
-      rgba(255,255,255,0.02)
-    );
-  box-shadow:
-    0 17px 35px rgba(0,0,0,0.24),
-    0 0 30px var(--book-glow,rgba(105,231,197,0.11));
-}
-
-.book.is-selected {
-  box-shadow:
-    0 20px 42px rgba(0,0,0,0.28),
-    0 0 0 1px var(--book-color,var(--accent)),
-    0 0 38px var(--book-glow,rgba(105,231,197,0.14));
-}
-
-.book[data-type="research"] {
-  --book-color:var(--blue);
-  --book-border:rgba(107,188,255,0.42);
-  --book-glow:rgba(107,188,255,0.13);
-}
-
-.book[data-type="pds"] {
-  --book-color:var(--accent);
-  --book-border:rgba(105,231,197,0.42);
-  --book-glow:rgba(105,231,197,0.13);
-}
-
-.book[data-type="case"] {
-  --book-color:var(--purple);
-  --book-border:rgba(174,145,255,0.42);
-  --book-glow:rgba(174,145,255,0.13);
-}
-
-.book[data-type="dictionary"] {
-  --book-color:var(--orange);
-  --book-border:rgba(255,178,96,0.42);
-  --book-glow:rgba(255,178,96,0.13);
-}
-
-.book-type {
-  color:var(--book-color,var(--accent));
-  font-size:0.56rem;
-  font-weight:900;
-  letter-spacing:0.11em;
-}
-
-.book h4 {
-  margin:7px 0 0;
-  font-size:0.73rem;
-  line-height:1.45;
-}
-
-.book p {
-  margin:5px 0 0;
-  color:var(--text-muted);
-  font-size:0.58rem;
-  line-height:1.5;
-}
-
-.library-guide {
-  position:relative;
-  z-index:2;
-  margin:24px 0 0;
-  color:var(--text-muted);
-  font-size:0.61rem;
-  text-align:center;
-}
-
-/* ===== Insight Panel ===== */
-.insight-panel {
-  min-height:610px;
-  display:flex;
-  flex-direction:column;
-  padding:25px;
-}
-
-.insight-top {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-}
-
-.insight-label {
-  color:var(--accent);
-  font-size:0.61rem;
-  font-weight:900;
-  letter-spacing:0.12em;
-}
-
-.insight-count {
-  color:var(--text-muted);
-  font-size:0.59rem;
-}
-
-.insight-title {
-  margin:27px 0 0;
-  font-size:clamp(1.45rem,3vw,2.4rem);
-  line-height:1.35;
-  letter-spacing:-0.027em;
-}
-
-.insight-description {
-  margin:15px 0 0;
-  color:var(--text-soft);
-  font-size:0.78rem;
-  line-height:1.85;
-}
-
-.insight-path {
-  margin-top:26px;
-  padding:17px;
-  border:1px solid var(--line);
-  border-radius:13px;
-  background:rgba(255,255,255,0.025);
-}
-
-.insight-path-label {
-  color:var(--text-muted);
-  font-size:0.57rem;
-  font-weight:850;
-  letter-spacing:0.1em;
-}
-
-.insight-path-list {
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:12px;
-}
-
-.path-node {
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  color:var(--text-soft);
-  font-size:0.62rem;
-  font-weight:760;
-}
-
-.path-node:not(:last-child)::after {
-  content:"→";
-  color:var(--text-muted);
-}
-
-.related-list {
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-  margin-top:22px;
-}
-
-.related-item {
-  width:100%;
-  display:grid;
-  grid-template-columns:42px minmax(0,1fr) auto;
-  gap:11px;
-  align-items:center;
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:rgba(255,255,255,0.022);
-  text-align:left;
-  cursor:pointer;
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.related-item:hover {
-  transform:translateY(-2px);
-  border-color:rgba(105,231,197,0.23);
-  background:rgba(255,255,255,0.038);
-}
-
-.related-code {
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  background:rgba(105,231,197,0.08);
-  color:var(--accent);
-  font-size:0.62rem;
-  font-weight:900;
-}
-
-.related-main {
-  min-width:0;
-}
-
-.related-main strong {
-  display:block;
-  font-size:0.69rem;
-  line-height:1.45;
-}
-
-.related-main span {
-  display:block;
-  margin-top:3px;
-  overflow:hidden;
-  color:var(--text-muted);
-  font-size:0.57rem;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.related-arrow {
-  color:var(--text-muted);
-  font-size:0.76rem;
-}
-
-.insight-footer {
-  margin-top:auto;
-  padding-top:24px;
-}
-
-.insight-message {
-  margin:0;
-  color:var(--text-muted);
-  font-size:0.62rem;
-  line-height:1.65;
-}
-
-/* ===== Latest Updates ===== */
-.update-grid {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-}
-
-.update-card {
-  min-height:205px;
-  display:flex;
-  flex-direction:column;
-  padding:20px;
-  cursor:pointer;
-  transition:
-    transform 0.22s ease,
-    border-color 0.22s ease,
-    background 0.22s ease;
-}
-
-.update-card:hover {
-  transform:translateY(-4px);
-  border-color:rgba(105,231,197,0.24);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.069),
-      rgba(255,255,255,0.024)
-    );
-}
-
-.update-head {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-
-.update-date {
-  color:var(--text-muted);
-  font-size:0.58rem;
-}
-
-.update-card h3 {
-  margin:21px 0 0;
-  font-size:0.93rem;
-  line-height:1.55;
-}
-
-.update-card p {
-  margin:9px 0 0;
-  color:var(--text-muted);
-  font-size:0.67rem;
-  line-height:1.7;
-}
-
-.update-footer {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:auto;
-  padding-top:20px;
-  color:var(--text-muted);
-  font-size:0.59rem;
-}
-
-.update-footer strong {
-  color:var(--accent);
-}
-
-/* ===== Facilities ===== */
-.facility-grid {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;
-}
-
-.facility-button {
-  position:relative;
-  overflow:hidden;
-  min-height:245px;
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  padding:21px;
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.052),
-      rgba(255,255,255,0.018)
-    );
-  color:inherit;
-  text-align:left;
-  cursor:pointer;
-  transition:
-    transform 0.23s ease,
-    border-color 0.23s ease,
-    background 0.23s ease,
-    box-shadow 0.23s ease;
-}
-
-.facility-button::after {
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  right:-50px;
-  bottom:-50px;
-  border-radius:50%;
-  background:var(--facility-glow,rgba(105,231,197,0.11));
-}
-
-.facility-button:hover {
-  transform:translateY(-5px);
-  border-color:var(--facility-border,rgba(105,231,197,0.28));
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.075),
-      rgba(255,255,255,0.024)
-    );
-  box-shadow:0 18px 42px rgba(0,0,0,0.22);
-}
-
-.facility-button[data-type="research"] {
-  --facility-color:var(--blue);
-  --facility-glow:rgba(107,188,255,0.12);
-  --facility-border:rgba(107,188,255,0.32);
-}
-
-.facility-button[data-type="pds"] {
-  --facility-color:var(--accent);
-  --facility-glow:rgba(105,231,197,0.12);
-  --facility-border:rgba(105,231,197,0.32);
-}
-
-.facility-button[data-type="case"] {
-  --facility-color:var(--purple);
-  --facility-glow:rgba(174,145,255,0.12);
-  --facility-border:rgba(174,145,255,0.32);
-}
-
-.facility-button[data-type="dictionary"] {
-  --facility-color:var(--orange);
-  --facility-glow:rgba(255,178,96,0.12);
-  --facility-border:rgba(255,178,96,0.32);
-}
-
-.facility-icon {
-  width:44px;
-  height:44px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  background:rgba(255,255,255,0.045);
-  color:var(--facility-color);
-  font-size:1.08rem;
-  font-weight:900;
-}
-
-.facility-name {
-  margin:20px 0 0;
-  font-size:0.95rem;
-}
-
-.facility-japanese {
-  display:block;
-  margin-top:4px;
-  color:var(--facility-color);
-  font-size:0.63rem;
-}
-
-.facility-description {
-  margin:11px 0 0;
-  color:var(--text-muted);
-  font-size:0.69rem;
-  line-height:1.72;
-}
-
-.facility-footer {
-  position:relative;
-  z-index:1;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:auto;
-  padding-top:23px;
-  color:var(--text-muted);
-  font-size:0.59rem;
-}
-
-.facility-footer strong {
-  color:var(--facility-color);
-}
-
-/* ===== Process ===== */
-.process-section {
-  border-top:1px solid rgba(255,255,255,0.05);
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  background:rgba(255,255,255,0.012);
-}
-
-.process-grid {
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:10px;
-}
-
-.process-item {
-  position:relative;
-  min-height:175px;
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:var(--radius-md);
-  background:rgba(255,255,255,0.024);
-}
-
-.process-item:not(:last-child)::after {
-  content:"→";
-  position:absolute;
-  top:50%;
-  right:-10px;
-  z-index:3;
-  width:20px;
-  height:20px;
-  display:grid;
-  place-items:center;
-  transform:translateY(-50%);
-  border:1px solid var(--line);
-  border-radius:50%;
-  background:var(--bg);
-  color:var(--text-muted);
-  font-size:0.58rem;
-}
-
-.process-number {
-  color:var(--accent);
-  font-size:0.6rem;
-  font-weight:900;
-  letter-spacing:0.1em;
-}
-
-.process-item h3 {
-  margin:18px 0 0;
-  font-size:0.8rem;
-}
-
-.process-item p {
-  margin:8px 0 0;
-  color:var(--text-muted);
-  font-size:0.64rem;
-  line-height:1.65;
-}
-
-/* ===== Service CTA ===== */
-.service-cta {
-  position:relative;
-  overflow:hidden;
-  padding:42px;
-  border:1px solid rgba(105,231,197,0.19);
-  border-radius:var(--radius-xl);
-  background:
-    radial-gradient(
-      circle at 88% 50%,
-      rgba(105,231,197,0.16),
-      transparent 28%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(105,231,197,0.07),
-      rgba(255,255,255,0.02)
-    );
-  box-shadow:var(--shadow);
-}
-
-.service-cta::after {
-  content:"";
-  position:absolute;
-  width:320px;
-  height:320px;
-  right:-130px;
-  top:-130px;
-  border:1px solid rgba(105,231,197,0.08);
-  border-radius:50%;
-}
-
-.service-cta-inner {
-  position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  gap:34px;
-  align-items:center;
-}
-
-.service-cta h2 {
-  margin:0;
-  font-size:clamp(1.5rem,3vw,2.5rem);
-  line-height:1.35;
-}
-
-.service-cta p {
-  max-width:720px;
-  margin:13px 0 0;
-  color:var(--text-soft);
-  font-size:0.78rem;
-  line-height:1.85;
-}
-
-.service-links {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(120px,1fr));
-  gap:8px;
-}
-
-.service-link {
-  min-height:44px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:9px 13px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  background:rgba(255,255,255,0.035);
-  color:var(--text-soft);
-  font-size:0.65rem;
-  font-weight:820;
-  text-decoration:none;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.service-link:hover {
-  transform:translateY(-2px);
-  color:#ffffff;
-  border-color:rgba(105,231,197,0.29);
-  background:rgba(105,231,197,0.08);
-}
-
-/* ===== Detail Drawer ===== */
-.drawer-backdrop {
-  position:fixed;
-  z-index:79;
-  inset:0;
-  display:none;
-  background:rgba(0,0,0,0.67);
-  backdrop-filter:blur(4px);
-  -webkit-backdrop-filter:blur(4px);
-}
-
-.drawer-backdrop.is-open {
-  display:block;
-}
-
-.detail-drawer {
-  position:fixed;
-  z-index:80;
-  top:0;
-  right:0;
-  bottom:0;
-  width:min(680px,95vw);
-  display:flex;
-  flex-direction:column;
-  transform:translateX(105%);
-  border-left:1px solid var(--line);
-  background:#07121a;
-  box-shadow:-25px 0 70px rgba(0,0,0,0.44);
-  transition:transform 0.28s ease;
-}
-
-.detail-drawer.is-open {
-  transform:translateX(0);
-}
-
-.drawer-header {
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:20px;
-  padding:21px;
-  border-bottom:1px solid var(--line);
-}
-
-.drawer-eyebrow {
-  margin:0 0 7px;
-  color:var(--accent);
-  font-size:0.61rem;
-  font-weight:900;
-  letter-spacing:0.12em;
-}
-
-.drawer-title {
-  margin:0;
-  font-size:1.15rem;
-  line-height:1.45;
-}
-
-.drawer-close {
-  width:40px;
-  height:40px;
-  flex:0 0 40px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:rgba(255,255,255,0.04);
-  cursor:pointer;
-}
-
-.drawer-body {
-  flex:1;
-  overflow:auto;
-  padding:21px;
-}
-
-.drawer-summary {
-  margin:0;
-  color:var(--text-soft);
-  font-size:0.76rem;
-  line-height:1.85;
-}
-
-.drawer-meta {
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:18px;
-}
-
-.drawer-section {
-  margin-top:28px;
-}
-
-.drawer-section h3 {
-  margin:0;
-  color:var(--accent);
-  font-size:0.7rem;
-  letter-spacing:0.08em;
-}
-
-.drawer-section p {
-  margin:10px 0 0;
-  color:var(--text-muted);
-  font-size:0.7rem;
-  line-height:1.8;
-}
-
-.drawer-related {
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-top:11px;
-}
-
-.drawer-related-item {
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  background:rgba(255,255,255,0.025);
-}
-
-.drawer-related-item strong {
-  display:block;
-  font-size:0.68rem;
-}
-
-.drawer-related-item span {
-  display:block;
-  margin-top:4px;
-  color:var(--text-muted);
-  font-size:0.58rem;
-}
-
-/* ===== Footer ===== */
-.site-footer {
-  border-top:1px solid var(--line);
-  padding:29px 0;
-}
-
-.footer-inner {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  color:var(--text-muted);
-  font-size:0.61rem;
-}
-
-.footer-links {
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
-}
-
-.footer-links a {
-  color:var(--text-soft);
-  text-decoration:none;
-}
-
-.footer-links a:hover {
-  color:var(--accent);
-}
-
-/* ===== Tablet ===== */
-@media (max-width:1000px) {
-  .desktop-nav {
-    display:none;
-  }
-
-  .mind-layout {
-    grid-template-columns:1fr;
-  }
-
-  .library-stage,
-  .insight-panel {
-    min-height:auto;
-  }
-
-  .update-grid {
-    grid-template-columns:1fr;
-  }
-
-  .facility-grid {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-
-  .process-grid {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-
-  .process-item:not(:last-child)::after {
-    display:none;
-  }
-
-  .process-item:last-child {
-    grid-column:1 / -1;
-  }
-
-  .service-cta-inner {
-    grid-template-columns:1fr;
-  }
-
-  .service-links {
-    max-width:520px;
-  }
-}
-
-/* ===== Mobile ===== */
-@media (max-width:700px) {
-  .site-width {
-    width:min(100% - 28px,var(--content-width));
-  }
-
-  .section {
-    padding:54px 0;
-  }
-
-  .section-compact {
-    padding:43px 0;
-  }
-
-  .header-inner {
-    min-height:64px;
-  }
-
-  .brand-mark {
-    width:38px;
-    height:38px;
-    flex-basis:38px;
-  }
-
-  .brand-copy strong {
-    font-size:0.78rem;
-  }
-
-  .brand-copy span {
-    font-size:0.53rem;
-  }
-
-  .header-live,
-  .top-link {
-    display:none;
-  }
-
-  .mobile-menu-button {
-    display:grid;
-  }
-
-  .hero {
-    min-height:auto;
-    padding:72px 0 65px;
-  }
-
-  .hero h1 {
-    font-size:clamp(3rem,17vw,4.8rem);
-  }
-
-  .hero h1 span {
-    font-size:0.31em;
-  }
-
-  .hero-lead {
-    font-size:0.82rem;
-    line-height:1.9;
-  }
-
-  .hero-actions {
-    display:grid;
-    grid-template-columns:1fr;
-  }
-
-  .primary-button,
-  .secondary-button {
-    width:100%;
-  }
-
-  .section-heading {
-    align-items:flex-start;
-    flex-direction:column;
-    gap:15px;
-  }
-
-  .library-stage {
-    padding:19px 14px;
-    border-radius:19px;
-  }
-
-  .bookshelf {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:9px;
-  }
-
-  .book {
-    min-height:132px;
-    padding:13px;
-  }
-
-  .insight-panel {
-    padding:20px;
-  }
-
-  .insight-title {
-    margin-top:22px;
-  }
-
-  .related-item {
-    grid-template-columns:38px minmax(0,1fr) auto;
-  }
-
-  .related-code {
-    width:38px;
-    height:38px;
-  }
-
-  .facility-grid,
-  .process-grid {
-    grid-template-columns:1fr;
-  }
-
-  .process-item:last-child {
-    grid-column:auto;
-  }
-
-  .facility-button {
-    min-height:205px;
-  }
-
-  .service-cta {
-    padding:25px 20px;
-    border-radius:19px;
-  }
-
-  .service-links {
-    grid-template-columns:1fr;
-  }
-
-  .footer-inner {
-    align-items:flex-start;
-    flex-direction:column;
-  }
-}
-
-@media (max-width:420px) {
-  .site-width {
-    width:calc(100% - 20px);
-  }
-
-  .hero {
-    padding-top:58px;
-  }
-
-  .hero-label {
-    font-size:0.55rem;
-  }
-
-  .hero h1 {
-    font-size:clamp(2.6rem,17vw,3.9rem);
-  }
-
-  .bookshelf {
-    grid-template-columns:1fr 1fr;
-  }
-
-  .book {
-    min-height:125px;
-  }
-}
-
-/* ===== Reduced Motion ===== */
-@media (prefers-reduced-motion:reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior:auto !important;
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:0.01ms !important;
-  }
-}
-</style>
+<link rel="icon" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<link rel="stylesheet" href="./css/campus.css">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">
   メインコンテンツへ移動
 </a>
-<header class="site-header">
+<noscript>
+  <div class="noscript-message">
+    このページを閲覧するにはJavaScriptを有効にしてください。
+  </div>
+</noscript>
+<header class="site-header" id="siteHeader">
   <div class="site-width header-inner">
     <a
       class="brand"
       href="./index.html"
-      aria-label="Digital Research Campus ホーム"
+      aria-label="adjustment Digital Research Campus ホーム"
     >
-      <span class="brand-mark" aria-hidden="true">整</span>
-      
+      <span class="brand-mark" aria-hidden="true">
+        整
+      </span>
   <span class="brand-copy">
     <strong>adjustment</strong>
-    <span>Digital Research Campus</span>
+    <span>Baseball Performance Research Library</span>
   </span>
 </a>
 
@@ -1797,20 +64,46 @@ a {
   class="desktop-nav"
   aria-label="主要ナビゲーション"
 >
-  <a href="#thinkingSpace">思考空間</a>
-  <a href="#latestUpdates">最新更新</a>
-  <a href="#facilities">研究施設</a>
-  <a href="#process">思考プロセス</a>
-  <a href="#services">現場への導入</a>
+  <a href="#thinkingSpace">
+    思考図書館
+  </a>
+
+  <a href="#latestUpdates">
+    最新更新
+  </a>
+
+  <a href="#facilities">
+    研究施設
+  </a>
+
+  <a href="#process">
+    思考プロセス
+  </a>
+
+  <a href="#services">
+    現場への導入
+  </a>
 </nav>
 
 <div class="header-actions">
-  <div class="header-live">
-    <span class="live-dot" aria-hidden="true"></span>
-    <span id="campusVersion">Campus v0.3</span>
+  <div
+    class="header-live"
+    aria-label="Campus公開状況"
+  >
+    <span
+      class="live-dot"
+      aria-hidden="true"
+    ></span>
+
+    <span id="campusVersion">
+      Campus
+    </span>
   </div>
 
-  <a class="top-link" href="../index.html">
+  <a
+    class="top-link"
+    href="../index.html"
+  >
     adjustmentトップ
   </a>
 
@@ -1822,7 +115,7 @@ a {
     aria-expanded="false"
     aria-controls="mobileNav"
   >
-    ☰
+    <span aria-hidden="true">☰</span>
   </button>
 </div>
   </div>
@@ -1830,51 +123,138 @@ a {
     class="site-width mobile-nav"
     id="mobileNav"
     aria-label="スマートフォン用ナビゲーション"
+    hidden
   >
-    <a href="#thinkingSpace">思考空間</a>
-    <a href="#latestUpdates">最新更新</a>
-    <a href="#facilities">研究施設</a>
-    <a href="#process">思考プロセス</a>
-    <a href="#services">現場への導入</a>
-    <a href="../index.html">adjustmentトップへ戻る</a>
-  </nav>
+    <a href="#thinkingSpace">
+      思考図書館
+    </a>
+<a href="#latestUpdates">
+  最新更新
+</a>
+
+<a href="#facilities">
+  研究施設
+</a>
+
+<a href="#process">
+  思考プロセス
+</a>
+
+<a href="#services">
+  現場への導入
+</a>
+
+<a href="../index.html">
+  adjustmentトップへ戻る
+</a>
+    </nav>
 </header>
 <main id="mainContent">
-  <section class="hero">
-    <div class="hero-orbit" aria-hidden="true"></div>
+  <section
+    class="hero"
+    aria-labelledby="heroTitle"
+  >
+    <div
+      class="hero-background"
+      aria-hidden="true"
+    >
+      <div class="hero-background-image"></div>
+      <div class="hero-background-overlay"></div>
+      <div class="hero-library-light"></div>
+      <div class="hero-particles"></div>
+    </div>
 <div class="site-width hero-inner">
-  <div class="hero-label">
-    ADJUSTMENT DIGITAL RESEARCH CAMPUS
+  <div class="hero-copy">
+    <p class="hero-label">
+      BASEBALL PERFORMANCE RESEARCH LIBRARY
+    </p>
+
+    <h1 id="heroTitle">
+      adjustmentの<br>
+      思考を歩く。
+    </h1>
+
+    <p class="hero-subtitle">
+      See the phenomenon.<br class="mobile-only">
+      Follow the thinking.
+    </p>
+
+    <p class="hero-lead">
+      野球・競技パフォーマンスの現場で起きる現象を観察し、<br class="desktop-only">
+      身体、技術、データ、選手の主観をつなぎ、<br class="desktop-only">
+      仮説を立て、検証し、現場へ戻す。<br>
+      ここは、その思考過程を探索するデジタル図書館です。
+    </p>
+
+    <div
+      class="hero-sports-signals"
+      aria-label="主な研究領域"
+    >
+      <span>BASEBALL</span>
+      <span>PITCHING</span>
+      <span>BATTING</span>
+      <span>PHYSICAL DESIGN</span>
+    </div>
+
+    <p class="hero-guide">
+      一つの現象を選ぶと、関連する研究・評価・事例・用語が本棚から反応します。
+    </p>
+
+    <div class="hero-actions">
+      <a
+        class="primary-button"
+        href="#thinkingSpace"
+      >
+        思考図書館へ入る
+        <span aria-hidden="true">→</span>
+      </a>
+
+      <a
+        class="secondary-button"
+        href="#latestUpdates"
+      >
+        最近の更新を見る
+      </a>
+    </div>
   </div>
 
-  <h1>
-    思考を歩く。
-    <span>See the phenomenon. Follow the thinking.</span>
-  </h1>
+  <div
+    class="hero-athlete"
+    aria-hidden="true"
+  >
+    <div class="athlete-silhouette">
+      <div class="athlete-cap"></div>
+      <div class="athlete-head"></div>
+      <div class="athlete-neck"></div>
+      <div class="athlete-body">
+        <span class="athlete-number">7</span>
+      </div>
+    </div>
+  </div>
 
-  <p class="hero-lead">
-   フォームを見る前に現場で起きている現象を見る。<br>
-その現象を整理→関連付け→仮説→検証。<br>
-それがadjustmentの思考です。
-  </p>
-
-  <p class="hero-guide">
-    一つの現象を選ぶと、関連する知識・評価・事例が反応します。
-  </p>
-
-  <div class="hero-actions">
-    <a class="primary-button" href="#thinkingSpace">
-      思考空間へ入る
-      <span aria-hidden="true">→</span>
-    </a>
-
-    <a class="secondary-button" href="#latestUpdates">
-      最近の更新を見る
-    </a>
+  <div
+    class="hero-floating-books"
+    id="heroFloatingBooks"
+    aria-hidden="true"
+  >
+    <span class="floating-book floating-book-01"></span>
+    <span class="floating-book floating-book-02"></span>
+    <span class="floating-book floating-book-03"></span>
+    <span class="floating-book floating-book-04"></span>
+    <span class="floating-book floating-book-05"></span>
+    <span class="floating-book floating-book-06"></span>
   </div>
 </div>
-  </section>
 
+<a
+  class="hero-scroll"
+  href="#thinkingSpace"
+  aria-label="思考図書館までスクロール"
+>
+  <span>ENTER LIBRARY</span>
+  <span aria-hidden="true">↓</span>
+</a>
+  </section>
     <section
     class="mind-section section"
     id="thinkingSpace"
@@ -1884,19 +264,18 @@ a {
       <div class="section-heading">
         <div class="section-heading-copy">
           <p class="eyebrow">
-            Thinking Space
+            Thinking Library
           </p>
-
-          <h2
+      <h2
         class="section-title"
         id="thinkingSpaceTitle"
       >
-        現象を選択してください。
+        現場で起きている現象を選ぶ。
       </h2>
 
       <p class="section-description">
-        選んだ現象に対して、adjustmentの思考内で関連するResearch、
-        PDS、Case、Dictionaryが反応します。
+        選択した現象を起点に、Research、PDS、Case、Dictionaryの関連資料が反応します。
+        結論だけではなく、どのように考えがつながったのかを辿れます。
       </p>
     </div>
   </div>
@@ -1904,26 +283,66 @@ a {
   <div class="mind-layout">
     <section
       class="library-stage"
-      aria-label="関連資料が反応する思考図書空間"
+      aria-labelledby="libraryStageTitle"
     >
+      <div
+        class="library-architecture"
+        aria-hidden="true"
+      >
+        <div class="library-column library-column-left"></div>
+        <div class="library-column library-column-right"></div>
+        <div class="library-arch"></div>
+        <div class="library-upper-shelves"></div>
+        <div class="library-floor-light"></div>
+      </div>
+
       <div class="library-heading">
-        <p>SELECT A PHENOMENON</p>
-        <h3>現場で起きている現象</h3>
+        <p>
+          SELECT A PHENOMENON
+        </p>
+
+        <h3 id="libraryStageTitle">
+          野球・競技現場の現象
+        </h3>
       </div>
 
       <div
         class="phenomenon-list"
         id="phenomenonList"
-      ></div>
+        aria-label="現象一覧"
+      >
+        <div class="loading-placeholder">
+          現象データを読み込んでいます。
+        </div>
+      </div>
 
-      <div
-        class="bookshelf"
-        id="bookshelf"
-        aria-live="polite"
-      ></div>
+      <div class="bookshelf-frame">
+        <div
+          class="bookshelf-label"
+          aria-hidden="true"
+        >
+          ADJUSTMENT ARCHIVE
+        </div>
+
+        <div
+          class="bookshelf"
+          id="bookshelf"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <div class="loading-placeholder">
+            関連資料を読み込んでいます。
+          </div>
+        </div>
+
+        <div
+          class="bookshelf-base"
+          aria-hidden="true"
+        ></div>
+      </div>
 
       <p class="library-guide">
-        光っている本を選ぶと、内容と関連する思考経路を確認できます。
+        光っている書籍を選択すると、観察・着眼点・検証内容を確認できます。
       </p>
     </section>
 
@@ -1931,6 +350,7 @@ a {
       class="panel insight-panel"
       id="insightPanel"
       aria-live="polite"
+      aria-labelledby="insightTitle"
     >
       <div class="insight-top">
         <span class="insight-label">
@@ -1977,15 +397,15 @@ a {
 
       <div class="insight-footer">
         <p class="insight-message">
-          ここで表示されるのは結論ではなく、現象を整理していく思考の入口です。
+          ここで表示される内容は、医学的診断や唯一の正解ではありません。
+          現場で得た情報から課題を整理し、専門家と検証するための思考記録です。
         </p>
       </div>
     </aside>
   </div>
 </div>
     </section>
-
-    <section
+      <section
     class="section"
     id="latestUpdates"
     aria-labelledby="latestUpdatesTitle"
@@ -1994,17 +414,17 @@ a {
       <div class="section-heading">
         <div class="section-heading-copy">
           <p class="eyebrow">
-            Latest Updates
+            Latest Hypotheses
           </p>
       <h2
         class="section-title"
         id="latestUpdatesTitle"
       >
-  最近更新された仮説
+        最近更新された仮説。
       </h2>
 
       <p class="section-description">
-        新しく生まれた仮説、整理し直した定義、現場検証によって変化した考え方を掲載します。
+        新しく生まれた仮説、定義の修正、現場検証によって変化した考え方を掲載します。
       </p>
     </div>
   </div>
@@ -2012,12 +432,15 @@ a {
   <div
     class="update-grid"
     id="updateGrid"
-  ></div>
+    aria-live="polite"
+  >
+    <div class="loading-placeholder">
+      更新情報を読み込んでいます。
+    </div>
+  </div>
 </div>
-
-    </section>
-
-    <section
+      </section>
+        <section
     class="section-compact"
     id="facilities"
     aria-labelledby="facilitiesTitle"
@@ -2032,11 +455,12 @@ a {
         class="section-title"
         id="facilitiesTitle"
       >
-        思考を構成する4つの研究施設
+        思考を保管する4つの施設。
       </h2>
 
       <p class="section-description">
-        各棟は、adjustmentが現象を捉えてから課題解決へ近づくまでの異なる役割を持ちます。
+        現象の観察から、評価、現場事例、独自概念までを役割別に整理しています。
+        各施設を選択すると、その分類に属する資料を閲覧できます。
       </p>
     </div>
   </div>
@@ -2044,12 +468,14 @@ a {
   <div
     class="facility-grid"
     id="facilityGrid"
-  ></div>
+  >
+    <div class="loading-placeholder">
+      施設情報を読み込んでいます。
+    </div>
+  </div>
 </div>
-
-    </section>
-
-    <section
+        </section>
+          <section
     class="process-section section"
     id="process"
     aria-labelledby="processTitle"
@@ -2068,55 +494,85 @@ a {
       </h2>
 
       <p class="section-description">
-        adjustmentは、知っている専門知識を当てはめるのではなく、
-        現象を観察し、関連を整理し、必要な専門家とともに検証します。
+        adjustmentは、既存の専門知識を一方的に当てはめるのではなく、
+        現場の現象を起点に、必要な専門家と検証しながら解決へ近づきます。
       </p>
     </div>
   </div>
 
   <div class="process-grid">
     <article class="process-item">
-      <div class="process-number">01 / OBSERVE</div>
-      <h3>現象を見る</h3>
+      <div class="process-number">
+        01 / OBSERVE
+      </div>
+
+      <h3>
+        現象を見る
+      </h3>
+
       <p>
-        フォームの良し悪しではなく、実際に何が起きているかを見る。
+        フォームの形を評価する前に、実際に何が起きているかを観察します。
       </p>
     </article>
 
     <article class="process-item">
-      <div class="process-number">02 / CONNECT</div>
-      <h3>関連をつなぐ</h3>
+      <div class="process-number">
+        02 / CONNECT
+      </div>
+
+      <h3>
+        関連をつなぐ
+      </h3>
+
       <p>
-        身体、技術、データ、選手の主観を一つの現象として整理する。
+        身体、技術、データ、環境、選手の主観を一つの現象として整理します。
       </p>
     </article>
 
     <article class="process-item">
-      <div class="process-number">03 / HYPOTHESIZE</div>
-      <h3>仮説を立てる</h3>
+      <div class="process-number">
+        03 / HYPOTHESIZE
+      </div>
+
+      <h3>
+        仮説を立てる
+      </h3>
+
       <p>
-        何が原因になり得るか、何を測れば判別できるかを考える。
+        何が原因になり得るか、何を測定すれば判別できるかを考えます。
       </p>
     </article>
 
     <article class="process-item">
-      <div class="process-number">04 / VERIFY</div>
-      <h3>検証する</h3>
+      <div class="process-number">
+        04 / VERIFY
+      </div>
+
+      <h3>
+        検証する
+      </h3>
+
       <p>
-        PDS、競技データ、介入、専門家の所見から仮説を再検討する。
+        PDS、競技データ、介入結果、医療・技術・S&amp;C専門家の所見から再検討します。
       </p>
     </article>
 
     <article class="process-item">
-      <div class="process-number">05 / APPLY</div>
-      <h3>現場へ戻す</h3>
+      <div class="process-number">
+        05 / APPLY
+      </div>
+
+      <h3>
+        現場へ戻す
+      </h3>
+
       <p>
-        選手やチームが実行できる形へ変換し、結果を再び観察する。
+        選手やチームが実行できる形へ変換し、結果を再び観察します。
       </p>
     </article>
   </div>
 </div>
-    </section>
+          </section>
 
     <section
     class="section"
@@ -2126,7 +582,7 @@ a {
     <div class="site-width">
       <div class="service-cta">
         <div class="service-cta-inner">
-          <div>
+          <div class="service-copy">
             <p class="eyebrow">
               Bring This Thinking to Your Field
             </p>
@@ -2135,9 +591,10 @@ a {
         </h2>
 
         <p>
-          Campusで見えるのは、adjustmentの思考の一部です。
-          選手やチームの現象を実際に観察し、課題を整理してほしい場合は、
-          チーム指導、講習会、PDS、共同検証として現場へ導入できます。
+          Campusで公開しているのは、adjustmentの思考過程の一部です。
+          選手やチームで起きている現象を実際に観察し、
+          課題を整理してほしい場合は、チーム指導、講習会、
+          PDS、共同検証として導入できます。
         </p>
       </div>
 
@@ -2174,21 +631,59 @@ a {
   </div>
 </div>
     </section>
-</main>
+      <section
+    class="data-error-section"
+    id="dataErrorSection"
+    hidden
+    aria-live="assertive"
+  >
+    <div class="site-width">
+      <div class="data-error-panel">
+        <p class="eyebrow">
+          DATA LOAD ERROR
+        </p>
+    <h2>
+      Campusデータを読み込めませんでした。
+    </h2>
 
-    <footer class="site-footer">
+    <p id="dataErrorMessage">
+      data/campus-data.jsonの配置とJSON形式を確認してください。
+    </p>
+
+    <button
+      class="secondary-button"
+      id="reloadDataButton"
+      type="button"
+    >
+      再読み込み
+    </button>
+  </div>
+</div>
+      </section>
+</main>
+<footer class="site-footer">
   <div class="site-width footer-inner">
     <div id="footerCopyright">
-      © 2026 adjustment Digital Research Campus
+      © adjustment Digital Research Campus
     </div>
 <div class="footer-links">
-  <a href="../index.html">adjustmentトップ</a>
-  <a href="../principles/index.html">原理原則</a>
-  <a href="../contact/index.html">お問い合わせ</a>
+  <a href="../index.html">
+    adjustmentトップ
+  </a>
+
+  <a href="../principles/index.html">
+    原理原則
+  </a>
+
+  <a href="../contact/index.html">
+    お問い合わせ
+  </a>
+
 </div>
   </div>
-    </footer>
-    <div
+</footer>
+
+<div
   class="drawer-backdrop"
   id="drawerBackdrop"
   aria-hidden="true"
@@ -2197,7 +692,7 @@ a {
   class="detail-drawer"
   id="detailDrawer"
   aria-hidden="true"
-  aria-label="研究内容の詳細"
+  aria-labelledby="drawerTitle"
 >
   <div class="drawer-header">
     <div>
@@ -2211,7 +706,7 @@ a {
     class="drawer-title"
     id="drawerTitle"
   >
-    タイトル
+    研究タイトル
   </h2>
 </div>
 
@@ -2221,7 +716,7 @@ a {
   type="button"
   aria-label="詳細を閉じる"
 >
-  ×
+  <span aria-hidden="true">×</span>
 </button>
   </div>
     <div class="drawer-body">
@@ -2234,1314 +729,55 @@ a {
   id="drawerMeta"
 ></div>
 
-<div class="drawer-section">
-  <h3>OBSERVATION / 観察</h3>
+<section class="drawer-section">
+  <h3>
+    OBSERVATION / 観察
+  </h3>
+
   <p id="drawerObservation"></p>
-</div>
+</section>
 
-<div class="drawer-section">
-  <h3>THINKING / 着眼点</h3>
+<section class="drawer-section">
+  <h3>
+    THINKING / 着眼点
+  </h3>
+
   <p id="drawerThinking"></p>
-</div>
+</section>
 
-<div class="drawer-section">
-  <h3>VERIFICATION / 検証</h3>
+<section class="drawer-section">
+  <h3>
+    VERIFICATION / 検証
+  </h3>
+
   <p id="drawerVerification"></p>
-</div>
+</section>
 
-<div class="drawer-section">
-  <h3>RELATED / 関連する思考</h3>
+<section class="drawer-section">
+  <h3>
+    LIMITATION / 限界・注意点
+  </h3>
+
+  <p id="drawerLimitation">
+    現在整理中です。
+  </p>
+</section>
+
+<section class="drawer-section">
+  <h3>
+    RELATED / 関連する思考
+  </h3>
+
   <div
     class="drawer-related"
     id="drawerRelated"
   ></div>
-</div>
+</section>
     </div>
 </aside>
-
-      <script>
-/*
-============================================================
-Digital Research Campus
-公開画面用データ構造
-============================================================
-
-将来：
-./data/campus-data.json
-
-が存在する場合はJSONを優先して読み込みます。
-JSONが存在しない場合は、下記FALLBACK_DATAを使用します。
-============================================================
-*/
-
-const FALLBACK_DATA = {
-  meta: {
-    version:"Campus v0.3",
-    copyright:"© 2026 adjustment Digital Research Campus"
-  },
-
-  phenomena: [
-    {
-      id:"velocity",
-      label:"球速",
-      title:"球速が伸びない",
-      description:
-        "球速を単純な筋力不足として処理せず、ボールの加速距離、胸郭反応、並進、荷重、出力条件へ視点を広げます。",
-      path:[
-        "球速",
-        "加速距離",
-        "胸郭反応",
-        "PDS",
-        "現場検証"
-      ],
-      relatedIds:[
-        "research-acceleration",
-        "dictionary-acceleration",
-        "pds-thorax",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"batting",
-      label:"打撃不振",
-      title:"チーム全体の打撃状態が落ちる",
-      description:
-        "個人のフォームだけでなく、タイミング、加速開始、身体状態、練習環境に共通する現象を探します。",
-      path:[
-        "打撃不振",
-        "共通現象",
-        "タイミング",
-        "加速距離",
-        "介入"
-      ],
-      relatedIds:[
-        "research-batting",
-        "dictionary-timing",
-        "case-batter-001",
-        "pds-mass"
-      ]
-    },
-    {
-      id:"thorax",
-      label:"胸郭",
-      title:"胸郭は動いているように見える",
-      description:
-        "角度の大きさだけでなく、いつ動いたか、何に反応して動いたか、肩甲帯との順序を見ます。",
-      path:[
-        "胸郭",
-        "開始時点",
-        "肩甲帯",
-        "並進",
-        "投球特性"
-      ],
-      relatedIds:[
-        "research-thorax",
-        "pds-thorax",
-        "dictionary-collision",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"mass",
-      label:"体重受容",
-      title:"自分の質量を受け止められない",
-      description:
-        "最大出力ではなく、落下する身体質量を受け止め、止め、次の動作へ再利用できるかを見ます。",
-      path:[
-        "質量",
-        "受容",
-        "制動",
-        "再利用",
-        "競技動作"
-      ],
-      relatedIds:[
-        "research-mass",
-        "pds-mass",
-        "case-left-pitcher",
-        "dictionary-mass"
-      ]
-    },
-    {
-      id:"injury",
-      label:"肩・肘の負担",
-      title:"肩や肘だけを見ても解決しない",
-      description:
-        "痛みが起きた部位だけでなく、胸郭、肩甲帯、体幹、荷重、加速距離のどこで負担が集中したかを考えます。",
-      path:[
-        "疼痛",
-        "負担集中",
-        "胸郭",
-        "肩甲帯",
-        "再構築"
-      ],
-      relatedIds:[
-        "research-load",
-        "case-shoulder-001",
-        "pds-thorax",
-        "dictionary-load"
-      ]
-    },
-    {
-      id:"performance",
-      label:"勝てるフィジカル",
-      title:"測定値が高くても試合で勝てない",
-      description:
-        "高い出力を持つことと、試合の制約下で必要な出力を調整・反復できることを分けて考えます。",
-      path:[
-        "測定値",
-        "競技要件",
-        "調整能力",
-        "反復性",
-        "勝敗"
-      ],
-      relatedIds:[
-        "research-winning",
-        "dictionary-winning",
-        "pds-integration",
-        "case-batter-001"
-      ]
-    }
-  ],
-
-  contents: [
-    {
-      id:"research-acceleration",
-      type:"research",
-      code:"R-001",
-      title:"球速に必要なボールの加速距離",
-      summary:
-        "コッキングからリリースまでのボール移動距離を、球速を生む実質的な加速区間として整理する。",
-      tags:["球速","加速距離","投球"],
-      status:"HYPOTHESIS",
-      statusClass:"tag-blue",
-      updatedAt:"2026.08.03",
-      observation:
-        "重心移動距離だけでは、同じ体格でも球速差が生まれる理由を説明し切れない。",
-      thinking:
-        "身体の移動ではなく、ボール自体が加速できる経路と時間を評価対象にする。",
-      verification:
-        "動画上のボール座標、身体寸法、球速、胸郭・肩甲帯の開始時点を統合して検証する。",
-      relatedIds:[
-        "dictionary-acceleration",
-        "pds-thorax",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"research-batting",
-      type:"research",
-      code:"R-002",
-      title:"チーム全体の打撃不振をどう分類するか",
-      summary:
-        "個人のフォーム修正に入る前に、複数選手に共通する現象を見つける。",
-      tags:["打撃","チーム","タイミング"],
-      status:"FIELD REVIEW",
-      statusClass:"tag-green",
-      updatedAt:"2026.08.03",
-      observation:
-        "複数の打者が同じ時期に差し込まれ、打球の強さと対応幅を失っている。",
-      thinking:
-        "フォームの共通点ではなく、加速開始の早期化や軸足で受ける時間の減少を疑う。",
-      verification:
-        "打球データ、映像、練習負荷、選手の主観、フィジカル状態を比較する。",
-      relatedIds:[
-        "dictionary-timing",
-        "case-batter-001",
-        "pds-mass"
-      ]
-    },
-    {
-      id:"research-thorax",
-      type:"research",
-      code:"R-003",
-      title:"ヒンジドロップ後に何が反応するか",
-      summary:
-        "胸郭、肩甲帯、並進衝突後の反応順序から投球タイプを分類する。",
-      tags:["投球","胸郭","肩甲帯"],
-      status:"CLASSIFICATION",
-      statusClass:"tag-purple",
-      updatedAt:"2026.08.02",
-      observation:
-        "同じように身体がしなって見えても、動き始める部位とタイミングが異なる。",
-      thinking:
-        "可動域の大小より、ヒンジドロップ後に最初に何が反応したかを見る。",
-      verification:
-        "高速度映像とPDSの胸郭・肩甲帯評価を組み合わせて分類精度を検証する。",
-      relatedIds:[
-        "dictionary-collision",
-        "pds-thorax",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"research-mass",
-      type:"research",
-      code:"R-004",
-      title:"自分の質量を受け止め、利用できるか",
-      summary:
-        "最大筋力とは別に、身体質量を受容・制動・再利用する能力を捉える。",
-      tags:["質量","荷重","フィジカル"],
-      status:"FIELD TEST",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.01",
-      observation:
-        "筋力が高くても、落下局面で緊張し、次の動作へ質量を利用できない選手がいる。",
-      thinking:
-        "力を出せるかではなく、力がかかることを受け入れられるかを先に見る。",
-      verification:
-        "片脚着地、ドロップジャンプ、MBスロー、選手の体感から受容能力を比較する。",
-      relatedIds:[
-        "dictionary-mass",
-        "pds-mass",
-        "case-left-pitcher"
-      ]
-    },
-    {
-      id:"research-load",
-      type:"research",
-      code:"R-005",
-      title:"肩肘の負担はどこから集中するのか",
-      summary:
-        "痛む部位だけでなく、負荷を逃がせなかった身体条件を整理する。",
-      tags:["障害","肩","投球"],
-      status:"REVIEW",
-      statusClass:"tag-red",
-      updatedAt:"2026.07.31",
-      observation:
-        "肩甲帯の動きだけを改善しても、投球時の負担が十分に軽減しない場合がある。",
-      thinking:
-        "胸郭、腹斜筋、前鋸筋、広背筋の層と荷重の伝達を含めて考える。",
-      verification:
-        "医療評価、徒手抵抗、PDS、投球時の症状変化を専門家とともに再検討する。",
-      relatedIds:[
-        "case-shoulder-001",
-        "pds-thorax",
-        "dictionary-load"
-      ]
-    },
-    {
-      id:"research-winning",
-      type:"research",
-      code:"R-006",
-      title:"野球における勝てるフィジカル",
-      summary:
-        "高い測定値ではなく、試合で必要な能力を調整し続けられる身体を定義する。",
-      tags:["国際大会","競技力","再現性"],
-      status:"DEFINING",
-      statusClass:"tag-green",
-      updatedAt:"2026.08.03",
-      observation:
-        "跳躍力や筋力が高くても、試合結果や国際競争力へ直結しない例がある。",
-      thinking:
-        "最大値だけでなく、競技要件、反復性、調整能力、状況適応を含める。",
-      verification:
-        "代表レベルの競技データ、現場所見、PDS、試合パフォーマンスから定義を更新する。",
-      relatedIds:[
-        "dictionary-winning",
-        "pds-integration"
-      ]
-    },
-    {
-      id:"pds-thorax",
-      type:"pds",
-      code:"P-001",
-      title:"PDS：胸郭・肩甲帯の評価",
-      summary:
-        "胸郭の可動域だけでなく、骨盤との分離、肩甲帯との連動、出力への接続を見る。",
-      tags:["PDS","胸郭","評価"],
-      status:"ACTIVE",
-      statusClass:"tag-green",
-      updatedAt:"2026.08.03",
-      observation:
-        "角度が大きくても、競技動作で適切なタイミングに使えない場合がある。",
-      thinking:
-        "可動性、分離性、連動性、出力を段階的に評価する。",
-      verification:
-        "PDS 1.0〜4.0と競技データの関係を継続的に検証する。",
-      relatedIds:[
-        "research-thorax",
-        "research-acceleration",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"pds-mass",
-      type:"pds",
-      code:"P-002",
-      title:"PDS：質量受容と出力評価",
-      summary:
-        "片脚着地、CMJ、RSI、MBスローから、受け止めて利用する能力を確認する。",
-      tags:["PDS","荷重","出力"],
-      status:"DEVELOPING",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.02",
-      observation:
-        "ジャンプ能力だけでは、競技中の荷重利用を説明できない。",
-      thinking:
-        "落下、受容、制動、方向転換、再加速を一連の能力として見る。",
-      verification:
-        "両脚・片脚の数値差と、MBスロー、競技映像、体感を比較する。",
-      relatedIds:[
-        "research-mass",
-        "case-left-pitcher",
-        "case-batter-001"
-      ]
-    },
-    {
-      id:"pds-integration",
-      type:"pds",
-      code:"P-003",
-      title:"PDS 4.0：競技データとの統合",
-      summary:
-        "身体評価とRapsodo、TrackMan、BLASTなどの競技データを統合する。",
-      tags:["PDS","統合","競技データ"],
-      status:"PLANNED",
-      statusClass:"tag-blue",
-      updatedAt:"2026.07.30",
-      observation:
-        "身体評価と競技結果が別々に管理され、原因検証につながらないことが多い。",
-      thinking:
-        "身体、技術、結果を同一選手・同一期間で比較できる構造を作る。",
-      verification:
-        "測定項目の判別力と競技データとの関連を検証し、不要項目を削除する。",
-      relatedIds:[
-        "research-winning",
-        "research-acceleration"
-      ]
-    },
-    {
-      id:"case-pitcher-001",
-      type:"case",
-      code:"C-001",
-      title:"加速距離が短い高校生投手",
-      summary:
-        "球速向上を目標とする投手について、胸郭が加速距離を制限している可能性を検討。",
-      tags:["高校生","投手","球速"],
-      status:"ONGOING",
-      statusClass:"tag-purple",
-      updatedAt:"2026.08.03",
-      observation:
-        "ボールの強さはあるが、コッキング以降の移動距離が短く見える。",
-      thinking:
-        "肩甲帯の柔軟性不足ではなく、胸郭反応の開始時点を優先して確認する。",
-      verification:
-        "スプリット胸腰部評価、ハーフニーリングOHスロー、投球映像を比較する。",
-      relatedIds:[
-        "research-acceleration",
-        "research-thorax",
-        "pds-thorax"
-      ]
-    },
-    {
-      id:"case-batter-001",
-      type:"case",
-      code:"C-002",
-      title:"出力は高いが余裕の少ない打者",
-      summary:
-        "最大筋力は高い一方、軸足で質量を受ける時間が短く、対応幅を失っている可能性。",
-      tags:["打者","加速距離","荷重"],
-      status:"FIELD TEST",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.01",
-      observation:
-        "力強いスイングは可能だが、投球への対応が遅れた際に修正できない。",
-      thinking:
-        "力不足ではなく、加速開始が早く、加速距離を自ら短くしていると考える。",
-      verification:
-        "軸足受容エクササイズ、呼吸、ティー打撃、実戦打球を比較する。",
-      relatedIds:[
-        "research-batting",
-        "research-mass",
-        "pds-mass"
-      ]
-    },
-    {
-      id:"case-left-pitcher",
-      type:"case",
-      code:"C-003",
-      title:"伸張反射を感じにくい左投手",
-      summary:
-        "スプリント、プライオ、筋力が低く、質量を受け止める経験が少ない投手。",
-      tags:["左投手","伸張反射","荷重"],
-      status:"ONGOING",
-      statusClass:"tag-purple",
-      updatedAt:"2026.07.30",
-      observation:
-        "スクワットでは膝が内側へ入り、荷重を受ける際に身体を固める。",
-      thinking:
-        "伸張反射の問題より先に、身体質量を受容する習慣の不足を疑う。",
-      verification:
-        "着地、サイドランジ、MBスロー、スプリント動作の変化を追う。",
-      relatedIds:[
-        "research-mass",
-        "pds-mass",
-        "dictionary-mass"
-      ]
-    },
-    {
-      id:"case-shoulder-001",
-      type:"case",
-      code:"C-004",
-      title:"肩甲帯改善だけでは変化しない投手肩",
-      summary:
-        "肩甲帯周囲だけでなく、胸郭・体幹・荷重伝達を含めて再評価したケース。",
-      tags:["肩","投手","コンディショニング"],
-      status:"SPECIALIST REVIEW",
-      statusClass:"tag-red",
-      updatedAt:"2026.07.29",
-      observation:
-        "局所へのアプローチで可動域は変わるが、投球時の負担感が残る。",
-      thinking:
-        "肩甲骨表裏の筋群と、下位肋骨・腹斜筋からの張力伝達を含める。",
-      verification:
-        "医療専門家の所見を優先し、PDSと投球時反応を補助情報として使用する。",
-      relatedIds:[
-        "research-load",
-        "pds-thorax",
-        "dictionary-load"
-      ]
-    },
-    {
-      id:"dictionary-acceleration",
-      type:"dictionary",
-      code:"D-001",
-      title:"加速距離",
-      summary:
-        "対象物が目的方向へ速度を高められる実質的な移動区間。",
-      tags:["用語","加速","定義"],
-      status:"v0.4",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.03",
-      observation:
-        "一般的には重心移動距離と混同されやすい。",
-      thinking:
-        "投球では、コッキングからリリースまでのボール移動距離として定義を検討する。",
-      verification:
-        "映像座標と球速を使って算出・比較する方法を開発中。",
-      relatedIds:[
-        "research-acceleration",
-        "case-pitcher-001"
-      ]
-    },
-    {
-      id:"dictionary-collision",
-      type:"dictionary",
-      code:"D-002",
-      title:"衝突胸郭型",
-      summary:
-        "並進の勢いを踏み込み局面で受け、胸郭の三次元動作で投球へ変換するタイプ。",
-      tags:["用語","投球分類","胸郭"],
-      status:"CLASSIFICATION",
-      statusClass:"tag-purple",
-      updatedAt:"2026.08.02",
-      observation:
-        "並進で強く進入しても、胸郭で捌ける投手と肩甲帯へ負担が集中する投手がいる。",
-      thinking:
-        "衝突自体を悪とせず、衝突後に何が反応するかを見る。",
-      verification:
-        "映像分類と可動性、制球、故障歴の関係を検討する。",
-      relatedIds:[
-        "research-thorax",
-        "pds-thorax"
-      ]
-    },
-    {
-      id:"dictionary-timing",
-      type:"dictionary",
-      code:"D-003",
-      title:"加速開始",
-      summary:
-        "競技動作において、対象物や身体を目的方向へ本格的に加速し始める時点。",
-      tags:["用語","打撃","タイミング"],
-      status:"v0.2",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.01",
-      observation:
-        "早く動き始めることが、必ずしも対応の早さにつながらない。",
-      thinking:
-        "準備開始と加速開始を分けて評価する。",
-      verification:
-        "投球到達時間、バット速度、選手映像から開始時点を比較する。",
-      relatedIds:[
-        "research-batting",
-        "case-batter-001"
-      ]
-    },
-    {
-      id:"dictionary-mass",
-      type:"dictionary",
-      code:"D-004",
-      title:"質量受容",
-      summary:
-        "身体に加わる荷重や落下を固めて止めるのではなく、受け入れて次の動作へ利用する能力。",
-      tags:["用語","荷重","フィジカル"],
-      status:"v0.3",
-      statusClass:"tag-orange",
-      updatedAt:"2026.08.01",
-      observation:
-        "筋力が高くても、荷重がかかると動作が止まる選手がいる。",
-      thinking:
-        "出力前の受容局面を独立した能力として見る。",
-      verification:
-        "着地、ランジ、MBスロー、競技動作の共通性を検証する。",
-      relatedIds:[
-        "research-mass",
-        "pds-mass",
-        "case-left-pitcher"
-      ]
-    },
-    {
-      id:"dictionary-load",
-      type:"dictionary",
-      code:"D-005",
-      title:"負担集中",
-      summary:
-        "全身で分散できなかった力学的負荷が、特定部位へ集中する現象。",
-      tags:["用語","障害","力学"],
-      status:"DRAFT",
-      statusClass:"tag-red",
-      updatedAt:"2026.07.31",
-      observation:
-        "痛む部位だけを改善しても、負荷の通り道が変わらなければ再発し得る。",
-      thinking:
-        "局所の組織状態と、全身の力伝達を分けずに考える。",
-      verification:
-        "医療評価を前提に、動作・荷重・症状変化の関係を追う。",
-      relatedIds:[
-        "research-load",
-        "case-shoulder-001"
-      ]
-    },
-    {
-      id:"dictionary-winning",
-      type:"dictionary",
-      code:"D-006",
-      title:"勝てるフィジカル",
-      summary:
-        "試合の制約下で、必要な出力を調整・反復し、勝敗へつなげる身体能力。",
-      tags:["用語","競技力","国際大会"],
-      status:"DEFINING",
-      statusClass:"tag-green",
-      updatedAt:"2026.08.03",
-      observation:
-        "最大筋力や跳躍力の高さだけでは、競技結果を説明できない。",
-      thinking:
-        "能力値ではなく、状況適応と再現性を含めて定義する。",
-      verification:
-        "競技レベル、試合データ、現場評価、PDSを横断して検証する。",
-      relatedIds:[
-        "research-winning",
-        "pds-integration"
-      ]
-    }
-  ],
-
-  updates: [
-    {
-      id:"update-001",
-      contentId:"research-winning",
-      date:"2026.08.03",
-      label:"UPDATED",
-      labelClass:"tag-green",
-      title:"「勝てるフィジカル」の定義を更新",
-      summary:
-        "最大値ではなく、試合状況での調整能力と反復性を定義へ追加。"
-    },
-    {
-      id:"update-002",
-      contentId:"research-acceleration",
-      date:"2026.08.03",
-      label:"NEW HYPOTHESIS",
-      labelClass:"tag-blue",
-      title:"ボール移動距離を加速距離として検討",
-      summary:
-        "重心移動距離ではなく、コッキングからリリースまでのボール経路に着目。"
-    },
-    {
-      id:"update-003",
-      contentId:"dictionary-collision",
-      date:"2026.08.02",
-      label:"CLASSIFICATION",
-      labelClass:"tag-purple",
-      title:"「衝突胸郭型」を分類語として追加",
-      summary:
-        "並進衝突後に胸郭で捌く投球タイプを仮分類として登録。"
-    }
-  ],
-
-  facilities: [
-    {
-      type:"research",
-      code:"R",
-      name:"Research Hall",
-      japaneseName:"研究棟",
-      description:
-        "現場で見つけた現象から、どのように仮説を立てたのかを辿る。",
-      detail:"Research Notes",
-      status:"OPEN"
-    },
-    {
-      type:"pds",
-      code:"P",
-      name:"PDS Center",
-      japaneseName:"評価研究棟",
-      description:
-        "選手の課題を、どの評価とデータで検証するのかを確認する。",
-      detail:"PDS 1.0–4.0",
-      status:"ACTIVE"
-    },
-    {
-      type:"case",
-      code:"C",
-      name:"Case Library",
-      japaneseName:"現場記録棟",
-      description:
-        "実際の現場で、観察・仮説・介入・再評価がどう進んだかを見る。",
-      detail:"Field Cases",
-      status:"OPEN"
-    },
-    {
-      type:"dictionary",
-      code:"D",
-      name:"Digital Library",
-      japaneseName:"思考図書棟",
-      description:
-        "観察から生まれた概念と、それぞれの関連性を辿る。",
-      detail:"Dictionary",
-      status:"OPEN"
-    }
-  ]
-};
-
-(function () {
-  "use strict";
-
-  let campusData = FALLBACK_DATA;
-  let activePhenomenonId = "";
-  let selectedContentId = "";
-
-  const elements = {
-    campusVersion:document.getElementById("campusVersion"),
-    footerCopyright:document.getElementById("footerCopyright"),
-    mobileMenuButton:document.getElementById("mobileMenuButton"),
-    mobileNav:document.getElementById("mobileNav"),
-    phenomenonList:document.getElementById("phenomenonList"),
-    bookshelf:document.getElementById("bookshelf"),
-    insightCount:document.getElementById("insightCount"),
-    insightTitle:document.getElementById("insightTitle"),
-    insightDescription:document.getElementById("insightDescription"),
-    insightPath:document.getElementById("insightPath"),
-    relatedList:document.getElementById("relatedList"),
-    updateGrid:document.getElementById("updateGrid"),
-    facilityGrid:document.getElementById("facilityGrid"),
-    drawerBackdrop:document.getElementById("drawerBackdrop"),
-    detailDrawer:document.getElementById("detailDrawer"),
-    drawerClose:document.getElementById("drawerClose"),
-    drawerEyebrow:document.getElementById("drawerEyebrow"),
-    drawerTitle:document.getElementById("drawerTitle"),
-    drawerSummary:document.getElementById("drawerSummary"),
-    drawerMeta:document.getElementById("drawerMeta"),
-    drawerObservation:document.getElementById("drawerObservation"),
-    drawerThinking:document.getElementById("drawerThinking"),
-    drawerVerification:document.getElementById("drawerVerification"),
-    drawerRelated:document.getElementById("drawerRelated")
-  };
-
-  const typeLabels = {
-    research:"RESEARCH",
-    pds:"PDS",
-    case:"CASE",
-    dictionary:"DICTIONARY"
-  };
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  function getContentById(contentId) {
-    return campusData.contents.find(function (content) {
-      return content.id === contentId;
-    }) || null;
-  }
-
-  function getActivePhenomenon() {
-    return campusData.phenomena.find(function (phenomenon) {
-      return phenomenon.id === activePhenomenonId;
-    }) || null;
-  }
-
-  function renderMeta() {
-    elements.campusVersion.textContent =
-      campusData.meta?.version || "Campus";
-
-    elements.footerCopyright.textContent =
-      campusData.meta?.copyright ||
-      "© adjustment Digital Research Campus";
-  }
-
-  function renderPhenomena() {
-    elements.phenomenonList.innerHTML =
-      campusData.phenomena
-        .map(function (phenomenon) {
-          const isActive =
-            phenomenon.id === activePhenomenonId;
-
-          return (
-            '<button' +
-              ' class="phenomenon-button' +
-              (isActive ? " is-active" : "") +
-              '"' +
-              ' type="button"' +
-              ' data-phenomenon-id="' +
-              escapeHtml(phenomenon.id) +
-              '"' +
-              ' aria-pressed="' +
-              String(isActive) +
-              '"' +
-            ">" +
-              escapeHtml(phenomenon.label) +
-            "</button>"
-          );
-        })
-        .join("");
-
-    elements.phenomenonList
-      .querySelectorAll("[data-phenomenon-id]")
-      .forEach(function (button) {
-        button.addEventListener("click",function () {
-          selectPhenomenon(
-            button.dataset.phenomenonId
-          );
-        });
-      });
-  }
-
-  function renderBooks() {
-    const activePhenomenon = getActivePhenomenon();
-    const relatedIds =
-      activePhenomenon?.relatedIds || [];
-
-    const visibleContents =
-      campusData.contents.slice(0,16);
-
-    elements.bookshelf.innerHTML =
-      visibleContents
-        .map(function (content) {
-          const isRelated =
-            relatedIds.includes(content.id);
-
-          const isSelected =
-            selectedContentId === content.id;
-
-          return (
-            '<button' +
-              ' class="book' +
-              (isRelated ? " is-related" : "") +
-              (isSelected ? " is-selected" : "") +
-              '"' +
-              ' type="button"' +
-              ' data-content-id="' +
-              escapeHtml(content.id) +
-              '"' +
-              ' data-type="' +
-              escapeHtml(content.type) +
-              '"' +
-              ' aria-label="' +
-              escapeHtml(content.title) +
-              '"' +
-            ">" +
-              '<span class="book-type">' +
-                escapeHtml(typeLabels[content.type] || content.type) +
-              "</span>" +
-              "<h4>" +
-                escapeHtml(content.title) +
-              "</h4>" +
-              "<p>" +
-                escapeHtml(content.code) +
-              "</p>" +
-            "</button>"
-          );
-        })
-        .join("");
-
-    elements.bookshelf
-      .querySelectorAll("[data-content-id]")
-      .forEach(function (button) {
-        button.addEventListener("click",function () {
-          selectedContentId =
-            button.dataset.contentId;
-
-          renderBooks();
-          openContent(selectedContentId);
-        });
-      });
-  }
-
-  function renderInsight() {
-    const phenomenon = getActivePhenomenon();
-
-    if (!phenomenon) {
-      elements.insightCount.textContent =
-        "0 CONNECTIONS";
-
-      elements.insightTitle.textContent =
-        "現象を選択してください。";
-
-      elements.insightDescription.textContent =
-        "一つの現象から、どの領域へ視点が広がるのかを表示します。";
-
-      elements.insightPath.innerHTML = "";
-      elements.relatedList.innerHTML = "";
-      return;
-    }
-
-    const relatedContents =
-      phenomenon.relatedIds
-        .map(getContentById)
-        .filter(Boolean);
-
-    elements.insightCount.textContent =
-      relatedContents.length + " CONNECTIONS";
-
-    elements.insightTitle.textContent =
-      phenomenon.title;
-
-    elements.insightDescription.textContent =
-      phenomenon.description;
-
-    elements.insightPath.innerHTML =
-      phenomenon.path
-        .map(function (node) {
-          return (
-            '<span class="path-node">' +
-              escapeHtml(node) +
-            "</span>"
-          );
-        })
-        .join("");
-
-    elements.relatedList.innerHTML =
-      relatedContents
-        .map(function (content) {
-          return (
-            '<button' +
-              ' class="related-item"' +
-              ' type="button"' +
-              ' data-related-id="' +
-              escapeHtml(content.id) +
-              '"' +
-            ">" +
-              '<span class="related-code">' +
-                escapeHtml(content.code) +
-              "</span>" +
-              '<span class="related-main">' +
-                "<strong>" +
-                  escapeHtml(content.title) +
-                "</strong>" +
-                "<span>" +
-                  escapeHtml(content.summary) +
-                "</span>" +
-              "</span>" +
-              '<span class="related-arrow" aria-hidden="true">→</span>' +
-            "</button>"
-          );
-        })
-        .join("");
-
-    elements.relatedList
-      .querySelectorAll("[data-related-id]")
-      .forEach(function (button) {
-        button.addEventListener("click",function () {
-          selectedContentId =
-            button.dataset.relatedId;
-
-          renderBooks();
-          openContent(selectedContentId);
-        });
-      });
-  }
-
-  function selectPhenomenon(phenomenonId) {
-    activePhenomenonId = phenomenonId;
-    selectedContentId = "";
-
-    renderPhenomena();
-    renderBooks();
-    renderInsight();
-  }
-
-  function renderUpdates() {
-    elements.updateGrid.innerHTML =
-      campusData.updates
-        .slice(0,3)
-        .map(function (update) {
-          return (
-            '<article' +
-              ' class="panel update-card"' +
-              ' data-update-content-id="' +
-              escapeHtml(update.contentId) +
-              '"' +
-              ' tabindex="0"' +
-              ' role="button"' +
-              ' aria-label="' +
-              escapeHtml(update.title) +
-              '"' +
-            ">" +
-              '<div class="update-head">' +
-                '<span class="tag ' +
-                  escapeHtml(update.labelClass) +
-                '">' +
-                  escapeHtml(update.label) +
-                "</span>" +
-                '<span class="update-date">' +
-                  escapeHtml(update.date) +
-                "</span>" +
-              "</div>" +
-              "<h3>" +
-                escapeHtml(update.title) +
-              "</h3>" +
-              "<p>" +
-                escapeHtml(update.summary) +
-              "</p>" +
-              '<div class="update-footer">' +
-                "<span>詳細を見る</span>" +
-                "<strong>OPEN →</strong>" +
-              "</div>" +
-            "</article>"
-          );
-        })
-        .join("");
-
-    elements.updateGrid
-      .querySelectorAll("[data-update-content-id]")
-      .forEach(function (card) {
-        function open() {
-          openContent(
-            card.dataset.updateContentId
-          );
-        }
-
-        card.addEventListener("click",open);
-
-        card.addEventListener("keydown",function (event) {
-          if (
-            event.key === "Enter" ||
-            event.key === " "
-          ) {
-            event.preventDefault();
-            open();
-          }
-        });
-      });
-  }
-
-  function renderFacilities() {
-    elements.facilityGrid.innerHTML =
-      campusData.facilities
-        .map(function (facility) {
-          return (
-            '<button' +
-              ' class="facility-button"' +
-              ' type="button"' +
-              ' data-facility-type="' +
-              escapeHtml(facility.type) +
-              '"' +
-              ' data-type="' +
-              escapeHtml(facility.type) +
-              '"' +
-            ">" +
-              '<span class="facility-icon">' +
-                escapeHtml(facility.code) +
-              "</span>" +
-              '<span class="facility-name">' +
-                escapeHtml(facility.name) +
-                '<span class="facility-japanese">' +
-                  escapeHtml(facility.japaneseName) +
-                "</span>" +
-              "</span>" +
-              '<span class="facility-description">' +
-                escapeHtml(facility.description) +
-              "</span>" +
-              '<span class="facility-footer">' +
-                "<span>" +
-                  escapeHtml(facility.detail) +
-                "</span>" +
-                "<strong>" +
-                  escapeHtml(facility.status) +
-                "</strong>" +
-              "</span>" +
-            "</button>"
-          );
-        })
-        .join("");
-
-    elements.facilityGrid
-      .querySelectorAll("[data-facility-type]")
-      .forEach(function (button) {
-        button.addEventListener("click",function () {
-          openFacility(
-            button.dataset.facilityType
-          );
-        });
-      });
-  }
-
-  function openFacility(type) {
-    const matchingContents =
-      campusData.contents.filter(function (content) {
-        return content.type === type;
-      });
-
-    if (matchingContents.length === 0) {
-      return;
-    }
-
-    const firstContent = matchingContents[0];
-
-    openContent(firstContent.id);
-  }
-
-  function openContent(contentId) {
-    const content = getContentById(contentId);
-
-    if (!content) {
-      return;
-    }
-
-    selectedContentId = content.id;
-
-    elements.drawerEyebrow.textContent =
-      typeLabels[content.type] ||
-      content.type.toUpperCase();
-
-    elements.drawerTitle.textContent =
-      content.title;
-
-    elements.drawerSummary.textContent =
-      content.summary;
-
-    elements.drawerMeta.innerHTML =
-      [
-        content.code,
-        content.status,
-        content.updatedAt
-      ]
-        .map(function (item,index) {
-          const className =
-            index === 1
-              ? "tag " + (content.statusClass || "")
-              : "tag";
-
-          return (
-            '<span class="' +
-              className +
-            '">' +
-              escapeHtml(item) +
-            "</span>"
-          );
-        })
-        .join("") +
-      content.tags
-        .map(function (tag) {
-          return (
-            '<span class="tag">' +
-              escapeHtml(tag) +
-            "</span>"
-          );
-        })
-        .join("");
-
-    elements.drawerObservation.textContent =
-      content.observation ||
-      "現在整理中です。";
-
-    elements.drawerThinking.textContent =
-      content.thinking ||
-      "現在整理中です。";
-
-    elements.drawerVerification.textContent =
-      content.verification ||
-      "現在検証中です。";
-
-    const relatedContents =
-      (content.relatedIds || [])
-        .map(getContentById)
-        .filter(Boolean);
-
-    elements.drawerRelated.innerHTML =
-      relatedContents.length > 0
-        ? relatedContents
-            .map(function (related) {
-              return (
-                '<div class="drawer-related-item">' +
-                  "<strong>" +
-                    escapeHtml(related.title) +
-                  "</strong>" +
-                  "<span>" +
-                    escapeHtml(
-                      typeLabels[related.type] +
-                      " / " +
-                      related.code
-                    ) +
-                  "</span>" +
-                "</div>"
-              );
-            })
-            .join("")
-        : (
-          '<div class="drawer-related-item">' +
-            "<strong>関連する思考は整理中です。</strong>" +
-          "</div>"
-        );
-
-    elements.detailDrawer.classList.add("is-open");
-    elements.drawerBackdrop.classList.add("is-open");
-
-    elements.detailDrawer.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    elements.drawerBackdrop.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    document.body.classList.add("menu-open");
-  }
-
-  function closeDrawer() {
-    elements.detailDrawer.classList.remove("is-open");
-    elements.drawerBackdrop.classList.remove("is-open");
-
-    elements.detailDrawer.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    elements.drawerBackdrop.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    document.body.classList.remove("menu-open");
-  }
-
-  function renderAll() {
-    renderMeta();
-    renderPhenomena();
-    renderBooks();
-    renderInsight();
-    renderUpdates();
-    renderFacilities();
-  }
-
-  function initializeSelection() {
-    if (
-      campusData.phenomena &&
-      campusData.phenomena.length > 0
-    ) {
-      activePhenomenonId =
-        campusData.phenomena[0].id;
-    }
-
-    renderAll();
-  }
-
-  async function loadCampusData() {
-    try {
-      const response = await fetch(
-        "./data/campus-data.json",
-        {
-          cache:"no-store"
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "campus-data.json could not be loaded."
-        );
-      }
-
-      const externalData = await response.json();
-
-      if (
-        !externalData ||
-        !Array.isArray(externalData.phenomena) ||
-        !Array.isArray(externalData.contents)
-      ) {
-        throw new Error(
-          "campus-data.json format is invalid."
-        );
-      }
-
-      campusData = externalData;
-    } catch (error) {
-      campusData = FALLBACK_DATA;
-    }
-
-    initializeSelection();
-  }
-
-  elements.mobileMenuButton.addEventListener(
-    "click",
-    function () {
-      const isOpen =
-        elements.mobileNav.classList.toggle("is-open");
-
-      elements.mobileMenuButton.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-      );
-
-      elements.mobileMenuButton.setAttribute(
-        "aria-label",
-        isOpen
-          ? "メニューを閉じる"
-          : "メニューを開く"
-      );
-    }
-  );
-
-  elements.mobileNav
-    .querySelectorAll("a")
-    .forEach(function (link) {
-      link.addEventListener("click",function () {
-        elements.mobileNav.classList.remove("is-open");
-
-        elements.mobileMenuButton.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-      });
-    });
-
-  elements.drawerClose.addEventListener(
-    "click",
-    closeDrawer
-  );
-
-  elements.drawerBackdrop.addEventListener(
-    "click",
-    closeDrawer
-  );
-
-  document.addEventListener(
-    "keydown",
-    function (event) {
-      if (event.key === "Escape") {
-        closeDrawer();
-      }
-    }
-  );
-
-  loadCampusData();
-})();
-</script>
+<script
+  src="./js/campus.js"
+  defer
+></script>
 </body>
 </html>
