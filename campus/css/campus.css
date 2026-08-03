@@ -517,7 +517,7 @@ overflow:hidden;
 .hero-background-image {
 position:absolute;
 inset:-2%;
-background-image:url("../../assets/campus-library-hero.png");
+background-image:url("../assets/campus-library-hero.png");
 background-position:center 42%;
 background-size:cover;
 background-repeat:no-repeat;
