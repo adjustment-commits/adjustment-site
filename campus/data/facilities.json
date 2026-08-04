@@ -1,0 +1,38 @@
+[
+  {
+    "type": "research",
+    "code": "R",
+    "name": "研究",
+    "japaneseName": "研究",
+    "description": "仮説、検証、知見を保管する。",
+    "detail": "保管中",
+    "status": "公開中"
+  },
+  {
+    "type": "pds",
+    "code": "P",
+    "name": "PDS評価",
+    "japaneseName": "PDS評価",
+    "description": "身体機能、出力、統合評価を保管する。",
+    "detail": "保管中",
+    "status": "公開中"
+  },
+  {
+    "type": "case",
+    "code": "C",
+    "name": "現場事例",
+    "japaneseName": "現場事例",
+    "description": "現場の観察、介入、検証を保管する。",
+    "detail": "保管中",
+    "status": "公開中"
+  },
+  {
+    "type": "dictionary",
+    "code": "D",
+    "name": "用語・概念",
+    "japaneseName": "用語・概念",
+    "description": "研究と現場をつなぐ用語と概念を保管する。",
+    "detail": "保管中",
+    "status": "公開中"
+  }
+]
