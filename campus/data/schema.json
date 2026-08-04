@@ -1,0 +1,659 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "./schema.json",
+  "title": "adjustment Digital Research Campus Schema",
+  "description": "現場の悩みを起点に、捉え直し、可能性、確認項目、現場での次の一手を管理する共通スキーマ。",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "contentTypes",
+    "statuses",
+    "domains",
+    "levels",
+    "definitions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "contentTypes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "research",
+          "thinking",
+          "case",
+          "pds",
+          "dictionary",
+          "update"
+        ]
+      }
+    },
+    "statuses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "draft",
+          "review",
+          "published",
+          "archived"
+        ]
+      }
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "pitching",
+          "hitting",
+          "running",
+          "defense",
+          "physical",
+          "strength",
+          "conditioning",
+          "medical",
+          "recovery",
+          "analysis",
+          "coaching",
+          "team"
+        ]
+      }
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "elementary",
+          "middle",
+          "high",
+          "college",
+          "open",
+          "professional",
+          "all"
+        ]
+      }
+    },
+    "definitions": {
+      "type": "object",
+      "required": [
+        "content",
+        "concern",
+        "update"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "concern": {
+          "$ref": "#/$defs/concern"
+        },
+        "update": {
+          "$ref": "#/$defs/update"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "contentId": {
+      "type": "string",
+      "pattern": "^(research|thinking|case|pds|dictionary)-[a-z0-9][a-z0-9-]*$"
+    },
+    "concernId": {
+      "type": "string",
+      "pattern": "^concern-[a-z0-9][a-z0-9-]*$"
+    },
+    "updateId": {
+      "type": "string",
+      "pattern": "^update-[a-z0-9][a-z0-9-]*$"
+    },
+    "stringArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "contentIdArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/contentId"
+      }
+    },
+    "domainArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "pitching",
+          "hitting",
+          "running",
+          "defense",
+          "physical",
+          "strength",
+          "conditioning",
+          "medical",
+          "recovery",
+          "analysis",
+          "coaching",
+          "team"
+        ]
+      }
+    },
+    "levelArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "elementary",
+          "middle",
+          "high",
+          "college",
+          "open",
+          "professional",
+          "all"
+        ]
+      }
+    },
+    "possibility": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^possibility-[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "domains": {
+          "$ref": "#/$defs/domainArray"
+        },
+        "relatedIds": {
+          "$ref": "#/$defs/contentIdArray"
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^checkpoint-[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "method": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "unit": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "reference": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "relatedIds": {
+          "$ref": "#/$defs/contentIdArray"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "code",
+        "title",
+        "summary",
+        "status",
+        "version",
+        "sport",
+        "domains",
+        "levels",
+        "problem",
+        "reframe",
+        "possibilities",
+        "checkpoints",
+        "nextMove",
+        "limitation",
+        "tags",
+        "relatedIds",
+        "createdAt",
+        "updatedAt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/contentId"
+        },
+        "type": {
+          "enum": [
+            "research",
+            "thinking",
+            "case",
+            "pds",
+            "dictionary"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z]+-[0-9]{3,}$"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "review",
+            "published",
+            "archived"
+          ]
+        },
+        "statusLabel": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "statusClass": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(?:\\.[0-9]+)?$"
+        },
+        "featured": {
+          "type": "boolean",
+          "default": false
+        },
+        "author": {
+          "type": "string",
+          "default": "adjustment"
+        },
+        "sport": {
+          "const": "baseball"
+        },
+        "domains": {
+          "$ref": "#/$defs/domainArray"
+        },
+        "levels": {
+          "$ref": "#/$defs/levelArray"
+        },
+        "category": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "problem": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "observation": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "reframe": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "question": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "hypothesis": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "possibilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/possibility"
+          }
+        },
+        "checkpoints": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/checkpoint"
+          }
+        },
+        "nextMove": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "intervention": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "result": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "discussion": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "nextQuestion": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "limitation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "body": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "tags": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "keywords": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "relatedIds": {
+          "$ref": "#/$defs/contentIdArray"
+        },
+        "concernIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/concernId"
+          }
+        },
+        "caseProfile": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "anonymousLabel": {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            "ageGroup": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "level": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "position": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "throwingSide": {
+              "enum": [
+                "right",
+                "left",
+                "both",
+                "unknown",
+                null
+              ]
+            },
+            "battingSide": {
+              "enum": [
+                "right",
+                "left",
+                "switch",
+                "unknown",
+                null
+              ]
+            },
+            "identifiableDetailsRemoved": {
+              "type": "boolean"
+            }
+          }
+        },
+        "pdsProfile": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pdsVersion": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "testIds": {
+              "$ref": "#/$defs/stringArray"
+            },
+            "score": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "maximumScore": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "interpretation": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "recommendation": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        },
+        "createdAt": {
+          "$ref": "#/$defs/date"
+        },
+        "updatedAt": {
+          "$ref": "#/$defs/date"
+        },
+        "publishedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "case"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "caseProfile"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "pds"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "pdsProfile"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "published"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "publishedAt"
+            ]
+          }
+        }
+      ]
+    },
+    "concern": {
+      "type": "object",
+      "required": [
+        "id",
+        "code",
+        "label",
+        "title",
+        "description",
+        "reframe",
+        "possibilities",
+        "checkpoints",
+        "nextMove",
+        "domains",
+        "relatedIds",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/concernId"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^Q-[0-9]{2,}$"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reframe": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "possibilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/possibility"
+          }
+        },
+        "checkpoints": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/checkpoint"
+          }
+        },
+        "nextMove": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "domains": {
+          "$ref": "#/$defs/domainArray"
+        },
+        "levels": {
+          "$ref": "#/$defs/levelArray"
+        },
+        "tags": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "relatedIds": {
+          "$ref": "#/$defs/contentIdArray"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "review",
+            "published",
+            "archived"
+          ]
+        },
+        "createdAt": {
+          "$ref": "#/$defs/date"
+        },
+        "updatedAt": {
+          "$ref": "#/$defs/date"
+        }
+      }
+    },
+    "update": {
+      "type": "object",
+      "required": [
+        "id",
+        "contentId",
+        "date",
+        "label",
+        "title",
+        "summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/updateId"
+        },
+        "contentId": {
+          "$ref": "#/$defs/contentId"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "labelClass": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  }
+}
