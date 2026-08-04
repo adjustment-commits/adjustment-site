@@ -2,19 +2,19 @@
   "meta": {
     "version": "0.3.0",
     "updatedAt": "2026-08-03",
-    "copyright": "\u00a9 adjustment Digital Research Campus"
+    "copyright": "© adjustment Digital Research Campus"
   },
   "phenomena": [
     {
       "id": "phenomenon-winning-physical",
-      "label": "\u52dd\u3066\u308b\u30d5\u30a3\u30b8\u30ab\u30eb",
-      "title": "\u52dd\u3066\u308b\u30d5\u30a3\u30b8\u30ab\u30eb\u3068\u306f\u4f55\u304b",
-      "description": "\u56fd\u969b\u5927\u4f1a\u3067\u52dd\u3064\u305f\u3081\u306b\u5fc5\u8981\u306a\u8eab\u4f53\u80fd\u529b\u3092\u3001\u518d\u73fe\u6027\u3068\u5b9f\u6226\u6027\u304b\u3089\u6574\u7406\u3059\u308b\u3002",
+      "label": "勝てるフィジカル",
+      "title": "勝てるフィジカルとは何か",
+      "description": "競技で結果を出すために必要な身体能力を、再現性と実戦性から整理する。",
       "path": [
-        "\u73fe\u8c61",
-        "\u8eab\u4f53\u80fd\u529b",
-        "\u518d\u73fe\u6027",
-        "\u691c\u8a3c"
+        "現象",
+        "身体能力",
+        "再現性",
+        "検証"
       ],
       "relatedIds": [
         "research-001"
@@ -25,21 +25,21 @@
     {
       "id": "research-001",
       "type": "research",
-      "code": "RES-001",
-      "title": "\u52dd\u3066\u308b\u30d5\u30a3\u30b8\u30ab\u30eb\u3068\u306f\u4f55\u304b",
-      "summary": "\u56fd\u969b\u5927\u4f1a\u3067\u52dd\u3064\u305f\u3081\u306b\u5fc5\u8981\u306a\u8eab\u4f53\u80fd\u529b\u3092\u6574\u7406\u3059\u308b\u3002",
+      "code": "研究-001",
+      "title": "勝てるフィジカルとは何か",
+      "summary": "競技で結果を出すために必要な身体能力を整理する。",
       "tags": [
-        "\u52dd\u3066\u308b\u30d5\u30a3\u30b8\u30ab\u30eb",
-        "\u56fd\u969b\u5927\u4f1a",
-        "\u518d\u73fe\u6027"
+        "勝てるフィジカル",
+        "競技力",
+        "再現性"
       ],
-      "status": "REVIEW",
+      "status": "レビュー中",
       "statusClass": "is-review",
       "updatedAt": "2026-08-03",
-      "observation": "\u56fd\u969b\u5927\u4f1a\u3067\u52dd\u3064\u305f\u3081\u306b\u5fc5\u8981\u306a\u8eab\u4f53\u80fd\u529b\u3092\u6574\u7406\u3059\u308b\u3002",
-      "thinking": "\u7af6\u6280\u529b\u3092\u652f\u3048\u308b\u8eab\u4f53\u80fd\u529b\u3092\u3001\u51fa\u529b\u3060\u3051\u3067\u306a\u304f\u518d\u73fe\u6027\u3001\u9069\u5fdc\u529b\u3001\u56de\u5fa9\u529b\u3092\u542b\u3081\u3066\u691c\u8a0e\u3059\u308b\u3002",
-      "verification": "\u8a66\u5408\u30c7\u30fc\u30bf\u3001\u30d5\u30a3\u30b8\u30ab\u30eb\u6e2c\u5b9a\u3001\u6280\u8853\u30b3\u30fc\u30c1\u306e\u6240\u898b\u3001\u9078\u624b\u306e\u4e3b\u89b3\u3092\u7d71\u5408\u3057\u3066\u691c\u8a3c\u3059\u308b\u3002",
-      "limitation": "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u3080\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u306a\u3044\u3002",
+      "observation": "競技で結果を出すために必要な身体能力を整理する。",
+      "thinking": "競技力を支える身体能力を、出力だけでなく再現性、適応力、回復力を含めて検討する。",
+      "verification": "試合データ、フィジカル測定、技術コーチの所見、選手の主観を統合して検証する。",
+      "limitation": "現時点では仮説段階を含む。個別の診断や唯一の正解を示すものではない。",
       "relatedIds": []
     }
   ],
@@ -48,48 +48,48 @@
       "id": "update-001",
       "contentId": "research-001",
       "date": "2026-08-03",
-      "label": "UPDATED",
+      "label": "更新",
       "labelClass": "is-updated",
-      "title": "\u52dd\u3066\u308b\u30d5\u30a3\u30b8\u30ab\u30eb\u3068\u306f\u4f55\u304b",
-      "summary": "\u521d\u671f\u4eee\u8aac\u3068\u691c\u8a3c\u67a0\u7d44\u307f\u3092\u8ffd\u52a0\u3057\u305f\u3002"
+      "title": "勝てるフィジカルとは何か",
+      "summary": "初期仮説と検証の枠組みを追加。"
     }
   ],
   "facilities": [
     {
       "type": "research",
       "code": "R",
-      "name": "Research",
-      "japaneseName": "\u7814\u7a76",
-      "description": "\u4eee\u8aac\u3001\u691c\u8a3c\u3001\u77e5\u898b\u3092\u4fdd\u7ba1\u3059\u308b\u3002",
-      "detail": "Archive",
-      "status": "OPEN"
+      "name": "研究",
+      "japaneseName": "研究",
+      "description": "仮説、検証、知見を保管する。",
+      "detail": "保管中",
+      "status": "公開中"
     },
     {
       "type": "pds",
       "code": "P",
-      "name": "PDS",
-      "japaneseName": "PDS\u8a55\u4fa1",
-      "description": "\u8eab\u4f53\u6a5f\u80fd\u3001\u51fa\u529b\u3001\u7d71\u5408\u8a55\u4fa1\u3092\u4fdd\u7ba1\u3059\u308b\u3002",
-      "detail": "Archive",
-      "status": "OPEN"
+      "name": "PDS評価",
+      "japaneseName": "PDS評価",
+      "description": "身体機能、出力、統合評価を保管する。",
+      "detail": "保管中",
+      "status": "公開中"
     },
     {
       "type": "case",
       "code": "C",
-      "name": "Case",
-      "japaneseName": "\u73fe\u5834\u4e8b\u4f8b",
-      "description": "\u73fe\u5834\u306e\u89b3\u5bdf\u3001\u4ecb\u5165\u3001\u691c\u8a3c\u3092\u4fdd\u7ba1\u3059\u308b\u3002",
-      "detail": "Archive",
-      "status": "OPEN"
+      "name": "現場事例",
+      "japaneseName": "現場事例",
+      "description": "現場の観察、介入、検証を保管する。",
+      "detail": "保管中",
+      "status": "公開中"
     },
     {
       "type": "dictionary",
       "code": "D",
-      "name": "Dictionary",
-      "japaneseName": "\u7528\u8a9e\u30fb\u6982\u5ff5",
-      "description": "\u7814\u7a76\u3068\u73fe\u5834\u3092\u3064\u306a\u3050\u7528\u8a9e\u3068\u6982\u5ff5\u3092\u4fdd\u7ba1\u3059\u308b\u3002",
-      "detail": "Archive",
-      "status": "OPEN"
+      "name": "用語・概念",
+      "japaneseName": "用語・概念",
+      "description": "研究と現場をつなぐ用語と概念を保管する。",
+      "detail": "保管中",
+      "status": "公開中"
     }
   ]
 }
