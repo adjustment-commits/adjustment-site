@@ -1,7 +1,16 @@
 (() => {
 "use strict";
 
-const DATA_URL = "./data/campus-data.json";
+const DATA_URLS = {
+meta:"./data/campus-meta.json",
+phenomena:"./data/phenomena.json",
+research:"./data/research.json",
+pds:"./data/pds.json",
+cases:"./data/cases.json",
+dictionary:"./data/dictionary.json",
+updates:"./data/updates.json",
+facilities:"./data/facilities.json"
+};
 
 const TYPE_LABELS = {
 research:"RESEARCH",
@@ -599,9 +608,9 @@ meta:{
 
 }
 
-async function fetchCampusData() {
+async function fetchJsonFile(name,url) {
 const response = await fetch(
-DATA_URL,
+url,
 {
 method:"GET",
 cache:"no-store",
@@ -612,31 +621,63 @@ headers:{
 );
 
 if (!response.ok) {
-  throw new Error(
-    `Campus\u30c7\u30fc\u30bf\u306e\u53d6\u5f97\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002HTTP ${response.status}`
-  );
+throw new Error(
+`${name} data request failed. HTTP ${response.status}`
+);
 }
-
-let data;
 
 try {
-  data = await response.json();
+return await response.json();
 } catch (error) {
-  throw new Error(
-    "campus-data.json\u3092JSON\u3068\u3057\u3066\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u672b\u5c3e\u30ab\u30f3\u30de\u3001\u5f15\u7528\u7b26\u3001\u62ec\u5f27\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002"
-  );
+throw new Error(
+`${name} could not be parsed as JSON.`
+);
 }
+}
+
+async function fetchCampusData() {
+const [
+meta,
+phenomena,
+research,
+pds,
+cases,
+dictionary,
+updates,
+facilities
+] = await Promise.all([
+fetchJsonFile("campus-meta.json",DATA_URLS.meta),
+fetchJsonFile("phenomena.json",DATA_URLS.phenomena),
+fetchJsonFile("research.json",DATA_URLS.research),
+fetchJsonFile("pds.json",DATA_URLS.pds),
+fetchJsonFile("cases.json",DATA_URLS.cases),
+fetchJsonFile("dictionary.json",DATA_URLS.dictionary),
+fetchJsonFile("updates.json",DATA_URLS.updates),
+fetchJsonFile("facilities.json",DATA_URLS.facilities)
+]);
+
+const data = {
+meta,
+phenomena,
+contents:[
+...research,
+...pds,
+...cases,
+...dictionary
+],
+updates,
+facilities
+};
 
 const validation = validateData(data);
 
 if (!validation.valid) {
-  throw new Error(
-    validation.errors.join(" ")
-  );
+throw new Error(
+validation.errors.join(" ")
+);
 }
 
 return normalizeData(data);
-
 }
 
 function renderMeta() {
