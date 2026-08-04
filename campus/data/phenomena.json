@@ -1,0 +1,35 @@
+[
+  {
+    "id": "phenomenon-mass-acceptance",
+    "label": "質量を受け止めて利用する",
+    "title": "質量（自分の重さ）を受け止めて利用する能力",
+    "description": "自分の重さを受け止め、その力を次の動作や競技パフォーマンスへつなげる能力を整理する。",
+    "path": [
+      "現象",
+      "質量",
+      "受け止める",
+      "利用する",
+      "競技へつなぐ"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+  {
+    "id": "phenomenon-winning-physical",
+    "label": "勝てるフィジカル",
+    "title": "勝てるフィジカルとは何か",
+    "description": "競技で結果を出すために必要な身体能力を、再現性と実戦性から整理する。",
+    "path": [
+      "現象",
+      "身体能力",
+      "再現性",
+      "検証"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-001"
+    ]
+  }
+]
