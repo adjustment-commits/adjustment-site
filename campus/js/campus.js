@@ -2,7 +2,7 @@
 "use strict";
 
 const DATA_URLS = {
-meta:"./data/campus-meta.json",
+meta:"./data/meta.json",
 phenomena:"./data/phenomena.json",
 research:"./data/research.json",
 pds:"./data/pds.json",
@@ -646,7 +646,7 @@ dictionary,
 updates,
 facilities
 ] = await Promise.all([
-fetchJsonFile("campus-meta.json",DATA_URLS.meta),
+fetchJsonFile("meta.json",DATA_URLS.meta),
 fetchJsonFile("phenomena.json",DATA_URLS.phenomena),
 fetchJsonFile("research.json",DATA_URLS.research),
 fetchJsonFile("pds.json",DATA_URLS.pds),
@@ -657,7 +657,25 @@ fetchJsonFile("facilities.json",DATA_URLS.facilities)
 ]);
 
 const data = {
-meta,
+meta:{
+version:normalizeString(
+meta &&
+meta.site &&
+meta.site.version,
+DEFAULT_META.version
+),
+updatedAt:normalizeString(
+meta &&
+meta.site &&
+meta.site.updatedAt
+),
+copyright:normalizeString(
+meta &&
+meta.branding &&
+meta.branding.copyright,
+DEFAULT_META.copyright
+)
+},
 phenomena,
 contents:[
 ...research,
