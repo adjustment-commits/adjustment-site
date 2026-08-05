@@ -1,67 +1,21 @@
 [
   {
-    "id": "phenomenon-pitch-velocity-not-improving",
-    "label": "球速が伸びない",
-    "title": "トレーニングしても球速が伸びない",
-    "description": "筋力だけではなく、質量の受け止め方や加速距離など様々な視点から整理する。",
+    "id": "velocity",
+    "label": "Velocity",
+    "title": "Velocity Does Not Improve",
+    "description": "Organize the factors preventing velocity improvement.",
     "path": [
-      "球速が伸びない",
-      "質量を受け止める",
-      "加速距離",
-      "投球動作"
+      "Phenomenon",
+      "Physical",
+      "Evaluation",
+      "Hypothesis",
+      "Verification"
     ],
     "relatedIds": [
-      "research-001",
-      "research-003"
-    ]
-  },
-  {
-    "id": "phenomenon-batted-ball-not-traveling",
-    "label": "打球が飛ばない",
-    "title": "力はあるのに打球が飛ばない",
-    "description": "打球速度につながらない原因を、身体の使い方や加速距離から整理する。",
-    "path": [
-      "打球が飛ばない",
-      "質量を受け止める",
-      "加速距離",
-      "打撃動作"
-    ],
-    "relatedIds": [
-      "research-001",
-      "research-003"
-    ]
-  },
-  {
-    "id": "phenomenon-output-not-transferring",
-    "label": "力が結果につながらない",
-    "title": "測定値は高いのに競技で発揮できない",
-    "description": "筋力やジャンプ能力が競技結果へつながらない原因を整理する。",
-    "path": [
-      "出力",
-      "質量を受け止める",
-      "力を利用する",
-      "競技動作"
-    ],
-    "relatedIds": [
-      "research-001",
-      "research-002",
-      "research-003"
-    ]
-  },
-  {
-    "id": "phenomenon-control-unstable",
-    "label": "コントロールが安定しない",
-    "title": "球速はあるのにコントロールが安定しない",
-    "description": "身体の使い方や再現性から原因を整理する。",
-    "path": [
-      "コントロール",
-      "再現性",
-      "身体の使い方",
-      "投球動作"
-    ],
-    "relatedIds": [
-      "research-001",
-      "research-002"
+      "R-001",
+      "PDS-001",
+      "CASE-001",
+      "DICT-001"
     ]
   }
 ]
