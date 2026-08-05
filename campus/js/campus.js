@@ -1152,19 +1152,19 @@ function renderPhenomena() {
           String(index + 1).padStart(2, "0");
 
         return `
-          <button
-            class="concern-button${isActive ? " is-active" : ""}"
-            type="button"
-            data-phenomenon-id="${escapeHtml(phenomenon.id)}"
-            aria-pressed="${String(isActive)}"
-            aria-label="${escapeHtml(phenomenon.label)}"
+<button
+class="concern-button${isActive ? " is-active" : ""}"
+type="button"
+data-phenomenon-id="${escapeHtml(phenomenon.id)}"
+aria-pressed="${String(isActive)}"
+aria-label="${escapeHtml(phenomenon.label)}"
           >
-            <span class="concern-number">${escapeHtml(itemNumber)}</span>
-            <span class="concern-body">
-              <span class="concern-label">${escapeHtml(phenomenon.label)}</span>
-              <span class="concern-description">${escapeHtml(phenomenon.description)}</span>
-            </span>
-            <span class="concern-status">${isActive ? "CHECK" : ">"}</span>
+          <span class="concern-code">${escapeHtml(itemNumber)}</span>
+<span class="concern-main">
+  <strong>${escapeHtml(phenomenon.label)}</strong>
+  <span>${escapeHtml(phenomenon.description)}</span>
+</span>
+<span class="concern-arrow">${isActive ? "CHECK" : ">"}</span>
           </button>
         `;
       })
@@ -1192,7 +1192,6 @@ function renderPhenomena() {
 
   syncPhenomenonAccordion();
 }
-
 
 
 function sortContentsForBookshelf(contents) {
