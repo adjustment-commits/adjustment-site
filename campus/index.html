@@ -230,40 +230,139 @@ aria-busy="true"
 class="thinking-stage"
 id="insightPanel"
 aria-live="polite"
-aria-labelledby="insightTitle"
+aria-labelledby="questionTitle"
 >
+
 <div class="thinking-stage-header">
 <div>
 <p class="thinking-stage-label">ADJUSTMENT VIEW</p>
-<h3 class="thinking-stage-title" id="insightTitle">
-現象を選択してください。
+<h3
+class="thinking-stage-title"
+id="questionTitle"
+>
+課題を選択してください。
 </h3>
 </div>
 
-<span class="thinking-stage-status" id="insightCount">
-0 CONNECTIONS
+<span
+class="thinking-stage-status"
+id="insightCount"
+>
+STEP 1 / 5
 </span>
 </div>
 
-<p class="thinking-stage-description" id="insightDescription">
-一つの現象から、どの領域へ視点が広がるのかを表示します。
+<p
+class="thinking-stage-description"
+id="questionText"
+>
+課題を選択すると質問が表示されます。
 </p>
 
-<section class="thinking-block reframe-block" aria-labelledby="insightPathTitle">
+<section
+class="thinking-block question-block"
+aria-labelledby="questionBlockTitle"
+>
+
 <div class="thinking-block-heading">
 <span class="thinking-step-number">01</span>
+
 <div>
-<p>THINKING PATH</p>
-<h4 id="insightPathTitle">思考のつながり</h4>
-</div>
+<p>QUESTION</p>
+<h4 id="questionBlockTitle">
+まず考えてみる
+</h4>
 </div>
 
-<div class="branch-list" id="insightPath"></div>
+</div>
+
+<div
+class="branch-list"
+id="questionChoices"
+>
+</div>
+
 </section>
 
-<section class="thinking-block branch-block" aria-labelledby="relatedListTitle">
+<section
+class="thinking-block reframe-block"
+aria-labelledby="adjustmentBlockTitle"
+>
+
 <div class="thinking-block-heading">
 <span class="thinking-step-number">02</span>
+
+<div>
+<p>ADJUSTMENT VIEW</p>
+<h4 id="adjustmentBlockTitle">
+adjustmentではこう考えます
+</h4>
+</div>
+
+</div>
+
+<h5 id="adjustmentTitle"></h5>
+
+<p id="adjustmentText"></p>
+
+</section>
+
+<section
+class="thinking-block branch-block"
+aria-labelledby="whyBlockTitle"
+>
+
+<div class="thinking-block-heading">
+<span class="thinking-step-number">03</span>
+
+<div>
+<p>WHY</p>
+<h4 id="whyBlockTitle">
+なぜそう考えるのか
+</h4>
+</div>
+
+</div>
+
+<h5 id="whyTitle"></h5>
+
+<p id="whyText"></p>
+
+<div
+class="branch-list"
+id="whyPoints"
+>
+</div>
+
+</section>
+
+<section
+class="thinking-block checkpoint-block"
+aria-labelledby="checkpointBlockTitle"
+>
+
+<div class="thinking-block-heading">
+<span class="thinking-step-number">04</span>
+
+<div>
+<p>CHECK POINT</p>
+<h4 id="checkpointBlockTitle">
+まず確認してみる
+</h4>
+</div>
+
+</div>
+
+<div
+class="checkpoint-list"
+id="checkpointList"
+>
+</div>
+
+</section>
+<section class="thinking-block branch-block" aria-labelledby="relatedListTitle">
+<div class="thinking-block-heading">
+<span class="thinking-step-number">05</span>
 <div>
 <p>RELATED CONTENT</p>
 <h4 id="relatedListTitle">関連する資料</h4>
