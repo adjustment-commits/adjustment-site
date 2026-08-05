@@ -1,1 +1,23 @@
-
+[
+  {
+    "id": "PDS-001",
+    "type": "pds",
+    "code": "PDS-001",
+    "title": "Thoracic Rotation",
+    "summary": "PDS evaluation item.",
+    "tags": [
+      "PDS",
+      "thorax"
+    ],
+    "status": "ACTIVE",
+    "statusClass": "active",
+    "updatedAt": "2026-08-02",
+    "observation": "",
+    "thinking": "",
+    "verification": "",
+    "limitation": "",
+    "relatedIds": [
+      "R-001"
+    ]
+  }
+]
