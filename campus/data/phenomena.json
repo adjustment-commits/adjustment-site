@@ -1,21 +1,122 @@
 [
   {
-    "id": "velocity",
-    "label": "Velocity",
-    "title": "Velocity Does Not Improve",
-    "description": "Organize the factors preventing velocity improvement.",
+    "id": "phenomenon-velocity-not-improving",
+    "label": "球速が伸びない",
+    "title": "球速が伸びないとき、何を見るか",
+    "description": "球速が伸びない現象を、筋力やフォームだけでなく、加速距離という視点から捉え直します。",
+
     "path": [
-      "Phenomenon",
-      "Physical",
-      "Evaluation",
-      "Hypothesis",
-      "Verification"
+      "球速が伸びない",
+      "加速距離を知る",
+      "原因を切り分ける",
+      "確認する",
+      "現場へ戻す"
     ],
+
+    "question": {
+      "title": "まず考えてみましょう",
+      "text": "球速を上げるために「加速距離」という考え方を知っていますか？",
+      "description": "まず、自分がどんな視点で球速を考えているか確認します。",
+
+      "choices": [
+        {
+          "id": "know",
+          "label": "知っている",
+          "response": "どこからどこまでを加速距離として考えていますか？"
+        },
+        {
+          "id": "heard",
+          "label": "聞いたことはある",
+          "response": "重心移動だけでなく、ボールが加速する距離も考えます。"
+        },
+        {
+          "id": "unknown",
+          "label": "初めて聞いた",
+          "response": "adjustmentでは球速を考える最初の入口になります。"
+        }
+      ]
+    },
+
+    "adjustmentView": {
+      "title": "adjustment View",
+      "heading": "まず加速距離を考えます",
+      "text": "筋力やフォームだけで判断せず、ボールへ速度を与え続けられる距離が十分あるかを確認します。"
+    },
+
+    "why": {
+      "title": "なぜ加速距離を見るのか",
+      "text": "力が大きくても、ボールへ力を加え続けられる距離が短ければ球速は伸びません。",
+      "points": [
+        "力の大きさだけでは決まらない",
+        "力を加える距離を見る",
+        "方向と連続性も重要"
+      ]
+    },
+
+    "branches": [
+      {
+        "id": "mass",
+        "title": "身体の重さを受け止められているか",
+        "description": "自分の質量を利用できているか確認します。",
+        "relatedIds": [
+          "research-001"
+        ]
+      },
+      {
+        "id": "thorax",
+        "title": "胸郭が加速距離を作れているか",
+        "description": "胸郭の動きがボールの移動につながっているか確認します。",
+        "relatedIds": [
+          "research-003"
+        ]
+      },
+      {
+        "id": "shoulder",
+        "title": "肩甲帯だけで投げていないか",
+        "description": "肩甲帯だけで加速距離を作っていないか確認します。",
+        "relatedIds": []
+      },
+      {
+        "id": "lower-body",
+        "title": "下半身からつながっているか",
+        "description": "軸足からボールまで力が伝わっているか確認します。",
+        "relatedIds": [
+          "research-001"
+        ]
+      }
+    ],
+
+    "checkpoints": [
+      {
+        "title": "競技映像",
+        "description": "ボールが加速を始める位置を確認します。"
+      },
+      {
+        "title": "PDS",
+        "description": "胸郭、肩甲帯、骨盤、出力を確認します。"
+      },
+      {
+        "title": "出力測定",
+        "description": "ジャンプ、MB、スプリントと比較します。"
+      },
+      {
+        "title": "選手の感覚",
+        "description": "どこで力を受け、どこで加速している感覚があるか確認します。"
+      }
+    ],
+
+    "nextAction": {
+      "title": "次に確認すること",
+      "text": "加速距離が短い理由を切り分け、どこが距離を作り、どこが邪魔しているかを確認します。",
+      "relatedIds": [
+        "research-001",
+        "research-003"
+      ]
+    },
+
     "relatedIds": [
-      "R-001",
-      "PDS-001",
-      "CASE-001",
-      "DICT-001"
+      "research-001",
+      "research-003"
     ]
   }
 ]
