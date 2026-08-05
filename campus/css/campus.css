@@ -2372,10 +2372,12 @@ transition-duration:0.01ms !important;
 
 .phenomenon-accordion {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  background: rgba(6, 18, 27, 0.7);
+  margin-top: 22px;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(26, 39, 48, 0.05);
 }
 
 .phenomenon-accordion-toggle {
@@ -2388,22 +2390,25 @@ transition-duration:0.01ms !important;
   align-items: center;
   gap: 4px 16px;
   width: 100%;
-  min-height: 88px;
-  padding: 18px 20px;
+  min-height: 82px;
+  padding: 16px 18px;
   border: 0;
-  background: transparent;
-  color: inherit;
+  background: #ffffff;
+  color: var(--text);
   text-align: left;
   cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .phenomenon-accordion-toggle:hover {
-  background: rgba(255, 255, 255, 0.035);
+  background: #f7fbf9;
 }
 
 .phenomenon-accordion-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: -4px;
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
 }
 
 .phenomenon-accordion-heading {
@@ -2411,64 +2416,79 @@ transition-duration:0.01ms !important;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 8px 10px;
   min-width: 0;
 }
 
 .phenomenon-accordion-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  color: var(--accent-dark);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
 }
 
 .phenomenon-accordion-count {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
-  padding: 3px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  justify-content: center;
+  min-height: 23px;
+  padding: 3px 8px;
+  border: 1px solid #bde5d4;
   border-radius: 999px;
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  opacity: 0.7;
+  background: #eff9f5;
+  color: #1d7c59;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .phenomenon-accordion-current {
   grid-area: current;
   min-width: 0;
   overflow: hidden;
-  font-size: 0.86rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
   line-height: 1.5;
   text-overflow: ellipsis;
   white-space: nowrap;
-  opacity: 0.72;
 }
 
 .phenomenon-accordion-icon {
   grid-area: icon;
-  display: grid;
-  place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
   border-radius: 50%;
-  font-size: 1.25rem;
-  font-weight: 300;
+  background: #f7f9fa;
+  color: var(--accent-dark);
+  font-size: 1.15rem;
+  font-weight: 500;
   line-height: 1;
   transition:
-    transform 180ms ease,
-    background-color 180ms ease;
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.phenomenon-accordion-toggle:hover
+.phenomenon-accordion-icon {
+  border-color: #acd9ca;
+  background: #eef8f4;
 }
 
 .phenomenon-accordion.is-open
 .phenomenon-accordion-icon {
   transform: rotate(180deg);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: #83ccb4;
+  background: #eef8f4;
 }
 
 .phenomenon-accordion-body {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--line);
+  background: #fbfcfd;
 }
 
 .phenomenon-accordion-body[hidden] {
@@ -2477,9 +2497,14 @@ transition-duration:0.01ms !important;
 
 .phenomenon-accordion
 #phenomenonList {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
   max-height: min(62vh, 720px);
-  overflow-y: auto;
+  margin-top: 0;
   padding: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
 
@@ -2489,27 +2514,51 @@ transition-duration:0.01ms !important;
 }
 
 .phenomenon-accordion
+#phenomenonList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.phenomenon-accordion
 #phenomenonList::-webkit-scrollbar-thumb {
   border: 2px solid transparent;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
+  background: #c8d1d8;
   background-clip: padding-box;
 }
 
 .phenomenon-accordion
-.concern-button:last-child {
-  margin-bottom: 0;
+#phenomenonList::-webkit-scrollbar-thumb:hover {
+  background: #aeb9c0;
+  background-clip: padding-box;
 }
 
 @media (max-width: 700px) {
+  .phenomenon-accordion {
+    margin-top: 18px;
+    border-radius: 14px;
+  }
+
   .phenomenon-accordion-toggle {
-    min-height: 80px;
-    padding: 15px 16px;
+    min-height: 76px;
+    padding: 14px 15px;
     gap: 3px 12px;
   }
 
+  .phenomenon-accordion-label {
+    font-size: 0.65rem;
+  }
+
+  .phenomenon-accordion-count {
+    font-size: 0.54rem;
+  }
+
   .phenomenon-accordion-current {
-    font-size: 0.8rem;
+    font-size: 0.67rem;
+  }
+
+  .phenomenon-accordion-icon {
+    width: 34px;
+    height: 34px;
   }
 
   .phenomenon-accordion
