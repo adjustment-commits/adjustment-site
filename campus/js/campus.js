@@ -138,13 +138,14 @@ function initializePhenomenonAccordion() {
     "phenomenonAccordionBody"
   );
 
-  toggle.innerHTML =
-    '<span class="phenomenon-accordion-label">' +
-    '<span class="phenomenon-accordion-title">\u8ab2\u984c\u3092\u9078\u3076</span>' +
+ toggle.innerHTML =
+  '<span class="phenomenon-accordion-heading">' +
+    '<span class="phenomenon-accordion-label">\u8ab2\u984c\u3092\u9078\u3076</span>' +
     '<span class="phenomenon-accordion-count">0 ITEMS</span>' +
-    '</span>' +
-    '<span class="phenomenon-accordion-current">\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044</span>' +
-    '<span class="phenomenon-accordion-icon">+</span>';
+  '</span>' +
+  '<span class="phenomenon-accordion-current">\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044</span>' +
+  '<span class="phenomenon-accordion-icon">+</span>';
+
 
   const body =
     document.createElement("div");
@@ -1122,90 +1123,77 @@ copyright;
 }
 
 function renderPhenomena() {
-if (!elements.phenomenonList || !state.data) {
-return;
+  if (!elements.phenomenonList || !state.data) {
+    return;
+  }
+
+  if (state.data.phenomena.length === 0) {
+    elements.phenomenonList.innerHTML =
+      '<div class="empty-message">\u8868\u793a\u3067\u304d\u308b\u73fe\u8c61\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
+
+    elements.phenomenonList.setAttribute(
+      "aria-busy",
+      "false"
+    );
+
+    syncPhenomenonAccordion();
+
+    return;
+  }
+
+  elements.phenomenonList.innerHTML =
+    state.data.phenomena
+      .map((phenomenon, index) => {
+        const isActive =
+          phenomenon.id ===
+          state.activePhenomenonId;
+
+        const itemNumber =
+          String(index + 1).padStart(2, "0");
+
+        return `
+          <button
+            class="concern-button${isActive ? " is-active" : ""}"
+            type="button"
+            data-phenomenon-id="${escapeHtml(phenomenon.id)}"
+            aria-pressed="${String(isActive)}"
+            aria-label="${escapeHtml(phenomenon.label)}"
+          >
+            <span class="concern-number">${escapeHtml(itemNumber)}</span>
+            <span class="concern-body">
+              <span class="concern-label">${escapeHtml(phenomenon.label)}</span>
+              <span class="concern-description">${escapeHtml(phenomenon.description)}</span>
+            </span>
+            <span class="concern-status">${isActive ? "CHECK" : ">"}</span>
+          </button>
+        `;
+      })
+      .join("");
+
+  elements.phenomenonList
+    .querySelectorAll(
+      "[data-phenomenon-id]"
+    )
+    .forEach((button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          selectPhenomenon(
+            button.dataset.phenomenonId
+          );
+        }
+      );
+    });
+
+  elements.phenomenonList.setAttribute(
+    "aria-busy",
+    "false"
+  );
+
+  syncPhenomenonAccordion();
 }
 
-if (state.data.phenomena.length === 0) {
-elements.phenomenonList.innerHTML =
-'<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u73fe\u8c61\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
 
-elements.phenomenonList.setAttribute(
-"aria-busy",
-"false"
-);
-
-syncPhenomenonAccordion();
-}
-
-return;
-}
-
-elements.phenomenonList.innerHTML =
-state.data.phenomena
-.map((phenomenon,index) => {
-const isActive =
-phenomenon.id ===
-state.activePhenomenonId;
-
-const itemNumber =
-String(index + 1).padStart(2,"0");
-
-return (
-'<button' +
-' class="concern-button' +
-(isActive ? " is-active" : "") +
-'"' +
-' type="button"' +
-' data-phenomenon-id="' +
-escapeHtml(phenomenon.id) +
-'"' +
-' aria-pressed="' +
-String(isActive) +
-'"' +
-' aria-label="' +
-escapeHtml(phenomenon.label) +
-'"' +
-'>' +
-'<span class="concern-code" aria-hidden="true">' +
-escapeHtml(itemNumber) +
-'</span>' +
-'<span class="concern-main">' +
-'<strong>' +
-escapeHtml(phenomenon.label) +
-'</strong>' +
-'<span>' +
-escapeHtml(phenomenon.description) +
-'</span>' +
-'</span>' +
-'<span class="concern-arrow" aria-hidden="true">' +
-(isActive ? "CHECK" : ">") +
-'</span>' +
-'</button>'
-);
-})
-.join("");
-
-elements.phenomenonList
-.querySelectorAll(
-"[data-phenomenon-id]"
-)
-.forEach((button) => {
-button.addEventListener(
-"click",
-() => {
-selectPhenomenon(
-button.dataset.phenomenonId
-);
-}
-);
-});
-
-elements.phenomenonList.setAttribute(
-"aria-busy",
-"false"
-);
-}
 
 function sortContentsForBookshelf(contents) {
 const activePhenomenon =
