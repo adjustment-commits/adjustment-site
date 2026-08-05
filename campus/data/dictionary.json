@@ -1,22 +1,20 @@
-[
 {
-"id": "dictionary-acceleration-distance",
-"title": "加速距離",
+  "id": "dictionary-acceleration-distance",
+  "title": "加速距離",
 
-"summary": "速度を生み出すために利用できる身体と用具の移動範囲。",
+  "summary": "競技中に身体や用具へ速度を与え続けられる範囲。",
 
-"definition": "adjustmentでは、加速距離を『競技中に身体と用具が速度を生み出し続けられる範囲』として定義する。",
+  "definition": "adjustmentでは、加速距離を『競技中に身体が質量を受け止めて利用しながら、ボールやバットへ速度を与え続けられる範囲』と定義する。",
 
-"keywords": [
-  "投球",
-  "打撃",
-  "速度",
-  "球速",
-  "打球速度"
-],
+  "keywords": [
+    "投球",
+    "打撃",
+    "速度",
+    "球速",
+    "打球速度"
+  ],
 
-"relatedIds": [
-  "research-002"
-]
+  "relatedIds": [
+    "research-003"
+  ]
 }
-]
