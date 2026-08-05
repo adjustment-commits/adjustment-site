@@ -34,6 +34,7 @@ copyright:"\u00a9 adjustment Digital Research Campus"
 const state = {
 data:null,
 activePhenomenonId:"",
+selectedChoiceId:"",
 selectedContentId:"",
 activeFacilityType:"",
 lastFocusedElement:null,
@@ -54,9 +55,15 @@ bookshelf:document.getElementById("bookshelf"),
 
 insightPanel:document.getElementById("insightPanel"),
 insightCount:document.getElementById("insightCount"),
-insightTitle:document.getElementById("insightTitle"),
-insightDescription:document.getElementById("insightDescription"),
-insightPath:document.getElementById("insightPath"),
+questionTitle:document.getElementById("questionTitle"),
+questionText:document.getElementById("questionText"),
+questionChoices:document.getElementById("questionChoices"),
+adjustmentTitle:document.getElementById("adjustmentTitle"),
+adjustmentText:document.getElementById("adjustmentText"),
+whyTitle:document.getElementById("whyTitle"),
+whyText:document.getElementById("whyText"),
+whyPoints:document.getElementById("whyPoints"),
+checkpointList:document.getElementById("checkpointList"),
 relatedList:document.getElementById("relatedList"),
 
 updateGrid:document.getElementById("updateGrid"),
@@ -117,9 +124,8 @@ return null;
 }
 
 return state.data.contents.find((content) => {
-  return content.id === contentId;
+return content.id === contentId;
 }) || null;
-
 }
 
 function getPhenomenonById(phenomenonId) {
@@ -128,9 +134,8 @@ return null;
 }
 
 return state.data.phenomena.find((phenomenon) => {
-  return phenomenon.id === phenomenonId;
+return phenomenon.id === phenomenonId;
 }) || null;
-
 }
 
 function getActivePhenomenon() {
@@ -145,9 +150,8 @@ return null;
 }
 
 return state.data.facilities.find((facility) => {
-  return facility.type === type;
+return facility.type === type;
 }) || null;
-
 }
 
 function getRelatedContents(ids) {
@@ -172,12 +176,12 @@ function formatDate(value) {
 const text = normalizeString(value);
 
 if (!text) {
-return"";
+return "";
 }
 
 const normalized = text
-.replaceAll("/", ".")
-.replaceAll("-", ".");
+.replaceAll("/",".")
+.replaceAll("-",".");
 
 const parts = normalized.split(".");
 
@@ -211,33 +215,38 @@ day.padStart(2,"0")
 );
 }
 
-
 function getFocusableElements(container) {
 if (!container) {
 return [];
 }
 
 return Array.from(
-  container.querySelectorAll(
-    [
-      "a[href]",
-      "button:not([disabled])",
-      "input:not([disabled])",
-      "textarea:not([disabled])",
-      "select:not([disabled])",
-      "[tabindex]:not([tabindex='-1'])"
-    ].join(",")
-  )
+container.querySelectorAll(
+[
+"a[href]",
+"button:not([disabled])",
+"input:not([disabled])",
+"textarea:not([disabled])",
+"select:not([disabled])",
+"[tabindex]:not([tabindex='-1'])"
+].join(",")
+)
 ).filter((element) => {
-  return (
-    !element.hidden &&
-    element.getAttribute("aria-hidden") !== "true"
-  );
+return (
+!element.hidden &&
+element.getAttribute("aria-hidden") !== "true"
+);
 });
-
 }
 
 function setLoadingState(isLoading) {
+if (elements.phenomenonList) {
+elements.phenomenonList.setAttribute(
+"aria-busy",
+String(isLoading)
+);
+}
+
 if (elements.bookshelf) {
 elements.bookshelf.setAttribute(
 "aria-busy",
@@ -246,12 +255,11 @@ String(isLoading)
 }
 
 if (elements.reloadDataButton) {
-  elements.reloadDataButton.disabled = isLoading;
-  elements.reloadDataButton.textContent = isLoading
-    ? "\u8aad\u307f\u8fbc\u307f\u4e2d"
-    : "\u518d\u8aad\u307f\u8fbc\u307f";
+elements.reloadDataButton.disabled = isLoading;
+elements.reloadDataButton.textContent = isLoading
+? "\u8aad\u307f\u8fbc\u307f\u4e2d"
+: "\u518d\u8aad\u307f\u8fbc\u307f";
 }
-
 }
 
 function showDataError(message) {
@@ -260,15 +268,14 @@ return;
 }
 
 if (elements.dataErrorMessage) {
-  elements.dataErrorMessage.textContent =
-    normalizeString(
-      message,
-      "data/campus-data.json\u306e\u914d\u7f6e\u3068JSON\u5f62\u5f0f\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002"
-    );
+elements.dataErrorMessage.textContent =
+normalizeString(
+message,
+"data\u30d5\u30a9\u30eb\u30c0\u5185\u306eJSON\u30d5\u30a1\u30a4\u30eb\u306e\u914d\u7f6e\u3068\u5f62\u5f0f\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002"
+);
 }
 
 elements.dataErrorSection.hidden = false;
-
 }
 
 function hideDataError() {
@@ -277,47 +284,59 @@ elements.dataErrorSection.hidden = true;
 }
 }
 
+function validateRelatedIds(ids,contentIds,location,errors) {
+normalizeArray(ids).forEach((relatedId) => {
+const normalizedId = normalizeString(relatedId);
+
+if (normalizedId && !contentIds.has(normalizedId)) {
+errors.push(
+`${location}\u306b\u5b58\u5728\u3057\u306a\u3044content ID\u300c${normalizedId}\u300d\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+}
+});
+}
+
 function validateData(data) {
 const errors = [];
 
 if (!isPlainObject(data)) {
-  return {
-    valid:false,
-    errors:[
-      "Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-    ]
-  };
+return {
+valid:false,
+errors:[
+"Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+]
+};
 }
 
 if (!Array.isArray(data.phenomena)) {
-  errors.push(
-    "phenomena\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-  );
+errors.push(
+"phenomena\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+);
 }
 
 if (!Array.isArray(data.contents)) {
-  errors.push(
-    "contents\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-  );
+errors.push(
+"contents\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+);
 }
 
 if (!Array.isArray(data.updates)) {
-  errors.push(
-    "updates\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-  );
+errors.push(
+"updates\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+);
 }
 
 if (!Array.isArray(data.facilities)) {
-  errors.push(
-    "facilities\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-  );
+errors.push(
+"facilities\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+);
 }
 
 if (errors.length > 0) {
-  return {
-    valid:false,
-    errors
-  };
+return {
+valid:false,
+errors
+};
 }
 
 const contentIds = new Set();
@@ -325,136 +344,191 @@ const phenomenonIds = new Set();
 const facilityTypes = new Set();
 
 data.contents.forEach((content,index) => {
-  if (!isPlainObject(content)) {
-    errors.push(
-      `contents[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-    return;
-  }
+if (!isPlainObject(content)) {
+errors.push(
+`contents[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
 
-  const id = normalizeString(content.id);
+const id = normalizeString(content.id);
 
-  if (!id) {
-    errors.push(
-      `contents[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  } else if (contentIds.has(id)) {
-    errors.push(
-      `contents\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-    );
-  } else {
-    contentIds.add(id);
-  }
+if (!id) {
+errors.push(
+`contents[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+} else if (contentIds.has(id)) {
+errors.push(
+`contents\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+);
+} else {
+contentIds.add(id);
+}
 
-  if (!normalizeString(content.type)) {
-    errors.push(
-      `contents[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  }
+if (!normalizeString(content.type)) {
+errors.push(
+`contents[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+}
 
-  if (!normalizeString(content.title)) {
-    errors.push(
-      `contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  }
+if (!normalizeString(content.title)) {
+errors.push(
+`contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+}
 });
 
 data.phenomena.forEach((phenomenon,index) => {
-  if (!isPlainObject(phenomenon)) {
-    errors.push(
-      `phenomena[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-    return;
-  }
+if (!isPlainObject(phenomenon)) {
+errors.push(
+`phenomena[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
 
-  const id = normalizeString(phenomenon.id);
+const id = normalizeString(phenomenon.id);
 
-  if (!id) {
-    errors.push(
-      `phenomena[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  } else if (phenomenonIds.has(id)) {
-    errors.push(
-      `phenomena\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-    );
-  } else {
-    phenomenonIds.add(id);
-  }
+if (!id) {
+errors.push(
+`phenomena[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+} else if (phenomenonIds.has(id)) {
+errors.push(
+`phenomena\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+);
+} else {
+phenomenonIds.add(id);
+}
 
-  normalizeArray(
-    phenomenon.relatedIds
-  ).forEach((relatedId) => {
-    if (!contentIds.has(relatedId)) {
-      errors.push(
-        `phenomena[${index}]\u306erelatedIds\u306b\u5b58\u5728\u3057\u306a\u3044content ID\u300c${relatedId}\u300d\u304c\u3042\u308a\u307e\u3059\u3002`
-      );
-    }
-  });
+if (!normalizeString(phenomenon.label)) {
+errors.push(
+`phenomena[${index}].label\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+}
+
+validateRelatedIds(
+phenomenon.relatedIds,
+contentIds,
+`phenomena[${index}].relatedIds`,
+errors
+);
+
+normalizeArray(phenomenon.branches).forEach((branch,branchIndex) => {
+if (!isPlainObject(branch)) {
+return;
+}
+
+validateRelatedIds(
+branch.relatedIds,
+contentIds,
+`phenomena[${index}].branches[${branchIndex}].relatedIds`,
+errors
+);
+});
+
+if (isPlainObject(phenomenon.nextAction)) {
+validateRelatedIds(
+phenomenon.nextAction.relatedIds,
+contentIds,
+`phenomena[${index}].nextAction.relatedIds`,
+errors
+);
+}
 });
 
 data.contents.forEach((content,index) => {
-  normalizeArray(
-    content.relatedIds
-  ).forEach((relatedId) => {
-    if (!contentIds.has(relatedId)) {
-      errors.push(
-        `contents[${index}]\u306erelatedIds\u306b\u5b58\u5728\u3057\u306a\u3044content ID\u300c${relatedId}\u300d\u304c\u3042\u308a\u307e\u3059\u3002`
-      );
-    }
-  });
+validateRelatedIds(
+content.relatedIds,
+contentIds,
+`contents[${index}].relatedIds`,
+errors
+);
 });
 
 data.updates.forEach((update,index) => {
-  if (!isPlainObject(update)) {
-    errors.push(
-      `updates[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-    return;
-  }
+if (!isPlainObject(update)) {
+errors.push(
+`updates[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
 
-  const contentId = normalizeString(
-    update.contentId
-  );
+const contentId = normalizeString(update.contentId);
 
-  if (!contentId) {
-    errors.push(
-      `updates[${index}].contentId\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  } else if (!contentIds.has(contentId)) {
-    errors.push(
-      `updates[${index}]\u306econtentId\u300c${contentId}\u300d\u306b\u5bfe\u5fdc\u3059\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  }
+if (!contentId) {
+errors.push(
+`updates[${index}].contentId\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+} else if (!contentIds.has(contentId)) {
+errors.push(
+`updates[${index}]\u306econtentId\u300c${contentId}\u300d\u306b\u5bfe\u5fdc\u3059\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+}
 });
 
 data.facilities.forEach((facility,index) => {
-  if (!isPlainObject(facility)) {
-    errors.push(
-      `facilities[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-    return;
-  }
+if (!isPlainObject(facility)) {
+errors.push(
+`facilities[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
 
-  const type = normalizeString(facility.type);
+const type = normalizeString(facility.type);
 
-  if (!type) {
-    errors.push(
-      `facilities[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-    );
-  } else if (facilityTypes.has(type)) {
-    errors.push(
-      `facilities\u5185\u3067type\u300c${type}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-    );
-  } else {
-    facilityTypes.add(type);
-  }
+if (!type) {
+errors.push(
+`facilities[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+);
+} else if (facilityTypes.has(type)) {
+errors.push(
+`facilities\u5185\u3067type\u300c${type}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+);
+} else {
+facilityTypes.add(type);
+}
 });
 
 return {
-  valid:errors.length === 0,
-  errors
+valid:errors.length === 0,
+errors
 };
+}
 
+function normalizeQuestion(question) {
+const source = isPlainObject(question)
+? question
+: {};
+
+return {
+title:normalizeString(
+source.title,
+"\u307e\u305a\u8003\u3048\u3066\u307f\u307e\u3057\u3087\u3046"
+),
+text:normalizeString(
+source.text,
+"\u3053\u306e\u73fe\u8c61\u3092\u3069\u306e\u3088\u3046\u306b\u6349\u3048\u3066\u3044\u307e\u3059\u304b\u3002"
+),
+description:normalizeString(
+source.description,
+"\u307e\u305a\u81ea\u5206\u306e\u6349\u3048\u65b9\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002"
+),
+choices:normalizeArray(source.choices)
+.filter(isPlainObject)
+.map((choice,index) => {
+return {
+id:normalizeString(
+choice.id,
+`choice-${index + 1}`
+),
+label:normalizeString(
+choice.label,
+`CHOICE ${index + 1}`
+),
+response:normalizeString(choice.response)
+};
+})
+};
 }
 
 function normalizeData(data) {
@@ -466,146 +540,243 @@ meta:{
 : {})
 },
 
-  phenomena:data.phenomena.map((phenomenon) => {
-    return {
-      id:normalizeString(phenomenon.id),
-      label:normalizeString(
-        phenomenon.label,
-        "\u73fe\u8c61"
-      ),
-      title:normalizeString(
-        phenomenon.title,
-        "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-      ),
-      description:normalizeString(
-        phenomenon.description,
-        "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
-      ),
-      path:normalizeArray(phenomenon.path)
-        .map((item) => normalizeString(item))
-        .filter(Boolean),
-      relatedIds:normalizeArray(
-        phenomenon.relatedIds
-      )
-        .map((item) => normalizeString(item))
-        .filter(Boolean)
-    };
-  }),
+phenomena:data.phenomena.map((phenomenon) => {
+const adjustmentView = isPlainObject(
+phenomenon.adjustmentView
+)
+? phenomenon.adjustmentView
+: {};
 
-  contents:data.contents.map((content) => {
-    return {
-      id:normalizeString(content.id),
-      type:normalizeString(
-        content.type,
-        "research"
-      ),
-      code:normalizeString(
-        content.code,
-        "NO-CODE"
-      ),
-      title:normalizeString(
-        content.title,
-        "\u7121\u984c"
-      ),
-      summary:normalizeString(
-        content.summary,
-        "\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-      ),
-      tags:normalizeArray(content.tags)
-        .map((item) => normalizeString(item))
-        .filter(Boolean),
-      status:normalizeString(
-        content.status,
-        "DRAFT"
-      ),
-      statusClass:normalizeString(
-        content.statusClass
-      ),
-      updatedAt:normalizeString(
-        content.updatedAt
-      ),
-      observation:normalizeString(
-        content.observation,
-        "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-      ),
-      thinking:normalizeString(
-        content.thinking,
-        "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-      ),
-      verification:normalizeString(
-        content.verification,
-        "\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
-      ),
-      limitation:normalizeString(
-        content.limitation,
-        "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
-      ),
-      relatedIds:normalizeArray(
-        content.relatedIds
-      )
-        .map((item) => normalizeString(item))
-        .filter(Boolean)
-    };
-  }),
+const why = isPlainObject(phenomenon.why)
+? phenomenon.why
+: {};
 
-  updates:data.updates.map((update) => {
-    return {
-      id:normalizeString(update.id),
-      contentId:normalizeString(
-        update.contentId
-      ),
-      date:normalizeString(update.date),
-      label:normalizeString(
-        update.label,
-        "UPDATED"
-      ),
-      labelClass:normalizeString(
-        update.labelClass
-      ),
-      title:normalizeString(
-        update.title,
-        "\u66f4\u65b0\u60c5\u5831"
-      ),
-      summary:normalizeString(
-        update.summary,
-        "\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
-      )
-    };
-  }),
+const nextAction = isPlainObject(
+phenomenon.nextAction
+)
+? phenomenon.nextAction
+: {};
 
-  facilities:data.facilities.map((facility) => {
-    return {
-      type:normalizeString(
-        facility.type
-      ),
-      code:normalizeString(
-        facility.code,
-        "?"
-      ),
-      name:normalizeString(
-        facility.name,
-        "Facility"
-      ),
-      japaneseName:normalizeString(
-        facility.japaneseName,
-        "\u7814\u7a76\u65bd\u8a2d"
-      ),
-      description:normalizeString(
-        facility.description,
-        "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
-      ),
-      detail:normalizeString(
-        facility.detail,
-        "Archive"
-      ),
-      status:normalizeString(
-        facility.status,
-        "OPEN"
-      )
-    };
-  })
+return {
+id:normalizeString(phenomenon.id),
+label:normalizeString(
+phenomenon.label,
+"\u73fe\u8c61"
+),
+title:normalizeString(
+phenomenon.title,
+"\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+),
+description:normalizeString(
+phenomenon.description,
+"\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
+),
+path:normalizeArray(phenomenon.path)
+.map((item) => normalizeString(item))
+.filter(Boolean),
+question:normalizeQuestion(
+phenomenon.question
+),
+adjustmentView:{
+title:normalizeString(
+adjustmentView.title,
+"adjustment View"
+),
+heading:normalizeString(
+adjustmentView.heading,
+"adjustment\u3067\u306f\u3053\u3046\u8003\u3048\u307e\u3059"
+),
+text:normalizeString(
+adjustmentView.text,
+"\u73fe\u8c61\u3092\u4e00\u3064\u306e\u8981\u7d20\u3060\u3051\u3067\u6c7a\u3081\u305a\u3001\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u3064\u306a\u3044\u3067\u8003\u3048\u307e\u3059\u3002"
+)
+},
+why:{
+title:normalizeString(
+why.title,
+"\u306a\u305c\u305d\u3046\u8003\u3048\u308b\u306e\u304b"
+),
+text:normalizeString(
+why.text,
+"\u7d50\u679c\u306b\u3064\u306a\u304c\u308b\u6761\u4ef6\u3092\u5206\u3051\u3066\u78ba\u8a8d\u3059\u308b\u305f\u3081\u3067\u3059\u3002"
+),
+points:normalizeArray(
+why.points || why.keyPoints
+)
+.map((item) => normalizeString(item))
+.filter(Boolean)
+},
+branches:normalizeArray(phenomenon.branches)
+.filter(isPlainObject)
+.map((branch,index) => {
+return {
+id:normalizeString(
+branch.id,
+`branch-${index + 1}`
+),
+title:normalizeString(
+branch.title || branch.label,
+`BRANCH ${index + 1}`
+),
+description:normalizeString(
+branch.description
+),
+relatedIds:normalizeArray(
+branch.relatedIds
+)
+.map((item) => normalizeString(item))
+.filter(Boolean)
 };
+}),
+checkpoints:normalizeArray(
+phenomenon.checkpoints
+)
+.filter(isPlainObject)
+.map((checkpoint,index) => {
+return {
+id:normalizeString(
+checkpoint.id,
+`checkpoint-${index + 1}`
+),
+title:normalizeString(
+checkpoint.title || checkpoint.label,
+`CHECK ${index + 1}`
+),
+description:normalizeString(
+checkpoint.description
+)
+};
+}),
+nextAction:{
+title:normalizeString(nextAction.title || nextAction.heading),
+text:normalizeString(nextAction.text),
+relatedIds:normalizeArray(
+nextAction.relatedIds
+)
+.map((item) => normalizeString(item))
+.filter(Boolean)
+},
+relatedIds:normalizeArray(
+phenomenon.relatedIds
+)
+.map((item) => normalizeString(item))
+.filter(Boolean)
+};
+}),
 
+contents:data.contents.map((content) => {
+return {
+id:normalizeString(content.id),
+type:normalizeString(
+content.type,
+"research"
+),
+code:normalizeString(
+content.code,
+"NO-CODE"
+),
+title:normalizeString(
+content.title,
+"\u7121\u984c"
+),
+summary:normalizeString(
+content.summary,
+"\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+),
+tags:normalizeArray(content.tags)
+.map((item) => normalizeString(item))
+.filter(Boolean),
+status:normalizeString(
+content.status,
+"DRAFT"
+),
+statusClass:normalizeString(
+content.statusClass
+),
+updatedAt:normalizeString(
+content.updatedAt
+),
+observation:normalizeString(
+content.observation,
+"\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+),
+thinking:normalizeString(
+content.thinking,
+"\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+),
+verification:normalizeString(
+content.verification,
+"\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
+),
+limitation:normalizeString(
+content.limitation,
+"\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
+),
+relatedIds:normalizeArray(
+content.relatedIds
+)
+.map((item) => normalizeString(item))
+.filter(Boolean)
+};
+}),
+
+updates:data.updates.map((update) => {
+return {
+id:normalizeString(update.id),
+contentId:normalizeString(
+update.contentId
+),
+date:normalizeString(update.date),
+label:normalizeString(
+update.label,
+"UPDATED"
+),
+labelClass:normalizeString(
+update.labelClass
+),
+title:normalizeString(
+update.title,
+"\u66f4\u65b0\u60c5\u5831"
+),
+summary:normalizeString(
+update.summary,
+"\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
+)
+};
+}),
+
+facilities:data.facilities.map((facility) => {
+return {
+type:normalizeString(
+facility.type
+),
+code:normalizeString(
+facility.code,
+"?"
+),
+name:normalizeString(
+facility.name,
+"Facility"
+),
+japaneseName:normalizeString(
+facility.japaneseName,
+"\u7814\u7a76\u65bd\u8a2d"
+),
+description:normalizeString(
+facility.description,
+"\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
+),
+detail:normalizeString(
+facility.detail,
+"Archive"
+),
+status:normalizeString(
+facility.status,
+"OPEN"
+)
+};
+})
+};
 }
 
 async function fetchJsonFile(name,url) {
@@ -704,25 +875,24 @@ return;
 }
 
 const version = normalizeString(
-  state.data.meta.version,
-  DEFAULT_META.version
+state.data.meta.version,
+DEFAULT_META.version
 );
 
 const copyright = normalizeString(
-  state.data.meta.copyright,
-  DEFAULT_META.copyright
+state.data.meta.copyright,
+DEFAULT_META.copyright
 );
 
 if (elements.campusVersion) {
-  elements.campusVersion.textContent =
-    version;
+elements.campusVersion.textContent =
+version;
 }
 
 if (elements.footerCopyright) {
-  elements.footerCopyright.textContent =
-    copyright;
+elements.footerCopyright.textContent =
+copyright;
 }
-
 }
 
 function renderPhenomena() {
@@ -731,116 +901,115 @@ return;
 }
 
 if (state.data.phenomena.length === 0) {
-  elements.phenomenonList.innerHTML =
-    '<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u73fe\u8c61\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
+elements.phenomenonList.innerHTML =
+'<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u73fe\u8c61\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
 
-  elements.phenomenonList.setAttribute(
-    "aria-busy",
-    "false"
-  );
+elements.phenomenonList.setAttribute(
+"aria-busy",
+"false"
+);
 
-  return;
+return;
 }
 
 elements.phenomenonList.innerHTML =
-  state.data.phenomena
-    .map((phenomenon,index) => {
-      const isActive =
-        phenomenon.id ===
-        state.activePhenomenonId;
+state.data.phenomena
+.map((phenomenon,index) => {
+const isActive =
+phenomenon.id ===
+state.activePhenomenonId;
 
-      const itemNumber =
-        String(index + 1).padStart(2,"0");
+const itemNumber =
+String(index + 1).padStart(2,"0");
 
-      return (
-        '<button' +
-          ' class="concern-button' +
-          (isActive ? " is-active" : "") +
-          '"' +
-          ' type="button"' +
-          ' data-phenomenon-id="' +
-          escapeHtml(phenomenon.id) +
-          '"' +
-          ' aria-pressed="' +
-          String(isActive) +
-          '"' +
-          ' aria-label="' +
-          escapeHtml(phenomenon.label) +
-          '"' +
-        ">" +
-          '<span class="concern-code" aria-hidden="true">' +
-            escapeHtml(itemNumber) +
-          "</span>" +
-          '<span class="concern-main">' +
-            "<strong>" +
-              escapeHtml(phenomenon.label) +
-            "</strong>" +
-            "<span>" +
-              escapeHtml(phenomenon.description) +
-            "</span>" +
-          "</span>" +
-          '<span class="concern-arrow" aria-hidden="true">' +
-            (isActive ? "CHECK" : ">") +
-          "</span>" +
-        "</button>"
-      );
-    })
-    .join("");
+return (
+'<button' +
+' class="concern-button' +
+(isActive ? " is-active" : "") +
+'"' +
+' type="button"' +
+' data-phenomenon-id="' +
+escapeHtml(phenomenon.id) +
+'"' +
+' aria-pressed="' +
+String(isActive) +
+'"' +
+' aria-label="' +
+escapeHtml(phenomenon.label) +
+'"' +
+'>' +
+'<span class="concern-code" aria-hidden="true">' +
+escapeHtml(itemNumber) +
+'</span>' +
+'<span class="concern-main">' +
+'<strong>' +
+escapeHtml(phenomenon.label) +
+'</strong>' +
+'<span>' +
+escapeHtml(phenomenon.description) +
+'</span>' +
+'</span>' +
+'<span class="concern-arrow" aria-hidden="true">' +
+(isActive ? "CHECK" : ">") +
+'</span>' +
+'</button>'
+);
+})
+.join("");
 
 elements.phenomenonList
-  .querySelectorAll(
-    "[data-phenomenon-id]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        selectPhenomenon(
-          button.dataset.phenomenonId
-        );
-      }
-    );
-  });
+.querySelectorAll(
+"[data-phenomenon-id]"
+)
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+selectPhenomenon(
+button.dataset.phenomenonId
+);
+}
+);
+});
 
 elements.phenomenonList.setAttribute(
-  "aria-busy",
-  "false"
+"aria-busy",
+"false"
 );
-
 }
+
 function sortContentsForBookshelf(contents) {
 const activePhenomenon =
 getActivePhenomenon();
 
 const relatedIds = new Set(
-  activePhenomenon
-    ? activePhenomenon.relatedIds
-    : []
+activePhenomenon
+? activePhenomenon.relatedIds
+: []
 );
 
 return [...contents].sort((a,b) => {
-  const aRelated = relatedIds.has(a.id)
-    ? 1
-    : 0;
+const aRelated = relatedIds.has(a.id)
+? 1
+: 0;
 
-  const bRelated = relatedIds.has(b.id)
-    ? 1
-    : 0;
+const bRelated = relatedIds.has(b.id)
+? 1
+: 0;
 
-  if (aRelated !== bRelated) {
-    return bRelated - aRelated;
-  }
+if (aRelated !== bRelated) {
+return bRelated - aRelated;
+}
 
-  return a.code.localeCompare(
-    b.code,
-    "ja",
-    {
-      numeric:true,
-      sensitivity:"base"
-    }
-  );
+return a.code.localeCompare(
+b.code,
+"ja",
+{
+numeric:true,
+sensitivity:"base"
+}
+);
 });
-
 }
 
 function renderBooks() {
@@ -849,102 +1018,429 @@ return;
 }
 
 const activePhenomenon =
-  getActivePhenomenon();
+getActivePhenomenon();
 
 const relatedIds = new Set(
-  activePhenomenon
-    ? activePhenomenon.relatedIds
-    : []
+activePhenomenon
+? activePhenomenon.relatedIds
+: []
 );
 
 const sortedContents =
-  sortContentsForBookshelf(
-    state.data.contents
-  );
+sortContentsForBookshelf(
+state.data.contents
+);
 
 if (sortedContents.length === 0) {
-  elements.bookshelf.innerHTML =
-    '<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
+elements.bookshelf.innerHTML =
+'<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
 
-  elements.bookshelf.setAttribute(
-    "aria-busy",
-    "false"
-  );
+elements.bookshelf.setAttribute(
+"aria-busy",
+"false"
+);
 
-  return;
+return;
 }
 
 elements.bookshelf.innerHTML =
-  sortedContents
-    .map((content) => {
-      const isRelated =
-        relatedIds.has(content.id);
+sortedContents
+.map((content) => {
+const isRelated =
+relatedIds.has(content.id);
 
-      const isSelected =
-        state.selectedContentId ===
-        content.id;
+const isSelected =
+state.selectedContentId ===
+content.id;
 
-      return (
-        '<button' +
-          ' class="book' +
-          (isRelated ? " is-related" : "") +
-          (isSelected ? " is-selected" : "") +
-          '"' +
-          ' type="button"' +
-          ' data-content-id="' +
-          escapeHtml(content.id) +
-          '"' +
-          ' data-type="' +
-          escapeHtml(content.type) +
-          '"' +
-          ' aria-label="' +
-          escapeHtml(
-            `${formatTypeJapaneseLabel(content.type)}\uff1a${content.title}`
-          ) +
-          '"' +
-          ' aria-pressed="' +
-          String(isSelected) +
-          '"' +
-        ">" +
-          '<span class="book-type">' +
-            escapeHtml(
-              formatTypeLabel(content.type)
-            ) +
-          "</span>" +
-          "<h4>" +
-            escapeHtml(content.title) +
-          "</h4>" +
-          "<p>" +
-            escapeHtml(content.code) +
-          "</p>" +
-        "</button>"
-      );
-    })
-    .join("");
+return (
+'<button' +
+' class="book' +
+(isRelated ? " is-related" : "") +
+(isSelected ? " is-selected" : "") +
+'"' +
+' type="button"' +
+' data-content-id="' +
+escapeHtml(content.id) +
+'"' +
+' data-type="' +
+escapeHtml(content.type) +
+'"' +
+' aria-label="' +
+escapeHtml(
+`${formatTypeJapaneseLabel(content.type)}\uff1a${content.title}`
+) +
+'"' +
+' aria-pressed="' +
+String(isSelected) +
+'"' +
+'>' +
+'<span class="book-type">' +
+escapeHtml(
+formatTypeLabel(content.type)
+) +
+'</span>' +
+'<h4>' +
+escapeHtml(content.title) +
+'</h4>' +
+'<p>' +
+escapeHtml(content.code) +
+'</p>' +
+'</button>'
+);
+})
+.join("");
 
 elements.bookshelf
-  .querySelectorAll("[data-content-id]")
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        const contentId =
-          button.dataset.contentId;
+.querySelectorAll("[data-content-id]")
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+const contentId =
+button.dataset.contentId;
 
-        state.selectedContentId =
-          contentId;
+state.selectedContentId =
+contentId;
 
-        renderBooks();
-        openContent(contentId,button);
-      }
-    );
-  });
+renderBooks();
+openContent(contentId,button);
+}
+);
+});
 
 elements.bookshelf.setAttribute(
-  "aria-busy",
-  "false"
+"aria-busy",
+"false"
+);
+}
+
+function renderQuestionResponse(response) {
+if (!elements.questionChoices) {
+return;
+}
+
+const existing =
+elements.questionChoices.querySelector(
+".question-response"
 );
 
+if (existing) {
+existing.remove();
+}
+
+if (!response) {
+return;
+}
+
+const responseElement =
+document.createElement("div");
+
+responseElement.className =
+"question-response";
+
+responseElement.textContent =
+response;
+
+responseElement.setAttribute(
+"role",
+"status"
+);
+
+responseElement.setAttribute(
+"aria-live",
+"polite"
+);
+
+elements.questionChoices.appendChild(
+responseElement
+);
+}
+
+function selectQuestionChoice(choiceId) {
+const phenomenon =
+getActivePhenomenon();
+
+if (!phenomenon) {
+return;
+}
+
+const choice = phenomenon.question.choices.find(
+(item) => item.id === choiceId
+);
+
+if (!choice) {
+return;
+}
+
+state.selectedChoiceId = choice.id;
+
+if (elements.questionChoices) {
+elements.questionChoices
+.querySelectorAll("[data-choice-id]")
+.forEach((button) => {
+const isSelected =
+button.dataset.choiceId === choice.id;
+
+button.classList.toggle(
+"is-active",
+isSelected
+);
+
+button.setAttribute(
+"aria-pressed",
+String(isSelected)
+);
+});
+}
+
+renderQuestionResponse(choice.response);
+}
+
+function renderQuestion(phenomenon) {
+if (elements.questionTitle) {
+elements.questionTitle.textContent =
+phenomenon.question.text;
+}
+
+if (elements.questionText) {
+elements.questionText.textContent =
+phenomenon.question.description;
+}
+
+if (!elements.questionChoices) {
+return;
+}
+
+if (phenomenon.question.choices.length === 0) {
+elements.questionChoices.innerHTML =
+'<div class="loading-placeholder">\u9078\u629e\u80a2\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
+return;
+}
+
+elements.questionChoices.innerHTML =
+phenomenon.question.choices
+.map((choice,index) => {
+const isSelected =
+choice.id === state.selectedChoiceId;
+
+return (
+'<button' +
+' class="question-choice' +
+(isSelected ? " is-active" : "") +
+'"' +
+' type="button"' +
+' data-choice-id="' +
+escapeHtml(choice.id) +
+'"' +
+' aria-pressed="' +
+String(isSelected) +
+'"' +
+'>' +
+'<span class="question-choice-number" aria-hidden="true">' +
+String(index + 1).padStart(2,"0") +
+'</span>' +
+'<span class="question-choice-label">' +
+escapeHtml(choice.label) +
+'</span>' +
+'</button>'
+);
+})
+.join("");
+
+elements.questionChoices
+.querySelectorAll("[data-choice-id]")
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+selectQuestionChoice(
+button.dataset.choiceId
+);
+}
+);
+});
+
+const selectedChoice =
+phenomenon.question.choices.find(
+(choice) => choice.id === state.selectedChoiceId
+);
+
+renderQuestionResponse(
+selectedChoice
+? selectedChoice.response
+: ""
+);
+}
+
+function renderAdjustmentView(phenomenon) {
+if (elements.adjustmentTitle) {
+elements.adjustmentTitle.textContent =
+phenomenon.adjustmentView.heading;
+}
+
+if (elements.adjustmentText) {
+elements.adjustmentText.textContent =
+phenomenon.adjustmentView.text;
+}
+}
+
+function renderWhy(phenomenon) {
+if (elements.whyTitle) {
+elements.whyTitle.textContent =
+phenomenon.why.title;
+}
+
+if (elements.whyText) {
+elements.whyText.textContent =
+phenomenon.why.text;
+}
+
+if (!elements.whyPoints) {
+return;
+}
+
+const pointMarkup = phenomenon.why.points
+.map((point,index) => {
+return (
+'<div class="branch-item why-point" data-index="' +
+String(index + 1).padStart(2,"0") +
+'">' +
+'<strong>' +
+escapeHtml(point) +
+'</strong>' +
+'</div>'
+);
+})
+.join("");
+
+const branchMarkup = phenomenon.branches
+.map((branch,index) => {
+return (
+'<div class="branch-item phenomenon-branch" data-index="' +
+String(index + 1).padStart(2,"0") +
+'">' +
+'<strong>' +
+escapeHtml(branch.title) +
+'</strong>' +
+(
+branch.description
+? '<p>' + escapeHtml(branch.description) + '</p>'
+: ""
+) +
+'</div>'
+);
+})
+.join("");
+
+const markup = pointMarkup + branchMarkup;
+
+elements.whyPoints.innerHTML = markup ||
+'<div class="loading-placeholder">\u7406\u7531\u3068\u5206\u5c90\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
+}
+
+function renderCheckpoints(phenomenon) {
+if (!elements.checkpointList) {
+return;
+}
+
+if (phenomenon.checkpoints.length === 0) {
+elements.checkpointList.innerHTML =
+'<div class="loading-placeholder">\u78ba\u8a8d\u9805\u76ee\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
+return;
+}
+
+elements.checkpointList.innerHTML =
+phenomenon.checkpoints
+.map((checkpoint,index) => {
+return (
+'<div class="checkpoint-item">' +
+'<span class="checkpoint-mark" aria-hidden="true">' +
+String(index + 1).padStart(2,"0") +
+'</span>' +
+'<div>' +
+'<strong>' +
+escapeHtml(checkpoint.title) +
+'</strong>' +
+(
+checkpoint.description
+? '<p>' + escapeHtml(checkpoint.description) + '</p>'
+: ""
+) +
+'</div>' +
+'</div>'
+);
+})
+.join("");
+}
+
+function renderRelatedContents(phenomenon) {
+if (!elements.relatedList) {
+return;
+}
+
+const mergedIds = [
+...phenomenon.relatedIds,
+...phenomenon.nextAction.relatedIds
+];
+
+const uniqueIds = [...new Set(mergedIds)];
+const relatedContents =
+getRelatedContents(uniqueIds);
+
+if (relatedContents.length === 0) {
+elements.relatedList.innerHTML =
+'<div class="loading-placeholder">\u95a2\u9023\u8cc7\u6599\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
+return;
+}
+
+elements.relatedList.innerHTML =
+relatedContents
+.map((content) => {
+return (
+'<button' +
+' class="related-item"' +
+' type="button"' +
+' data-related-id="' +
+escapeHtml(content.id) +
+'"' +
+'>' +
+'<span class="related-code">' +
+escapeHtml(content.code) +
+'</span>' +
+'<span class="related-main">' +
+'<strong>' +
+escapeHtml(content.title) +
+'</strong>' +
+'<span>' +
+escapeHtml(content.summary) +
+'</span>' +
+'</span>' +
+'<span class="related-arrow" aria-hidden="true">' +
+'\u2192' +
+'</span>' +
+'</button>'
+);
+})
+.join("");
+
+elements.relatedList
+.querySelectorAll("[data-related-id]")
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+const contentId =
+button.dataset.relatedId;
+
+state.selectedContentId =
+contentId;
+
+renderBooks();
+openContent(contentId,button);
+}
+);
+});
 }
 
 function renderInsight() {
@@ -953,133 +1449,69 @@ return;
 }
 
 const phenomenon =
-  getActivePhenomenon();
+getActivePhenomenon();
 
 if (!phenomenon) {
-  if (elements.insightCount) {
-    elements.insightCount.textContent =
-      "0 CONNECTIONS";
-  }
+if (elements.insightCount) {
+elements.insightCount.textContent =
+"STEP 1 / 5";
+}
 
-  if (elements.insightTitle) {
-    elements.insightTitle.textContent =
-      "\u73fe\u8c61\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
-  }
+if (elements.questionTitle) {
+elements.questionTitle.textContent =
+"\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
+}
 
-  if (elements.insightDescription) {
-    elements.insightDescription.textContent =
-      "\u4e00\u3064\u306e\u73fe\u8c61\u304b\u3089\u3001\u3069\u306e\u9818\u57df\u3078\u8996\u70b9\u304c\u5e83\u304c\u308b\u306e\u304b\u3092\u8868\u793a\u3057\u307e\u3059\u3002";
-  }
+if (elements.questionText) {
+elements.questionText.textContent =
+"\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
+}
 
-  if (elements.insightPath) {
-    elements.insightPath.innerHTML = "";
-  }
+[
+elements.questionChoices,
+elements.whyPoints,
+elements.checkpointList,
+elements.relatedList
+].forEach((element) => {
+if (element) {
+element.innerHTML = "";
+}
+});
 
-  if (elements.relatedList) {
-    elements.relatedList.innerHTML = "";
-  }
+if (elements.adjustmentTitle) {
+elements.adjustmentTitle.textContent = "";
+}
 
-  return;
+if (elements.adjustmentText) {
+elements.adjustmentText.textContent = "";
+}
+
+if (elements.whyTitle) {
+elements.whyTitle.textContent = "";
+}
+
+if (elements.whyText) {
+elements.whyText.textContent = "";
+}
+
+return;
 }
 
 const relatedContents =
-  getRelatedContents(
-    phenomenon.relatedIds
-  );
+getRelatedContents(
+phenomenon.relatedIds
+);
 
 if (elements.insightCount) {
-  elements.insightCount.textContent =
-    `${relatedContents.length} CONNECTIONS`;
+elements.insightCount.textContent =
+`${relatedContents.length} CONNECTIONS`;
 }
 
-if (elements.insightTitle) {
-  elements.insightTitle.textContent =
-    phenomenon.title;
-}
-
-if (elements.insightDescription) {
-  elements.insightDescription.textContent =
-    phenomenon.description;
-}
-
-if (elements.insightPath) {
-  elements.insightPath.innerHTML =
-    phenomenon.path.length > 0
-      ? phenomenon.path
-          .map((node) => {
-            return (
-              '<span class="path-node">' +
-                escapeHtml(node) +
-              "</span>"
-            );
-          })
-          .join("")
-      : (
-        '<span class="path-node">' +
-          "\u601d\u8003\u7d4c\u8def\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002" +
-        "</span>"
-      );
-}
-
-if (!elements.relatedList) {
-  return;
-}
-
-if (relatedContents.length === 0) {
-  elements.relatedList.innerHTML =
-    '<div class="loading-placeholder">\u95a2\u9023\u8cc7\u6599\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-
-  return;
-}
-
-elements.relatedList.innerHTML =
-  relatedContents
-    .map((content) => {
-      return (
-        '<button' +
-          ' class="related-item"' +
-          ' type="button"' +
-          ' data-related-id="' +
-          escapeHtml(content.id) +
-          '"' +
-        ">" +
-          '<span class="related-code">' +
-            escapeHtml(content.code) +
-          "</span>" +
-          '<span class="related-main">' +
-            "<strong>" +
-              escapeHtml(content.title) +
-            "</strong>" +
-            "<span>" +
-              escapeHtml(content.summary) +
-            "</span>" +
-          "</span>" +
-          '<span class="related-arrow" aria-hidden="true">' +
-            "\u2192" +
-          "</span>" +
-        "</button>"
-      );
-    })
-    .join("");
-
-elements.relatedList
-  .querySelectorAll("[data-related-id]")
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        const contentId =
-          button.dataset.relatedId;
-
-        state.selectedContentId =
-          contentId;
-
-        renderBooks();
-        openContent(contentId,button);
-      }
-    );
-  });
-
+renderQuestion(phenomenon);
+renderAdjustmentView(phenomenon);
+renderWhy(phenomenon);
+renderCheckpoints(phenomenon);
+renderRelatedContents(phenomenon);
 }
 
 function renderUpdates() {
@@ -1088,104 +1520,102 @@ return;
 }
 
 const updates = [...state.data.updates]
-  .sort((a,b) => {
-    return b.date.localeCompare(a.date);
-  })
-  .slice(0,6);
+.sort((a,b) => {
+return b.date.localeCompare(a.date);
+})
+.slice(0,6);
 
 if (updates.length === 0) {
-  elements.updateGrid.innerHTML =
-    '<div class="loading-placeholder">\u66f4\u65b0\u60c5\u5831\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</div>';
-
-  return;
+elements.updateGrid.innerHTML =
+'<div class="loading-placeholder">\u66f4\u65b0\u60c5\u5831\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</div>';
+return;
 }
 
 elements.updateGrid.innerHTML =
-  updates
-    .map((update) => {
-      const content =
-        getContentById(update.contentId);
+updates
+.map((update) => {
+const content =
+getContentById(update.contentId);
 
-      const typeLabel = content
-        ? formatTypeLabel(content.type)
-        : "CONTENT";
+const typeLabel = content
+? formatTypeLabel(content.type)
+: "CONTENT";
 
-      return (
-        '<article' +
-          ' class="panel update-card"' +
-          ' data-update-content-id="' +
-          escapeHtml(update.contentId) +
-          '"' +
-          ' tabindex="0"' +
-          ' role="button"' +
-          ' aria-label="' +
-          escapeHtml(
-            `${update.title}\u306e\u8a73\u7d30\u3092\u898b\u308b`
-          ) +
-          '"' +
-        ">" +
-          '<div class="update-head">' +
-            '<span class="tag ' +
-              escapeHtml(update.labelClass) +
-            '">' +
-              escapeHtml(update.label) +
-            "</span>" +
-            '<span class="update-date">' +
-              escapeHtml(
-                formatDate(update.date)
-              ) +
-            "</span>" +
-          "</div>" +
-          "<h3>" +
-            escapeHtml(update.title) +
-          "</h3>" +
-          "<p>" +
-            escapeHtml(update.summary) +
-          "</p>" +
-          '<div class="update-footer">' +
-            "<span>" +
-              escapeHtml(typeLabel) +
-            "</span>" +
-            "<strong>" +
-              "OPEN \u2192" +
-            "</strong>" +
-          "</div>" +
-        "</article>"
-      );
-    })
-    .join("");
+return (
+'<article' +
+' class="panel update-card"' +
+' data-update-content-id="' +
+escapeHtml(update.contentId) +
+'"' +
+' tabindex="0"' +
+' role="button"' +
+' aria-label="' +
+escapeHtml(
+`${update.title}\u306e\u8a73\u7d30\u3092\u898b\u308b`
+) +
+'"' +
+'>' +
+'<div class="update-head">' +
+'<span class="tag ' +
+escapeHtml(update.labelClass) +
+'">' +
+escapeHtml(update.label) +
+'</span>' +
+'<span class="update-date">' +
+escapeHtml(
+formatDate(update.date)
+) +
+'</span>' +
+'</div>' +
+'<h3>' +
+escapeHtml(update.title) +
+'</h3>' +
+'<p>' +
+escapeHtml(update.summary) +
+'</p>' +
+'<div class="update-footer">' +
+'<span>' +
+escapeHtml(typeLabel) +
+'</span>' +
+'<strong>' +
+'OPEN \u2192' +
+'</strong>' +
+'</div>' +
+'</article>'
+);
+})
+.join("");
 
 elements.updateGrid
-  .querySelectorAll(
-    "[data-update-content-id]"
-  )
-  .forEach((card) => {
-    const openCard = () => {
-      openContent(
-        card.dataset.updateContentId,
-        card
-      );
-    };
+.querySelectorAll(
+"[data-update-content-id]"
+)
+.forEach((card) => {
+const openCard = () => {
+openContent(
+card.dataset.updateContentId,
+card
+);
+};
 
-    card.addEventListener(
-      "click",
-      openCard
-    );
+card.addEventListener(
+"click",
+openCard
+);
 
-    card.addEventListener(
-      "keydown",
-      (event) => {
-        if (
-          event.key === "Enter" ||
-          event.key === " "
-        ) {
-          event.preventDefault();
-          openCard();
-        }
-      }
-    );
-  });
-
+card.addEventListener(
+"keydown",
+(event) => {
+if (
+event.key === "Enter" ||
+event.key === " "
+) {
+event.preventDefault();
+openCard();
+}
+}
+);
+});
 }
 
 function renderFacilities() {
@@ -1194,92 +1624,90 @@ return;
 }
 
 if (state.data.facilities.length === 0) {
-  elements.facilityGrid.innerHTML =
-    '<div class="loading-placeholder">\u65bd\u8a2d\u60c5\u5831\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</div>';
-
-  return;
+elements.facilityGrid.innerHTML =
+'<div class="loading-placeholder">\u65bd\u8a2d\u60c5\u5831\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</div>';
+return;
 }
 
 elements.facilityGrid.innerHTML =
-  state.data.facilities
-    .map((facility) => {
-      const itemCount =
-        state.data.contents.filter(
-          (content) => {
-            return (
-              content.type ===
-              facility.type
-            );
-          }
-        ).length;
+state.data.facilities
+.map((facility) => {
+const itemCount =
+state.data.contents.filter(
+(content) => {
+return (
+content.type ===
+facility.type
+);
+}
+).length;
 
-      const isActive =
-        state.activeFacilityType ===
-        facility.type;
+const isActive =
+state.activeFacilityType ===
+facility.type;
 
-      return (
-        '<button' +
-          ' class="facility-button' +
-          (isActive ? " is-active" : "") +
-          '"' +
-          ' type="button"' +
-          ' data-facility-type="' +
-          escapeHtml(facility.type) +
-          '"' +
-          ' data-type="' +
-          escapeHtml(facility.type) +
-          '"' +
-          ' aria-pressed="' +
-          String(isActive) +
-          '"' +
-        ">" +
-          '<span class="facility-icon">' +
-            escapeHtml(facility.code) +
-          "</span>" +
-          '<span class="facility-name">' +
-            escapeHtml(facility.name) +
-            '<span class="facility-japanese">' +
-              escapeHtml(
-                facility.japaneseName
-              ) +
-            "</span>" +
-          "</span>" +
-          '<span class="facility-description">' +
-            escapeHtml(
-              facility.description
-            ) +
-          "</span>" +
-          '<span class="facility-footer">' +
-            "<span>" +
-              escapeHtml(
-                `${facility.detail} / ${itemCount} ITEMS`
-              ) +
-            "</span>" +
-            "<strong>" +
-              escapeHtml(facility.status) +
-            "</strong>" +
-          "</span>" +
-        "</button>"
-      );
-    })
-    .join("");
+return (
+'<button' +
+' class="facility-button' +
+(isActive ? " is-active" : "") +
+'"' +
+' type="button"' +
+' data-facility-type="' +
+escapeHtml(facility.type) +
+'"' +
+' data-type="' +
+escapeHtml(facility.type) +
+'"' +
+' aria-pressed="' +
+String(isActive) +
+'"' +
+'>' +
+'<span class="facility-icon">' +
+escapeHtml(facility.code) +
+'</span>' +
+'<span class="facility-name">' +
+escapeHtml(facility.name) +
+'<span class="facility-japanese">' +
+escapeHtml(
+facility.japaneseName
+) +
+'</span>' +
+'</span>' +
+'<span class="facility-description">' +
+escapeHtml(
+facility.description
+) +
+'</span>' +
+'<span class="facility-footer">' +
+'<span>' +
+escapeHtml(
+`${facility.detail} / ${itemCount} ITEMS`
+) +
+'</span>' +
+'<strong>' +
+escapeHtml(facility.status) +
+'</strong>' +
+'</span>' +
+'</button>'
+);
+})
+.join("");
 
 elements.facilityGrid
-  .querySelectorAll(
-    "[data-facility-type]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        openFacility(
-          button.dataset.facilityType,
-          button
-        );
-      }
-    );
-  });
-
+.querySelectorAll(
+"[data-facility-type]"
+)
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+openFacility(
+button.dataset.facilityType,
+button
+);
+}
+);
+});
 }
 
 function selectPhenomenon(phenomenonId) {
@@ -1287,12 +1715,13 @@ const phenomenon =
 getPhenomenonById(phenomenonId);
 
 if (!phenomenon) {
-  return;
+return;
 }
 
 state.activePhenomenonId =
-  phenomenon.id;
+phenomenon.id;
 
+state.selectedChoiceId = "";
 state.selectedContentId = "";
 state.activeFacilityType = "";
 
@@ -1302,10 +1731,9 @@ renderInsight();
 renderFacilities();
 
 updateUrlState({
-  phenomenon:phenomenon.id,
-  content:""
+phenomenon:phenomenon.id,
+content:""
 });
-
 }
 
 function openFacility(type,triggerElement = null) {
@@ -1314,30 +1742,29 @@ return;
 }
 
 const facility =
-  getFacilityByType(type);
+getFacilityByType(type);
 
 const matchingContents =
-  state.data.contents.filter(
-    (content) => {
-      return content.type === type;
-    }
-  );
+state.data.contents.filter(
+(content) => {
+return content.type === type;
+}
+);
 
 if (!facility || matchingContents.length === 0) {
-  return;
+return;
 }
 
 state.activeFacilityType = type;
 renderFacilities();
 
 const firstContent =
-  matchingContents[0];
+matchingContents[0];
 
 openContent(
-  firstContent.id,
-  triggerElement
+firstContent.id,
+triggerElement
 );
-
 }
 
 function renderDrawerMeta(content) {
@@ -1346,41 +1773,40 @@ return;
 }
 
 const metaItems = [
-  {
-    value:content.code,
-    className:"tag"
-  },
-  {
-    value:content.status,
-    className:
-      `tag ${content.statusClass}`.trim()
-  },
-  {
-    value:formatDate(content.updatedAt),
-    className:"tag"
-  }
+{
+value:content.code,
+className:"tag"
+},
+{
+value:content.status,
+className:
+`tag ${content.statusClass}`.trim()
+},
+{
+value:formatDate(content.updatedAt),
+className:"tag"
+}
 ].filter((item) => item.value);
 
 const tags = content.tags.map((tag) => {
-  return {
-    value:tag,
-    className:"tag"
-  };
+return {
+value:tag,
+className:"tag"
+};
 });
 
 elements.drawerMeta.innerHTML =
-  [...metaItems,...tags]
-    .map((item) => {
-      return (
-        '<span class="' +
-          escapeHtml(item.className) +
-        '">' +
-          escapeHtml(item.value) +
-        "</span>"
-      );
-    })
-    .join("");
-
+[...metaItems,...tags]
+.map((item) => {
+return (
+'<span class="' +
+escapeHtml(item.className) +
+'">' +
+escapeHtml(item.value) +
+'</span>'
+);
+})
+.join("");
 }
 
 function renderDrawerRelated(content) {
@@ -1389,64 +1815,62 @@ return;
 }
 
 const relatedContents =
-  getRelatedContents(
-    content.relatedIds
-  );
+getRelatedContents(
+content.relatedIds
+);
 
 if (relatedContents.length === 0) {
-  elements.drawerRelated.innerHTML =
-    '<div class="drawer-related-item">' +
-      "<strong>" +
-        "\u95a2\u9023\u3059\u308b\u601d\u8003\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002" +
-      "</strong>" +
-    "</div>";
-
-  return;
+elements.drawerRelated.innerHTML =
+'<div class="drawer-related-item">' +
+'<strong>' +
+'\u95a2\u9023\u3059\u308b\u601d\u8003\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002' +
+'</strong>' +
+'</div>';
+return;
 }
 
 elements.drawerRelated.innerHTML =
-  relatedContents
-    .map((related) => {
-      return (
-        '<button' +
-          ' class="drawer-related-item"' +
-          ' type="button"' +
-          ' data-drawer-related-id="' +
-          escapeHtml(related.id) +
-          '"' +
-        ">" +
-          "<strong>" +
-            escapeHtml(related.title) +
-          "</strong>" +
-          "<span>" +
-            escapeHtml(
-              `${formatTypeLabel(related.type)} / ${related.code}`
-            ) +
-          "</span>" +
-        "</button>"
-      );
-    })
-    .join("");
+relatedContents
+.map((related) => {
+return (
+'<button' +
+' class="drawer-related-item"' +
+' type="button"' +
+' data-drawer-related-id="' +
+escapeHtml(related.id) +
+'"' +
+'>' +
+'<strong>' +
+escapeHtml(related.title) +
+'</strong>' +
+'<span>' +
+escapeHtml(
+`${formatTypeLabel(related.type)} / ${related.code}`
+) +
+'</span>' +
+'</button>'
+);
+})
+.join("");
 
 elements.drawerRelated
-  .querySelectorAll(
-    "[data-drawer-related-id]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        openContent(
-          button.dataset.drawerRelatedId,
-          button,
-          {
-            preserveFocus:true
-          }
-        );
-      }
-    );
-  });
-
+.querySelectorAll(
+"[data-drawer-related-id]"
+)
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+openContent(
+button.dataset.drawerRelatedId,
+button,
+{
+preserveFocus:true
+}
+);
+}
+);
+});
 }
 
 function openContent(
@@ -1458,56 +1882,56 @@ const content =
 getContentById(contentId);
 
 if (!content || !elements.detailDrawer) {
-  return;
+return;
 }
 
 const preserveFocus =
-  Boolean(options.preserveFocus);
+Boolean(options.preserveFocus);
 
 if (
-  !preserveFocus &&
-  triggerElement instanceof HTMLElement
+!preserveFocus &&
+triggerElement instanceof HTMLElement
 ) {
-  state.lastFocusedElement =
-    triggerElement;
+state.lastFocusedElement =
+triggerElement;
 }
 
 state.selectedContentId =
-  content.id;
+content.id;
 
 if (elements.drawerEyebrow) {
-  elements.drawerEyebrow.textContent =
-    `${formatTypeLabel(content.type)} / ${content.code}`;
+elements.drawerEyebrow.textContent =
+`${formatTypeLabel(content.type)} / ${content.code}`;
 }
 
 if (elements.drawerTitle) {
-  elements.drawerTitle.textContent =
-    content.title;
+elements.drawerTitle.textContent =
+content.title;
 }
 
 if (elements.drawerSummary) {
-  elements.drawerSummary.textContent =
-    content.summary;
+elements.drawerSummary.textContent =
+content.summary;
 }
 
 if (elements.drawerObservation) {
-  elements.drawerObservation.textContent =
-    content.observation;
+elements.drawerObservation.textContent =
+content.observation;
 }
 
 if (elements.drawerThinking) {
-  elements.drawerThinking.textContent =
-    content.thinking;
+elements.drawerThinking.textContent =
+content.thinking;
 }
 
 if (elements.drawerVerification) {
-  elements.drawerVerification.textContent =
-    content.verification;
+elements.drawerVerification.textContent =
+content.verification;
 }
 
 if (elements.drawerLimitation) {
-  elements.drawerLimitation.textContent =
-    content.limitation;
+elements.drawerLimitation.textContent =
+content.limitation;
 }
 
 renderDrawerMeta(content);
@@ -1515,41 +1939,40 @@ renderDrawerRelated(content);
 renderBooks();
 
 elements.detailDrawer.classList.add(
-  "is-open"
+"is-open"
 );
 
 elements.detailDrawer.setAttribute(
-  "aria-hidden",
-  "false"
+"aria-hidden",
+"false"
 );
 
 if (elements.drawerBackdrop) {
-  elements.drawerBackdrop.classList.add(
-    "is-open"
-  );
+elements.drawerBackdrop.classList.add(
+"is-open"
+);
 
-  elements.drawerBackdrop.setAttribute(
-    "aria-hidden",
-    "false"
-  );
+elements.drawerBackdrop.setAttribute(
+"aria-hidden",
+"false"
+);
 }
 
 document.body.classList.add(
-  "menu-open"
+"menu-open"
 );
 
 state.drawerOpen = true;
 
 updateUrlState({
-  content:content.id
+content:content.id
 });
 
 window.requestAnimationFrame(() => {
-  if (elements.drawerClose) {
-    elements.drawerClose.focus();
-  }
+if (elements.drawerClose) {
+elements.drawerClose.focus();
+}
 });
-
 }
 
 function closeDrawer(options = {}) {
@@ -1558,30 +1981,30 @@ return;
 }
 
 const restoreFocus =
-  options.restoreFocus !== false;
+options.restoreFocus !== false;
 
 elements.detailDrawer.classList.remove(
-  "is-open"
+"is-open"
 );
 
 elements.detailDrawer.setAttribute(
-  "aria-hidden",
-  "true"
+"aria-hidden",
+"true"
 );
 
 if (elements.drawerBackdrop) {
-  elements.drawerBackdrop.classList.remove(
-    "is-open"
-  );
+elements.drawerBackdrop.classList.remove(
+"is-open"
+);
 
-  elements.drawerBackdrop.setAttribute(
-    "aria-hidden",
-    "true"
-  );
+elements.drawerBackdrop.setAttribute(
+"aria-hidden",
+"true"
+);
 }
 
 document.body.classList.remove(
-  "menu-open"
+"menu-open"
 );
 
 state.drawerOpen = false;
@@ -1590,21 +2013,20 @@ state.selectedContentId = "";
 renderBooks();
 
 updateUrlState({
-  content:""
+content:""
 });
 
 if (
-  restoreFocus &&
-  state.lastFocusedElement instanceof HTMLElement &&
-  document.contains(
-    state.lastFocusedElement
-  )
+restoreFocus &&
+state.lastFocusedElement instanceof HTMLElement &&
+document.contains(
+state.lastFocusedElement
+)
 ) {
-  state.lastFocusedElement.focus();
+state.lastFocusedElement.focus();
 }
 
 state.lastFocusedElement = null;
-
 }
 
 function trapDrawerFocus(event) {
@@ -1617,40 +2039,39 @@ return;
 }
 
 const focusableElements =
-  getFocusableElements(
-    elements.detailDrawer
-  );
+getFocusableElements(
+elements.detailDrawer
+);
 
 if (focusableElements.length === 0) {
-  event.preventDefault();
-  return;
+event.preventDefault();
+return;
 }
 
 const firstElement =
-  focusableElements[0];
+focusableElements[0];
 
 const lastElement =
-  focusableElements[
-    focusableElements.length - 1
-  ];
+focusableElements[
+focusableElements.length - 1
+];
 
 if (
-  event.shiftKey &&
-  document.activeElement === firstElement
+event.shiftKey &&
+document.activeElement === firstElement
 ) {
-  event.preventDefault();
-  lastElement.focus();
-  return;
+event.preventDefault();
+lastElement.focus();
+return;
 }
 
 if (
-  !event.shiftKey &&
-  document.activeElement === lastElement
+!event.shiftKey &&
+document.activeElement === lastElement
 ) {
-  event.preventDefault();
-  firstElement.focus();
+event.preventDefault();
+firstElement.focus();
 }
-
 }
 
 function openMobileMenu() {
@@ -1663,21 +2084,20 @@ return;
 
 elements.mobileNav.hidden = false;
 elements.mobileNav.classList.add(
-  "is-open"
+"is-open"
 );
 
 elements.mobileMenuButton.setAttribute(
-  "aria-expanded",
-  "true"
+"aria-expanded",
+"true"
 );
 
 elements.mobileMenuButton.setAttribute(
-  "aria-label",
-  "\u30e1\u30cb\u30e5\u30fc\u3092\u9589\u3058\u308b"
+"aria-label",
+"\u30e1\u30cb\u30e5\u30fc\u3092\u9589\u3058\u308b"
 );
 
 state.mobileMenuOpen = true;
-
 }
 
 function closeMobileMenu() {
@@ -1689,23 +2109,22 @@ return;
 }
 
 elements.mobileNav.classList.remove(
-  "is-open"
+"is-open"
 );
 
 elements.mobileNav.hidden = true;
 
 elements.mobileMenuButton.setAttribute(
-  "aria-expanded",
-  "false"
+"aria-expanded",
+"false"
 );
 
 elements.mobileMenuButton.setAttribute(
-  "aria-label",
-  "\u30e1\u30cb\u30e5\u30fc\u3092\u958b\u304f"
+"aria-label",
+"\u30e1\u30cb\u30e5\u30fc\u3092\u958b\u304f"
 );
 
 state.mobileMenuOpen = false;
-
 }
 
 function toggleMobileMenu() {
@@ -1732,57 +2151,56 @@ window.location.href
 );
 
 if (
-  Object.prototype.hasOwnProperty.call(
-    changes,
-    "phenomenon"
-  )
+Object.prototype.hasOwnProperty.call(
+changes,
+"phenomenon"
+)
 ) {
-  const phenomenon =
-    normalizeString(
-      changes.phenomenon
-    );
+const phenomenon =
+normalizeString(
+changes.phenomenon
+);
 
-  if (phenomenon) {
-    url.searchParams.set(
-      "phenomenon",
-      phenomenon
-    );
-  } else {
-    url.searchParams.delete(
-      "phenomenon"
-    );
-  }
+if (phenomenon) {
+url.searchParams.set(
+"phenomenon",
+phenomenon
+);
+} else {
+url.searchParams.delete(
+"phenomenon"
+);
+}
 }
 
 if (
-  Object.prototype.hasOwnProperty.call(
-    changes,
-    "content"
-  )
+Object.prototype.hasOwnProperty.call(
+changes,
+"content"
+)
 ) {
-  const content =
-    normalizeString(
-      changes.content
-    );
+const content =
+normalizeString(
+changes.content
+);
 
-  if (content) {
-    url.searchParams.set(
-      "content",
-      content
-    );
-  } else {
-    url.searchParams.delete(
-      "content"
-    );
-  }
+if (content) {
+url.searchParams.set(
+"content",
+content
+);
+} else {
+url.searchParams.delete(
+"content"
+);
+}
 }
 
 window.history.replaceState(
-  {},
-  "",
-  url
+{},
+"",
+url
 );
-
 }
 
 function applyUrlState() {
@@ -1791,32 +2209,31 @@ return;
 }
 
 const params =
-  new URLSearchParams(
-    window.location.search
-  );
+new URLSearchParams(
+window.location.search
+);
 
 const phenomenonId =
-  params.get("phenomenon");
+params.get("phenomenon");
 
 const contentId =
-  params.get("content");
+params.get("content");
 
 if (
-  phenomenonId &&
-  getPhenomenonById(phenomenonId)
+phenomenonId &&
+getPhenomenonById(phenomenonId)
 ) {
-  state.activePhenomenonId =
-    phenomenonId;
+state.activePhenomenonId =
+phenomenonId;
 }
 
 if (
-  contentId &&
-  getContentById(contentId)
+contentId &&
+getContentById(contentId)
 ) {
-  state.selectedContentId =
-    contentId;
+state.selectedContentId =
+contentId;
 }
-
 }
 
 function renderAll() {
@@ -1833,24 +2250,25 @@ if (!state.data) {
 return;
 }
 
+state.selectedChoiceId = "";
+
 if (state.data.phenomena.length > 0) {
-  state.activePhenomenonId =
-    state.data.phenomena[0].id;
+state.activePhenomenonId =
+state.data.phenomena[0].id;
 }
 
 applyUrlState();
 renderAll();
 
 if (state.selectedContentId) {
-  openContent(
-    state.selectedContentId,
-    null,
-    {
-      preserveFocus:true
-    }
-  );
+openContent(
+state.selectedContentId,
+null,
+{
+preserveFocus:true
 }
-
+);
+}
 }
 
 async function loadCampusData() {
@@ -1858,47 +2276,46 @@ setLoadingState(true);
 hideDataError();
 
 try {
-  state.data =
-    await fetchCampusData();
+state.data =
+await fetchCampusData();
 
-  initializeState();
+initializeState();
 } catch (error) {
-  console.error(
-    "[Digital Research Campus]",
-    error
-  );
+console.error(
+"[Digital Research Campus]",
+error
+);
 
-  state.data = null;
+state.data = null;
 
-  if (elements.phenomenonList) {
-    elements.phenomenonList.innerHTML =
-      '<div class="loading-placeholder">\u73fe\u8c61\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-  }
-
-  if (elements.bookshelf) {
-    elements.bookshelf.innerHTML =
-      '<div class="loading-placeholder">\u8cc7\u6599\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-  }
-
-  if (elements.updateGrid) {
-    elements.updateGrid.innerHTML =
-      '<div class="loading-placeholder">\u66f4\u65b0\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-  }
-
-  if (elements.facilityGrid) {
-    elements.facilityGrid.innerHTML =
-      '<div class="loading-placeholder">\u65bd\u8a2d\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-  }
-
-  showDataError(
-    error instanceof Error
-      ? error.message
-      : "Campus\u30c7\u30fc\u30bf\u306e\u8aad\u307f\u8fbc\u307f\u4e2d\u306b\u4e0d\u660e\u306a\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002"
-  );
-} finally {
-  setLoadingState(false);
+if (elements.phenomenonList) {
+elements.phenomenonList.innerHTML =
+'<div class="loading-placeholder">\u73fe\u8c61\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
 }
 
+if (elements.bookshelf) {
+elements.bookshelf.innerHTML =
+'<div class="loading-placeholder">\u8cc7\u6599\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
+}
+
+if (elements.updateGrid) {
+elements.updateGrid.innerHTML =
+'<div class="loading-placeholder">\u66f4\u65b0\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
+}
+
+if (elements.facilityGrid) {
+elements.facilityGrid.innerHTML =
+'<div class="loading-placeholder">\u65bd\u8a2d\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
+}
+
+showDataError(
+error instanceof Error
+? error.message
+: "Campus\u30c7\u30fc\u30bf\u306e\u8aad\u307f\u8fbc\u307f\u4e2d\u306b\u4e0d\u660e\u306a\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002"
+);
+} finally {
+setLoadingState(false);
+}
 }
 
 function handleGlobalKeydown(event) {
@@ -1908,17 +2325,16 @@ closeDrawer();
 return;
 }
 
-  if (state.mobileMenuOpen) {
-    closeMobileMenu();
+if (state.mobileMenuOpen) {
+closeMobileMenu();
 
-    if (elements.mobileMenuButton) {
-      elements.mobileMenuButton.focus();
-    }
-  }
+if (elements.mobileMenuButton) {
+elements.mobileMenuButton.focus();
+}
+}
 }
 
 trapDrawerFocus(event);
-
 }
 
 function handleBackdropPointerDown(event) {
@@ -1939,54 +2355,53 @@ toggleMobileMenu
 }
 
 if (elements.mobileNav) {
-  elements.mobileNav
-    .querySelectorAll("a")
-    .forEach((link) => {
-      link.addEventListener(
-        "click",
-        closeMobileMenu
-      );
-    });
+elements.mobileNav
+.querySelectorAll("a")
+.forEach((link) => {
+link.addEventListener(
+"click",
+closeMobileMenu
+);
+});
 }
 
 if (elements.drawerClose) {
-  elements.drawerClose.addEventListener(
-    "click",
-    () => {
-      closeDrawer();
-    }
-  );
+elements.drawerClose.addEventListener(
+"click",
+() => {
+closeDrawer();
+}
+);
 }
 
 if (elements.drawerBackdrop) {
-  elements.drawerBackdrop.addEventListener(
-    "pointerdown",
-    handleBackdropPointerDown
-  );
+elements.drawerBackdrop.addEventListener(
+"pointerdown",
+handleBackdropPointerDown
+);
 }
 
 if (elements.reloadDataButton) {
-  elements.reloadDataButton.addEventListener(
-    "click",
-    () => {
-      loadCampusData();
-    }
-  );
+elements.reloadDataButton.addEventListener(
+"click",
+() => {
+loadCampusData();
+}
+);
 }
 
 document.addEventListener(
-  "keydown",
-  handleGlobalKeydown
+"keydown",
+handleGlobalKeydown
 );
 
 window.addEventListener(
-  "resize",
-  syncMobileNavigation,
-  {
-    passive:true
-  }
+"resize",
+syncMobileNavigation,
+{
+passive:true
+}
 );
-
 }
 
 function initializeHeroMotion() {
@@ -2000,59 +2415,58 @@ return;
 }
 
 const floatingBooks =
-  Array.from(
-    elements.heroFloatingBooks.querySelectorAll(
-      ".floating-book"
-    )
-  );
+Array.from(
+elements.heroFloatingBooks.querySelectorAll(
+".floating-book"
+)
+);
 
 if (floatingBooks.length === 0) {
-  return;
+return;
 }
 
 let animationFrameId = 0;
 
 const updatePosition = () => {
-  animationFrameId = 0;
+animationFrameId = 0;
 
-  const scrollY =
-    window.scrollY;
+const scrollY =
+window.scrollY;
 
-  const viewportHeight =
-    window.innerHeight;
+const viewportHeight =
+window.innerHeight;
 
-  if (scrollY > viewportHeight) {
-    return;
-  }
+if (scrollY > viewportHeight) {
+return;
+}
 
-  floatingBooks.forEach(
-    (book,index) => {
-      const ratio =
-        0.015 + index * 0.004;
+floatingBooks.forEach(
+(book,index) => {
+const ratio =
+0.015 + index * 0.004;
 
-      book.style.marginTop =
-        `${scrollY * ratio}px`;
-    }
-  );
+book.style.marginTop =
+`${scrollY * ratio}px`;
+}
+);
 };
 
 window.addEventListener(
-  "scroll",
-  () => {
-    if (animationFrameId) {
-      return;
-    }
+"scroll",
+() => {
+if (animationFrameId) {
+return;
+}
 
-    animationFrameId =
-      window.requestAnimationFrame(
-        updatePosition
-      );
-  },
-  {
-    passive:true
-  }
+animationFrameId =
+window.requestAnimationFrame(
+updatePosition
 );
-
+},
+{
+passive:true
+}
+);
 }
 
 function initialize() {
