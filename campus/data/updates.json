@@ -1,5 +1,14 @@
 [
   {
+    "id": "update-003",
+    "contentId": "research-003",
+    "date": "2026-08-05",
+    "label": "更新",
+    "labelClass": "is-updated",
+    "title": "加速距離とは何か",
+    "summary": "加速距離の初期定義と検証項目を追加。"
+  },
+  {
     "id": "update-002",
     "contentId": "research-001",
     "date": "2026-08-04",
