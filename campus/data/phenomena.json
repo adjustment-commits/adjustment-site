@@ -1,121 +1,426 @@
 [
   {
-    "id": "phenomenon-velocity-not-improving",
+    "id": "phenomenon-pitch-velocity-not-improving",
     "label": "球速が伸びない",
-    "title": "球速が伸びないとき、何を見るか",
-    "description": "球速が伸びない現象を、筋力やフォームだけでなく、加速距離という視点から捉え直します。",
-
+    "title": "トレーニングしても球速が伸びない",
+    "description": "球速だけを見るのではなく、荷重を受けて利用できているか、加速距離を確保できているか、身体を分離して使えているかという視点から整理する。",
     "path": [
-      "球速が伸びない",
-      "加速距離を知る",
-      "原因を切り分ける",
-      "確認する",
-      "現場へ戻す"
+      "球速",
+      "荷重",
+      "加速距離",
+      "分離"
     ],
-
-    "question": {
-      "title": "まず考えてみましょう",
-      "text": "球速を上げるために「加速距離」という考え方を知っていますか？",
-      "description": "まず、自分がどんな視点で球速を考えているか確認します。",
-
-      "choices": [
-        {
-          "id": "know",
-          "label": "知っている",
-          "response": "どこからどこまでを加速距離として考えていますか？"
-        },
-        {
-          "id": "heard",
-          "label": "聞いたことはある",
-          "response": "重心移動だけでなく、ボールが加速する距離も考えます。"
-        },
-        {
-          "id": "unknown",
-          "label": "初めて聞いた",
-          "response": "adjustmentでは球速を考える最初の入口になります。"
-        }
-      ]
-    },
-
-    "adjustmentView": {
-      "title": "adjustment View",
-      "heading": "まず加速距離を考えます",
-      "text": "筋力やフォームだけで判断せず、ボールへ速度を与え続けられる距離が十分あるかを確認します。"
-    },
-
-    "why": {
-      "title": "なぜ加速距離を見るのか",
-      "text": "力が大きくても、ボールへ力を加え続けられる距離が短ければ球速は伸びません。",
-      "points": [
-        "力の大きさだけでは決まらない",
-        "力を加える距離を見る",
-        "方向と連続性も重要"
-      ]
-    },
-
-    "branches": [
-      {
-        "id": "mass",
-        "title": "身体の重さを受け止められているか",
-        "description": "自分の質量を利用できているか確認します。",
-        "relatedIds": [
-          "research-001"
-        ]
-      },
-      {
-        "id": "thorax",
-        "title": "胸郭が加速距離を作れているか",
-        "description": "胸郭の動きがボールの移動につながっているか確認します。",
-        "relatedIds": [
-          "research-003"
-        ]
-      },
-      {
-        "id": "shoulder",
-        "title": "肩甲帯だけで投げていないか",
-        "description": "肩甲帯だけで加速距離を作っていないか確認します。",
-        "relatedIds": []
-      },
-      {
-        "id": "lower-body",
-        "title": "下半身からつながっているか",
-        "description": "軸足からボールまで力が伝わっているか確認します。",
-        "relatedIds": [
-          "research-001"
-        ]
-      }
-    ],
-
-    "checkpoints": [
-      {
-        "title": "競技映像",
-        "description": "ボールが加速を始める位置を確認します。"
-      },
-      {
-        "title": "PDS",
-        "description": "胸郭、肩甲帯、骨盤、出力を確認します。"
-      },
-      {
-        "title": "出力測定",
-        "description": "ジャンプ、MB、スプリントと比較します。"
-      },
-      {
-        "title": "選手の感覚",
-        "description": "どこで力を受け、どこで加速している感覚があるか確認します。"
-      }
-    ],
-
-    "nextAction": {
-      "title": "次に確認すること",
-      "text": "加速距離が短い理由を切り分け、どこが距離を作り、どこが邪魔しているかを確認します。",
-      "relatedIds": [
-        "research-001",
-        "research-003"
-      ]
-    },
-
     "relatedIds": [
       "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-ball-quality-weak",
+    "label": "球が弱い",
+    "title": "球速表示ほど球が強く見えない",
+    "description": "表示球速だけではなく、力の伝達、加速距離、リリース位置から整理する。",
+    "path": [
+      "球質",
+      "力の伝達",
+      "加速距離",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-spin-rate-not-improving",
+    "label": "回転数が伸びない",
+    "title": "球速は上がっても回転数が伸びない",
+    "description": "指先だけではなく、全身から前腕まで速度が伝わっているかを整理する。",
+    "path": [
+      "回転数",
+      "力の伝達",
+      "前腕回旋",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-control-unstable",
+    "label": "コントロールが安定しない",
+    "title": "球速はあるのにコントロールが安定しない",
+    "description": "フォームではなく、荷重・分離・再現性という視点から整理する。",
+    "path": [
+      "コントロール",
+      "再現性",
+      "荷重",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+  {
+    "id": "phenomenon-batted-ball-not-traveling",
+    "label": "打球が飛ばない",
+    "title": "力はあるのに打球が飛ばない",
+    "description": "筋力ではなく、荷重・加速距離・分離から整理する。",
+    "path": [
+      "打球速度",
+      "荷重",
+      "加速距離",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-contact-rate-low",
+    "label": "ミート率が低い",
+    "title": "スイングは速いのにミート率が低い",
+    "description": "始動、荷重、加速開始のタイミングから整理する。",
+    "path": [
+      "ミート率",
+      "タイミング",
+      "荷重",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-timing-not-matching",
+    "label": "タイミングが合わない",
+    "title": "球種や投手にタイミングを合わせられない",
+    "description": "反応速度ではなく、予備動作と荷重による時間の作り方から整理する。",
+    "path": [
+      "タイミング",
+      "予備動作",
+      "荷重",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-swing-speed-not-improving",
+    "label": "スイングスピードが上がらない",
+    "title": "筋力はあるのにスイングスピードが伸びない",
+    "description": "腕ではなく、荷重・分離・加速距離から整理する。",
+    "path": [
+      "スイング",
+      "荷重",
+      "分離",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-throwing-velocity-low",
+    "label": "送球が弱い",
+    "title": "送球速度が上がらない",
+    "description": "肩だけではなく、全身からの力の伝達を整理する。",
+    "path": [
+      "送球",
+      "荷重",
+      "力の伝達",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-throwing-accuracy-low",
+    "label": "送球がそれる",
+    "title": "送球の再現性が低い",
+    "description": "フォームだけではなく、荷重・分離・再現性から整理する。",
+    "path": [
+      "送球",
+      "再現性",
+      "荷重",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+  {
+    "id": "phenomenon-running-speed-low",
+    "label": "ベースランニングが遅い",
+    "title": "走力が競技で発揮できない",
+    "description": "脚力だけではなく、荷重・加速・力の利用から整理する。",
+    "path": [
+      "走力",
+      "荷重",
+      "加速",
+      "力の利用"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-first-step-slow",
+    "label": "初速が遅い",
+    "title": "スタートダッシュが遅い",
+    "description": "反応だけではなく、自重を受け止めて利用できているかを整理する。",
+    "path": [
+      "初速",
+      "荷重",
+      "反発",
+      "加速"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+  {
+    "id": "phenomenon-transition-slow",
+    "label": "切り返しが遅い",
+    "title": "動作の切り返しが遅い",
+    "description": "筋力ではなく、荷重を受けて利用する能力から整理する。",
+    "path": [
+      "切り返し",
+      "荷重",
+      "反発",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+
+    {
+    "id": "phenomenon-shoulder-tightness",
+    "label": "肩が張りやすい",
+    "title": "投球や送球後に肩が張りやすい",
+    "description": "肩だけではなく、荷重・分離・加速距離との関係から整理する。",
+    "path": [
+      "肩",
+      "荷重",
+      "分離",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-elbow-tightness",
+    "label": "肘が張りやすい",
+    "title": "投球後に肘が張りやすい",
+    "description": "肘だけではなく、全身からの力の伝達や加速距離から整理する。",
+    "path": [
+      "肘",
+      "力の伝達",
+      "荷重",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-low-back-tightness",
+    "label": "腰が張りやすい",
+    "title": "プレー後に腰が張りやすい",
+    "description": "腰だけではなく、荷重・分離・力を逃がす能力から整理する。",
+    "path": [
+      "腰",
+      "荷重",
+      "分離",
+      "力を逃がす"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-hip-stiffness",
+    "label": "股関節が詰まる",
+    "title": "股関節が詰まるように感じる",
+    "description": "可動域だけではなく、荷重方向と分離能力から整理する。",
+    "path": [
+      "股関節",
+      "荷重",
+      "分離",
+      "可動性"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-back-tightness",
+    "label": "背中が張る",
+    "title": "背部が張りやすい",
+    "description": "背部だけではなく、胸郭・荷重・力の流れから整理する。",
+    "path": [
+      "背中",
+      "胸郭",
+      "荷重",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-forearm-tightness",
+    "label": "前腕が張りやすい",
+    "title": "前腕が張りやすく疲労しやすい",
+    "description": "前腕だけではなく、全身からの力の伝達と回旋速度から整理する。",
+    "path": [
+      "前腕",
+      "回旋",
+      "力の伝達",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-calf-cramps",
+    "label": "ふくらはぎなどが攣りやすい",
+    "title": "プレー中にふくらはぎなどが攣りやすい",
+    "description": "水分だけではなく、荷重・筋持久力・力の利用効率から整理する。",
+    "path": [
+      "攣り",
+      "荷重",
+      "筋持久力",
+      "力の利用"
+    ],
+    "relatedIds": [
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-performance-under-pressure",
+    "label": "試合で力を発揮できない",
+    "title": "練習ではできるのに試合で発揮できない",
+    "description": "技術だけではなく、再現性・荷重・タイミングから整理する。",
+    "path": [
+      "試合",
+      "再現性",
+      "タイミング",
+      "荷重"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-output-not-transferring",
+    "label": "力が結果につながらない",
+    "title": "測定値は高いのに競技で発揮できない",
+    "description": "筋力ではなく、荷重・加速距離・分離から整理する。",
+    "path": [
+      "出力",
+      "荷重",
+      "加速距離",
+      "分離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-lower-body-not-usable",
+    "label": "下半身が使えない",
+    "title": "下半身を使えている感覚がない",
+    "description": "筋力ではなく、自重を受け止めて利用できているかを整理する。",
+    "path": [
+      "下半身",
+      "荷重",
+      "力の利用",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-movement-looks-stiff",
+    "label": "動きが硬く見える",
+    "title": "動きに余裕がなく硬く見える",
+    "description": "柔軟性だけではなく、分離・荷重・力の流れから整理する。",
+    "path": [
+      "動き",
+      "分離",
+      "荷重",
+      "連動"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002"
+    ]
+  },
+  {
+    "id": "phenomenon-low-repeatability",
+    "label": "再現性が低い",
+    "title": "同じ動作を繰り返せない",
+    "description": "フォームだけではなく、荷重・分離・加速距離の再現性から整理する。",
+    "path": [
+      "再現性",
+      "荷重",
+      "分離",
+      "加速距離"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
+    ]
+  },
+  {
+    "id": "phenomenon-separation-poor",
+    "label": "分離ができない",
+    "title": "上半身と下半身がうまく分離できない",
+    "description": "可動域だけではなく、荷重を受けて利用できるか、加速距離を確保できるかという視点から整理する。",
+    "path": [
+      "分離",
+      "荷重",
+      "加速距離",
+      "連動"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
       "research-003"
     ]
   }
