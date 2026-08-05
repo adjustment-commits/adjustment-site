@@ -1,4 +1,4 @@
-"use strict2;
+"use strict";
 
 const CampusDrawer = (() => {
 const state = {
@@ -8,879 +8,1377 @@ lastFocusedElement: null
 };
 
 const elements = {
-    backdrop: null,
-    drawer: null,
-    closeButton: null,
-    eyebrow: null,
-    title: null,
-    summary: null,
-    meta: null,
-    problem: null,
-    reframe: null,
-    possibilities: null,
-    checkpoints: null,
-    nextMove: null,
-    limitation: null,
-    related: null
+backdrop: null,
+drawer: null,
+closeButton: null,
+eyebrow: null,
+title: null,
+summary: null,
+meta: null,
+question: null,
+commonTheory: null,
+adjustmentView: null,
+why: null,
+checkpoints: null,
+pdsEvaluation: null,
+trackingData: null,
+hypotheses: null,
+researchQuestions: null,
+related: null
 };
 
 function initializeElements() {
-    elements.backdrop =
-        document.getElementById("drawerBackdrop");
+elements.backdrop =
+document.getElementById("drawerBackdrop");
 
-    elements.drawer =
-        document.getElementById("detailDrawer");
+elements.drawer =
+document.getElementById("detailDrawer");
 
-    elements.closeButton =
-        document.getElementById("drawerClose");
+elements.closeButton =
+document.getElementById("drawerClose");
 
-    elements.eyebrow =
-        document.getElementById("drawerEyebrow");
+elements.eyebrow =
+document.getElementById("drawerEyebrow");
 
-    elements.title =
-        document.getElementById("drawerTitle");
+elements.title =
+document.getElementById("drawerTitle");
 
-    elements.summary =
-        document.getElementById("drawerSummary");
+elements.summary =
+document.getElementById("drawerSummary");
 
-    elements.meta =
-        document.getElementById("drawerMeta");
+elements.meta =
+document.getElementById("drawerMeta");
 
-    elements.problem =
-        document.getElementById("drawerProblem");
+elements.question =
+document.getElementById("drawerQuestion");
 
-    elements.reframe =
-        document.getElementById("drawerReframe");
+elements.commonTheory =
+document.getElementById("drawerCommonTheory");
 
-    elements.possibilities =
-        document.getElementById(
-            "drawerPossibilities"
-        );
+elements.adjustmentView =
+document.getElementById(
+"drawerAdjustmentView"
+);
 
-    elements.checkpoints =
-        document.getElementById(
-            "drawerCheckpoints"
-        );
+elements.why =
+document.getElementById("drawerWhy");
 
-    elements.nextMove =
-        document.getElementById("drawerNextMove");
+elements.checkpoints =
+document.getElementById(
+"drawerCheckpoints"
+);
 
-    elements.limitation =
-        document.getElementById(
-            "drawerLimitation"
-        );
+elements.pdsEvaluation =
+document.getElementById(
+"drawerPdsEvaluation"
+);
 
-    elements.related =
-        document.getElementById("drawerRelated");
+elements.trackingData =
+document.getElementById(
+"drawerTrackingData"
+);
+
+elements.hypotheses =
+document.getElementById(
+"drawerHypotheses"
+);
+
+elements.researchQuestions =
+document.getElementById(
+"drawerResearchQuestions"
+);
+
+elements.related =
+document.getElementById("drawerRelated");
 }
 
 function isReady() {
-    return Boolean(
-        elements.backdrop &&
-        elements.drawer &&
-        elements.closeButton
-    );
+return Boolean(
+elements.backdrop &&
+elements.drawer &&
+elements.closeButton
+);
 }
 
-function normalizeString(value, fallback = "") {
-    if (typeof value !== "string") {
-        return fallback;
-    }
+function normalizeString(
+value,
+fallback = ""
+) {
+if (typeof value !== "string") {
+return fallback;
+}
 
-    const normalized = value.trim();
+const normalized = value.trim();
 
-    return normalized || fallback;
+return normalized || fallback;
 }
 
 function normalizeArray(value) {
-    return Array.isArray(value)
-        ? value
-        : [];
+return Array.isArray(value)
+? value
+: [];
+}
+
+function isPlainObject(value) {
+return (
+value !== null &&
+typeof value === "object" &&
+!Array.isArray(value)
+);
 }
 
 function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+return String(value ?? "")
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;")
+.replace(/"/g, "&quot;")
+.replace(/'/g, "&#039;");
 }
 
 function formatType(type) {
-    const normalized =
-        normalizeString(type, "content");
+const normalized =
+normalizeString(type, "content");
 
-    return normalized.toUpperCase();
+return normalized.toUpperCase();
 }
 
 function formatDate(value) {
-    const normalized =
-        normalizeString(value);
+const normalized =
+normalizeString(value);
 
-    if (!normalized) {
-        return "";
-    }
+if (!normalized) {
+return "";
+}
 
-    const match = normalized.match(
-        /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/
-    );
+const match = normalized.match(
+/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/
+);
 
-    if (!match) {
-        return normalized;
-    }
+if (!match) {
+return normalized;
+}
 
-    return [
-        match[1],
-        match[2],
-        match[3]
-    ].join(".");
+return [
+match[1],
+match[2],
+match[3]
+].join(".");
+}
+
+function setSectionVisible(
+element,
+isVisible
+) {
+if (!element) {
+return;
+}
+
+const section = element.closest(
+".drawer-section"
+);
+
+if (section) {
+section.hidden = !isVisible;
+}
+}
+
+function renderEmpty(
+element,
+title = "æ´çä¸­",
+text = "ç¾å¨ãåå®¹ãæ´çãã¦ãã¾ãã"
+) {
+if (!element) {
+return;
+}
+
+element.innerHTML =
+'<div class="drawer-list-item">' +
+"<strong>" +
+escapeHtml(title) +
+"</strong>" +
+"<span>" +
+escapeHtml(text) +
+"</span>" +
+"</div>";
+}
+
+function renderTextBlock(
+element,
+value,
+fallbackTitle = "æ´çä¸­",
+fallbackText = "ç¾å¨ãåå®¹ãæ´çãã¦ãã¾ãã"
+) {
+if (!element) {
+return;
+}
+
+if (typeof value === "string") {
+const text = normalizeString(value);
+
+if (!text) {
+renderEmpty(
+element,
+fallbackTitle,
+fallbackText
+);
+return;
+}
+
+element.innerHTML =
+'<p class="drawer-content-text">' +
+escapeHtml(text) +
+"</p>";
+
+return;
+}
+
+if (isPlainObject(value)) {
+const title =
+normalizeString(value.title);
+
+const text =
+normalizeString(
+value.text,
+normalizeString(
+value.description,
+normalizeString(value.summary)
+)
+);
+
+const items =
+normalizeArray(value.items);
+
+const points =
+normalizeArray(value.points);
+
+const listItems =
+items.length > 0
+? items
+: points;
+
+const parts = [];
+
+if (title) {
+parts.push(
+'<h4 class="drawer-content-title">' +
+escapeHtml(title) +
+"</h4>"
+);
+}
+
+if (text) {
+parts.push(
+'<p class="drawer-content-text">' +
+escapeHtml(text) +
+"</p>"
+);
+}
+
+if (listItems.length > 0) {
+parts.push(
+renderGenericListHtml(listItems)
+);
+}
+
+if (parts.length === 0) {
+renderEmpty(
+element,
+fallbackTitle,
+fallbackText
+);
+return;
+}
+
+element.innerHTML = parts.join("");
+
+return;
+}
+
+if (Array.isArray(value)) {
+if (value.length === 0) {
+renderEmpty(
+element,
+fallbackTitle,
+fallbackText
+);
+return;
+}
+
+element.innerHTML =
+renderGenericListHtml(value);
+
+return;
+}
+
+renderEmpty(
+element,
+fallbackTitle,
+fallbackText
+);
+}
+
+function renderGenericListHtml(items) {
+return normalizeArray(items)
+.map((item, index) => {
+if (typeof item === "string") {
+const text = normalizeString(item);
+
+if (!text) {
+return "";
+}
+
+return (
+'<div class="drawer-list-item">' +
+"<strong>" +
+escapeHtml(
+String(index + 1).padStart(2, "0")
+) +
+"</strong>" +
+"<span>" +
+escapeHtml(text) +
+"</span>" +
+"</div>"
+);
+}
+
+if (!isPlainObject(item)) {
+return "";
+}
+
+const title =
+normalizeString(
+item.title,
+normalizeString(
+item.label,
+"é ç® " + String(index + 1)
+)
+);
+
+const text =
+normalizeString(
+item.text,
+normalizeString(
+item.description,
+normalizeString(
+item.method,
+normalizeString(item.reference)
+)
+)
+);
+
+return (
+'<div class="drawer-list-item">' +
+"<strong>" +
+escapeHtml(title) +
+"</strong>" +
+(
+text
+? "<span>" +
+escapeHtml(text) +
+"</span>"
+: ""
+) +
+"</div>"
+);
+})
+.filter(Boolean)
+.join("");
 }
 
 function getContentById(contentId) {
-    if (
-        typeof CampusSearch !== "undefined" &&
-        CampusSearch &&
-        typeof CampusSearch.byId === "function"
-    ) {
-        return CampusSearch.byId(contentId);
-    }
+const normalizedId =
+normalizeString(contentId);
 
-    const db = window.CampusDB;
+if (!normalizedId) {
+return null;
+}
 
-    if (!db) {
-        return null;
-    }
+if (
+typeof CampusSearch !== "undefined" &&
+CampusSearch &&
+typeof CampusSearch.byId === "function"
+) {
+const searched =
+CampusSearch.byId(normalizedId);
 
-    if (
-        db.relatedMap instanceof Map &&
-        db.relatedMap.has(contentId)
-    ) {
-        return db.relatedMap.get(contentId);
-    }
+if (searched) {
+return searched;
+}
+}
 
-    return normalizeArray(db.all).find((item) => {
-        return item.id === contentId;
-    }) || null;
+const db = window.CampusDB;
+
+if (!db) {
+return null;
+}
+
+const mapCandidates = [
+db.relatedMap,
+db.contentMap,
+db.phenomenonMap,
+db.allMap
+];
+
+for (const candidate of mapCandidates) {
+if (
+candidate instanceof Map &&
+candidate.has(normalizedId)
+) {
+return candidate.get(normalizedId);
+}
+}
+
+const collections = [
+db.all,
+db.contents,
+db.phenomena,
+db.research,
+db.pds,
+db.cases,
+db.dictionary
+];
+
+for (const collection of collections) {
+const found =
+normalizeArray(collection).find(
+(item) => {
+return (
+item &&
+item.id === normalizedId
+);
+}
+);
+
+if (found) {
+return found;
+}
+}
+
+return null;
 }
 
 function getRelatedContents(content) {
-    if (!content) {
-        return [];
-    }
+if (!content) {
+return [];
+}
 
-    if (
-        typeof CampusSearch !== "undefined" &&
-        CampusSearch &&
-        typeof CampusSearch.related === "function"
-    ) {
-        return CampusSearch.related(content.id);
-    }
+if (
+typeof CampusSearch !== "undefined" &&
+CampusSearch &&
+typeof CampusSearch.related === "function"
+) {
+const related =
+CampusSearch.related(content.id);
 
-    return normalizeArray(content.relatedIds)
-        .map((contentId) => {
-            return getContentById(contentId);
-        })
-        .filter(Boolean);
+if (Array.isArray(related)) {
+return related;
+}
+}
+
+return normalizeArray(content.relatedIds)
+.map((contentId) => {
+return getContentById(contentId);
+})
+.filter(Boolean);
 }
 
 function getFocusableElements() {
-    if (!elements.drawer) {
-        return [];
-    }
-
-    const selector = [
-        "a[href]",
-        "button:not([disabled])",
-        "input:not([disabled])",
-        "select:not([disabled])",
-        "textarea:not([disabled])",
-        "[tabindex]:not([tabindex='-1'])"
-    ].join(",");
-
-    return Array.from(
-        elements.drawer.querySelectorAll(selector)
-    ).filter((element) => {
-        return (
-            !element.hidden &&
-            element.getAttribute("aria-hidden") !==
-                "true"
-        );
-    });
+if (!elements.drawer) {
+return [];
 }
 
-function setText(element, value, fallback = "") {
-    if (!element) {
-        return;
-    }
+const selector = [
+"a[href]",
+"button:not([disabled])",
+"input:not([disabled])",
+"select:not([disabled])",
+"textarea:not([disabled])",
+"[tabindex]:not([tabindex='-1'])"
+].join(",");
 
-    element.textContent =
-        normalizeString(value, fallback);
+return Array.from(
+elements.drawer.querySelectorAll(selector)
+).filter((element) => {
+return (
+!element.hidden &&
+element.getAttribute("aria-hidden") !==
+"true"
+);
+});
+}
+
+function setText(
+element,
+value,
+fallback = ""
+) {
+if (!element) {
+return;
+}
+
+element.textContent =
+normalizeString(value, fallback);
 }
 
 function renderMeta(content) {
-    if (!elements.meta) {
-        return;
-    }
-
-    const items = [];
-
-    const code =
-        normalizeString(content.code);
-
-    const status =
-        normalizeString(
-            content.statusLabel,
-            normalizeString(content.status)
-        );
-
-    const version =
-        normalizeString(content.version);
-
-    const updatedAt =
-        formatDate(content.updatedAt);
-
-    if (code) {
-        items.push({
-            value: code,
-            className: "tag"
-        });
-    }
-
-    if (status) {
-        items.push({
-            value: status.toUpperCase(),
-            className: [
-                "tag",
-                normalizeString(
-                    content.statusClass
-                )
-            ]
-                .filter(Boolean)
-                .join(" ")
-        });
-    }
-
-    if (version) {
-        items.push({
-            value: "VERSION " + version,
-            className: "tag"
-        });
-    }
-
-    if (updatedAt) {
-        items.push({
-            value: updatedAt,
-            className: "tag"
-        });
-    }
-
-    normalizeArray(content.tags).forEach((tag) => {
-        const value = normalizeString(tag);
-
-        if (!value) {
-            return;
-        }
-
-        items.push({
-            value,
-            className: "tag"
-        });
-    });
-
-    elements.meta.innerHTML = items
-        .map((item) => {
-            return (
-                '<span class="' +
-                escapeHtml(item.className) +
-                '">' +
-                escapeHtml(item.value) +
-                "</span>"
-            );
-        })
-        .join("");
+if (!elements.meta) {
+return;
 }
 
-function renderPossibilities(content) {
-    if (!elements.possibilities) {
-        return;
-    }
+const items = [];
 
-    const possibilities =
-        normalizeArray(content.possibilities);
+const code =
+normalizeString(content.code);
 
-    if (possibilities.length === 0) {
-        elements.possibilities.innerHTML =
-            '<div class="drawer-list-item">' +
-            "<strong>Under review</strong>" +
-            "<span>No possibilities are available.</span>" +
-            "</div>";
+const status =
+normalizeString(
+content.statusLabel,
+normalizeString(content.status)
+);
 
-        return;
-    }
+const version =
+normalizeString(content.version);
 
-    elements.possibilities.innerHTML =
-        possibilities
-            .map((item, index) => {
-                const title =
-                    normalizeString(
-                        item.title,
-                        "Possibility " +
-                            String(index + 1)
-                    );
+const updatedAt =
+formatDate(content.updatedAt);
 
-                const description =
-                    normalizeString(
-                        item.description,
-                        "No description."
-                    );
+if (code) {
+items.push({
+value: code,
+className: "tag"
+});
+}
 
-                return (
-                    '<div class="drawer-list-item">' +
-                    "<strong>" +
-                    escapeHtml(title) +
-                    "</strong>" +
-                    "<span>" +
-                    escapeHtml(description) +
-                    "</span>" +
-                    "</div>"
-                );
-            })
-            .join("");
+if (status) {
+items.push({
+value: status.toUpperCase(),
+className: [
+"tag",
+normalizeString(
+content.statusClass
+)
+]
+.filter(Boolean)
+.join(" ")
+});
+}
+
+if (version) {
+items.push({
+value: "VERSION " + version,
+className: "tag"
+});
+}
+
+if (updatedAt) {
+items.push({
+value: updatedAt,
+className: "tag"
+});
+}
+
+normalizeArray(content.tags).forEach(
+(tag) => {
+const value = normalizeString(tag);
+
+if (!value) {
+return;
+}
+
+items.push({
+value,
+className: "tag"
+});
+}
+);
+
+elements.meta.innerHTML = items
+.map((item) => {
+return (
+'<span class="' +
+escapeHtml(item.className) +
+'">' +
+escapeHtml(item.value) +
+"</span>"
+);
+})
+.join("");
+}
+
+function renderQuestion(content) {
+if (!elements.question) {
+return;
+}
+
+const question =
+content.question;
+
+if (!isPlainObject(question)) {
+renderTextBlock(
+elements.question,
+question,
+"åããæ´çä¸­",
+"æåã«èããåããæ´çãã¦ãã¾ãã"
+);
+return;
+}
+
+const title =
+normalizeString(question.title);
+
+const text =
+normalizeString(question.text);
+
+const choices =
+normalizeArray(question.choices);
+
+const parts = [];
+
+if (title) {
+parts.push(
+'<h4 class="drawer-content-title">' +
+escapeHtml(title) +
+"</h4>"
+);
+}
+
+if (text) {
+parts.push(
+'<p class="drawer-content-text">' +
+escapeHtml(text) +
+"</p>"
+);
+}
+
+if (choices.length > 0) {
+parts.push(
+'<div class="drawer-choice-list">' +
+choices
+.map((choice, index) => {
+const label =
+isPlainObject(choice)
+? normalizeString(
+choice.label,
+"é¸æè¢ " +
+String(index + 1)
+)
+: normalizeString(
+choice,
+"é¸æè¢ " +
+String(index + 1)
+);
+
+return (
+'<div class="drawer-choice-item">' +
+'<span class="drawer-choice-number">' +
+escapeHtml(
+String(index + 1).padStart(
+2,
+"0"
+)
+) +
+"</span>" +
+"<span>" +
+escapeHtml(label) +
+"</span>" +
+"</div>"
+);
+})
+.join("") +
+"</div>"
+);
+}
+
+if (parts.length === 0) {
+renderEmpty(
+elements.question,
+"åããæ´çä¸­",
+"æåã«èããåããæ´çãã¦ãã¾ãã"
+);
+return;
+}
+
+elements.question.innerHTML =
+parts.join("");
+}
+
+function renderCommonTheory(content) {
+const value =
+content.commonTheory ??
+content.generalTheory ??
+content.commonView ??
+"";
+
+renderTextBlock(
+elements.commonTheory,
+value,
+"ä¸è¬çãªèãæ¹ãæ´çä¸­",
+"ä¸è¬çã«èãããã¦ããåå ãè¦æ¹ãæ´çãã¦ãã¾ãã"
+);
+}
+
+function renderAdjustmentView(content) {
+const value =
+content.adjustmentView ??
+content.reframe ??
+content.thinking ??
+"";
+
+renderTextBlock(
+elements.adjustmentView,
+value,
+"æãæ¹ãæ´çä¸­",
+"adjustmentã¨ãã¦ã®æãæ¹ãæ´çãã¦ãã¾ãã"
+);
+}
+
+function renderWhy(content) {
+const value =
+content.why;
+
+renderTextBlock(
+elements.why,
+value,
+"çç±ãæ´çä¸­",
+"ãªãããèããã®ããæ´çãã¦ãã¾ãã"
+);
 }
 
 function renderCheckpoints(content) {
-    if (!elements.checkpoints) {
-        return;
-    }
+if (!elements.checkpoints) {
+return;
+}
 
-    const checkpoints =
-        normalizeArray(content.checkpoints);
+const checkpoints =
+normalizeArray(content.checkpoints);
 
-    if (checkpoints.length === 0) {
-        elements.checkpoints.innerHTML =
-            '<div class="drawer-list-item">' +
-            "<strong>Under review</strong>" +
-            "<span>No checkpoints are available.</span>" +
-            "</div>";
+if (checkpoints.length === 0) {
+renderEmpty(
+elements.checkpoints,
+"ç¢ºèªé ç®ãæ´çä¸­",
+"ç¾å ´ã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+);
+return;
+}
 
-        return;
-    }
+elements.checkpoints.innerHTML =
+renderGenericListHtml(checkpoints);
+}
 
-    elements.checkpoints.innerHTML =
-        checkpoints
-            .map((item, index) => {
-                const title =
-                    normalizeString(
-                        item.title,
-                        "Checkpoint " +
-                            String(index + 1)
-                    );
+function renderPdsEvaluation(content) {
+const value =
+content.pdsEvaluation ??
+content.pds ??
+"";
 
-                const description =
-                    normalizeString(
-                        item.description,
-                        "No description."
-                    );
+renderTextBlock(
+elements.pdsEvaluation,
+value,
+"PDSé ç®ãæ´çä¸­",
+"PDSã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+);
+}
 
-                const method =
-                    normalizeString(item.method);
+function renderTrackingData(content) {
+const value =
+content.trackingData ??
+content.tracking ??
+content.performanceData ??
+"";
 
-                const reference =
-                    normalizeString(item.reference);
+renderTextBlock(
+elements.trackingData,
+value,
+"ç«¶æãã¼ã¿ãæ´çä¸­",
+"ç«¶æãã¼ã¿ã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+);
+}
 
-                const details = [
-                    description,
-                    method
-                        ? "Method: " + method
-                        : "",
-                    reference
-                        ? "Reference: " + reference
-                        : ""
-                ]
-                    .filter(Boolean)
-                    .join(" ");
+function renderHypotheses(content) {
+const value =
+content.hypotheses ??
+content.hypothesis ??
+content.possibilities ??
+"";
 
-                return (
-                    '<div class="drawer-list-item">' +
-                    "<strong>" +
-                    escapeHtml(title) +
-                    "</strong>" +
-                    "<span>" +
-                    escapeHtml(details) +
-                    "</span>" +
-                    "</div>"
-                );
-            })
-            .join("");
+renderTextBlock(
+elements.hypotheses,
+value,
+"ä»®èª¬ãæ´çä¸­",
+"ç¾æç¹ã§èããããä»®èª¬ãæ´çãã¦ãã¾ãã"
+);
+}
+
+function renderResearchQuestions(content) {
+const value =
+content.researchQuestions ??
+content.researchQuestion ??
+"";
+
+renderTextBlock(
+elements.researchQuestions,
+value,
+"æ¤è¨¼èª²é¡ãæ´çä¸­",
+"ä»å¾æ¤è¨¼ãããåããæ´çãã¦ãã¾ãã"
+);
 }
 
 function renderRelated(content) {
-    if (!elements.related) {
-        return;
-    }
+if (!elements.related) {
+return;
+}
 
-    const relatedContents =
-        getRelatedContents(content);
+const relatedContents =
+getRelatedContents(content);
 
-    if (relatedContents.length === 0) {
-        elements.related.innerHTML =
-            '<div class="drawer-related-item">' +
-            "<strong>No related content</strong>" +
-            "<span>Related thinking is under review.</span>" +
-            "</div>";
+if (relatedContents.length === 0) {
+elements.related.innerHTML =
+'<div class="drawer-related-item">' +
+"<strong>é¢é£è³æãæ´çä¸­</strong>" +
+"<span>é¢é£ããæèãè³æãæ´çãã¦ãã¾ãã</span>" +
+"</div>";
 
-        return;
-    }
+return;
+}
 
-    elements.related.innerHTML =
-        relatedContents
-            .map((related) => {
-                const type =
-                    formatType(related.type);
+elements.related.innerHTML =
+relatedContents
+.map((related) => {
+const type =
+formatType(related.type);
 
-                const code =
-                    normalizeString(
-                        related.code,
-                        related.id
-                    );
+const code =
+normalizeString(
+related.code,
+related.id
+);
 
-                return (
-                    '<button class="drawer-related-item"' +
-                    ' type="button"' +
-                    ' data-drawer-content-id="' +
-                    escapeHtml(related.id) +
-                    '">' +
-                    "<strong>" +
-                    escapeHtml(related.title) +
-                    "</strong>" +
-                    "<span>" +
-                    escapeHtml(
-                        type + " / " + code
-                    ) +
-                    "</span>" +
-                    "</button>"
-                );
-            })
-            .join("");
+const title =
+normalizeString(
+related.title,
+"ç¡é¡"
+);
+
+return (
+'<button class="drawer-related-item"' +
+' type="button"' +
+' data-drawer-content-id="' +
+escapeHtml(related.id) +
+'">' +
+"<strong>" +
+escapeHtml(title) +
+"</strong>" +
+"<span>" +
+escapeHtml(
+type + " / " + code
+) +
+"</span>" +
+"</button>"
+);
+})
+.join("");
 }
 
 function render(content) {
-    const type = formatType(content.type);
+const type = formatType(
+normalizeString(
+content.type,
+content.question
+? "phenomenon"
+: "content"
+)
+);
 
-    const code =
-        normalizeString(
-            content.code,
-            content.id
-        );
+const code =
+normalizeString(
+content.code,
+content.id
+);
 
-    setText(
-        elements.eyebrow,
-        type + " / " + code,
-        "ADJUSTMENT THINKING"
-    );
+setText(
+elements.eyebrow,
+type + " / " + code,
+"ADJUSTMENT THINKING"
+);
 
-    setText(
-        elements.title,
-        content.title,
-        "Untitled"
-    );
+setText(
+elements.title,
+content.title,
+normalizeString(
+content.label,
+"æèã¿ã¤ãã«"
+)
+);
 
-    setText(
-        elements.summary,
-        content.summary,
-        "No summary."
-    );
+setText(
+elements.summary,
+content.summary,
+normalizeString(
+content.description,
+"æ¦è¦ãæ´çãã¦ãã¾ãã"
+)
+);
 
-    setText(
-        elements.problem,
-        content.problem,
-        "No problem statement."
-    );
+renderMeta(content);
+renderQuestion(content);
+renderCommonTheory(content);
+renderAdjustmentView(content);
+renderWhy(content);
+renderCheckpoints(content);
+renderPdsEvaluation(content);
+renderTrackingData(content);
+renderHypotheses(content);
+renderResearchQuestions(content);
+renderRelated(content);
 
-    setText(
-        elements.reframe,
-        content.reframe,
-        "No reframe statement."
-    );
+setSectionVisible(
+elements.question,
+true
+);
 
-    setText(
-        elements.nextMove,
-        content.nextMove,
-        "No next move."
-    );
+setSectionVisible(
+elements.commonTheory,
+true
+);
 
-    setText(
-        elements.limitation,
-        content.limitation,
-        "This content may include working hypotheses."
-    );
+setSectionVisible(
+elements.adjustmentView,
+true
+);
 
-    renderMeta(content);
-    renderPossibilities(content);
-    renderCheckpoints(content);
-    renderRelated(content);
+setSectionVisible(
+elements.why,
+true
+);
+
+setSectionVisible(
+elements.checkpoints,
+true
+);
+
+setSectionVisible(
+elements.pdsEvaluation,
+true
+);
+
+setSectionVisible(
+elements.trackingData,
+true
+);
+
+setSectionVisible(
+elements.hypotheses,
+true
+);
+
+setSectionVisible(
+elements.researchQuestions,
+true
+);
+
+setSectionVisible(
+elements.related,
+true
+);
 }
 
 function updateUrl(contentId) {
-    const url = new URL(window.location.href);
+const url = new URL(
+window.location.href
+);
 
-    if (contentId) {
-        url.searchParams.set("content", contentId);
-    } else {
-        url.searchParams.delete("content");
-    }
+if (contentId) {
+url.searchParams.set(
+"content",
+contentId
+);
+} else {
+url.searchParams.delete("content");
+}
 
-    window.history.replaceState(
-        window.history.state,
-        "",
-        url
-    );
+window.history.replaceState(
+window.history.state,
+"",
+url
+);
 }
 
 function open(
-    contentId,
-    triggerElement = null,
-    options = {}
+contentId,
+triggerElement = null,
+options = {}
 ) {
-    if (!isReady()) {
-        return false;
-    }
+if (!isReady()) {
+return false;
+}
 
-    const content =
-        getContentById(contentId);
+const content =
+getContentById(contentId);
 
-    if (!content) {
-        console.warn(
-            "[CampusDrawer] Content not found:",
-            contentId
-        );
+if (!content) {
+console.warn(
+"[CampusDrawer] Content not found:",
+contentId
+);
 
-        return false;
-    }
+return false;
+}
 
-    const preserveFocus =
-        options.preserveFocus === true;
+const preserveFocus =
+options.preserveFocus === true;
 
-    const updateHistory =
-        options.updateHistory !== false;
+const updateHistory =
+options.updateHistory !== false;
 
-    if (
-        !preserveFocus &&
-        triggerElement instanceof HTMLElement
-    ) {
-        state.lastFocusedElement =
-            triggerElement;
-    }
+if (
+!preserveFocus &&
+triggerElement instanceof HTMLElement
+) {
+state.lastFocusedElement =
+triggerElement;
+}
 
-    state.activeContentId = content.id;
+state.activeContentId = content.id;
 
-    render(content);
+render(content);
 
-    elements.drawer.classList.add("is-open");
-    elements.drawer.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+elements.drawer.classList.add(
+"is-open"
+);
 
-    elements.backdrop.classList.add("is-open");
-    elements.backdrop.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+elements.drawer.setAttribute(
+"aria-hidden",
+"false"
+);
 
-    document.body.classList.add("menu-open");
+elements.backdrop.classList.add(
+"is-open"
+);
 
-    state.isOpen = true;
+elements.backdrop.setAttribute(
+"aria-hidden",
+"false"
+);
 
-    if (updateHistory) {
-        updateUrl(content.id);
-    }
+document.body.classList.add(
+"menu-open"
+);
 
-    window.requestAnimationFrame(() => {
-        elements.closeButton.focus();
-    });
+state.isOpen = true;
 
-    document.dispatchEvent(
-        new CustomEvent("campus:drawer-open", {
-            detail: {
-                content
-            }
-        })
-    );
+if (updateHistory) {
+updateUrl(content.id);
+}
 
-    return true;
+window.requestAnimationFrame(() => {
+elements.closeButton.focus();
+});
+
+document.dispatchEvent(
+new CustomEvent(
+"campus:drawer-open",
+{
+detail: {
+content
+}
+}
+)
+);
+
+return true;
 }
 
 function close(options = {}) {
-    if (!isReady() || !state.isOpen) {
-        return;
-    }
+if (!isReady() || !state.isOpen) {
+return;
+}
 
-    const restoreFocus =
-        options.restoreFocus !== false;
+const restoreFocus =
+options.restoreFocus !== false;
 
-    const updateHistory =
-        options.updateHistory !== false;
+const updateHistory =
+options.updateHistory !== false;
 
-    elements.drawer.classList.remove("is-open");
-    elements.drawer.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+elements.drawer.classList.remove(
+"is-open"
+);
 
-    elements.backdrop.classList.remove("is-open");
-    elements.backdrop.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+elements.drawer.setAttribute(
+"aria-hidden",
+"true"
+);
 
-    document.body.classList.remove("menu-open");
+elements.backdrop.classList.remove(
+"is-open"
+);
 
-    state.isOpen = false;
-    state.activeContentId = "";
+elements.backdrop.setAttribute(
+"aria-hidden",
+"true"
+);
 
-    if (updateHistory) {
-        updateUrl("");
-    }
+document.body.classList.remove(
+"menu-open"
+);
 
-    if (
-        restoreFocus &&
-        state.lastFocusedElement instanceof
-            HTMLElement &&
-        document.contains(
-            state.lastFocusedElement
-        )
-    ) {
-        state.lastFocusedElement.focus();
-    }
+state.isOpen = false;
+state.activeContentId = "";
 
-    state.lastFocusedElement = null;
+if (updateHistory) {
+updateUrl("");
+}
 
-    document.dispatchEvent(
-        new CustomEvent("campus:drawer-close")
-    );
+if (
+restoreFocus &&
+state.lastFocusedElement instanceof
+HTMLElement &&
+document.contains(
+state.lastFocusedElement
+)
+) {
+state.lastFocusedElement.focus();
+}
+
+state.lastFocusedElement = null;
+
+document.dispatchEvent(
+new CustomEvent(
+"campus:drawer-close"
+)
+);
 }
 
 function trapFocus(event) {
-    if (
-        !state.isOpen ||
-        event.key !== "Tab"
-    ) {
-        return;
-    }
+if (
+!state.isOpen ||
+event.key !== "Tab"
+) {
+return;
+}
 
-    const focusableElements =
-        getFocusableElements();
+const focusableElements =
+getFocusableElements();
 
-    if (focusableElements.length === 0) {
-        event.preventDefault();
-        elements.drawer.focus();
-        return;
-    }
+if (focusableElements.length === 0) {
+event.preventDefault();
+elements.drawer.focus();
+return;
+}
 
-    const firstElement =
-        focusableElements[0];
+const firstElement =
+focusableElements[0];
 
-    const lastElement =
-        focusableElements[
-            focusableElements.length - 1
-        ];
+const lastElement =
+focusableElements[
+focusableElements.length - 1
+];
 
-    if (
-        event.shiftKey &&
-        document.activeElement === firstElement
-    ) {
-        event.preventDefault();
-        lastElement.focus();
-        return;
-    }
+if (
+event.shiftKey &&
+document.activeElement === firstElement
+) {
+event.preventDefault();
+lastElement.focus();
+return;
+}
 
-    if (
-        !event.shiftKey &&
-        document.activeElement === lastElement
-    ) {
-        event.preventDefault();
-        firstElement.focus();
-    }
+if (
+!event.shiftKey &&
+document.activeElement === lastElement
+) {
+event.preventDefault();
+firstElement.focus();
+}
 }
 
 function handleKeydown(event) {
-    if (
-        event.key === "Escape" &&
-        state.isOpen
-    ) {
-        event.preventDefault();
-        close();
-        return;
-    }
+if (
+event.key === "Escape" &&
+state.isOpen
+) {
+event.preventDefault();
+close();
+return;
+}
 
-    trapFocus(event);
+trapFocus(event);
 }
 
 function handleBackdropPointerDown(event) {
-    if (event.target === elements.backdrop) {
-        close();
-    }
+if (event.target === elements.backdrop) {
+close();
+}
 }
 
 function findContentTrigger(target) {
-    if (!(target instanceof Element)) {
-        return null;
-    }
+if (!(target instanceof Element)) {
+return null;
+}
 
-    return target.closest(
-        [
-            "[data-drawer-content-id]",
-            "[data-content-id]",
-            "[data-thinking-id]",
-            "[data-update-content-id]"
-        ].join(",")
-    );
+return target.closest(
+[
+"[data-drawer-content-id]",
+"[data-content-id]",
+"[data-thinking-id]",
+"[data-update-content-id]"
+].join(",")
+);
 }
 
 function getTriggerContentId(trigger) {
-    return (
-        trigger.dataset.drawerContentId ||
-        trigger.dataset.contentId ||
-        trigger.dataset.thinkingId ||
-        trigger.dataset.updateContentId ||
-        ""
-    );
+return (
+trigger.dataset.drawerContentId ||
+trigger.dataset.contentId ||
+trigger.dataset.thinkingId ||
+trigger.dataset.updateContentId ||
+""
+);
 }
 
 function handleDocumentClick(event) {
-    const trigger =
-        findContentTrigger(event.target);
+const trigger =
+findContentTrigger(event.target);
 
-    if (!trigger) {
-        return;
-    }
+if (!trigger) {
+return;
+}
 
-    const contentId =
-        getTriggerContentId(trigger);
+const contentId =
+getTriggerContentId(trigger);
 
-    if (!contentId) {
-        return;
-    }
+if (!contentId) {
+return;
+}
 
-    event.preventDefault();
+event.preventDefault();
 
-    open(contentId, trigger, {
-        preserveFocus:
-            trigger.closest(
-                "#detailDrawer"
-            ) !== null
-    });
+open(contentId, trigger, {
+preserveFocus:
+trigger.closest(
+"#detailDrawer"
+) !== null
+});
 }
 
 function handleUrlState() {
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+const params =
+new URLSearchParams(
+window.location.search
+);
 
-    const contentId =
-        normalizeString(
-            params.get("content")
-        );
+const contentId =
+normalizeString(
+params.get("content")
+);
 
-    if (!contentId) {
-        return;
-    }
+if (!contentId) {
+if (state.isOpen) {
+close({
+restoreFocus: false,
+updateHistory: false
+});
+}
 
-    open(contentId, null, {
-        preserveFocus: true,
-        updateHistory: false
-    });
+return;
+}
+
+open(contentId, null, {
+preserveFocus: true,
+updateHistory: false
+});
 }
 
 function bindEvents() {
-    elements.closeButton.addEventListener(
-        "click",
-        () => {
-            close();
-        }
-    );
+elements.closeButton.addEventListener(
+"click",
+() => {
+close();
+}
+);
 
-    elements.backdrop.addEventListener(
-        "pointerdown",
-        handleBackdropPointerDown
-    );
+elements.backdrop.addEventListener(
+"pointerdown",
+handleBackdropPointerDown
+);
 
-    document.addEventListener(
-        "click",
-        handleDocumentClick
-    );
+document.addEventListener(
+"click",
+handleDocumentClick
+);
 
-    document.addEventListener(
-        "keydown",
-        handleKeydown
-    );
+document.addEventListener(
+"keydown",
+handleKeydown
+);
 
-    window.addEventListener(
-        "popstate",
-        handleUrlState
-    );
+window.addEventListener(
+"popstate",
+handleUrlState
+);
 }
 
 function initialize() {
-    initializeElements();
+initializeElements();
 
-    if (!isReady()) {
-        console.warn(
-            "[CampusDrawer] Required elements are missing."
-        );
+if (!isReady()) {
+console.warn(
+"[CampusDrawer] Required elements are missing."
+);
 
-        return;
-    }
+return;
+}
 
-    if (!elements.drawer.hasAttribute("tabindex")) {
-        elements.drawer.setAttribute(
-            "tabindex",
-            "-1"
-        );
-    }
+if (!elements.drawer.hasAttribute(
+"tabindex"
+)) {
+elements.drawer.setAttribute(
+"tabindex",
+"-1"
+);
+}
 
-    bindEvents();
+bindEvents();
 
-    if (window.CampusDB) {
-        handleUrlState();
-    } else {
-        document.addEventListener(
-            "campus:loaded",
-            handleUrlState,
-            {
-                once: true
-            }
-        );
-    }
+if (window.CampusDB) {
+handleUrlState();
+} else {
+document.addEventListener(
+"campus:loaded",
+handleUrlState,
+{
+once: true
+}
+);
+}
 }
 
 function getActiveContent() {
-    return getContentById(
-        state.activeContentId
-    );
+return getContentById(
+state.activeContentId
+);
 }
 
 return {
-    initialize,
-    open,
-    close,
-    getActiveContent,
+initialize,
+open,
+close,
+getActiveContent,
 
-    get isOpen() {
-        return state.isOpen;
-    },
+get isOpen() {
+return state.isOpen;
+},
 
-    get activeContentId() {
-        return state.activeContentId;
-    }
+get activeContentId() {
+return state.activeContentId;
+}
 };
 
 })();
 
-if (document.readyState === "loading") {
+if (
+document.readyState === "loading"
+) {
 document.addEventListener(
 "DOMContentLoaded",
 CampusDrawer.initialize,
@@ -890,4 +1388,4 @@ once: true
 );
 } else {
 CampusDrawer.initialize();
-}                     
+}
