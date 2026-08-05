@@ -13,7 +13,7 @@
     ],
     "relatedIds": [
       "research-001",
-      "research-002"
+      "research-003"
     ]
   },
   {
@@ -29,6 +29,23 @@
     ],
     "relatedIds": [
       "research-002",
+      "research-001"
+    ]
+  },
+  {
+    "id": "phenomenon-short-acceleration-distance",
+    "label": "加速距離が短い",
+    "title": "力はあるのに速度へつながらない",
+    "description": "出力はあるのに球速や打球速度へつながらない現象を、加速距離の観点から整理する。",
+    "path": [
+      "現象",
+      "出力",
+      "加速距離",
+      "速度",
+      "競技動作"
+    ],
+    "relatedIds": [
+      "research-003",
       "research-001"
     ]
   }
