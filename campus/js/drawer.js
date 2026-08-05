@@ -197,8 +197,8 @@ section.hidden = !isVisible;
 
 function renderEmpty(
 element,
-title = "æ´çä¸­",
-text = "ç¾å¨ãåå®¹ãæ´çãã¦ãã¾ãã"
+title = "\u6574\u7406\u4e2d",
+text = "\u73fe\u5728\u3001\u5185\u5bb9\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 ) {
 if (!element) {
 return;
@@ -248,7 +248,7 @@ normalizeString(
 item.title,
 normalizeString(
 item.label,
-"é ç® " + String(index + 1)
+"\u9805\u76ee " + String(index + 1)
 )
 );
 
@@ -286,8 +286,8 @@ escapeHtml(text) +
 function renderTextBlock(
 element,
 value,
-fallbackTitle = "æ´çä¸­",
-fallbackText = "ç¾å¨ãåå®¹ãæ´çãã¦ãã¾ãã"
+fallbackTitle = "\u6574\u7406\u4e2d",
+fallbackText = "\u73fe\u5728\u3001\u5185\u5bb9\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 ) {
 if (!element) {
 return;
@@ -636,8 +636,8 @@ if (!isPlainObject(question)) {
 renderTextBlock(
 elements.question,
 question,
-"åããæ´çä¸­",
-"æåã«èããåããæ´çãã¦ãã¾ãã"
+"\u554f\u3044\u3092\u6574\u7406\u4e2d",
+"\u6700\u521d\u306b\u8003\u3048\u308b\u554f\u3044\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 return;
 }
@@ -678,12 +678,12 @@ const label =
 isPlainObject(choice)
 ? normalizeString(
 choice.label,
-"é¸æè¢ " +
+"\u9078\u629e\u80a2 " +
 String(index + 1)
 )
 : normalizeString(
 choice,
-"é¸æè¢ " +
+"\u9078\u629e\u80a2 " +
 String(index + 1)
 );
 
@@ -708,8 +708,8 @@ escapeHtml(label) +
 if (parts.length === 0) {
 renderEmpty(
 elements.question,
-"åããæ´çä¸­",
-"æåã«èããåããæ´çãã¦ãã¾ãã"
+"\u554f\u3044\u3092\u6574\u7406\u4e2d",
+"\u6700\u521d\u306b\u8003\u3048\u308b\u554f\u3044\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 return;
 }
@@ -728,8 +728,8 @@ content.commonView ??
 renderTextBlock(
 elements.commonTheory,
 value,
-"ä¸è¬çãªèãæ¹ãæ´çä¸­",
-"ä¸è¬çã«èãããã¦ããåå ãè¦æ¹ãæ´çãã¦ãã¾ãã"
+"\u4e00\u822c\u7684\u306a\u8003\u3048\u65b9\u3092\u6574\u7406\u4e2d",
+"\u4e00\u822c\u7684\u306b\u8003\u3048\u3089\u308c\u3066\u3044\u308b\u539f\u56e0\u3084\u898b\u65b9\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -743,8 +743,8 @@ content.thinking ??
 renderTextBlock(
 elements.adjustmentView,
 value,
-"æãæ¹ãæ´çä¸­",
-"adjustmentã¨ãã¦ã®æãæ¹ãæ´çãã¦ãã¾ãã"
+"\u6349\u3048\u65b9\u3092\u6574\u7406\u4e2d",
+"adjustment\u3068\u3057\u3066\u306e\u6349\u3048\u65b9\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -752,8 +752,8 @@ function renderWhy(content) {
 renderTextBlock(
 elements.why,
 content.why,
-"çç±ãæ´çä¸­",
-"ãªãããèããã®ããæ´çãã¦ãã¾ãã"
+"\u7406\u7531\u3092\u6574\u7406\u4e2d",
+"\u306a\u305c\u305d\u3046\u8003\u3048\u308b\u306e\u304b\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -768,8 +768,8 @@ normalizeArray(content.checkpoints);
 if (checkpoints.length === 0) {
 renderEmpty(
 elements.checkpoints,
-"ç¢ºèªé ç®ãæ´çä¸­",
-"ç¾å ´ã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+"\u78ba\u8a8d\u9805\u76ee\u3092\u6574\u7406\u4e2d",
+"\u73fe\u5834\u3067\u78ba\u8a8d\u3059\u308b\u9805\u76ee\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 return;
 }
@@ -787,8 +787,8 @@ content.pds ??
 renderTextBlock(
 elements.pdsEvaluation,
 value,
-"PDSé ç®ãæ´çä¸­",
-"PDSã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+"PDS\u9805\u76ee\u3092\u6574\u7406\u4e2d",
+"PDS\u3067\u78ba\u8a8d\u3059\u308b\u9805\u76ee\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -802,8 +802,8 @@ content.performanceData ??
 renderTextBlock(
 elements.trackingData,
 value,
-"ç«¶æãã¼ã¿ãæ´çä¸­",
-"ç«¶æãã¼ã¿ã§ç¢ºèªããé ç®ãæ´çãã¦ãã¾ãã"
+"\u7af6\u6280\u30c7\u30fc\u30bf\u3092\u6574\u7406\u4e2d",
+"\u7af6\u6280\u30c7\u30fc\u30bf\u3067\u78ba\u8a8d\u3059\u308b\u9805\u76ee\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -817,8 +817,8 @@ content.possibilities ??
 renderTextBlock(
 elements.hypotheses,
 value,
-"ä»®èª¬ãæ´çä¸­",
-"ç¾æç¹ã§èããããä»®èª¬ãæ´çãã¦ãã¾ãã"
+"\u4eee\u8aac\u3092\u6574\u7406\u4e2d",
+"\u73fe\u6642\u70b9\u3067\u8003\u3048\u3089\u308c\u308b\u4eee\u8aac\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -831,8 +831,8 @@ content.researchQuestion ??
 renderTextBlock(
 elements.researchQuestions,
 value,
-"æ¤è¨¼èª²é¡ãæ´çä¸­",
-"ä»å¾æ¤è¨¼ãããåããæ´çãã¦ãã¾ãã"
+"\u691c\u8a3c\u8ab2\u984c\u3092\u6574\u7406\u4e2d",
+"\u4eca\u5f8c\u691c\u8a3c\u3057\u305f\u3044\u554f\u3044\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 );
 }
 
@@ -847,8 +847,8 @@ getRelatedContents(content);
 if (relatedContents.length === 0) {
 elements.related.innerHTML =
 '<div class="drawer-related-item">' +
-"<strong>é¢é£è³æãæ´çä¸­</strong>" +
-"<span>é¢é£ããæèãè³æãæ´çãã¦ãã¾ãã</span>" +
+"<strong>\u95a2\u9023\u8cc7\u6599\u3092\u6574\u7406\u4e2d</strong>" +
+"<span>\u95a2\u9023\u3059\u308b\u601d\u8003\u3084\u8cc7\u6599\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002</span>" +
 "</div>";
 
 return;
@@ -869,7 +869,7 @@ related.id
 const title =
 normalizeString(
 related.title,
-"ç¡é¡"
+"\u7121\u984c"
 );
 
 return (
@@ -954,7 +954,7 @@ elements.title,
 content.title,
 normalizeString(
 content.label,
-"æèã¿ã¤ãã«"
+"\u601d\u8003\u30bf\u30a4\u30c8\u30eb"
 )
 );
 
@@ -963,7 +963,7 @@ elements.summary,
 content.summary,
 normalizeString(
 content.description,
-"æ¦è¦ãæ´çãã¦ãã¾ãã"
+"\u6982\u8981\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
 )
 );
 
