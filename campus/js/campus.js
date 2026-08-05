@@ -532,252 +532,288 @@ response:normalizeString(choice.response)
 }
 
 function normalizeData(data) {
-return {
-meta:{
-...DEFAULT_META,
-...(isPlainObject(data.meta)
-? data.meta
-: {})
-},
+  return {
+    meta: {
+      ...DEFAULT_META,
+      ...(isPlainObject(data.meta)
+        ? data.meta
+        : {})
+    },
 
-phenomena:data.phenomena.map((phenomenon) => {
-const adjustmentView = isPlainObject(
-phenomenon.adjustmentView
-)
-? phenomenon.adjustmentView
-: {};
+    phenomena: data.phenomena.map((phenomenon) => {
+      const thinkingFlow = isPlainObject(
+        phenomenon.thinkingFlow
+      )
+        ? phenomenon.thinkingFlow
+        : {};
 
-const why = isPlainObject(phenomenon.why)
-? phenomenon.why
-: {};
+      const adjustmentView = isPlainObject(
+        phenomenon.adjustmentView
+      )
+        ? phenomenon.adjustmentView
+        : (
+          isPlainObject(thinkingFlow.adjustmentView)
+            ? thinkingFlow.adjustmentView
+            : {}
+        );
 
-const nextAction = isPlainObject(
-phenomenon.nextAction
-)
-? phenomenon.nextAction
-: {};
+      const why = isPlainObject(
+        phenomenon.why
+      )
+        ? phenomenon.why
+        : (
+          isPlainObject(thinkingFlow.commonTheory)
+            ? thinkingFlow.commonTheory
+            : {}
+        );
 
-return {
-id:normalizeString(phenomenon.id),
-label:normalizeString(
-phenomenon.label,
-"\u73fe\u8c61"
-),
-title:normalizeString(
-phenomenon.title,
-"\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-),
-description:normalizeString(
-phenomenon.description,
-"\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
-),
-path:normalizeArray(phenomenon.path)
-.map((item) => normalizeString(item))
-.filter(Boolean),
-question:normalizeQuestion(
-phenomenon.question
-),
-adjustmentView:{
-title:normalizeString(
-adjustmentView.title,
-"adjustment View"
-),
-heading:normalizeString(
+      const nextAction = isPlainObject(
+        phenomenon.nextAction
+      )
+        ? phenomenon.nextAction
+        : (
+          isPlainObject(thinkingFlow.nextStep)
+            ? thinkingFlow.nextStep
+            : {}
+        );
+
+      const branches =
+        normalizeArray(phenomenon.branches).length > 0
+          ? phenomenon.branches
+          : thinkingFlow.branches;
+
+      const checkpoints =
+        normalizeArray(phenomenon.checkpoints).length > 0
+          ? phenomenon.checkpoints
+          : thinkingFlow.checkpoints;
+
+      return {
+        id: normalizeString(phenomenon.id),
+        label: normalizeString(
+          phenomenon.label,
+          "\u73fe\u8c61"
+        ),
+        title: normalizeString(
+          phenomenon.title,
+          "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+        ),
+        description: normalizeString(
+          phenomenon.description,
+          "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
+        ),
+        path: normalizeArray(phenomenon.path)
+          .map((item) => normalizeString(item))
+          .filter(Boolean),
+        question: normalizeQuestion(
+          phenomenon.question
+        ),
+        adjustmentView: {
+          title: normalizeString(
+            adjustmentView.title,
+            "Adjustment View"
+          ),
+         heading: normalizeString(
 adjustmentView.heading,
 "adjustment\u3067\u306f\u3053\u3046\u8003\u3048\u307e\u3059"
 ),
-text:normalizeString(
-adjustmentView.text,
-"\u73fe\u8c61\u3092\u4e00\u3064\u306e\u8981\u7d20\u3060\u3051\u3067\u6c7a\u3081\u305a\u3001\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u3064\u306a\u3044\u3067\u8003\u3048\u307e\u3059\u3002"
-)
-},
-why:{
-title:normalizeString(
-why.title,
-"\u306a\u305c\u305d\u3046\u8003\u3048\u308b\u306e\u304b"
-),
-text:normalizeString(
-why.text,
-"\u7d50\u679c\u306b\u3064\u306a\u304c\u308b\u6761\u4ef6\u3092\u5206\u3051\u3066\u78ba\u8a8d\u3059\u308b\u305f\u3081\u3067\u3059\u3002"
-),
-points:normalizeArray(
-why.points || why.keyPoints
-)
-.map((item) => normalizeString(item))
-.filter(Boolean)
-},
-branches:normalizeArray(phenomenon.branches)
-.filter(isPlainObject)
-.map((branch,index) => {
-return {
-id:normalizeString(
-branch.id,
-`branch-${index + 1}`
-),
-title:normalizeString(
-branch.title || branch.label,
-`BRANCH ${index + 1}`
-),
-description:normalizeString(
-branch.description
-),
-relatedIds:normalizeArray(
-branch.relatedIds
-)
-.map((item) => normalizeString(item))
-.filter(Boolean)
-};
-}),
-checkpoints:normalizeArray(
-phenomenon.checkpoints
-)
-.filter(isPlainObject)
-.map((checkpoint,index) => {
-return {
-id:normalizeString(
-checkpoint.id,
-`checkpoint-${index + 1}`
-),
-title:normalizeString(
-checkpoint.title || checkpoint.label,
-`CHECK ${index + 1}`
-),
-description:normalizeString(
-checkpoint.description
-)
-};
-}),
-nextAction:{
-title:normalizeString(nextAction.title || nextAction.heading),
-text:normalizeString(nextAction.text),
-relatedIds:normalizeArray(
-nextAction.relatedIds
-)
-.map((item) => normalizeString(item))
-.filter(Boolean)
-},
-relatedIds:normalizeArray(
-phenomenon.relatedIds
-)
-.map((item) => normalizeString(item))
-.filter(Boolean)
-};
-}),
+          text: normalizeString(
+            adjustmentView.text,
+            "\u73fe\u8c61\u3092\u4e00\u3064\u306e\u8981\u7d20\u3060\u3051\u3067\u6c7a\u3081\u305a\u3001\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u3064\u306a\u3044\u3067\u8003\u3048\u307e\u3059\u3002"
+          )
+        },
+        why: {
+          title: normalizeString(
+            why.title,
+            "\u306a\u305c\u305d\u3046\u8003\u3048\u308b\u306e\u304b"
+          ),
+          text: normalizeString(
+            why.text,
+            "\u7d50\u679c\u306b\u3064\u306a\u304c\u308b\u6761\u4ef6\u3092\u5206\u3051\u3066\u78ba\u8a8d\u3059\u308b\u305f\u3081\u3067\u3059\u3002"
+          ),
+          points: normalizeArray(
+            why.points || why.keyPoints
+          )
+            .map((item) => normalizeString(item))
+            .filter(Boolean)
+        },
+        branches: normalizeArray(branches)
+          .filter(isPlainObject)
+          .map((branch, index) => {
+            return {
+              id: normalizeString(
+                branch.id,
+                `branch-${index + 1}`
+              ),
+              title: normalizeString(
+                branch.title || branch.label,
+                `BRANCH ${index + 1}`
+              ),
+              description: normalizeString(
+                branch.description
+              ),
+              next: normalizeString(
+                branch.next
+              ),
+              relatedIds: normalizeArray(
+                branch.relatedIds
+              )
+                .map((item) => normalizeString(item))
+                .filter(Boolean)
+            };
+          }),
+        checkpoints: normalizeArray(checkpoints)
+          .filter(isPlainObject)
+          .map((checkpoint, index) => {
+            return {
+              id: normalizeString(
+                checkpoint.id,
+                `checkpoint-${index + 1}`
+              ),
+              title: normalizeString(
+                checkpoint.title || checkpoint.label,
+                `CHECK ${index + 1}`
+              ),
+              description: normalizeString(
+                checkpoint.description
+              )
+            };
+          }),
+        nextAction: {
+          title: normalizeString(
+            nextAction.title || nextAction.heading
+          ),
+          text: normalizeString(
+            nextAction.text
+          ),
+          relatedIds: normalizeArray(
+            nextAction.relatedIds
+          )
+            .map((item) => normalizeString(item))
+            .filter(Boolean)
+        },
+        relatedIds: normalizeArray(
+          phenomenon.relatedIds
+        )
+          .map((item) => normalizeString(item))
+          .filter(Boolean)
+      };
+    }),
 
-contents:data.contents.map((content) => {
-return {
-id:normalizeString(content.id),
-type:normalizeString(
-content.type,
-"research"
-),
-code:normalizeString(
-content.code,
-"NO-CODE"
-),
-title:normalizeString(
-content.title,
-"\u7121\u984c"
-),
-summary:normalizeString(
-content.summary,
-"\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-),
-tags:normalizeArray(content.tags)
-.map((item) => normalizeString(item))
-.filter(Boolean),
-status:normalizeString(
-content.status,
-"DRAFT"
-),
-statusClass:normalizeString(
-content.statusClass
-),
-updatedAt:normalizeString(
-content.updatedAt
-),
-observation:normalizeString(
-content.observation,
-"\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-),
-thinking:normalizeString(
-content.thinking,
-"\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-),
-verification:normalizeString(
-content.verification,
-"\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
-),
-limitation:normalizeString(
-content.limitation,
-"\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
-),
-relatedIds:normalizeArray(
-content.relatedIds
-)
-.map((item) => normalizeString(item))
-.filter(Boolean)
-};
-}),
+    contents: data.contents.map((content) => {
+      return {
+        id: normalizeString(content.id),
+        type: normalizeString(
+          content.type,
+          "research"
+        ),
+        code: normalizeString(
+          content.code,
+          "NO-CODE"
+        ),
+        title: normalizeString(
+          content.title,
+          "\u7121\u984c"
+        ),
+        summary: normalizeString(
+          content.summary,
+          "\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+        ),
+        tags: normalizeArray(content.tags)
+          .map((item) => normalizeString(item))
+          .filter(Boolean),
+        status: normalizeString(
+          content.status,
+          "DRAFT"
+        ),
+        statusClass: normalizeString(
+          content.statusClass
+        ),
+        updatedAt: normalizeString(
+          content.updatedAt
+        ),
+        observation: normalizeString(
+          content.observation,
+          "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+        ),
+        thinking: normalizeString(
+          content.thinking,
+          "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+        ),
+        verification: normalizeString(
+          content.verification,
+          "\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
+        ),
+        limitation: normalizeString(
+          content.limitation,
+          "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
+        ),
+        relatedIds: normalizeArray(
+          content.relatedIds
+        )
+          .map((item) => normalizeString(item))
+          .filter(Boolean)
+      };
+    }),
 
-updates:data.updates.map((update) => {
-return {
-id:normalizeString(update.id),
-contentId:normalizeString(
-update.contentId
-),
-date:normalizeString(update.date),
-label:normalizeString(
-update.label,
-"UPDATED"
-),
-labelClass:normalizeString(
-update.labelClass
-),
-title:normalizeString(
-update.title,
-"\u66f4\u65b0\u60c5\u5831"
-),
-summary:normalizeString(
-update.summary,
-"\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
-)
-};
-}),
+    updates: data.updates.map((update) => {
+      return {
+        id: normalizeString(update.id),
+        contentId: normalizeString(
+          update.contentId
+        ),
+        date: normalizeString(update.date),
+        label: normalizeString(
+          update.label,
+          "UPDATED"
+        ),
+        labelClass: normalizeString(
+          update.labelClass
+        ),
+        title: normalizeString(
+          update.title,
+          "\u66f4\u65b0\u60c5\u5831"
+        ),
+        summary: normalizeString(
+          update.summary,
+          "\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
+        )
+      };
+    }),
 
-facilities:data.facilities.map((facility) => {
-return {
-type:normalizeString(
-facility.type
-),
-code:normalizeString(
-facility.code,
-"?"
-),
-name:normalizeString(
-facility.name,
-"Facility"
-),
-japaneseName:normalizeString(
-facility.japaneseName,
-"\u7814\u7a76\u65bd\u8a2d"
-),
-description:normalizeString(
-facility.description,
-"\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
-),
-detail:normalizeString(
-facility.detail,
-"Archive"
-),
-status:normalizeString(
-facility.status,
-"OPEN"
-)
-};
-})
-};
+    facilities: data.facilities.map((facility) => {
+      return {
+        type: normalizeString(
+          facility.type
+        ),
+        code: normalizeString(
+          facility.code,
+          "?"
+        ),
+        name: normalizeString(
+          facility.name,
+          "Facility"
+        ),
+        japaneseName: normalizeString(
+          facility.japaneseName,
+          "\u7814\u7a76\u65bd\u8a2d"
+        ),
+        description: normalizeString(
+          facility.description,
+          "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
+        ),
+        detail: normalizeString(
+          facility.detail,
+          "Archive"
+        ),
+        status: normalizeString(
+          facility.status,
+          "OPEN"
+        )
+      };
+    })
+  };
 }
+
 
 async function fetchJsonFile(name,url) {
 const response = await fetch(
