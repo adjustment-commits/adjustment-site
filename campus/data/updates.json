@@ -1,29 +1,12 @@
 [
   {
-    "id": "update-003",
-    "contentId": "research-003",
-    "date": "2026-08-05",
-    "label": "更新",
-    "labelClass": "is-updated",
-    "title": "加速距離とは何か",
-    "summary": "加速距離の初期定義と検証項目を追加。"
-  },
-  {
-    "id": "update-002",
-    "contentId": "research-001",
-    "date": "2026-08-04",
-    "label": "更新",
-    "labelClass": "is-updated",
-    "title": "質量（自分の重さ）を受け止めて利用する能力",
-    "summary": "初期定義と検証項目を追加。"
-  },
-  {
-    "id": "update-001",
-    "contentId": "research-002",
-    "date": "2026-08-03",
-    "label": "更新",
-    "labelClass": "is-updated",
-    "title": "勝てるフィジカルとは何か",
-    "summary": "初期仮説と検証の枠組みを追加。"
+    "id": "UPDATE-001",
+    "contentId": "R-001",
+    "date": "2026-08-02",
+    "label": "NEW",
+    "labelClass": "new",
+    "title": "Research Added",
+    "summary": "New research article published."
   }
 ]
+
