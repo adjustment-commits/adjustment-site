@@ -39,7 +39,8 @@ selectedContentId:"",
 activeFacilityType:"",
 lastFocusedElement:null,
 drawerOpen:false,
-mobileMenuOpen:false
+mobileMenuOpen:false,
+phenomenonAccordionOpen:false
 };
 
 const elements = {
@@ -89,6 +90,195 @@ drawerRelated:document.getElementById("drawerRelated"),
 heroFloatingBooks:document.getElementById("heroFloatingBooks")
 };
 
+const phenomenonAccordionElements = {
+  root: null,
+  toggle: null,
+  body: null,
+  count: null,
+  current: null,
+  icon: null
+};
+
+function initializePhenomenonAccordion() {
+  if (
+    !elements.phenomenonList ||
+    phenomenonAccordionElements.root
+  ) {
+    return;
+  }
+
+  const parent =
+    elements.phenomenonList.parentElement;
+
+  if (!parent) {
+    return;
+  }
+
+  const root =
+    document.createElement("section");
+
+  root.className =
+    "phenomenon-accordion";
+
+  const toggle =
+    document.createElement("button");
+
+  toggle.className =
+    "phenomenon-accordion-toggle";
+
+  toggle.type = "button";
+
+  toggle.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+  toggle.setAttribute(
+    "aria-controls",
+    "phenomenonAccordionBody"
+  );
+
+  toggle.innerHTML =
+    '<span class="phenomenon-accordion-label">' +
+    '<span class="phenomenon-accordion-title">\u8ab2\u984c\u3092\u9078\u3076</span>' +
+    '<span class="phenomenon-accordion-count">0 ITEMS</span>' +
+    '</span>' +
+    '<span class="phenomenon-accordion-current">\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044</span>' +
+    '<span class="phenomenon-accordion-icon">+</span>';
+
+  const body =
+    document.createElement("div");
+
+  body.id =
+    "phenomenonAccordionBody";
+
+  body.className =
+    "phenomenon-accordion-body";
+
+  body.hidden = true;
+
+  parent.insertBefore(
+    root,
+    elements.phenomenonList
+  );
+
+  root.appendChild(toggle);
+  root.appendChild(body);
+  body.appendChild(elements.phenomenonList);
+
+  phenomenonAccordionElements.root =
+    root;
+
+  phenomenonAccordionElements.toggle =
+    toggle;
+
+  phenomenonAccordionElements.body =
+    body;
+
+  phenomenonAccordionElements.count =
+    toggle.querySelector(
+      ".phenomenon-accordion-count"
+    );
+
+  phenomenonAccordionElements.current =
+    toggle.querySelector(
+      ".phenomenon-accordion-current"
+    );
+
+  phenomenonAccordionElements.icon =
+    toggle.querySelector(
+      ".phenomenon-accordion-icon"
+    );
+
+  toggle.addEventListener(
+    "click",
+    togglePhenomenonAccordion
+  );
+
+  syncPhenomenonAccordion();
+}
+
+function openPhenomenonAccordion() {
+  state.phenomenonAccordionOpen = true;
+  syncPhenomenonAccordion();
+}
+
+function closePhenomenonAccordion() {
+  state.phenomenonAccordionOpen = false;
+  syncPhenomenonAccordion();
+}
+
+function togglePhenomenonAccordion() {
+  state.phenomenonAccordionOpen =
+    !state.phenomenonAccordionOpen;
+
+  syncPhenomenonAccordion();
+}
+
+function syncPhenomenonAccordion() {
+  const {
+    root,
+    toggle,
+    body,
+    count,
+    current,
+    icon
+  } = phenomenonAccordionElements;
+
+  if (
+    !root ||
+    !toggle ||
+    !body
+  ) {
+    return;
+  }
+
+  const isOpen =
+    state.phenomenonAccordionOpen;
+
+  toggle.setAttribute(
+    "aria-expanded",
+    String(isOpen)
+  );
+
+  body.hidden =
+    !isOpen;
+
+  root.classList.toggle(
+    "is-open",
+    isOpen
+  );
+
+  if (icon) {
+    icon.textContent =
+      isOpen
+        ? "\u2212"
+        : "+";
+  }
+
+  const itemCount =
+    state.data &&
+    Array.isArray(state.data.phenomena)
+      ? state.data.phenomena.length
+      : 0;
+
+  if (count) {
+    count.textContent =
+      `${itemCount} ITEMS`;
+  }
+
+  const activePhenomenon =
+    getActivePhenomenon();
+
+  if (current) {
+    current.textContent =
+      activePhenomenon
+        ? `\u9078\u629e\u4e2d\uff1a${activePhenomenon.label}`
+        : "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044";
+  }
+}
+  
+  
 function escapeHtml(value) {
 return String(value ?? "")
 .replace(/&/g,"&amp;")
@@ -945,6 +1135,9 @@ elements.phenomenonList.setAttribute(
 "false"
 );
 
+syncPhenomenonAccordion();
+}
+
 return;
 }
 
@@ -1760,11 +1953,13 @@ phenomenon.id;
 state.selectedChoiceId = "";
 state.selectedContentId = "";
 state.activeFacilityType = "";
+state.phenomenonAccordionOpen = false;
 
 renderPhenomena();
 renderBooks();
 renderInsight();
 renderFacilities();
+syncPhenomenonAccordion();
 
 updateUrlState({
 phenomenon:phenomenon.id,
@@ -2506,6 +2701,7 @@ passive:true
 }
 
 function initialize() {
+initializePhenomenonAccordion();
 initializeEvents();
 initializeHeroMotion();
 syncMobileNavigation();
