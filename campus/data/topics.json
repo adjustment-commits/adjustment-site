@@ -1,0 +1,182 @@
+[
+  {
+    "id": "topic-loading",
+    "label": "荷重",
+    "category": "foundation",
+    "summary": "身体や外力を受け止め、次の動作へ利用する考え方。"
+  },
+  {
+    "id": "topic-acceleration-distance",
+    "label": "加速距離",
+    "category": "foundation",
+    "summary": "速度を高め続けられる距離と時間を確保する考え方。"
+  },
+  {
+    "id": "topic-speed-transfer",
+    "label": "速度伝達",
+    "category": "foundation",
+    "summary": "身体からボールやバットまで速度を途切れず伝える考え方。"
+  },
+  {
+    "id": "topic-force-acceptance",
+    "label": "受け止める",
+    "category": "foundation",
+    "summary": "荷重や地面反力、自分の質量を受け止める能力。"
+  },
+  {
+    "id": "topic-force-utilization",
+    "label": "利用する",
+    "category": "foundation",
+    "summary": "受け止めた力を失わず次の動作へ変換する能力。"
+  },
+  {
+    "id": "topic-ground-reaction-force",
+    "label": "地面反力",
+    "category": "foundation",
+    "summary": "地面から受けた力を競技動作へ利用する考え方。"
+  },
+  {
+    "id": "topic-center-of-mass",
+    "label": "質量移動",
+    "category": "foundation",
+    "summary": "身体全体の質量を目的方向へ効率よく移動させる考え方。"
+  },
+  {
+    "id": "topic-deceleration",
+    "label": "減速",
+    "category": "foundation",
+    "summary": "速度を止めるのではなく次の加速へつなげるための能力。"
+  },
+  {
+    "id": "topic-reacceleration",
+    "label": "再加速",
+    "category": "foundation",
+    "summary": "減速後に素早く速度を立ち上げ直す能力。"
+  },
+  {
+    "id": "topic-kinetic-chain",
+    "label": "運動連鎖",
+    "category": "foundation",
+    "summary": "全身の各部位が順番に力と速度を伝達する仕組み。"
+  },
+  {
+    "id": "topic-thorax",
+    "label": "胸郭",
+    "category": "body",
+    "summary": "荷重を受けて三次元的に動き、速度伝達を担う部位。"
+  },
+  {
+    "id": "topic-pelvis",
+    "label": "骨盤",
+    "category": "body",
+    "summary": "下半身で生まれた力を体幹へ伝える土台となる部位。"
+  },
+  {
+    "id": "topic-scapular-girdle",
+    "label": "肩甲帯",
+    "category": "body",
+    "summary": "上肢へ速度を伝え、ボールやバットへ力を伝達する部位。"
+  },
+  {
+    "id": "topic-hip-joint",
+    "label": "股関節",
+    "category": "body",
+    "summary": "荷重を受け止め、加速の起点となる重要な関節。"
+  },
+  {
+    "id": "topic-foot",
+    "label": "足部",
+    "category": "body",
+    "summary": "地面反力を受け取り、全身へ伝える最初の接点。"
+  },
+  {
+    "id": "topic-spine",
+    "label": "脊柱",
+    "category": "body",
+    "summary": "全身の力を伝達し、各部位の動きをつなぐ支持構造。"
+  },
+  {
+    "id": "topic-rib-cage",
+    "label": "肋骨",
+    "category": "body",
+    "summary": "呼吸と胸郭運動を支え、上半身の動きに影響する構造。"
+  },
+  {
+    "id": "topic-breathing",
+    "label": "呼吸",
+    "category": "body",
+    "summary": "姿勢や胸郭運動、動作のタイミングに影響する機能。"
+  },
+  {
+    "id": "topic-balance",
+    "label": "バランス",
+    "category": "body",
+    "summary": "荷重位置を安定させ、再現性の高い動作を支える能力。"
+  },
+  {
+    "id": "topic-posture",
+    "label": "姿勢",
+    "category": "body",
+    "summary": "動作開始時の荷重条件や力の伝達に影響する身体配置。"
+  },
+  {
+    "id": "topic-acceleration",
+    "label": "加速",
+    "category": "movement",
+    "summary": "速度を高めるために身体全体でエネルギーを生み出す過程。"
+  },
+  {
+    "id": "topic-deceleration-control",
+    "label": "減速制御",
+    "category": "movement",
+    "summary": "動きを止めるのではなく、次の動作へつなげるために速度を制御する能力。"
+  },
+  {
+    "id": "topic-timing",
+    "label": "タイミング",
+    "category": "movement",
+    "summary": "荷重・加速・リリース・インパクトの時間的な一致を作る考え方。"
+  },
+  {
+    "id": "topic-repeatability",
+    "label": "再現性",
+    "category": "movement",
+    "summary": "同じ条件で動作を繰り返し実行できる能力。"
+  },
+  {
+    "id": "topic-compensation",
+    "label": "代償動作",
+    "category": "movement",
+    "summary": "不足した機能を他部位が補うことで生じる動作パターン。"
+  },
+  {
+    "id": "topic-mobility",
+    "label": "可動性",
+    "category": "movement",
+    "summary": "必要な方向へ十分に動ける関節・組織の能力。"
+  },
+  {
+    "id": "topic-stability",
+    "label": "安定性",
+    "category": "movement",
+    "summary": "荷重や外力に対して姿勢と動作を維持する能力。"
+  },
+  {
+    "id": "topic-coordination",
+    "label": "協調性",
+    "category": "movement",
+    "summary": "複数の関節や筋が目的に合わせて協調して働く能力。"
+  },
+  {
+    "id": "topic-elastic-energy",
+    "label": "伸張反射",
+    "category": "movement",
+    "summary": "筋や腱に蓄えた弾性エネルギーを利用して出力を高める仕組み。"
+  },
+  {
+    "id": "topic-movement-strategy",
+    "label": "動作戦略",
+    "category": "movement",
+    "summary": "競技課題を解決するために身体をどのように使うかという考え方。"
+  }
+]
