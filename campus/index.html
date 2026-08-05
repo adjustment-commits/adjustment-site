@@ -652,16 +652,18 @@ aria-hidden="true"
 <aside
 class="detail-drawer"
 id="detailDrawer"
-aria-hidden="true"
-aria-labelledby="drawerTitle"
 role="dialog"
 aria-modal="true"
+aria-hidden="true"
+aria-labelledby="drawerTitle"
+tabindex="-1"
 >
 <div class="drawer-header">
 <div>
 <p class="drawer-eyebrow" id="drawerEyebrow">
 ADJUSTMENT THINKING
 </p>
+
 <h2 class="drawer-title" id="drawerTitle">
 思考タイトル
 </h2>
@@ -679,35 +681,112 @@ aria-label="詳細を閉じる"
 
 <div class="drawer-body">
 <p class="drawer-summary" id="drawerSummary"></p>
+
 <div class="drawer-meta" id="drawerMeta"></div>
 
-<section class="drawer-section">
-<h3>OBSERVATION / 現場で見えていること</h3>
-<p id="drawerObservation"></p>
+<section
+class="drawer-section"
+aria-labelledby="drawerQuestionHeading"
+>
+<h3 id="drawerQuestionHeading">
+QUESTION / 最初の問い
+</h3>
+<div id="drawerQuestion"></div>
 </section>
 
-<section class="drawer-section">
-<h3>THINKING / 現象の捉え方</h3>
-<p id="drawerThinking"></p>
+<section
+class="drawer-section"
+aria-labelledby="drawerCommonTheoryHeading"
+>
+<h3 id="drawerCommonTheoryHeading">
+COMMON THEORY / 一般的な考え方
+</h3>
+<div id="drawerCommonTheory"></div>
 </section>
 
-<section class="drawer-section">
-<h3>VERIFICATION / 確認と検証</h3>
-<p id="drawerVerification"></p>
+<section
+class="drawer-section"
+aria-labelledby="drawerAdjustmentViewHeading"
+>
+<h3 id="drawerAdjustmentViewHeading">
+ADJUSTMENT VIEW / 捉え直し
+</h3>
+<div id="drawerAdjustmentView"></div>
 </section>
 
-<section class="drawer-section">
-<h3>LIMITATION / 限界・注意点</h3>
-<p id="drawerLimitation"></p>
+<section
+class="drawer-section"
+aria-labelledby="drawerWhyHeading"
+>
+<h3 id="drawerWhyHeading">
+WHY / なぜそう考えるのか
+</h3>
+<div id="drawerWhy"></div>
 </section>
 
-<section class="drawer-section">
-<h3>RELATED / 関連する思考</h3>
+<section
+class="drawer-section"
+aria-labelledby="drawerCheckpointsHeading"
+>
+<h3 id="drawerCheckpointsHeading">
+FIELD CHECK / 現場で確認すること
+</h3>
+<div id="drawerCheckpoints"></div>
+</section>
+
+<section
+class="drawer-section"
+aria-labelledby="drawerPdsEvaluationHeading"
+>
+<h3 id="drawerPdsEvaluationHeading">
+PDS EVALUATION / PDSで確認すること
+</h3>
+<div id="drawerPdsEvaluation"></div>
+</section>
+
+<section
+class="drawer-section"
+aria-labelledby="drawerTrackingDataHeading"
+>
+<h3 id="drawerTrackingDataHeading">
+TRACKING / 競技データで確認すること
+</h3>
+<div id="drawerTrackingData"></div>
+</section>
+
+<section
+class="drawer-section"
+aria-labelledby="drawerHypothesesHeading"
+>
+<h3 id="drawerHypothesesHeading">
+HYPOTHESIS / 考えられる仮説
+</h3>
+<div id="drawerHypotheses"></div>
+</section>
+
+<section
+class="drawer-section"
+aria-labelledby="drawerResearchQuestionsHeading"
+>
+<h3 id="drawerResearchQuestionsHeading">
+RESEARCH QUESTIONS / 検証したい問い
+</h3>
+<div id="drawerResearchQuestions"></div>
+</section>
+
+<section
+class="drawer-section"
+aria-labelledby="drawerRelatedHeading"
+>
+<h3 id="drawerRelatedHeading">
+RELATED / 関連する思考
+</h3>
 <div class="drawer-related" id="drawerRelated"></div>
 </section>
 </div>
 </aside>
 
 <script src="./js/campus.js" defer></script>
+<script src="./js/drawer.js" defer></script>
 </body>
 </html>
