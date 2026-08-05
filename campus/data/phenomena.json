@@ -1,4 +1,4 @@
-{
+[{
   "id": "phenomenon-pitch-velocity-not-improving",
   "label": "球速が伸びない",
   "title": "トレーニングしても球速が伸びない",
@@ -169,8 +169,9 @@
     "research-002",
     "research-003"
   ]
-}
-{
+}]
+
+[{
   "id": "phenomenon-control-unstable",
   "label": "コントロールが安定しない",
   "title": "球速はあるのにコントロールが安定しない",
@@ -263,9 +264,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-batted-ball-not-traveling",
   "label": "打球が飛ばない",
   "title": "力はあるのに打球が飛ばない",
@@ -343,7 +344,7 @@
     "research-002",
     "research-003"
   ]
-}
+},
 
 {
   "id": "phenomenon-output-not-transferring",
@@ -423,9 +424,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-ball-quality-weak",
   "label": "球が弱い",
   "title": "球速表示ほど球が強く見えない",
@@ -503,9 +504,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-spin-rate-not-improving",
   "label": "回転数が伸びない",
   "title": "球速は上がっても回転数が伸びない",
@@ -583,9 +584,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-contact-rate-low",
   "label": "ミート率が低い",
   "title": "スイングは強いのにミート率が低い",
@@ -663,9 +664,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-timing-not-matching",
   "label": "タイミングが合わない",
   "title": "投手や球種にタイミングを合わせられない",
@@ -743,9 +744,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-swing-speed-not-improving",
   "label": "スイングスピードが上がらない",
   "title": "筋力はあるのにスイングスピードが伸びない",
@@ -823,9 +824,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-throwing-velocity-low",
   "label": "送球が弱い",
   "title": "送球速度が上がらない",
@@ -903,9 +904,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-throwing-accuracy-low",
   "label": "送球がそれる",
   "title": "送球の再現性が低い",
@@ -983,9 +984,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-running-speed-low",
   "label": "ベースランニングが遅い",
   "title": "走力が競技で発揮できない",
@@ -1063,9 +1064,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-first-step-slow",
   "label": "初速が遅い",
   "title": "スタートダッシュが遅い",
@@ -1143,9 +1144,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-transition-slow",
   "label": "切り返しが遅い",
   "title": "動作の切り返しが遅い",
@@ -1223,9 +1224,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-shoulder-tightness",
   "label": "肩が張りやすい",
   "title": "投球や送球後に肩が張りやすい",
@@ -1303,9 +1304,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-elbow-tightness",
   "label": "肘が張りやすい",
   "title": "投球後に肘が張りやすい",
@@ -1383,9 +1384,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-low-back-tightness",
   "label": "腰が張りやすい",
   "title": "プレー後に腰が張りやすい",
@@ -1463,9 +1464,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-hip-stiffness",
   "label": "股関節が詰まる",
   "title": "股関節が詰まるように感じる",
@@ -1543,9 +1544,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-back-tightness",
   "label": "背中が張る",
   "title": "背部が張りやすい",
@@ -1623,9 +1624,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-forearm-tightness",
   "label": "前腕が張りやすい",
   "title": "前腕が張りやすく疲労しやすい",
@@ -1703,9 +1704,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-calf-cramps",
   "label": "ふくらはぎなどが攣りやすい",
   "title": "プレー中にふくらはぎなどが攣りやすい",
@@ -1783,9 +1784,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-performance-under-pressure",
   "label": "試合で力を発揮できない",
   "title": "練習ではできるのに試合で発揮できない",
@@ -1863,9 +1864,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-lower-body-not-usable",
   "label": "下半身が使えない",
   "title": "下半身を使えている感覚がない",
@@ -1943,9 +1944,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-movement-looks-stiff",
   "label": "動きが硬く見える",
   "title": "動きに余裕がなく硬く見える",
@@ -2023,9 +2024,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-low-repeatability",
   "label": "再現性が低い",
   "title": "同じ動作を繰り返せない",
@@ -2103,9 +2104,9 @@
     "research-002",
     "research-003"
   ]
-}
+}]
 
-{
+[{
   "id": "phenomenon-separation-poor",
   "label": "分離ができない",
   "title": "上半身と下半身がうまく分離できない",
@@ -2183,4 +2184,4 @@
     "research-002",
     "research-003"
   ]
-}
+}]
