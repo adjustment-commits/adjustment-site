@@ -487,52 +487,62 @@ inset:0;
 overflow:hidden;
 }
 
-.hero-background-image {
-position:absolute;
-inset:-2%;
-background-image:url("../assets/campus-library-hero.png");
-background-position:center 42%;
-background-size:cover;
-background-repeat:no-repeat;
-transform:scale(1.03);
-filter:saturate(0.35) brightness(1.18) contrast(0.82);
-opacity:0.24;
+.hero-background-image{
+    position:absolute;
+    inset:-2%;
+    background-image:url("../assets/campus-library-hero.png");
+    background-position:center center;
+    background-size:cover;
+    background-repeat:no-repeat;
+
+    transform:scale(1.05);
+
+    filter:
+        saturate(0.75)
+        brightness(0.95)
+        contrast(1.02);
+
+    opacity:0.46;
 }
 
-.hero-background-overlay {
-position:absolute;
-inset:0;
-background:
-linear-gradient(
-90deg,
-rgba(246,248,247,0.98) 0%,
-rgba(246,248,247,0.94) 40%,
-rgba(246,248,247,0.75) 68%,
-rgba(246,248,247,0.90) 100%
-),
-linear-gradient(
-180deg,
-rgba(246,248,247,0.38) 0%,
-rgba(246,248,247,0.72) 100%
-);
+.hero-background-overlay{
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(246,247,248,0.82) 0%,
+        rgba(246,247,248,0.68) 36%,
+        rgba(246,247,248,0.34) 62%,
+        rgba(246,247,248,0.76) 100%
+    ),
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(246,247,248,0.42) 100%
+    );
 }
 
-.hero-library-light {
-position:absolute;
-top:-20%;
-right:-10%;
-width:62vw;
-height:88vh;
-background:
-radial-gradient(
-ellipse at center,
-rgba(53,184,144,0.12) 0%,
-rgba(53,184,144,0.04) 36%,
-transparent 70%
-);
-filter:blur(16px);
-opacity:0.85;
-pointer-events:none;
+.hero-library-light{
+    position:absolute;
+    top:-16%;
+    right:-8%;
+
+    width:70vw;
+    height:90vh;
+
+    background:
+    radial-gradient(
+        ellipse at center,
+        rgba(53,184,144,0.18) 0%,
+        rgba(53,184,144,0.08) 36%,
+        transparent 72%
+    );
+
+    filter:blur(20px);
+    opacity:.95;
+    pointer-events:none;
 }
 
 .hero-particles {
