@@ -734,19 +734,27 @@ if (state.data.phenomena.length === 0) {
   elements.phenomenonList.innerHTML =
     '<div class="loading-placeholder">\u8868\u793a\u3067\u304d\u308b\u73fe\u8c61\u304c\u3042\u308a\u307e\u305b\u3093\u3002</div>';
 
+  elements.phenomenonList.setAttribute(
+    "aria-busy",
+    "false"
+  );
+
   return;
 }
 
 elements.phenomenonList.innerHTML =
   state.data.phenomena
-    .map((phenomenon) => {
+    .map((phenomenon,index) => {
       const isActive =
         phenomenon.id ===
         state.activePhenomenonId;
 
+      const itemNumber =
+        String(index + 1).padStart(2,"0");
+
       return (
         '<button' +
-          ' class="phenomenon-button' +
+          ' class="concern-button' +
           (isActive ? " is-active" : "") +
           '"' +
           ' type="button"' +
@@ -756,8 +764,24 @@ elements.phenomenonList.innerHTML =
           ' aria-pressed="' +
           String(isActive) +
           '"' +
-        ">" +
+          ' aria-label="' +
           escapeHtml(phenomenon.label) +
+          '"' +
+        ">" +
+          '<span class="concern-code" aria-hidden="true">' +
+            escapeHtml(itemNumber) +
+          "</span>" +
+          '<span class="concern-main">' +
+            "<strong>" +
+              escapeHtml(phenomenon.label) +
+            "</strong>" +
+            "<span>" +
+              escapeHtml(phenomenon.description) +
+            "</span>" +
+          "</span>" +
+          '<span class="concern-arrow" aria-hidden="true">' +
+            (isActive ? "CHECK" : ">") +
+          "</span>" +
         "</button>"
       );
     })
@@ -778,8 +802,12 @@ elements.phenomenonList
     );
   });
 
-}
+elements.phenomenonList.setAttribute(
+  "aria-busy",
+  "false"
+);
 
+}
 function sortContentsForBookshelf(contents) {
 const activePhenomenon =
 getActivePhenomenon();
