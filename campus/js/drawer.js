@@ -2,29 +2,29 @@
 
 const CampusDrawer = (() => {
 const state = {
-isOpen: false,
-activeContentId: "",
-lastFocusedElement: null
+isOpen:false,
+activeContentId:"",
+lastFocusedElement:null
 };
 
 const elements = {
-backdrop: null,
-drawer: null,
-closeButton: null,
-eyebrow: null,
-title: null,
-summary: null,
-meta: null,
-question: null,
-commonTheory: null,
-adjustmentView: null,
-why: null,
-checkpoints: null,
-pdsEvaluation: null,
-trackingData: null,
-hypotheses: null,
-researchQuestions: null,
-related: null
+backdrop:null,
+drawer:null,
+closeButton:null,
+eyebrow:null,
+title:null,
+summary:null,
+meta:null,
+question:null,
+commonTheory:null,
+adjustmentView:null,
+why:null,
+checkpoints:null,
+pdsEvaluation:null,
+trackingData:null,
+hypotheses:null,
+researchQuestions:null,
+related:null
 };
 
 function initializeElements() {
@@ -56,37 +56,25 @@ elements.commonTheory =
 document.getElementById("drawerCommonTheory");
 
 elements.adjustmentView =
-document.getElementById(
-"drawerAdjustmentView"
-);
+document.getElementById("drawerAdjustmentView");
 
 elements.why =
 document.getElementById("drawerWhy");
 
 elements.checkpoints =
-document.getElementById(
-"drawerCheckpoints"
-);
+document.getElementById("drawerCheckpoints");
 
 elements.pdsEvaluation =
-document.getElementById(
-"drawerPdsEvaluation"
-);
+document.getElementById("drawerPdsEvaluation");
 
 elements.trackingData =
-document.getElementById(
-"drawerTrackingData"
-);
+document.getElementById("drawerTrackingData");
 
 elements.hypotheses =
-document.getElementById(
-"drawerHypotheses"
-);
+document.getElementById("drawerHypotheses");
 
 elements.researchQuestions =
-document.getElementById(
-"drawerResearchQuestions"
-);
+document.getElementById("drawerResearchQuestions");
 
 elements.related =
 document.getElementById("drawerRelated");
@@ -127,18 +115,42 @@ typeof value === "object" &&
 );
 }
 
+function hasRenderableValue(value) {
+if (typeof value === "string") {
+return normalizeString(value) !== "";
+}
+
+if (Array.isArray(value)) {
+return value.length > 0;
+}
+
+if (isPlainObject(value)) {
+return (
+normalizeString(value.title) !== "" ||
+normalizeString(value.text) !== "" ||
+normalizeString(value.description) !== "" ||
+normalizeString(value.summary) !== "" ||
+normalizeArray(value.items).length > 0 ||
+normalizeArray(value.points).length > 0 ||
+normalizeArray(value.choices).length > 0
+);
+}
+
+return false;
+}
+
 function escapeHtml(value) {
 return String(value ?? "")
-.replace(/&/g, "&amp;")
-.replace(/</g, "&lt;")
-.replace(/>/g, "&gt;")
-.replace(/"/g, "&quot;")
-.replace(/'/g, "&#039;");
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
 
 function formatType(type) {
 const normalized =
-normalizeString(type, "content");
+normalizeString(type,"content");
 
 return normalized.toUpperCase();
 }
@@ -201,6 +213,74 @@ escapeHtml(title) +
 escapeHtml(text) +
 "</span>" +
 "</div>";
+}
+
+function renderGenericListHtml(items) {
+return normalizeArray(items)
+.map((item,index) => {
+if (typeof item === "string") {
+const text = normalizeString(item);
+
+if (!text) {
+return "";
+}
+
+return (
+'<div class="drawer-list-item">' +
+"<strong>" +
+escapeHtml(
+String(index + 1).padStart(2,"0")
+) +
+"</strong>" +
+"<span>" +
+escapeHtml(text) +
+"</span>" +
+"</div>"
+);
+}
+
+if (!isPlainObject(item)) {
+return "";
+}
+
+const title =
+normalizeString(
+item.title,
+normalizeString(
+item.label,
+"é ç® " + String(index + 1)
+)
+);
+
+const text =
+normalizeString(
+item.text,
+normalizeString(
+item.description,
+normalizeString(
+item.method,
+normalizeString(item.reference)
+)
+)
+);
+
+return (
+'<div class="drawer-list-item">' +
+"<strong>" +
+escapeHtml(title) +
+"</strong>" +
+(
+text
+? "<span>" +
+escapeHtml(text) +
+"</span>"
+: ""
+) +
+"</div>"
+);
+})
+.filter(Boolean)
+.join("");
 }
 
 function renderTextBlock(
@@ -290,7 +370,8 @@ fallbackText
 return;
 }
 
-element.innerHTML = parts.join("");
+element.innerHTML =
+parts.join("");
 
 return;
 }
@@ -316,74 +397,6 @@ element,
 fallbackTitle,
 fallbackText
 );
-}
-
-function renderGenericListHtml(items) {
-return normalizeArray(items)
-.map((item, index) => {
-if (typeof item === "string") {
-const text = normalizeString(item);
-
-if (!text) {
-return "";
-}
-
-return (
-'<div class="drawer-list-item">' +
-"<strong>" +
-escapeHtml(
-String(index + 1).padStart(2, "0")
-) +
-"</strong>" +
-"<span>" +
-escapeHtml(text) +
-"</span>" +
-"</div>"
-);
-}
-
-if (!isPlainObject(item)) {
-return "";
-}
-
-const title =
-normalizeString(
-item.title,
-normalizeString(
-item.label,
-"é ç® " + String(index + 1)
-)
-);
-
-const text =
-normalizeString(
-item.text,
-normalizeString(
-item.description,
-normalizeString(
-item.method,
-normalizeString(item.reference)
-)
-)
-);
-
-return (
-'<div class="drawer-list-item">' +
-"<strong>" +
-escapeHtml(title) +
-"</strong>" +
-(
-text
-? "<span>" +
-escapeHtml(text) +
-"</span>"
-: ""
-) +
-"</div>"
-);
-})
-.filter(Boolean)
-.join("");
 }
 
 function getContentById(contentId) {
@@ -441,14 +454,12 @@ db.dictionary
 
 for (const collection of collections) {
 const found =
-normalizeArray(collection).find(
-(item) => {
+normalizeArray(collection).find((item) => {
 return (
 item &&
 item.id === normalizedId
 );
-}
-);
+});
 
 if (found) {
 return found;
@@ -518,7 +529,7 @@ return;
 }
 
 element.textContent =
-normalizeString(value, fallback);
+normalizeString(value,fallback);
 }
 
 function renderMeta(content) {
@@ -543,21 +554,22 @@ normalizeString(content.version);
 const updatedAt =
 formatDate(content.updatedAt);
 
+const evidenceLevel =
+normalizeString(content.evidenceLevel);
+
 if (code) {
 items.push({
-value: code,
-className: "tag"
+value:code,
+className:"tag"
 });
 }
 
 if (status) {
 items.push({
-value: status.toUpperCase(),
-className: [
+value:status.toUpperCase(),
+className:[
 "tag",
-normalizeString(
-content.statusClass
-)
+normalizeString(content.statusClass)
 ]
 .filter(Boolean)
 .join(" ")
@@ -566,20 +578,26 @@ content.statusClass
 
 if (version) {
 items.push({
-value: "VERSION " + version,
-className: "tag"
+value:"VERSION " + version,
+className:"tag"
 });
 }
 
 if (updatedAt) {
 items.push({
-value: updatedAt,
-className: "tag"
+value:updatedAt,
+className:"tag"
 });
 }
 
-normalizeArray(content.tags).forEach(
-(tag) => {
+if (evidenceLevel) {
+items.push({
+value:"EVIDENCE " + evidenceLevel,
+className:"tag"
+});
+}
+
+normalizeArray(content.tags).forEach((tag) => {
 const value = normalizeString(tag);
 
 if (!value) {
@@ -588,12 +606,12 @@ return;
 
 items.push({
 value,
-className: "tag"
+className:"tag"
 });
-}
-);
+});
 
-elements.meta.innerHTML = items
+elements.meta.innerHTML =
+items
 .map((item) => {
 return (
 '<span class="' +
@@ -655,7 +673,7 @@ if (choices.length > 0) {
 parts.push(
 '<div class="drawer-choice-list">' +
 choices
-.map((choice, index) => {
+.map((choice,index) => {
 const label =
 isPlainObject(choice)
 ? normalizeString(
@@ -673,10 +691,7 @@ return (
 '<div class="drawer-choice-item">' +
 '<span class="drawer-choice-number">' +
 escapeHtml(
-String(index + 1).padStart(
-2,
-"0"
-)
+String(index + 1).padStart(2,"0")
 ) +
 "</span>" +
 "<span>" +
@@ -734,12 +749,9 @@ value,
 }
 
 function renderWhy(content) {
-const value =
-content.why;
-
 renderTextBlock(
 elements.why,
-value,
+content.why,
 "çç±ãæ´çä¸­",
 "ãªãããèããã®ããæ´çãã¦ãã¾ãã"
 );
@@ -881,7 +893,8 @@ type + " / " + code
 }
 
 function render(content) {
-const type = formatType(
+const type =
+formatType(
 normalizeString(
 content.type,
 content.question
@@ -895,6 +908,40 @@ normalizeString(
 content.code,
 content.id
 );
+
+const commonTheory =
+content.commonTheory ??
+content.generalTheory ??
+content.commonView ??
+"";
+
+const adjustmentView =
+content.adjustmentView ??
+content.reframe ??
+content.thinking ??
+"";
+
+const pdsEvaluation =
+content.pdsEvaluation ??
+content.pds ??
+"";
+
+const trackingData =
+content.trackingData ??
+content.tracking ??
+content.performanceData ??
+"";
+
+const hypotheses =
+content.hypotheses ??
+content.hypothesis ??
+content.possibilities ??
+"";
+
+const researchQuestions =
+content.researchQuestions ??
+content.researchQuestion ??
+"";
 
 setText(
 elements.eyebrow,
@@ -934,59 +981,58 @@ renderRelated(content);
 
 setSectionVisible(
 elements.question,
-true
+hasRenderableValue(content.question)
 );
 
 setSectionVisible(
 elements.commonTheory,
-true
+hasRenderableValue(commonTheory)
 );
 
 setSectionVisible(
 elements.adjustmentView,
-true
+hasRenderableValue(adjustmentView)
 );
 
 setSectionVisible(
 elements.why,
-true
+hasRenderableValue(content.why)
 );
 
 setSectionVisible(
 elements.checkpoints,
-true
+normalizeArray(content.checkpoints).length > 0
 );
 
 setSectionVisible(
 elements.pdsEvaluation,
-true
+hasRenderableValue(pdsEvaluation)
 );
 
 setSectionVisible(
 elements.trackingData,
-true
+hasRenderableValue(trackingData)
 );
 
 setSectionVisible(
 elements.hypotheses,
-true
+hasRenderableValue(hypotheses)
 );
 
 setSectionVisible(
 elements.researchQuestions,
-true
+hasRenderableValue(researchQuestions)
 );
 
 setSectionVisible(
 elements.related,
-true
+getRelatedContents(content).length > 0
 );
 }
 
 function updateUrl(contentId) {
-const url = new URL(
-window.location.href
-);
+const url =
+new URL(window.location.href);
 
 if (contentId) {
 url.searchParams.set(
@@ -1039,7 +1085,8 @@ state.lastFocusedElement =
 triggerElement;
 }
 
-state.activeContentId = content.id;
+state.activeContentId =
+content.id;
 
 render(content);
 
@@ -1079,7 +1126,7 @@ document.dispatchEvent(
 new CustomEvent(
 "campus:drawer-open",
 {
-detail: {
+detail:{
 content
 }
 }
@@ -1131,8 +1178,7 @@ updateUrl("");
 
 if (
 restoreFocus &&
-state.lastFocusedElement instanceof
-HTMLElement &&
+state.lastFocusedElement instanceof HTMLElement &&
 document.contains(
 state.lastFocusedElement
 )
@@ -1253,7 +1299,7 @@ return;
 
 event.preventDefault();
 
-open(contentId, trigger, {
+open(contentId,trigger,{
 preserveFocus:
 trigger.closest(
 "#detailDrawer"
@@ -1275,17 +1321,17 @@ params.get("content")
 if (!contentId) {
 if (state.isOpen) {
 close({
-restoreFocus: false,
-updateHistory: false
+restoreFocus:false,
+updateHistory:false
 });
 }
 
 return;
 }
 
-open(contentId, null, {
-preserveFocus: true,
-updateHistory: false
+open(contentId,null,{
+preserveFocus:true,
+updateHistory:false
 });
 }
 
@@ -1329,9 +1375,11 @@ console.warn(
 return;
 }
 
-if (!elements.drawer.hasAttribute(
+if (
+!elements.drawer.hasAttribute(
 "tabindex"
-)) {
+)
+) {
 elements.drawer.setAttribute(
 "tabindex",
 "-1"
@@ -1347,7 +1395,7 @@ document.addEventListener(
 "campus:loaded",
 handleUrlState,
 {
-once: true
+once:true
 }
 );
 }
@@ -1383,7 +1431,7 @@ document.addEventListener(
 "DOMContentLoaded",
 CampusDrawer.initialize,
 {
-once: true
+once:true
 }
 );
 } else {
