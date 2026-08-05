@@ -1,1 +1,23 @@
-
+[
+  {
+    "id": "CASE-001",
+    "type": "case",
+    "code": "CASE-001",
+    "title": "High School Pitcher A",
+    "summary": "Velocity improvement case.",
+    "tags": [
+      "highschool",
+      "velocity"
+    ],
+    "status": "CASE",
+    "statusClass": "case",
+    "updatedAt": "2026-08-02",
+    "observation": "",
+    "thinking": "",
+    "verification": "",
+    "limitation": "",
+    "relatedIds": [
+      "R-001"
+    ]
+  }
+]
