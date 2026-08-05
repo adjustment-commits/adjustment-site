@@ -1,5 +1,4 @@
-[
-  {
+[{
     "id": "phenomenon-pitch-velocity-not-improving",
     "label": "球速が伸びない",
     "title": "トレーニングしても球速が伸びない",
@@ -422,8 +421,8 @@
       "research-002",
       "research-003"
     ]
-  },
-  {
+}]
+  [{
     "id": "phenomenon-control-unstable",
     "label": "コントロールが安定しない",
     "title": "球速はあるのにコントロールが安定しない",
@@ -732,46 +731,263 @@
       }
     ]
   },
-
-    "thinkingFlow": {
-      "entryQuestion": {
-        "title": "本当にパワー不足でしょうか？",
-        "text": "まず『どこで速度が失われているか』を考えます。"
+  "thinkingFlow": {
+    "startNodeId": "batted-ball-start",
+    "nodes": [
+      {
+        "id": "batted-ball-start",
+        "type": "question",
+        "title": "最初に何を確認しますか？",
+        "text": "打球が飛ばないとき、最初に確認したい要素を選択してください。",
+        "choices": [
+          {
+            "id": "batted-ball-start-loading",
+            "label": "荷重を受けて利用できているか",
+            "nextNodeId": "batted-ball-loading"
+          },
+          {
+            "id": "batted-ball-start-distance",
+            "label": "加速距離を確保できているか",
+            "nextNodeId": "batted-ball-distance"
+          },
+          {
+            "id": "batted-ball-start-separation",
+            "label": "身体を分離して使えているか",
+            "nextNodeId": "batted-ball-separation"
+          },
+          {
+            "id": "batted-ball-start-output",
+            "label": "身体能力そのものが足りないか",
+            "nextNodeId": "batted-ball-output"
+          },
+          {
+            "id": "batted-ball-start-unknown",
+            "label": "まだ判断できない",
+            "nextNodeId": "batted-ball-observation"
+          }
+        ]
       },
-      "branches": [
-        { "id":"power","label":"筋力不足だと思う","next":"commonTheory" },
-        { "id":"swing","label":"スイング軌道だと思う","next":"commonTheory" },
-        { "id":"timing","label":"タイミングだと思う","next":"commonTheory" },
-        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
-      ],
-      "commonTheory": {
-        "title":"一般的な考え方",
-        "text":"筋力、スイング軌道、タイミングが主な要因として考えられます。"
+      {
+        "id": "batted-ball-loading",
+        "type": "question",
+        "title": "荷重はどの段階で崩れていますか？",
+        "text": "始動から踏み込みまでに自分の質量を受け止め、そのエネルギーをスイングへ利用できているかを確認します。",
+        "choices": [
+          {
+            "id": "batted-ball-loading-back-leg",
+            "label": "軸足で受けられていない",
+            "nextNodeId": "batted-ball-loading-back-leg-result"
+          },
+          {
+            "id": "batted-ball-loading-front-leg",
+            "label": "踏み込み脚で支えられていない",
+            "nextNodeId": "batted-ball-loading-front-leg-result"
+          },
+          {
+            "id": "batted-ball-loading-both",
+            "label": "両方に課題がある",
+            "nextNodeId": "batted-ball-loading-both-result"
+          },
+          {
+            "id": "batted-ball-loading-clear",
+            "label": "荷重は大きな問題ではなさそう",
+            "nextNodeId": "batted-ball-distance"
+          }
+        ]
       },
-      "adjustmentQuestion": {
-        "title":"では本当にそこが原因でしょうか？",
-        "text":"速度は最後ではなく途中で失われている可能性があります。"
+      {
+        "id": "batted-ball-distance",
+        "type": "question",
+        "title": "加速距離はどこで失われていますか？",
+        "text": "始動からインパクトまで、バットへ速度を与え続けられているかを確認します。",
+        "choices": [
+          {
+            "id": "batted-ball-distance-hands",
+            "label": "手やバットが早く動き始める",
+            "nextNodeId": "batted-ball-distance-hands-result"
+          },
+          {
+            "id": "batted-ball-distance-thorax",
+            "label": "胸郭で加速が止まる",
+            "nextNodeId": "batted-ball-distance-thorax-result"
+          },
+          {
+            "id": "batted-ball-distance-contact",
+            "label": "インパクトまで距離を保てない",
+            "nextNodeId": "batted-ball-distance-contact-result"
+          },
+          {
+            "id": "batted-ball-distance-clear",
+            "label": "加速距離は確保できている",
+            "nextNodeId": "batted-ball-separation"
+          }
+        ]
       },
-      "adjustmentView": {
-        "title":"Adjustment View",
-        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      {
+        "id": "batted-ball-separation",
+        "type": "question",
+        "title": "どの分離が不足していますか？",
+        "text": "骨盤、胸郭、肩甲帯、上肢、バットの順序と時間差を確認します。",
+        "choices": [
+          {
+            "id": "batted-ball-separation-pelvis-thorax",
+            "label": "骨盤と胸郭",
+            "nextNodeId": "batted-ball-separation-pelvis-thorax-result"
+          },
+          {
+            "id": "batted-ball-separation-thorax-scapula",
+            "label": "胸郭と肩甲帯",
+            "nextNodeId": "batted-ball-separation-thorax-scapula-result"
+          },
+          {
+            "id": "batted-ball-separation-upper-bat",
+            "label": "上肢とバット",
+            "nextNodeId": "batted-ball-separation-upper-bat-result"
+          },
+          {
+            "id": "batted-ball-separation-clear",
+            "label": "分離は成立している",
+            "nextNodeId": "batted-ball-output"
+          }
+        ]
       },
-      "nextStep": {
-        "title":"さらに深く考える",
-        "text":"ここから先は映像、PDS、計測データを組み合わせて仮説を検証します。"
+      {
+        "id": "batted-ball-output",
+        "type": "question",
+        "title": "出力そのものは足りていますか？",
+        "text": "荷重、加速距離、分離が成立している場合は、最大筋力、瞬発力、回旋出力を確認します。",
+        "choices": [
+          {
+            "id": "batted-ball-output-low",
+            "label": "出力が不足している",
+            "nextNodeId": "batted-ball-output-low-result"
+          },
+          {
+            "id": "batted-ball-output-high",
+            "label": "測定値は高い",
+            "nextNodeId": "batted-ball-output-transfer-result"
+          },
+          {
+            "id": "batted-ball-output-unknown",
+            "label": "測定していない",
+            "nextNodeId": "batted-ball-observation"
+          }
+        ]
       },
-      "premium": {
-        "locked": true,
-        "title":"ここから先は有料コンテンツ",
-        "text":"実際の評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      {
+        "id": "batted-ball-observation",
+        "type": "result",
+        "title": "まず情報をそろえます",
+        "text": "現時点では原因を決めず、打撃映像、PDS、フィジカル測定、打撃データ、選手の主観を照合します。",
+        "summary": "原因を決める前に、荷重・加速距離・分離・出力の4方向から情報を集めます。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-loading-back-leg-result",
+        "type": "result",
+        "title": "軸足で荷重を受けられていない可能性",
+        "text": "質量を受ける前に身体や手が動き始め、地面反力をスイングへ利用できていない可能性があります。",
+        "summary": "軸足で荷重を受け、次の動作へ利用する能力を優先して確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-loading-front-leg-result",
+        "type": "result",
+        "title": "踏み込み脚で支持できていない可能性",
+        "text": "接地後に身体を支えられないと、骨盤や胸郭が流れ、バットへ速度を伝えにくくなります。",
+        "summary": "踏み込み脚の支持と減速能力を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-loading-both-result",
+        "type": "result",
+        "title": "荷重の流れ全体に課題がある可能性",
+        "text": "軸足で受ける段階と踏み込み脚で支える段階の両方が不安定だと、スイング中の速度伝達が途切れやすくなります。",
+        "summary": "始動から踏み込みまでの荷重移動と支持を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-distance-hands-result",
+        "type": "result",
+        "title": "手やバットの加速開始が早過ぎる可能性",
+        "text": "身体が速度を作る前に手やバットが動き始めると、インパクトまでの加速距離が短くなります。",
+        "summary": "手先ではなく身体から加速が始まる順序を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-distance-thorax-result",
+        "type": "result",
+        "title": "胸郭で速度の伝達が止まっている可能性",
+        "text": "骨盤から胸郭への速度伝達が途切れ、肩甲帯や上肢だけでバットを加速している可能性があります。",
+        "summary": "胸郭の可動性だけでなく、荷重下での反応と時間差を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-distance-contact-result",
+        "type": "result",
+        "title": "インパクトまで加速距離を保てていない可能性",
+        "text": "身体が早く開く、手が前へ出る、バットが身体から外れるなどにより、インパクト前に加速が終わっている可能性があります。",
+        "summary": "始動からインパクトまで速度を高め続けられる位置関係を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-separation-pelvis-thorax-result",
+        "type": "result",
+        "title": "骨盤と胸郭の時間差が不足している可能性",
+        "text": "骨盤と胸郭が同時に動くと、身体全体で作る加速距離が短くなり、バット速度へ変換しにくくなります。",
+        "summary": "骨盤と胸郭の分離と時間差を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-separation-thorax-scapula-result",
+        "type": "result",
+        "title": "胸郭から肩甲帯への伝達が不足している可能性",
+        "text": "胸郭の回旋速度を肩甲帯へ受け渡せないと、腕だけでバットを動かしやすくなります。",
+        "summary": "胸郭と肩甲帯の連動を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-separation-upper-bat-result",
+        "type": "result",
+        "title": "上肢からバットへの受け渡しが不足している可能性",
+        "text": "上肢とバットが一体化し過ぎる、または手首だけで操作すると、全身で生み出した速度をバットへ伝えにくくなります。",
+        "summary": "上肢からバットへ速度を受け渡す順序を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-output-low-result",
+        "type": "result",
+        "title": "身体能力そのものが不足している可能性",
+        "text": "荷重、加速距離、分離が成立していても、最大筋力、瞬発力、回旋出力が不足すれば打球速度は伸びにくくなります。",
+        "summary": "基礎出力と打撃方向への出力を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-output-transfer-result",
+        "type": "result",
+        "title": "出力を打撃方向へ変換できていない可能性",
+        "text": "CMJやMBスローなどの測定値が高くても、競技動作の方向、順序、時間差へ変換できなければ打球速度にはつながりません。",
+        "summary": "測定値と打撃動作の変換効率を確認します。",
+        "nextNodeId": "batted-ball-paid-gate"
+      },
+      {
+        "id": "batted-ball-paid-gate",
+        "type": "gate",
+        "title": "ここから先は評価と実装です",
+        "text": "ここまでは原因を考えるための思考体験です。具体的な評価方法、PDS項目、採点基準、症例、介入、再評価は指導・講習会で扱います。",
+        "access": "paid",
+        "cta": {
+          "label": "指導・講習会について見る",
+          "href": "/contact/"
+        }
       }
-    },
-
+    ]
+  },
   "adjustmentView": {
     "title": "まず見るのは『筋力』ではなく『速度を伝え続けられるか』です。",
     "text": "飛距離は筋力だけでは決まりません。荷重を受け、加速距離を確保し、骨盤からバットまで速度を受け渡せることが重要です。"
   },
-"why": {
+  "why": {
     "title": "なぜ飛ばないのか",
     "text": "身体のどこかで速度が途切れると、筋力が高くてもバット速度や打球速度へ十分に変換されません。",
     "points": [
@@ -820,6 +1036,7 @@
   ]
 },
 
+
 {
   "id": "phenomenon-output-not-transferring",
   "label": "力が結果につながらない",
@@ -847,46 +1064,315 @@
       }
     ]
   },
-
-    "thinkingFlow": {
-      "entryQuestion": {
-        "title": "数値は高いのに、なぜ競技で発揮できないのでしょうか？",
-        "text": "まず『どこで出力が失われているか』を考えます。"
+  "thinkingFlow": {
+    "startNodeId": "output-transfer-start",
+    "nodes": [
+      {
+        "id": "output-transfer-start",
+        "type": "question",
+        "title": "最初に何を確認しますか？",
+        "text": "測定値は高いのに競技で発揮できないとき、最初に確認したい要素を選択してください。",
+        "choices": [
+          {
+            "id": "output-transfer-start-loading",
+            "label": "荷重を受けて利用できているか",
+            "nextNodeId": "output-transfer-loading"
+          },
+          {
+            "id": "output-transfer-start-distance",
+            "label": "加速距離を確保できているか",
+            "nextNodeId": "output-transfer-distance"
+          },
+          {
+            "id": "output-transfer-start-separation",
+            "label": "身体を分離して使えているか",
+            "nextNodeId": "output-transfer-separation"
+          },
+          {
+            "id": "output-transfer-start-direction",
+            "label": "競技方向へ変換できているか",
+            "nextNodeId": "output-transfer-direction"
+          },
+          {
+            "id": "output-transfer-start-unknown",
+            "label": "まだ判断できない",
+            "nextNodeId": "output-transfer-observation"
+          }
+        ]
       },
-      "branches": [
-        { "id":"strength","label":"筋力の問題だと思う","next":"commonTheory" },
-        { "id":"technique","label":"技術の問題だと思う","next":"commonTheory" },
-        { "id":"mental","label":"メンタルの問題だと思う","next":"commonTheory" },
-        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
-      ],
-      "commonTheory": {
-        "title":"一般的な考え方",
-        "text":"筋力、技術、メンタルなどが競技力へ影響すると考えられます。"
+      {
+        "id": "output-transfer-loading",
+        "type": "question",
+        "title": "荷重はどこで利用できていませんか？",
+        "text": "自分の質量と地面反力を受け止め、次の動作へエネルギーとして利用できているかを確認します。",
+        "choices": [
+          {
+            "id": "output-transfer-loading-accept",
+            "label": "荷重を受け止められていない",
+            "nextNodeId": "output-transfer-loading-accept-result"
+          },
+          {
+            "id": "output-transfer-loading-transition",
+            "label": "受けた力を次へ移せない",
+            "nextNodeId": "output-transfer-loading-transition-result"
+          },
+          {
+            "id": "output-transfer-loading-support",
+            "label": "支持局面で力が逃げる",
+            "nextNodeId": "output-transfer-loading-support-result"
+          },
+          {
+            "id": "output-transfer-loading-clear",
+            "label": "荷重は大きな問題ではなさそう",
+            "nextNodeId": "output-transfer-distance"
+          }
+        ]
       },
-      "adjustmentQuestion": {
-        "title":"では本当にそこが原因でしょうか？",
-        "text":"出力そのものではなく、競技動作への変換過程で失われている可能性があります。"
+      {
+        "id": "output-transfer-distance",
+        "type": "question",
+        "title": "加速距離はどこで失われていますか？",
+        "text": "競技動作の中で十分な加速時間と距離を確保し、速度を継続して高められているかを確認します。",
+        "choices": [
+          {
+            "id": "output-transfer-distance-early",
+            "label": "末端が早く動き始める",
+            "nextNodeId": "output-transfer-distance-early-result"
+          },
+          {
+            "id": "output-transfer-distance-stop",
+            "label": "体幹で加速が止まる",
+            "nextNodeId": "output-transfer-distance-stop-result"
+          },
+          {
+            "id": "output-transfer-distance-short",
+            "label": "動作全体が急ぎ過ぎる",
+            "nextNodeId": "output-transfer-distance-short-result"
+          },
+          {
+            "id": "output-transfer-distance-clear",
+            "label": "加速距離は確保できている",
+            "nextNodeId": "output-transfer-separation"
+          }
+        ]
       },
-      "adjustmentView": {
-        "title":"Adjustment View",
-        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      {
+        "id": "output-transfer-separation",
+        "type": "question",
+        "title": "どの分離が不足していますか？",
+        "text": "骨盤、胸郭、肩甲帯、四肢が適切な順序で動き、力を末端まで受け渡せているかを確認します。",
+        "choices": [
+          {
+            "id": "output-transfer-separation-pelvis-thorax",
+            "label": "骨盤と胸郭",
+            "nextNodeId": "output-transfer-separation-pelvis-thorax-result"
+          },
+          {
+            "id": "output-transfer-separation-thorax-limb",
+            "label": "胸郭と四肢",
+            "nextNodeId": "output-transfer-separation-thorax-limb-result"
+          },
+          {
+            "id": "output-transfer-separation-whole",
+            "label": "身体全体が同時に動く",
+            "nextNodeId": "output-transfer-separation-whole-result"
+          },
+          {
+            "id": "output-transfer-separation-clear",
+            "label": "分離は成立している",
+            "nextNodeId": "output-transfer-direction"
+          }
+        ]
       },
-      "nextStep": {
-        "title":"さらに深く考える",
-        "text":"ここから先は映像、PDS、計測データを組み合わせて仮説を検証します。"
+      {
+        "id": "output-transfer-direction",
+        "type": "question",
+        "title": "出力を競技方向へ変換できていますか？",
+        "text": "高い測定値を競技動作の方向、順序、時間差へ変換できているかを確認します。",
+        "choices": [
+          {
+            "id": "output-transfer-direction-force",
+            "label": "力の方向が競技動作と合わない",
+            "nextNodeId": "output-transfer-direction-force-result"
+          },
+          {
+            "id": "output-transfer-direction-timing",
+            "label": "力を出すタイミングが合わない",
+            "nextNodeId": "output-transfer-direction-timing-result"
+          },
+          {
+            "id": "output-transfer-direction-repeatability",
+            "label": "競技動作で再現できない",
+            "nextNodeId": "output-transfer-direction-repeatability-result"
+          },
+          {
+            "id": "output-transfer-direction-clear",
+            "label": "変換も成立している",
+            "nextNodeId": "output-transfer-capacity"
+          }
+        ]
       },
-      "premium": {
-        "locked": true,
-        "title":"ここから先は有料コンテンツ",
-        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      {
+        "id": "output-transfer-capacity",
+        "type": "question",
+        "title": "測定値の内容は競技に必要な能力と一致していますか？",
+        "text": "高い数値でも、競技で必要な速度、方向、片脚性、反応性と一致しているとは限りません。",
+        "choices": [
+          {
+            "id": "output-transfer-capacity-mismatch",
+            "label": "測っている能力が競技課題とずれている",
+            "nextNodeId": "output-transfer-capacity-mismatch-result"
+          },
+          {
+            "id": "output-transfer-capacity-specific",
+            "label": "競技特異的な出力が不足している",
+            "nextNodeId": "output-transfer-capacity-specific-result"
+          },
+          {
+            "id": "output-transfer-capacity-unknown",
+            "label": "測定内容を再確認したい",
+            "nextNodeId": "output-transfer-observation"
+          }
+        ]
+      },
+      {
+        "id": "output-transfer-observation",
+        "type": "result",
+        "title": "まず情報をそろえます",
+        "text": "現時点では原因を決めず、競技映像、PDS、フィジカル測定、競技データ、選手の主観を照合します。",
+        "summary": "荷重・加速距離・分離・競技方向への変換の4方向から情報を集めます。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-loading-accept-result",
+        "type": "result",
+        "title": "荷重を受け止められていない可能性",
+        "text": "自分の質量や地面反力を受ける前に動作が進み、測定で発揮した出力を競技動作へ利用できていない可能性があります。",
+        "summary": "荷重を受け止める位置とタイミングを確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-loading-transition-result",
+        "type": "result",
+        "title": "受けた力を次の動作へ移せていない可能性",
+        "text": "荷重は受けられていても、そのエネルギーを次の局面へ連続して利用できず、力の流れが途切れている可能性があります。",
+        "summary": "荷重から再加速へ移る過程を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-loading-support-result",
+        "type": "result",
+        "title": "支持局面で出力が逃げている可能性",
+        "text": "片脚支持や接地後の支持が不安定だと、測定で発揮した出力を競技方向へ伝えにくくなります。",
+        "summary": "支持能力と力を受け止める再現性を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-distance-early-result",
+        "type": "result",
+        "title": "末端の加速開始が早過ぎる可能性",
+        "text": "身体全体で速度を作る前に腕や脚などの末端が動き始めると、競技動作内の加速距離が短くなります。",
+        "summary": "中枢から末端へ加速が移る順序を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-distance-stop-result",
+        "type": "result",
+        "title": "体幹で速度の伝達が止まっている可能性",
+        "text": "下半身で生み出した速度が体幹で途切れ、四肢だけで競技動作を補っている可能性があります。",
+        "summary": "骨盤から胸郭、四肢への速度伝達を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-distance-short-result",
+        "type": "result",
+        "title": "動作全体を急ぎ過ぎている可能性",
+        "text": "大きな力を早く出そうとすることで、十分な加速時間と距離を確保できず、測定値を競技速度へ変換できていない可能性があります。",
+        "summary": "加速を始める位置と動作全体の余裕を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-separation-pelvis-thorax-result",
+        "type": "result",
+        "title": "骨盤と胸郭の時間差が不足している可能性",
+        "text": "骨盤と胸郭が同時に動くと、全身で作る加速距離が短くなり、出力を末端へ受け渡しにくくなります。",
+        "summary": "骨盤と胸郭の分離と時間差を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-separation-thorax-limb-result",
+        "type": "result",
+        "title": "胸郭から四肢への伝達が不足している可能性",
+        "text": "胸郭の速度を肩甲帯や四肢へ受け渡せないと、末端だけで競技動作を行いやすくなります。",
+        "summary": "胸郭と四肢の連動を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-separation-whole-result",
+        "type": "result",
+        "title": "身体全体が同時に動いている可能性",
+        "text": "各部位の時間差が作れないと、測定で得た出力を段階的に加速させることができません。",
+        "summary": "身体各部が動き始める順序を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-direction-force-result",
+        "type": "result",
+        "title": "力の方向が競技動作と一致していない可能性",
+        "text": "垂直方向や単純な回旋では高い出力を示しても、競技で必要な前方、側方、斜め方向へ変換できていない可能性があります。",
+        "summary": "測定方向と競技動作方向の一致を確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-direction-timing-result",
+        "type": "result",
+        "title": "力を発揮するタイミングが合っていない可能性",
+        "text": "出力は高くても、競技動作で必要な局面より早過ぎる、または遅過ぎると結果へつながりません。",
+        "summary": "出力が最大になる局面と競技動作のタイミングを確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-direction-repeatability-result",
+        "type": "result",
+        "title": "競技動作で出力を再現できていない可能性",
+        "text": "単発の測定では高い数値を出せても、競技動作の速度や状況変化の中で同じ条件を再現できていない可能性があります。",
+        "summary": "競技中の再現性とばらつきを確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-capacity-mismatch-result",
+        "type": "result",
+        "title": "測定項目と競技課題が一致していない可能性",
+        "text": "高い測定値が現在の競技課題を直接説明する能力ではなく、別の能力を示している可能性があります。",
+        "summary": "測定項目が何を評価しているかを再確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-capacity-specific-result",
+        "type": "result",
+        "title": "競技特異的な出力が不足している可能性",
+        "text": "基礎出力は高くても、片脚支持、方向転換、回旋、短時間での再加速など競技特有の条件では出力が不足している可能性があります。",
+        "summary": "基礎出力と競技特異的出力を分けて確認します。",
+        "nextNodeId": "output-transfer-paid-gate"
+      },
+      {
+        "id": "output-transfer-paid-gate",
+        "type": "gate",
+        "title": "ここから先は評価と実装です",
+        "text": "ここまでは原因を考えるための思考体験です。具体的な評価方法、PDS項目、測定の組み合わせ、症例、介入、再評価は指導・講習会で扱います。",
+        "access": "paid",
+        "cta": {
+          "label": "指導・講習会について見る",
+          "href": "/contact/"
+        }
       }
-    },
-
+    ]
+  },
   "adjustmentView": {
     "title": "重要なのは『出力』より『変換効率』です。",
     "text": "高い筋力やジャンプ能力を持っていても、その力を競技動作へ伝えられなければ結果は変わりません。荷重・加速距離・分離の3要素によって、測定値を競技パフォーマンスへ変換できているかを確認します。"
   },
-"why": {
+  "why": {
     "title": "なぜ測定値と競技力が一致しないのか",
     "text": "競技では大きな力を出すだけでなく、その力を適切な順序で伝え続けることが求められます。途中で力が失われると、高い能力でも競技結果へ反映されにくくなります。",
     "points": [
@@ -933,7 +1419,8 @@
     "research-002",
     "research-003"
   ]
-}]
+},
+
 
 [{
   "id": "phenomenon-ball-quality-weak",
