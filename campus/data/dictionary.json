@@ -1,20 +1,23 @@
-{
-  "id": "dictionary-acceleration-distance",
-  "title": "加速距離",
+[
+  {
+    "id": "DICT-001",
+    "type": "dictionary",
+    "code": "DICT-001",
+    "title": "Acceleration Distance",
+    "summary": "Definition.",
+    "tags": [
+      "definition"
+    ],
+    "status": "OFFICIAL",
+    "statusClass": "official",
+    "updatedAt": "2026-08-02",
+    "observation": "",
+    "thinking": "",
+    "verification": "",
+    "limitation": "",
+    "relatedIds": [
+      "R-001"
+    ]
+  }
+]
 
-  "summary": "競技中に身体や用具へ速度を与え続けられる範囲。",
-
-  "definition": "adjustmentでは、加速距離を『競技中に身体が質量を受け止めて利用しながら、ボールやバットへ速度を与え続けられる範囲』と定義する。",
-
-  "keywords": [
-    "投球",
-    "打撃",
-    "速度",
-    "球速",
-    "打球速度"
-  ],
-
-  "relatedIds": [
-    "research-003"
-  ]
-}
