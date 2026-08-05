@@ -1,270 +1,709 @@
-[{
-  "id": "phenomenon-pitch-velocity-not-improving",
-  "label": "球速が伸びない",
-  "title": "トレーニングしても球速が伸びない",
-  "description": "球速だけを見るのではなく、荷重を受けて利用できているか、加速距離を確保できているか、身体を分離して使えているかという視点から整理する。",
-  "question": {
-    "title": "まず何を確認しますか？",
-    "text": "球速が伸びない原因は一つではありません。まず現場で何を優先して確認するか考えてみてください。",
-    "choices": [
-      {
-        "id": "strength",
-        "label": "筋力が足りない"
-      },
-      {
-        "id": "mechanics",
-        "label": "フォームが悪い"
-      },
-      {
-        "id": "mobility",
-        "label": "柔軟性が足りない"
-      },
-      {
-        "id": "unknown",
-        "label": "原因が分からない"
-      }
-    ]
-  },
-  "commonTheory": {
-    "title": "一般的には筋力・フォーム・可動域から考えます。",
-    "text": "球速が伸びないときは、筋力不足、投球フォーム、肩や股関節の可動域などが主な原因として挙げられます。ただし、それぞれの能力があっても、競技動作の中で速度へ変換できなければ球速にはつながりません。",
-    "items": [
-      "下半身や体幹の筋力が不足している",
-      "投球フォームに非効率な部分がある",
-      "肩関節・胸郭・股関節の可動域が不足している",
-      "腕の振りやリリース技術に課題がある"
-    ]
-  },
-  "adjustmentView": {
-    "title": "まず見るのは「出力」ではなく「伝達」です。",
-    "text": "球速は筋力だけでは決まりません。身体が受けた力をボールへ伝え続けることが重要であり、そのためには「荷重」「加速距離」「分離」の3要素が成立している必要があります。"
-  },
-  "why": {
-    "title": "なぜその3要素が重要なのか",
-    "text": "大きな力を持っていても、身体の中でエネルギーが途切れてしまえばボールへ速度は伝わりません。身体全体で加速を継続し、末端まで速度を受け渡すことが重要です。",
-    "points": [
-      {
-        "title": "1. 荷重を受けて利用できるか",
-        "text": "自分の質量と地面反力を受け止め、そのエネルギーを次の動作へ利用できているかを確認します。"
-      },
-      {
-        "title": "2. 加速距離を確保できているか",
-        "text": "コッキングからリリースまで、ボールへ速度を与え続けられる距離と時間を確保できているかを確認します。"
-      },
-      {
-        "title": "3. 分離できているか",
-        "text": "骨盤、胸郭、肩甲帯、前腕が適切な順序で動き、それぞれが速度を受け渡せているかを確認します。"
-      }
-    ]
-  },
-  "checkpoints": [
-    {
-      "title": "投球映像",
-      "text": "コッキングからリリースまでのボール移動距離、身体各部の動く順序、加速が途切れる位置を確認する。"
+[
+  {
+    "id": "phenomenon-pitch-velocity-not-improving",
+    "label": "球速が伸びない",
+    "title": "トレーニングしても球速が伸びない",
+    "description": "球速だけを見るのではなく、荷重を受けて利用できているか、加速距離を確保できているか、身体を分離して使えているかという視点から整理する。",
+    "question": {
+      "title": "まず何を確認しますか？",
+      "text": "球速が伸びない原因は一つではありません。まず現場で何を優先して確認するか考えてみてください。",
+      "choices": [
+        {
+          "id": "strength",
+          "label": "筋力が足りない"
+        },
+        {
+          "id": "mechanics",
+          "label": "フォームが悪い"
+        },
+        {
+          "id": "mobility",
+          "label": "柔軟性が足りない"
+        },
+        {
+          "id": "unknown",
+          "label": "原因が分からない"
+        }
+      ]
     },
-    {
-      "title": "PDS",
-      "text": "胸郭、肩甲帯、股関節の可動性、荷重、分離能力、出力特性を評価する。"
+    "thinkingFlow": {
+      "startNodeId": "velocity-start",
+      "nodes": [
+        {
+          "id": "velocity-start",
+          "type": "question",
+          "title": "最初に何を確認しますか？",
+          "text": "球速が伸びないとき、最初に確認したい要素を選択してください。",
+          "choices": [
+            {
+              "id": "velocity-start-loading",
+              "label": "荷重を受けて利用できているか",
+              "nextNodeId": "velocity-loading"
+            },
+            {
+              "id": "velocity-start-distance",
+              "label": "加速距離を確保できているか",
+              "nextNodeId": "velocity-distance"
+            },
+            {
+              "id": "velocity-start-separation",
+              "label": "身体を分離して使えているか",
+              "nextNodeId": "velocity-separation"
+            },
+            {
+              "id": "velocity-start-output",
+              "label": "身体能力そのものが足りないか",
+              "nextNodeId": "velocity-output"
+            },
+            {
+              "id": "velocity-start-unknown",
+              "label": "まだ判断できない",
+              "nextNodeId": "velocity-observation"
+            }
+          ]
+        },
+        {
+          "id": "velocity-loading",
+          "type": "question",
+          "title": "荷重はどの段階で崩れていますか？",
+          "text": "自分の質量と地面反力を受け止め、次の動作へ利用できているかを確認します。",
+          "choices": [
+            {
+              "id": "velocity-loading-back-leg",
+              "label": "軸足で受けられていない",
+              "nextNodeId": "velocity-loading-back-leg-result"
+            },
+            {
+              "id": "velocity-loading-front-leg",
+              "label": "踏み込み脚で支えられていない",
+              "nextNodeId": "velocity-loading-front-leg-result"
+            },
+            {
+              "id": "velocity-loading-both",
+              "label": "両方に課題がある",
+              "nextNodeId": "velocity-loading-both-result"
+            },
+            {
+              "id": "velocity-loading-clear",
+              "label": "荷重は大きな問題ではなさそう",
+              "nextNodeId": "velocity-distance"
+            }
+          ]
+        },
+        {
+          "id": "velocity-distance",
+          "type": "question",
+          "title": "加速距離はどこで失われていますか？",
+          "text": "コッキングからリリースまで、ボールへ速度を与え続けられているかを確認します。",
+          "choices": [
+            {
+              "id": "velocity-distance-early-arm",
+              "label": "腕が早く動き始める",
+              "nextNodeId": "velocity-distance-early-arm-result"
+            },
+            {
+              "id": "velocity-distance-thorax",
+              "label": "胸郭で加速が止まる",
+              "nextNodeId": "velocity-distance-thorax-result"
+            },
+            {
+              "id": "velocity-distance-extension",
+              "label": "リリースが前へ出ない",
+              "nextNodeId": "velocity-distance-extension-result"
+            },
+            {
+              "id": "velocity-distance-clear",
+              "label": "加速距離は確保できている",
+              "nextNodeId": "velocity-separation"
+            }
+          ]
+        },
+        {
+          "id": "velocity-separation",
+          "type": "question",
+          "title": "どの分離が不足していますか？",
+          "text": "骨盤、胸郭、肩甲帯、前腕の順序と時間差を確認します。",
+          "choices": [
+            {
+              "id": "velocity-separation-pelvis-thorax",
+              "label": "骨盤と胸郭",
+              "nextNodeId": "velocity-separation-pelvis-thorax-result"
+            },
+            {
+              "id": "velocity-separation-thorax-scapula",
+              "label": "胸郭と肩甲帯",
+              "nextNodeId": "velocity-separation-thorax-scapula-result"
+            },
+            {
+              "id": "velocity-separation-scapula-forearm",
+              "label": "肩甲帯と前腕",
+              "nextNodeId": "velocity-separation-scapula-forearm-result"
+            },
+            {
+              "id": "velocity-separation-clear",
+              "label": "分離は成立している",
+              "nextNodeId": "velocity-output"
+            }
+          ]
+        },
+        {
+          "id": "velocity-output",
+          "type": "question",
+          "title": "出力そのものは足りていますか？",
+          "text": "荷重、加速距離、分離が成立している場合は、最大筋力や瞬発力を確認します。",
+          "choices": [
+            {
+              "id": "velocity-output-low",
+              "label": "出力が不足している",
+              "nextNodeId": "velocity-output-low-result"
+            },
+            {
+              "id": "velocity-output-high",
+              "label": "測定値は高い",
+              "nextNodeId": "velocity-output-transfer-result"
+            },
+            {
+              "id": "velocity-output-unknown",
+              "label": "測定していない",
+              "nextNodeId": "velocity-observation"
+            }
+          ]
+        },
+        {
+          "id": "velocity-observation",
+          "type": "result",
+          "title": "まず情報をそろえます",
+          "text": "現時点では原因を決めず、映像、PDS、フィジカル測定、トラッキングデータ、選手の主観を照合します。",
+          "summary": "原因を決める前に、荷重・加速距離・分離・出力の4方向から情報を集めます。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-loading-back-leg-result",
+          "type": "result",
+          "title": "軸足で荷重を受けられていない可能性",
+          "text": "質量を受ける前に前方移動が始まり、地面反力を投球動作へ利用できていない可能性があります。",
+          "summary": "軸足の荷重利用能力を優先して確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-loading-front-leg-result",
+          "type": "result",
+          "title": "踏み込み脚で身体を支えられていない可能性",
+          "text": "接地後に骨盤と胸郭を支えられず、上体が流れることでリリースまでの加速を維持できていない可能性があります。",
+          "summary": "踏み込み脚の支持能力と減速能力を優先して確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-loading-both-result",
+          "type": "result",
+          "title": "軸足と踏み込み脚の両方で荷重を利用できていない可能性",
+          "text": "軸足で受けた質量を前方へ運び、踏み込み脚で受け止める一連の流れが成立していない可能性があります。",
+          "summary": "投球動作全体の荷重移動と支持の流れを確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-distance-early-arm-result",
+          "type": "result",
+          "title": "腕の加速開始が早過ぎる可能性",
+          "text": "身体が前方へ進む前に腕が動き始め、コッキングからリリースまでのボール移動距離が短くなっている可能性があります。",
+          "summary": "腕が動き始める位置と身体全体の加速順序を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-distance-thorax-result",
+          "type": "result",
+          "title": "胸郭で速度の伝達が止まっている可能性",
+          "text": "骨盤から胸郭への速度伝達が途切れ、肩甲帯や上肢が代償している可能性があります。",
+          "summary": "胸郭の可動性だけでなく、荷重下での反応と時間差を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-distance-extension-result",
+          "type": "result",
+          "title": "リリースまで加速距離を伸ばせていない可能性",
+          "text": "踏み込み脚の支持、胸郭の前方移動、肩甲帯から前腕への受け渡しが不足し、リリース位置が前方へ出ていない可能性があります。",
+          "summary": "エクステンションだけでなく、リリースまで速度を伝え続けられているかを確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-separation-pelvis-thorax-result",
+          "type": "result",
+          "title": "骨盤と胸郭の時間差が不足している可能性",
+          "text": "骨盤と胸郭が同時に動くことで、下半身から体幹へ速度を受け渡す時間差を作れていない可能性があります。",
+          "summary": "荷重下での骨盤と胸郭の分離を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-separation-thorax-scapula-result",
+          "type": "result",
+          "title": "胸郭と肩甲帯の分離が不足している可能性",
+          "text": "胸郭と肩甲帯が一体化して動くことで、肩甲帯が速度を受け取る時間差と移動量が不足している可能性があります。",
+          "summary": "胸郭と肩甲帯の相対運動を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-separation-scapula-forearm-result",
+          "type": "result",
+          "title": "肩甲帯から前腕への受け渡しが不足している可能性",
+          "text": "肩甲帯と前腕の動く順序が近過ぎることで、前腕回旋まで速度を段階的に高められていない可能性があります。",
+          "summary": "肩甲帯から前腕へ速度を受け渡す順序を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-output-low-result",
+          "type": "result",
+          "title": "身体能力そのものが不足している可能性",
+          "text": "荷重、加速距離、分離の条件が成立していても、最大筋力や瞬発力が球速向上に必要な水準へ達していない可能性があります。",
+          "summary": "最大筋力、CMJ、RSI、MBスローなどの出力指標を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-output-transfer-result",
+          "type": "result",
+          "title": "出力を投球方向へ変換できていない可能性",
+          "text": "フィジカル測定値は高くても、投球動作の方向、順序、時間差へ変換できず、ボール速度へ反映されていない可能性があります。",
+          "summary": "測定値と投球映像、トラッキングデータの差を確認します。",
+          "nextNodeId": "velocity-paid-gate"
+        },
+        {
+          "id": "velocity-paid-gate",
+          "type": "gate",
+          "title": "ここから先は評価と実装です",
+          "text": "ここまでは原因を考えるための思考体験です。具体的な評価方法、PDS項目、採点基準、症例、介入、再評価は指導・講習会で扱います。",
+          "access": "paid",
+          "cta": {
+            "label": "指導・講習会について見る",
+            "href": "/contact/"
+          }
+        }
+      ]
     },
-    {
-      "title": "フィジカル測定",
-      "text": "CMJ、RSI、MBスローなどから荷重利用能力と出力特性を確認し、球速との関係を整理する。"
+    "commonTheory": {
+      "title": "一般的には筋力・フォーム・可動域から考えます。",
+      "text": "球速が伸びないときは、筋力不足、投球フォーム、肩や股関節の可動域などが主な原因として挙げられます。ただし、それぞれの能力があっても、競技動作の中で速度へ変換できなければ球速にはつながりません。",
+      "items": [
+        "下半身や体幹の筋力が不足している",
+        "投球フォームに非効率な部分がある",
+        "肩関節・胸郭・股関節の可動域が不足している",
+        "腕の振りやリリース技術に課題がある"
+      ]
     },
-    {
-      "title": "選手の主観",
-      "text": "どこで荷重を受け、どこからボールが加速する感覚があるかを確認する。"
-    }
-  ],
-  "pdsEvaluation": {
-    "title": "PDSで確認する項目",
-    "text": "可動域の大小だけでなく、荷重を受けた状態で胸郭・骨盤・肩甲帯がどのように分離し、出力へつながるかを確認します。",
-    "items": [
+    "adjustmentView": {
+      "title": "まず見るのは「出力」ではなく「伝達」です。",
+      "text": "球速は筋力だけでは決まりません。身体が受けた力をボールへ伝え続けることが重要であり、そのためには「荷重」「加速距離」「分離」の3要素が成立している必要があります。"
+    },
+    "why": {
+      "title": "なぜその3要素が重要なのか",
+      "text": "大きな力を持っていても、身体の中でエネルギーが途切れてしまえばボールへ速度は伝わりません。身体全体で加速を継続し、末端まで速度を受け渡すことが重要です。",
+      "points": [
+        {
+          "title": "1. 荷重を受けて利用できるか",
+          "text": "自分の質量と地面反力を受け止め、そのエネルギーを次の動作へ利用できているかを確認します。"
+        },
+        {
+          "title": "2. 加速距離を確保できているか",
+          "text": "コッキングからリリースまで、ボールへ速度を与え続けられる距離と時間を確保できているかを確認します。"
+        },
+        {
+          "title": "3. 分離できているか",
+          "text": "骨盤、胸郭、肩甲帯、前腕が適切な順序で動き、それぞれが速度を受け渡せているかを確認します。"
+        }
+      ]
+    },
+    "checkpoints": [
       {
-        "title": "胸腰部伸展・側屈・回旋",
-        "text": "コッキングからリリースまでに必要な胸郭の3次元的な可動性を確認する。"
+        "title": "投球映像",
+        "text": "コッキングからリリースまでのボール移動距離、身体各部の動く順序、加速が途切れる位置を確認する。"
       },
       {
-        "title": "バック・トゥ・ウォール／オーバーヘッドスクワット",
-        "text": "肩甲帯・胸郭・骨盤が連動したときの代償と全身の可動性を確認する。"
+        "title": "PDS",
+        "text": "胸郭、肩甲帯、股関節の可動性、荷重、分離能力、出力特性を評価する。"
       },
       {
-        "title": "片脚ドロップ着地・片脚CMJ",
-        "text": "軸足および踏み込み脚で質量を受け止め、反力へ変換する能力を確認する。"
+        "title": "フィジカル測定",
+        "text": "CMJ、RSI、MBスローなどから荷重利用能力と出力特性を確認し、球速との関係を整理する。"
       },
       {
-        "title": "MBスロー",
-        "text": "下半身から体幹、上肢へ出力を受け渡す能力と投球方向への変換特性を確認する。"
+        "title": "選手の主観",
+        "text": "どこで荷重を受け、どこからボールが加速する感覚があるかを確認する。"
       }
+    ],
+    "pdsEvaluation": {
+      "title": "PDSで確認する項目",
+      "text": "可動域の大小だけでなく、荷重を受けた状態で胸郭・骨盤・肩甲帯がどのように分離し、出力へつながるかを確認します。",
+      "items": [
+        {
+          "title": "胸腰部伸展・側屈・回旋",
+          "text": "コッキングからリリースまでに必要な胸郭の3次元的な可動性を確認する。"
+        },
+        {
+          "title": "バック・トゥ・ウォール／オーバーヘッドスクワット",
+          "text": "肩甲帯・胸郭・骨盤が連動したときの代償と全身の可動性を確認する。"
+        },
+        {
+          "title": "片脚ドロップ着地・片脚CMJ",
+          "text": "軸足および踏み込み脚で質量を受け止め、反力へ変換する能力を確認する。"
+        },
+        {
+          "title": "MBスロー",
+          "text": "下半身から体幹、上肢へ出力を受け渡す能力と投球方向への変換特性を確認する。"
+        }
+      ]
+    },
+    "trackingData": {
+      "title": "競技データで確認する項目",
+      "text": "球速だけで結論を出さず、ボールへ速度と回転をどのように伝えているかを複数の指標から確認します。",
+      "items": [
+        {
+          "title": "球速",
+          "text": "平均値、最大値、投球内のばらつき、疲労に伴う変化を確認する。"
+        },
+        {
+          "title": "回転数・回転効率・回転軸",
+          "text": "球速上昇が回転特性の改善または変化につながっているかを確認する。"
+        },
+        {
+          "title": "リリース位置・エクステンション",
+          "text": "ボールへ加速を与え続けられた距離と、打者へ近い位置でリリースできているかを確認する。"
+        },
+        {
+          "title": "投球ごとの再現性",
+          "text": "球速、リリース位置、回転方向のばらつきから、伝達過程の安定性を確認する。"
+        }
+      ]
+    },
+    "hypotheses": {
+      "title": "考えられる仮説",
+      "text": "一つの原因に決めつけず、映像・PDS・計測値・選手の主観を照合して優先順位をつけます。",
+      "items": [
+        {
+          "title": "荷重を受け止められていない",
+          "text": "軸足で質量を受ける前に移動し、地面反力を投球へ利用できていない可能性。"
+        },
+        {
+          "title": "加速開始が早過ぎる",
+          "text": "身体が前へ進む前に腕が動き始め、コッキングからリリースまでの加速距離が短くなっている可能性。"
+        },
+        {
+          "title": "胸郭で速度を受け渡せていない",
+          "text": "骨盤から胸郭への伝達が途切れ、肩甲帯や上肢だけで加速している可能性。"
+        },
+        {
+          "title": "出力はあるが投球方向へ変換できていない",
+          "text": "CMJやMBスローの数値は高いが、投球動作の方向・順序・時間差へ変換できていない可能性。"
+        },
+        {
+          "title": "身体能力そのものが不足している",
+          "text": "荷重・加速距離・分離の条件は成立しているが、最大筋力や瞬発力が球速向上に必要な水準へ達していない可能性。"
+        }
+      ]
+    },
+    "researchQuestions": {
+      "title": "今後検証したい問い",
+      "text": "現場で蓄積した映像・PDS・フィジカル測定・トラッキングデータを用いて、球速向上に関わる条件を検証します。",
+      "items": [
+        "コッキングからリリースまでのボール移動距離と球速にはどの程度の関連があるか。",
+        "軸足の荷重利用能力と球速、回転効率、リリース位置には関連があるか。",
+        "胸腰部伸展・側屈・回旋の可動域と球速には関連があるか。",
+        "片脚CMJ、RSI、MBスローのどの指標が球速変化を最も説明できるか。",
+        "肩甲帯先行型、胸郭先行型、衝突胸郭型で必要なPDS特性は異なるか。",
+        "選手が感じる加速開始位置と映像上のボール加速区間は一致するか。"
+      ]
+    },
+    "path": [
+      "球速が伸びない",
+      "荷重を受けて利用する",
+      "加速距離を確保する",
+      "必要な分離を作る",
+      "競技データで再検証する"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
     ]
   },
-  "trackingData": {
-    "title": "競技データで確認する項目",
-    "text": "球速だけで結論を出さず、ボールへ速度と回転をどのように伝えているかを複数の指標から確認します。",
-    "items": [
+  {
+    "id": "phenomenon-control-unstable",
+    "label": "コントロールが安定しない",
+    "title": "球速はあるのにコントロールが安定しない",
+    "description": "リリースだけを見るのではなく、荷重を受ける位置、加速を始めるタイミング、身体各部の分離と再現性という視点から整理する。",
+    "question": {
+      "title": "毎球、同じ準備ができていますか？",
+      "text": "コントロールが安定しないとき、リリースだけを直す前に、荷重を受ける位置や加速を始めるタイミングが毎球そろっているかを確認します。",
+      "choices": [
+        {
+          "id": "release",
+          "label": "リリース位置がずれている"
+        },
+        {
+          "id": "balance",
+          "label": "バランスが崩れている"
+        },
+        {
+          "id": "timing",
+          "label": "動くタイミングが毎球違う"
+        },
+        {
+          "id": "unknown",
+          "label": "原因が分からない"
+        }
+      ]
+    },
+    "thinkingFlow": {
+      "startNodeId": "control-start",
+      "nodes": [
+        {
+          "id": "control-start",
+          "type": "question",
+          "title": "まず何を確認しますか？",
+          "text": "コントロールはリリースだけで決まるものではありません。まず再現性を崩している場所を考えます。",
+          "choices": [
+            {
+              "id": "control-start-loading",
+              "label": "荷重位置が毎回違う",
+              "nextNodeId": "control-loading"
+            },
+            {
+              "id": "control-start-acceleration",
+              "label": "加速開始が早い",
+              "nextNodeId": "control-acceleration"
+            },
+            {
+              "id": "control-start-separation",
+              "label": "分離が安定しない",
+              "nextNodeId": "control-separation"
+            },
+            {
+              "id": "control-start-unknown",
+              "label": "まだ分からない",
+              "nextNodeId": "control-observation"
+            }
+          ]
+        },
+        {
+          "id": "control-loading",
+          "type": "question",
+          "title": "荷重位置はどこで崩れますか？",
+          "text": "軸足と踏み込み脚のどちらで再現性が失われているか考えます。",
+          "choices": [
+            {
+              "id": "control-loading-back-choice",
+              "label": "軸足",
+              "nextNodeId": "control-loading-back"
+            },
+            {
+              "id": "control-loading-front-choice",
+              "label": "踏み込み脚",
+              "nextNodeId": "control-loading-front"
+            },
+            {
+              "id": "control-loading-both-choice",
+              "label": "両方",
+              "nextNodeId": "control-loading-both"
+            }
+          ]
+        },
+        {
+          "id": "control-loading-back",
+          "type": "result",
+          "title": "軸足で毎回同じ荷重を受けられていない可能性",
+          "text": "荷重位置が毎球変わると、その後の骨盤移動、胸郭の動き、リリース位置まで変化しやすくなります。",
+          "summary": "まず軸足で荷重を受ける再現性を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-loading-front",
+          "type": "result",
+          "title": "踏み込み脚で支持できていない可能性",
+          "text": "接地後に身体を受け止められないと、リリース位置を手先で補正しやすくなります。",
+          "summary": "踏み込み脚の支持能力を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-loading-both",
+          "type": "result",
+          "title": "荷重の再現性そのものが不足している可能性",
+          "text": "軸足と踏み込み脚の両方で再現性が低いと、毎球異なる投球動作になりやすくなります。",
+          "summary": "荷重全体の流れを確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-acceleration",
+          "type": "question",
+          "title": "加速開始はなぜ早くなっていますか？",
+          "text": "身体より先に腕が動き始める理由を考えます。",
+          "choices": [
+            {
+              "id": "control-acceleration-early-choice",
+              "label": "早く投げようとしている",
+              "nextNodeId": "control-acceleration-early"
+            },
+            {
+              "id": "control-acceleration-thorax-choice",
+              "label": "胸郭で待てない",
+              "nextNodeId": "control-acceleration-thorax"
+            },
+            {
+              "id": "control-acceleration-unknown-choice",
+              "label": "分からない",
+              "nextNodeId": "control-observation"
+            }
+          ]
+        },
+        {
+          "id": "control-acceleration-early",
+          "type": "result",
+          "title": "加速開始が前倒しになっている可能性",
+          "text": "腕だけが先行すると加速距離が短くなり、リリース位置のばらつきが増えます。",
+          "summary": "加速開始のタイミングを確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-acceleration-thorax",
+          "type": "result",
+          "title": "胸郭で時間を作れない可能性",
+          "text": "胸郭が速度を受け渡せないと、腕が先に加速しやすくなります。",
+          "summary": "胸郭の反応を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-separation",
+          "type": "question",
+          "title": "どの分離が崩れていますか？",
+          "text": "毎球同じ順序で速度を受け渡せているかを考えます。",
+          "choices": [
+            {
+              "id": "control-separation-pelvis-choice",
+              "label": "骨盤と胸郭",
+              "nextNodeId": "control-separation-pelvis"
+            },
+            {
+              "id": "control-separation-thorax-choice",
+              "label": "胸郭と肩甲帯",
+              "nextNodeId": "control-separation-thorax"
+            },
+            {
+              "id": "control-separation-arm-choice",
+              "label": "肩甲帯と前腕",
+              "nextNodeId": "control-separation-arm"
+            }
+          ]
+        },
+        {
+          "id": "control-separation-pelvis",
+          "type": "result",
+          "title": "骨盤と胸郭の時間差が安定していない可能性",
+          "text": "毎球同じ時間差を作れないと、投球方向が変わりやすくなります。",
+          "summary": "骨盤と胸郭の再現性を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-separation-thorax",
+          "type": "result",
+          "title": "胸郭から肩甲帯への伝達が安定していない可能性",
+          "text": "胸郭から肩甲帯への速度伝達が変わることで、リリース位置も変わりやすくなります。",
+          "summary": "胸郭と肩甲帯の連動を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-separation-arm",
+          "type": "result",
+          "title": "肩甲帯から前腕への受け渡しが安定していない可能性",
+          "text": "最後に前腕だけで方向を合わせようとすると再現性は低下します。",
+          "summary": "前腕の代償を確認します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-observation",
+          "type": "result",
+          "title": "まず情報を整理します",
+          "text": "原因を一つに決めず、映像・PDS・競技データ・選手の主観を照合して再現性を整理します。",
+          "summary": "まずは現象を整理します。",
+          "nextNodeId": "control-paid"
+        },
+        {
+          "id": "control-paid",
+          "type": "gate",
+          "title": "ここから先は評価と実装です",
+          "text": "ここまでは思考の流れです。実際にどのPDS項目を評価するか、評価基準、症例、改善方法、再評価は講習会・指導で詳しく扱います。",
+          "access": "paid",
+          "cta": {
+            "label": "講習会・指導について",
+            "href": "/contact/"
+          }
+        }
+      ]
+    },
+    "commonTheory": {
+      "title": "一般的にはフォーム、リリース、メンタルから考えます。",
+      "text": "コントロールが安定しないときは、リリース位置、投球フォーム、軸足のバランス、メンタル、指先の感覚などが原因として挙げられます。ただし、リリースは投球動作の最終結果であり、その前段階で生じたばらつきを手先だけで修正することは困難です。",
+      "items": [
+        "リリース位置が毎球変わっている",
+        "投球フォームの再現性が低い",
+        "軸足でバランスを保てていない",
+        "指先の感覚や握りが安定していない",
+        "緊張や焦りによって動作を急いでいる"
+      ]
+    },
+    "adjustmentView": {
+      "title": "まず見るのは「リリース」ではなく「そこまでの再現性」です。",
+      "text": "コントロールは最後の手先だけで決まりません。荷重を受ける位置、加速を始める場所、骨盤・胸郭・肩甲帯・前腕が動く順序が毎球そろうことで、リリース位置と投球方向が安定しやすくなります。"
+    },
+    "why": {
+      "title": "なぜリリースだけを直しても安定しないのか",
+      "text": "リリースは投球動作の結果です。前段階の荷重、加速距離、分離のどこかが毎球変われば、腕や手先が最後に補正しなければならず、方向とタイミングのばらつきが大きくなります。",
+      "points": [
+        {
+          "title": "1. 荷重を受ける位置がそろっているか",
+          "text": "軸足で質量を受ける位置とタイミングが毎球変わると、踏み出し方向、骨盤の移動量、胸郭が動き始める位置も変わります。"
+        },
+        {
+          "title": "2. 加速開始を急いでいないか",
+          "text": "早く投げようとして加速開始が前倒しになると、腕が身体から外れやすくなり、リリース位置の調整を手先へ依存しやすくなります。"
+        },
+        {
+          "title": "3. 分離の順序を再現できているか",
+          "text": "骨盤、胸郭、肩甲帯、前腕が毎球同じ順序と時間差で動くことで、ボールへ力を伝える方向が安定します。"
+        },
+        {
+          "title": "4. 減速と支持が成立しているか",
+          "text": "踏み込み脚で身体を受け止められないと、上体や腕が流れ、リリース位置と投球方向が変化しやすくなります。"
+        }
+      ]
+    },
+    "checkpoints": [
       {
-        "title": "球速",
-        "text": "平均値、最大値、投球内のばらつき、疲労に伴う変化を確認する。"
+        "title": "投球映像",
+        "text": "軸足で荷重を受ける位置、踏み出し方向、胸郭が動き始めるタイミング、リリース位置を複数球で比較する。"
       },
       {
-        "title": "回転数・回転効率・回転軸",
-        "text": "球速上昇が回転特性の改善または変化につながっているかを確認する。"
+        "title": "連続投球のばらつき",
+        "text": "同じ球種を複数球投げ、球速、回転方向、リリース位置、上下左右の散らばりを確認する。"
       },
       {
-        "title": "リリース位置・エクステンション",
-        "text": "ボールへ加速を与え続けられた距離と、打者へ近い位置でリリースできているかを確認する。"
+        "title": "踏み込み脚の支持",
+        "text": "接地後に骨盤と胸郭を支えられているか、上体が前方や投球側へ流れていないかを確認する。"
       },
       {
-        "title": "投球ごとの再現性",
-        "text": "球速、リリース位置、回転方向のばらつきから、伝達過程の安定性を確認する。"
+        "title": "選手の主観",
+        "text": "毎球同じ場所で荷重を受けられているか、腕が遅れる感覚、急ぐ感覚、抜ける感覚がないかを確認する。"
       }
+    ],
+    "path": [
+      "コントロールが安定しない",
+      "荷重位置をそろえる",
+      "加速距離を急いで短くしない",
+      "分離の順序を再現する"
+    ],
+    "relatedIds": [
+      "research-001",
+      "research-002",
+      "research-003"
     ]
-  },
-  "hypotheses": {
-    "title": "考えられる仮説",
-    "text": "一つの原因に決めつけず、映像・PDS・計測値・選手の主観を照合して優先順位をつけます。",
-    "items": [
-      {
-        "title": "荷重を受け止められていない",
-        "text": "軸足で質量を受ける前に移動し、地面反力を投球へ利用できていない可能性。"
-      },
-      {
-        "title": "加速開始が早過ぎる",
-        "text": "身体が前へ進む前に腕が動き始め、コッキングからリリースまでの加速距離が短くなっている可能性。"
-      },
-      {
-        "title": "胸郭で速度を受け渡せていない",
-        "text": "骨盤から胸郭への伝達が途切れ、肩甲帯や上肢だけで加速している可能性。"
-      },
-      {
-        "title": "出力はあるが投球方向へ変換できていない",
-        "text": "CMJやMBスローの数値は高いが、投球動作の方向・順序・時間差へ変換できていない可能性。"
-      },
-      {
-        "title": "身体能力そのものが不足している",
-        "text": "荷重・加速距離・分離の条件は成立しているが、最大筋力や瞬発力が球速向上に必要な水準へ達していない可能性。"
-      }
-    ]
-  },
-  "researchQuestions": {
-    "title": "今後検証したい問い",
-    "text": "現場で蓄積した映像・PDS・フィジカル測定・トラッキングデータを用いて、球速向上に関わる条件を検証します。",
-    "items": [
-      "コッキングからリリースまでのボール移動距離と球速にはどの程度の関連があるか。",
-      "軸足の荷重利用能力と球速、回転効率、リリース位置には関連があるか。",
-      "胸腰部伸展・側屈・回旋の可動域と球速には関連があるか。",
-      "片脚CMJ、RSI、MBスローのどの指標が球速変化を最も説明できるか。",
-      "肩甲帯先行型、胸郭先行型、衝突胸郭型で必要なPDS特性は異なるか。",
-      "選手が感じる加速開始位置と映像上のボール加速区間は一致するか。"
-    ]
-  },
-  "path": [
-    "球速が伸びない",
-    "荷重を受けて利用する",
-    "加速距離を確保する",
-    "必要な分離を作る",
-    "競技データで再検証する"
-  ],
-  "relatedIds": [
-    "research-001",
-    "research-002",
-    "research-003"
-  ]
-}]
+  }
+]
 
-[{
-  "id": "phenomenon-control-unstable",
-  "label": "コントロールが安定しない",
-  "title": "球速はあるのにコントロールが安定しない",
-  "description": "リリースだけを見るのではなく、荷重を受ける位置、加速を始めるタイミング、身体各部の分離と再現性という視点から整理する。",
-  "question": {
-    "title": "毎球、同じ準備ができていますか？",
-    "text": "コントロールが安定しないとき、リリースだけを直す前に、荷重を受ける位置や加速を始めるタイミングが毎球そろっているかを確認します。",
-    "choices": [
-      {
-        "id": "release",
-        "label": "リリース位置がずれている"
-      },
-      {
-        "id": "balance",
-        "label": "バランスが崩れている"
-      },
-      {
-        "id": "timing",
-        "label": "動くタイミングが毎球違う"
-      },
-      {
-        "id": "unknown",
-        "label": "原因が分からない"
-      }
-    ]
-  },
-  "commonTheory": {
-    "title": "一般的にはフォーム、リリース、メンタルから考えます。",
-    "text": "コントロールが安定しないときは、リリース位置、投球フォーム、軸足のバランス、メンタル、指先の感覚などが原因として挙げられます。ただし、リリースは投球動作の最終結果であり、その前段階で生じたばらつきを手先だけで修正することは困難です。",
-    "items": [
-      "リリース位置が毎球変わっている",
-      "投球フォームの再現性が低い",
-      "軸足でバランスを保てていない",
-      "指先の感覚や握りが安定していない",
-      "緊張や焦りによって動作を急いでいる"
-    ]
-  },
-  "adjustmentView": {
-    "title": "まず見るのは「リリース」ではなく「そこまでの再現性」です。",
-    "text": "コントロールは最後の手先だけで決まりません。荷重を受ける位置、加速を始める場所、骨盤・胸郭・肩甲帯・前腕が動く順序が毎球そろうことで、リリース位置と投球方向が安定しやすくなります。"
-  },
-  "why": {
-    "title": "なぜリリースだけを直しても安定しないのか",
-    "text": "リリースは投球動作の結果です。前段階の荷重、加速距離、分離のどこかが毎球変われば、腕や手先が最後に補正しなければならず、方向とタイミングのばらつきが大きくなります。",
-    "points": [
-      {
-        "title": "1. 荷重を受ける位置がそろっているか",
-        "text": "軸足で質量を受ける位置とタイミングが毎球変わると、踏み出し方向、骨盤の移動量、胸郭が動き始める位置も変わります。"
-      },
-      {
-        "title": "2. 加速開始を急いでいないか",
-        "text": "早く投げようとして加速開始が前倒しになると、腕が身体から外れやすくなり、リリース位置の調整を手先へ依存しやすくなります。"
-      },
-      {
-        "title": "3. 分離の順序を再現できているか",
-        "text": "骨盤、胸郭、肩甲帯、前腕が毎球同じ順序と時間差で動くことで、ボールへ力を伝える方向が安定します。"
-      },
-      {
-        "title": "4. 減速と支持が成立しているか",
-        "text": "踏み込み脚で身体を受け止められないと、上体や腕が流れ、リリース位置と投球方向が変化しやすくなります。"
-      }
-    ]
-  },
-  "checkpoints": [
-    {
-      "title": "投球映像",
-      "text": "軸足で荷重を受ける位置、踏み出し方向、胸郭が動き始めるタイミング、リリース位置を複数球で比較する。"
-    },
-    {
-      "title": "連続投球のばらつき",
-      "text": "同じ球種を複数球投げ、球速、回転方向、リリース位置、上下左右の散らばりを確認する。"
-    },
-    {
-      "title": "踏み込み脚の支持",
-      "text": "接地後に骨盤と胸郭を支えられているか、上体が前方や投球側へ流れていないかを確認する。"
-    },
-    {
-      "title": "選手の主観",
-      "text": "毎球同じ場所で荷重を受けられているか、腕が遅れる感覚、急ぐ感覚、抜ける感覚がないかを確認する。"
-    }
-  ],
-  "path": [
-    "コントロールが安定しない",
-    "荷重位置をそろえる",
-    "加速距離を急いで短くしない",
-    "分離の順序を再現する"
-  ],
-  "relatedIds": [
-    "research-001",
-    "research-002",
-    "research-003"
-  ]
-}]
 
 [{
   "id": "phenomenon-batted-ball-not-traveling",
@@ -293,6 +732,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にパワー不足でしょうか？",
+        "text": "まず『どこで速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"power","label":"筋力不足だと思う","next":"commonTheory" },
+        { "id":"swing","label":"スイング軌道だと思う","next":"commonTheory" },
+        { "id":"timing","label":"タイミングだと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"筋力、スイング軌道、タイミングが主な要因として考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"速度は最後ではなく途中で失われている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、計測データを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"実際の評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "まず見るのは『筋力』ではなく『速度を伝え続けられるか』です。",
     "text": "飛距離は筋力だけでは決まりません。荷重を受け、加速距離を確保し、骨盤からバットまで速度を受け渡せることが重要です。"
@@ -373,6 +847,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "数値は高いのに、なぜ競技で発揮できないのでしょうか？",
+        "text": "まず『どこで出力が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"strength","label":"筋力の問題だと思う","next":"commonTheory" },
+        { "id":"technique","label":"技術の問題だと思う","next":"commonTheory" },
+        { "id":"mental","label":"メンタルの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"筋力、技術、メンタルなどが競技力へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"出力そのものではなく、競技動作への変換過程で失われている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、計測データを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "重要なのは『出力』より『変換効率』です。",
     "text": "高い筋力やジャンプ能力を持っていても、その力を競技動作へ伝えられなければ結果は変わりません。荷重・加速距離・分離の3要素によって、測定値を競技パフォーマンスへ変換できているかを確認します。"
@@ -453,6 +962,40 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に球速だけの問題でしょうか？",
+        "text": "まず『どこでボールへの速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"velocity","label":"球速不足だと思う","next":"commonTheory" },
+        { "id":"spin","label":"回転の問題だと思う","next":"commonTheory" },
+        { "id":"release","label":"リリースの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"球速、回転、リリース位置などが球質へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"表示される球速ではなく、身体からボールまで速度を伝え続けられているかもしれません。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、トラッキングデータを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
   "adjustmentView": {
     "title": "見るべきなのは『球速』ではなく『加速の質』です。",
     "text": "球の強さは表示球速だけで決まりません。身体全体で加速を継続し、リリースまで速度を受け渡せているかによって、打者が感じる球の強さは大きく変わります。"
@@ -533,6 +1076,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に指先だけの問題でしょうか？",
+        "text": "まず『どこで回転を生み出す速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"grip","label":"握り方の問題だと思う","next":"commonTheory" },
+        { "id":"fingers","label":"指先の問題だと思う","next":"commonTheory" },
+        { "id":"forearm","label":"前腕の問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"握り方、指先の使い方、前腕の使い方などが回転数へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"回転数はリリース直前だけではなく、全身からボールまで速度を伝える過程で決まる可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、トラッキングデータを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+  
   "adjustmentView": {
     "title": "見るべきなのは『指先』ではなく『速度の受け渡し』です。",
     "text": "回転数は前腕や指だけでは決まりません。地面から生まれた速度を骨盤・胸郭・肩甲帯・前腕を通してボールへ伝え続けられるかが重要です。"
@@ -613,6 +1191,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に指先だけの問題でしょうか？",
+        "text": "まず『どこで回転を生み出す速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"grip","label":"握り方の問題だと思う","next":"commonTheory" },
+        { "id":"fingers","label":"指先の問題だと思う","next":"commonTheory" },
+        { "id":"forearm","label":"前腕の問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"握り方、指先の使い方、前腕の使い方などが回転数へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"回転数はリリース直前だけではなく、全身からボールまで速度を伝える過程で決まる可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、トラッキングデータを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『軌道』ではなく『加速の準備』です。",
     "text": "ミート率はバット軌道だけで決まりません。荷重を受け、十分な加速距離を確保し、骨盤・胸郭・肩甲帯を順序良く動かすことで、インパクトまで余裕を持って対応できるようになります。"
@@ -693,6 +1306,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にバット軌道だけの問題でしょうか？",
+        "text": "まず『どこでタイミングと速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"swing","label":"スイング軌道の問題だと思う","next":"commonTheory" },
+        { "id":"timing","label":"タイミングの問題だと思う","next":"commonTheory" },
+        { "id":"vision","label":"ボールの見方の問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"スイング軌道、タイミング、視覚情報などがミート率へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"インパクト直前ではなく、始動からインパクトまでの準備で差が生まれている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、打撃データを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『反応』ではなく『準備の質』です。",
     "text": "タイミングを合わせる能力は、早く動くことではなく、荷重を利用しながら十分な加速距離を確保し、身体を順序良く加速できるかによって大きく左右されます。"
@@ -773,6 +1421,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に反応速度だけの問題でしょうか？",
+        "text": "まず『どこでタイミングの余裕が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"reaction","label":"反応速度の問題だと思う","next":"commonTheory" },
+        { "id":"timing","label":"始動タイミングの問題だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"反応速度、始動タイミング、フォームなどがタイミングへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"反応ではなく、始動からインパクトまでの準備で余裕を失っている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、打撃データを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『腕の速さ』ではなく『全身の加速』です。",
     "text": "スイングスピードは腕だけでは決まりません。荷重を利用し、十分な加速距離を確保し、骨盤・胸郭・肩甲帯が順番に加速することで、バット速度は高まりやすくなります。"
@@ -853,6 +1536,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に肩や腕だけの問題でしょうか？",
+        "text": "まず『どこでボールへの速度が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"arm","label":"肩・腕の筋力不足だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"mobility","label":"可動域の問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"肩や腕の筋力、フォーム、可動域などが送球速度へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"腕ではなく、全身からボールまで速度を伝える過程で失われている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル測定を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『腕』ではなく『全身の伝達』です。",
     "text": "送球速度は腕だけで生み出されるものではありません。荷重を利用し、十分な加速距離を確保し、骨盤・胸郭・肩甲帯・前腕へ速度を受け渡せるかが重要です。"
@@ -933,6 +1651,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にリリースだけの問題でしょうか？",
+        "text": "まず『どこで再現性が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"release","label":"リリースの問題だと思う","next":"commonTheory" },
+        { "id":"footwork","label":"ステップの問題だと思う","next":"commonTheory" },
+        { "id":"balance","label":"バランスの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"リリース位置、ステップ、バランスなどが送球精度へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"最後のリリースではなく、送球までの準備と全身の再現性で差が生まれている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、送球データを組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『リリース』ではなく『再現性』です。",
     "text": "送球精度は最後のリリースだけでは決まりません。荷重位置、加速距離、身体各部の分離が毎回そろうことで、送球方向は安定しやすくなります。"
@@ -1013,6 +1766,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に脚力だけの問題でしょうか？",
+        "text": "まず『どこで前方への推進力が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"strength","label":"脚力不足だと思う","next":"commonTheory" },
+        { "id":"technique","label":"走り方の問題だと思う","next":"commonTheory" },
+        { "id":"reaction","label":"スタートの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"脚力、走り方、スタート技術などが走力へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"脚力ではなく、地面反力を前方への推進力へ変換する過程で失われている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル測定を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『脚力』ではなく『加速の作り方』です。",
     "text": "ベースランニングは脚力だけでは決まりません。荷重を利用し、十分な加速距離を確保し、骨盤・胸郭・上肢が連動することで効率よく前方へ推進できます。"
@@ -1093,6 +1881,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に反応だけの問題でしょうか？",
+        "text": "まず『どこで最初の推進力が失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"reaction","label":"反応速度の問題だと思う","next":"commonTheory" },
+        { "id":"strength","label":"脚力不足だと思う","next":"commonTheory" },
+        { "id":"technique","label":"スタートフォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"反応速度、脚力、スタートフォームなどが初速へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"反応ではなく、最初の荷重と地面反力の利用で差が生まれている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル測定を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『反応』ではなく『最初の荷重』です。",
     "text": "初速は素早く動くことだけではありません。質量を受け止め、その反力を推進力へ変換し、最初の数歩で効率良く加速できるかが重要です。"
@@ -1173,6 +1996,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にスピード不足でしょうか？",
+        "text": "まず『どこで減速から再加速へのエネルギーが失われているか』を考えます。"
+      },
+      "branches": [
+        { "id":"speed","label":"動きが遅いと思う","next":"commonTheory" },
+        { "id":"strength","label":"筋力不足だと思う","next":"commonTheory" },
+        { "id":"balance","label":"バランスの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"動く速さ、筋力、バランスなどが切り返し能力へ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"速く動くことではなく、減速で受けた力を再加速へ利用できているかが重要かもしれません。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル測定を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『速さ』ではなく『荷重の利用』です。",
     "text": "切り返し能力は、止まる・受ける・進むという一連の流れで決まります。荷重を受け止め、その反力を次の動作へ利用できるかが重要です。"
@@ -1253,6 +2111,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に肩だけの問題でしょうか？",
+        "text": "まず『どこで力の流れが途切れているか』を考えます。"
+      },
+      "branches": [
+        { "id":"shoulder","label":"肩が弱いと思う","next":"commonTheory" },
+        { "id":"mobility","label":"可動域の問題だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"肩の筋力、可動域、フォームなどが肩の張りへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"肩ではなく、全身から肩まで力を受け渡す過程で負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『肩』ではなく『全身の力の流れ』です。",
     "text": "肩は力を生み出す場所というより、力を受け渡す場所です。荷重・加速距離・分離が不足すると肩で代償しやすくなります。"
@@ -1333,6 +2226,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に肘だけの問題でしょうか？",
+        "text": "まず『どこで力の流れが途切れているか』を考えます。"
+      },
+      "branches": [
+        { "id":"elbow","label":"肘が弱いと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"mobility","label":"可動域の問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"肘の状態、フォーム、可動域などが肘の張りへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"肘ではなく、全身からボールまで力を受け渡す過程で負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『肘』ではなく『力の伝達』です。",
     "text": "肘は力を発揮する場所ではなく、力を受け渡す場所です。荷重・加速距離・分離が不足すると、肘へ過剰な負担が集中しやすくなります。"
@@ -1413,6 +2341,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に腰だけの問題でしょうか？",
+        "text": "まず『どこで力の流れが途切れているか』を考えます。"
+      },
+      "branches": [
+        { "id":"lumbar","label":"腰が弱いと思う","next":"commonTheory" },
+        { "id":"mobility","label":"柔軟性の問題だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"腰部の筋力、柔軟性、フォームなどが腰の張りへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"腰そのものではなく、下半身から体幹へ力を受け渡す過程で負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『腰』ではなく『力の流れ』です。",
     "text": "腰は全身の力が集まる中継地点です。荷重・加速距離・分離が不足すると、腰が過剰に働き、張りや疲労が起こりやすくなります。"
@@ -1493,6 +2456,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に股関節だけの問題でしょうか？",
+        "text": "まず『どこで荷重と力の流れが止まっているか』を考えます。"
+      },
+      "branches": [
+        { "id":"mobility","label":"股関節が硬いと思う","next":"commonTheory" },
+        { "id":"strength","label":"筋力不足だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"可動域、筋力、フォームなどが股関節の詰まりへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"股関節そのものではなく、荷重の受け方や全身の連動で負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『可動域』ではなく『荷重と分離』です。",
     "text": "股関節は大きく動くだけでは十分ではありません。荷重を受け止め、骨盤と胸郭が適切に分離しながら動くことで、詰まりの少ない動作につながります。"
@@ -1573,6 +2571,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に背中だけの問題でしょうか？",
+        "text": "まず『どこで力の流れが止まっているか』を考えます。"
+      },
+      "branches": [
+        { "id":"back","label":"背筋が硬いと思う","next":"commonTheory" },
+        { "id":"mobility","label":"柔軟性の問題だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"背部の筋機能、柔軟性、フォームなどが背中の張りへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"背中そのものではなく、下半身から上半身への力の受け渡しで負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『背中』ではなく『全身の連動』です。",
     "text": "背部は肩甲帯と骨盤をつなぐ重要な部位です。荷重・加速距離・分離が不足すると、背部が力を受け止め続ける代償部位になりやすくなります。"
@@ -1653,6 +2686,41 @@
       }
     ]
   },
+ 
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に前腕だけの問題でしょうか？",
+        "text": "まず『どこで力の流れが止まっているか』を考えます。"
+      },
+      "branches": [
+        { "id":"forearm","label":"前腕が弱いと思う","next":"commonTheory" },
+        { "id":"grip","label":"握り方の問題だと思う","next":"commonTheory" },
+        { "id":"mechanics","label":"フォームの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"前腕の筋機能、握り方、フォームなどが前腕の張りへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"前腕そのものではなく、下半身からボールまでの速度の受け渡しで負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『前腕』ではなく『速度の受け渡し』です。",
     "text": "前腕は速度を生み出す場所ではなく受け渡す場所です。荷重・加速距離・分離が不足すると、前腕でボールを加速させようとして負担が集中しやすくなります。"
@@ -1733,6 +2801,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に水分不足だけの問題でしょうか？",
+        "text": "まず『どこで負担が集中しているか』を考えます。"
+      },
+      "branches": [
+        { "id":"hydration","label":"水分不足だと思う","next":"commonTheory" },
+        { "id":"electrolyte","label":"電解質不足だと思う","next":"commonTheory" },
+        { "id":"fatigue","label":"疲労だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"水分や電解質不足、疲労などが攣りやすさへ影響すると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"筋肉そのものではなく、荷重や力の伝達によって一部の筋へ負担が集中している可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『攣った筋』ではなく『動作全体』です。",
     "text": "攣りやすさは筋肉単独では決まりません。荷重を受け止める能力や力の伝達が不足すると、一部の筋へ負担が集中し、攣りやすくなることがあります。"
@@ -1813,6 +2916,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にメンタルだけの問題でしょうか？",
+        "text": "まず『試合でも普段どおり動けているか』を考えます。"
+      },
+      "branches": [
+        { "id":"mental","label":"緊張してしまうと思う","next":"commonTheory" },
+        { "id":"technique","label":"技術の問題だと思う","next":"commonTheory" },
+        { "id":"physical","label":"フィジカルの問題だと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"緊張、経験不足、技術的な未熟さなどが試合で力を発揮できない要因と考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"プレッシャーによって荷重や加速距離、身体の分離が変化し、普段の動きを再現できていない可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『精神論』ではなく『再現性』です。",
     "text": "試合では限られた時間で普段どおり動けるかが重要です。荷重・加速距離・分離を再現できるほど、プレッシャー下でもパフォーマンスは安定しやすくなります。"
@@ -1893,6 +3031,41 @@
       }
     ]
   },
+ 
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に脚力だけの問題でしょうか？",
+        "text": "まず『下半身で受けた力を上半身まで伝えられているか』を考えます。"
+      },
+      "branches": [
+        { "id":"strength","label":"脚力不足だと思う","next":"commonTheory" },
+        { "id":"balance","label":"バランスが悪いと思う","next":"commonTheory" },
+        { "id":"mobility","label":"股関節が硬いと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"脚力不足、バランス能力、股関節の可動性などが下半身を使えない要因と考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"下半身で受けた力を体幹や上半身へ伝えられず、途中で力の流れが止まっている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『脚力』ではなく『荷重の利用』です。",
     "text": "下半身を使うとは強く踏むことではありません。質量を受け止め、そのエネルギーを上半身まで連続して伝えられることが重要です。"
@@ -1973,6 +3146,41 @@
       }
     ]
   },
+  
+  "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当に柔軟性だけの問題でしょうか？",
+        "text": "まず『身体全体が連続して動けているか』を考えます。"
+      },
+      "branches": [
+        { "id":"mobility","label":"身体が硬いと思う","next":"commonTheory" },
+        { "id":"strength","label":"筋力不足だと思う","next":"commonTheory" },
+        { "id":"coordination","label":"連動が悪いと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"柔軟性不足、筋力不足、協調性の低下などが動きの硬さにつながると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"可動域だけではなく、荷重や加速距離、身体各部の連続した動きが失われている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『柔軟性』ではなく『動きの連続性』です。",
     "text": "動きの硬さは可動域だけで決まりません。荷重を利用し、十分な加速距離を確保し、骨盤・胸郭・肩甲帯が順序良く動くことで、余裕のある動作へ近づきます。"
@@ -2053,6 +3261,41 @@
       }
     ]
   },
+
+    "thinkingFlow": {
+      "entryQuestion": {
+        "title": "本当にフォームだけの問題でしょうか？",
+        "text": "まず『毎回同じ条件で動けているか』を考えます。"
+      },
+      "branches": [
+        { "id":"form","label":"フォームが悪いと思う","next":"commonTheory" },
+        { "id":"balance","label":"バランスが悪いと思う","next":"commonTheory" },
+        { "id":"timing","label":"タイミングが安定しないと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"フォームのばらつき、バランス、タイミングの違いなどが再現性の低下につながると考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"フォームではなく、荷重する位置や加速を始めるタイミング、身体各部の動く順序が毎回変わっている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
+
   "adjustmentView": {
     "title": "見るべきなのは『フォーム』ではなく『動作の再現条件』です。",
     "text": "再現性は形をそろえることではありません。荷重・加速距離・分離の3要素を毎回同じように実行できるほど、競技動作は安定します。"
@@ -2133,6 +3376,39 @@
       }
     ]
   },
+  
+   "thinkingFlow": {
+  "entryQuestion": {
+    "text": "まず『荷重と加速の中で分離できているか』を考えます。"
+  },
+      "branches": [
+        { "id":"mobility","label":"身体が硬いと思う","next":"commonTheory" },
+        { "id":"strength","label":"筋力不足だと思う","next":"commonTheory" },
+        { "id":"coordination","label":"連動が悪いと思う","next":"commonTheory" },
+        { "id":"unknown","label":"原因が分からない","next":"commonTheory" }
+      ],
+      "commonTheory": {
+        "title":"一般的な考え方",
+        "text":"可動域不足、筋力不足、協調性の低下などが分離できない要因と考えられます。"
+      },
+      "adjustmentQuestion": {
+        "title":"では本当にそこが原因でしょうか？",
+        "text":"関節の硬さではなく、荷重を受ける位置や加速の作り方によって身体全体が同時に動いている可能性があります。"
+      },
+      "adjustmentView": {
+        "title":"Adjustment View",
+        "text":"まず確認するのは『荷重』『加速距離』『分離』です。"
+      },
+      "nextStep": {
+        "title":"さらに深く考える",
+        "text":"ここから先は映像、PDS、フィジカル評価を組み合わせて仮説を検証します。"
+      },
+      "premium": {
+        "locked": true,
+        "title":"ここから先は有料コンテンツ",
+        "text":"評価手順、優先順位、改善プログラムは講習会・個別指導で解説します。"
+      }
+    },
   "adjustmentView": {
     "title": "見るべきなのは『柔軟性』ではなく『荷重と加速』です。",
     "text": "分離は関節が柔らかいだけでは生まれません。荷重を受け止め、十分な加速距離を確保しながら骨盤・胸郭・肩甲帯が順序良く動くことで自然に生まれます。"
