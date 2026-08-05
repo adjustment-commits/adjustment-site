@@ -2,37 +2,37 @@
   {
     "type": "research",
     "code": "R",
-    "name": "研究",
-    "japaneseName": "研究",
-    "description": "仮説、検証、知見を保管する。",
-    "detail": "保管中",
-    "status": "公開中"
+    "name": "Research",
+    "japaneseName": "Research",
+    "description": "Research archive",
+    "detail": "Knowledge Archive",
+    "status": "OPEN"
   },
   {
     "type": "pds",
     "code": "P",
-    "name": "PDS評価",
-    "japaneseName": "PDS評価",
-    "description": "身体機能、出力、統合評価を保管する。",
-    "detail": "保管中",
-    "status": "公開中"
+    "name": "PDS",
+    "japaneseName": "PDS",
+    "description": "PDS archive",
+    "detail": "Evaluation",
+    "status": "OPEN"
   },
   {
     "type": "case",
     "code": "C",
-    "name": "現場事例",
-    "japaneseName": "現場事例",
-    "description": "現場の観察、介入、検証を保管する。",
-    "detail": "保管中",
-    "status": "公開中"
+    "name": "Case",
+    "japaneseName": "Case",
+    "description": "Case archive",
+    "detail": "Case Study",
+    "status": "OPEN"
   },
   {
     "type": "dictionary",
     "code": "D",
-    "name": "用語・概念",
-    "japaneseName": "用語・概念",
-    "description": "研究と現場をつなぐ用語と概念を保管する。",
-    "detail": "保管中",
-    "status": "公開中"
+    "name": "Dictionary",
+    "japaneseName": "Dictionary",
+    "description": "Glossary",
+    "detail": "Glossary",
+    "status": "OPEN"
   }
 ]
