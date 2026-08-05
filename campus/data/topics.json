@@ -124,7 +124,8 @@
       "topic-pelvis",
       "topic-thorax",
       "topic-scapular-girdle",
-      "topic-coordination"
+      "topic-coordination",
+      "topic-loading"
     ]
   },
   {
@@ -371,7 +372,8 @@
       "topic-force-utilization",
       "topic-acceleration",
       "topic-reacceleration",
-      "topic-speed-transfer"
+      "topic-speed-transfer",
+      "topic-ground-reaction-force"
     ]
   },
   {
@@ -380,12 +382,14 @@
     "category": "movement",
     "summary": "競技課題を解決するために身体をどのように使うかという考え方。",
     "relatedTopicIds": [
-      "topic-loading",
-      "topic-acceleration-distance",
-      "topic-speed-transfer",
-      "topic-repeatability",
-      "topic-coordination",
-      "topic-compensation"
+      "relatedTopicIds": [
+  "topic-loading",
+  "topic-acceleration-distance",
+  "topic-speed-transfer",
+  "topic-kinetic-chain",
+  "topic-repeatability",
+  "topic-coordination"
+]
     ]
   }
 ]
