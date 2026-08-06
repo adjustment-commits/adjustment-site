@@ -1502,58 +1502,41 @@ phenomenon.adjustmentView.text;
 }
 
 function renderWhy(phenomenon) {
-if (elements.whyTitle) {
-elements.whyTitle.textContent =
-phenomenon.why.title;
+  if (elements.whyTitle) {
+    elements.whyTitle.textContent =
+      phenomenon.why.title;
+  }
+
+  if (elements.whyText) {
+    elements.whyText.textContent =
+      phenomenon.why.text;
+  }
+
+  if (!elements.whyPoints) {
+    return;
+  }
+
+  if (phenomenon.why.points.length === 0) {
+    elements.whyPoints.innerHTML =
+      '<div class="empty-message">\u7406\u7531\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
+    return;
+  }
+
+  elements.whyPoints.innerHTML =
+    phenomenon.why.points
+      .map((point, index) => {
+        const itemNumber =
+          String(index + 1).padStart(2, "0");
+
+        return `
+          <div class="branch-item why-point" data-index="${itemNumber}">
+            <span class="why-point-text">${escapeHtml(point)}</span>
+          </div>
+        `;
+      })
+      .join("");
 }
 
-if (elements.whyText) {
-elements.whyText.textContent =
-phenomenon.why.text;
-}
-
-if (!elements.whyPoints) {
-return;
-}
-
-const pointMarkup = phenomenon.why.points
-.map((point,index) => {
-return (
-'<div class="branch-item why-point" data-index="' +
-String(index + 1).padStart(2,"0") +
-'">' +
-'<strong>' +
-escapeHtml(point) +
-'</strong>' +
-'</div>'
-);
-})
-.join("");
-
-const branchMarkup = phenomenon.branches
-.map((branch,index) => {
-return (
-'<div class="branch-item phenomenon-branch" data-index="' +
-String(index + 1).padStart(2,"0") +
-'">' +
-'<strong>' +
-escapeHtml(branch.title) +
-'</strong>' +
-(
-branch.description
-? '<p>' + escapeHtml(branch.description) + '</p>'
-: ""
-) +
-'</div>'
-);
-})
-.join("");
-
-const markup = pointMarkup + branchMarkup;
-
-elements.whyPoints.innerHTML = markup ||
-'<div class="loading-placeholder">\u7406\u7531\u3068\u5206\u5c90\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-}
 
 function renderCheckpoints(phenomenon) {
 if (!elements.checkpointList) {
