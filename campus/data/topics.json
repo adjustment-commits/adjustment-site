@@ -382,14 +382,12 @@
     "category": "movement",
     "summary": "競技課題を解決するために身体をどのように使うかという考え方。",
     "relatedTopicIds": [
-      "relatedTopicIds": [
-  "topic-loading",
-  "topic-acceleration-distance",
-  "topic-speed-transfer",
-  "topic-kinetic-chain",
-  "topic-repeatability",
-  "topic-coordination"
-]
+      "topic-loading",
+      "topic-acceleration-distance",
+      "topic-speed-transfer",
+      "topic-kinetic-chain",
+      "topic-repeatability",
+      "topic-coordination"
     ]
   }
 ]
