@@ -61,11 +61,18 @@ questionText:document.getElementById("questionText"),
 questionChoices:document.getElementById("questionChoices"),
 adjustmentTitle:document.getElementById("adjustmentTitle"),
 adjustmentText:document.getElementById("adjustmentText"),
-whyTitle:document.getElementById("whyTitle"),
-whyText:document.getElementById("whyText"),
-whyPoints:document.getElementById("whyPoints"),
-checkpointList:document.getElementById("checkpointList"),
-relatedList:document.getElementById("relatedList"),
+whyTitle: document.getElementById("whyTitle"),
+whyText: document.getElementById("whyText"),
+whyPoints: document.getElementById("whyPoints"),
+
+nextStepTitle: document.getElementById("nextStepTitle"),
+nextStepText: document.getElementById("nextStepText"),
+
+premiumPanel: document.getElementById("premiumPanel"),
+premiumTitle: document.getElementById("premiumTitle"),
+premiumText: document.getElementById("premiumText"),
+
+relatedList: document.getElementById("relatedList"),
 
 updateGrid:document.getElementById("updateGrid"),
 facilityGrid:document.getElementById("facilityGrid"),
@@ -1481,109 +1488,40 @@ function renderWhy(phenomenon) {
 }
 
 
-function renderCheckpoints(phenomenon) {
-if (!elements.checkpointList) {
-return;
+function renderNextStep(phenomenon) {
+  const isUnlocked = Boolean(state.selectedChoiceId);
+
+  if (elements.nextStepTitle) {
+    elements.nextStepTitle.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.nextStep.title
+      : "";
+  }
+
+  if (elements.nextStepText) {
+    elements.nextStepText.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.nextStep.text
+      : "";
+  }
 }
 
-if (phenomenon.checkpoints.length === 0) {
-elements.checkpointList.innerHTML =
-'<div class="loading-placeholder">\u78ba\u8a8d\u9805\u76ee\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-return;
+function renderPremium(phenomenon) {
+  const isUnlocked = Boolean(state.selectedChoiceId);
+
+  const premium = phenomenon.thinkingFlow.premium;
+
+  if (elements.premiumPanel) {
+    elements.premiumPanel.hidden = !isUnlocked;
+  }
+
+  if (elements.premiumTitle) {
+    elements.premiumTitle.textContent = isUnlocked ? premium.title : "";
+  }
+
+  if (elements.premiumText) {
+    elements.premiumText.textContent = isUnlocked ? premium.text : "";
+  }
 }
 
-elements.checkpointList.innerHTML =
-phenomenon.checkpoints
-.map((checkpoint,index) => {
-return (
-'<div class="checkpoint-item">' +
-'<span class="checkpoint-mark" aria-hidden="true">' +
-String(index + 1).padStart(2,"0") +
-'</span>' +
-'<div>' +
-'<strong>' +
-escapeHtml(checkpoint.title) +
-'</strong>' +
-(
-checkpoint.description
-? '<p>' + escapeHtml(checkpoint.description) + '</p>'
-: ""
-) +
-'</div>' +
-'</div>'
-);
-})
-.join("");
-}
-
-function renderRelatedContents(phenomenon) {
-if (!elements.relatedList) {
-return;
-}
-
-const mergedIds = [
-...phenomenon.relatedIds,
-...phenomenon.nextAction.relatedIds
-];
-
-const uniqueIds = [...new Set(mergedIds)];
-const relatedContents =
-getRelatedContents(uniqueIds);
-
-if (relatedContents.length === 0) {
-elements.relatedList.innerHTML =
-'<div class="loading-placeholder">\u95a2\u9023\u8cc7\u6599\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-return;
-}
-
-elements.relatedList.innerHTML =
-relatedContents
-.map((content) => {
-return (
-'<button' +
-' class="related-item"' +
-' type="button"' +
-' data-related-id="' +
-escapeHtml(content.id) +
-'"' +
-'>' +
-'<span class="related-code">' +
-escapeHtml(content.code) +
-'</span>' +
-'<span class="related-main">' +
-'<strong>' +
-escapeHtml(content.title) +
-'</strong>' +
-'<span>' +
-escapeHtml(content.summary) +
-'</span>' +
-'</span>' +
-'<span class="related-arrow" aria-hidden="true">' +
-'\u2192' +
-'</span>' +
-'</button>'
-);
-})
-.join("");
-
-elements.relatedList
-.querySelectorAll("[data-related-id]")
-.forEach((button) => {
-button.addEventListener(
-"click",
-() => {
-const contentId =
-button.dataset.relatedId;
-
-state.selectedContentId =
-contentId;
-
-renderBooks();
-openContent(contentId,button);
-}
-);
-});
-}
 
 function renderInsight() {
 if (!state.data) {
@@ -1612,7 +1550,6 @@ elements.questionText.textContent =
 [
 elements.questionChoices,
 elements.whyPoints,
-elements.checkpointList,
 elements.relatedList
 ].forEach((element) => {
 if (element) {
@@ -1635,6 +1572,18 @@ elements.whyTitle.textContent = "";
 if (elements.whyText) {
 elements.whyText.textContent = "";
 }
+whyTitle: document.getElementById("whyTitle"),
+whyText: document.getElementById("whyText"),
+whyPoints: document.getElementById("whyPoints"),
+
+nextStepTitle: document.getElementById("nextStepTitle"),
+nextStepText: document.getElementById("nextStepText"),
+
+premiumPanel: document.getElementById("premiumPanel"),
+premiumTitle: document.getElementById("premiumTitle"),
+premiumText: document.getElementById("premiumText"),
+
+relatedList: document.getElementById("relatedList"),
 
 return;
 }
@@ -1650,9 +1599,10 @@ elements.insightCount.textContent =
 }
 
 renderQuestion(phenomenon);
-renderAdjustmentView(phenomenon);
 renderWhy(phenomenon);
-renderCheckpoints(phenomenon);
+renderAdjustmentView(phenomenon);
+renderNextStep(phenomenon);
+renderPremium(phenomenon);
 renderRelatedContents(phenomenon);
 }
 
