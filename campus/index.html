@@ -233,6 +233,7 @@ aria-live="polite"
 aria-labelledby="questionTitle"
 >
 
+
 <div class="thinking-stage-header">
 <div>
 <p class="thinking-stage-label">ADJUSTMENT VIEW</p>
@@ -244,11 +245,12 @@ id="questionTitle"
 </h3>
 </div>
 
+
 <span
 class="thinking-stage-status"
 id="insightCount"
 >
-STEP 1 / 5
+STEP 1 / ６
 </span>
 </div>
 
@@ -263,7 +265,6 @@ id="questionText"
 class="thinking-block question-block"
 aria-labelledby="questionBlockTitle"
 >
-
 <div class="thinking-block-heading">
 <span class="thinking-step-number">01</span>
 
@@ -273,7 +274,6 @@ aria-labelledby="questionBlockTitle"
 まず考えてみる
 </h4>
 </div>
-
 </div>
 
 <div
@@ -281,120 +281,104 @@ class="branch-list"
 id="questionChoices"
 >
 </div>
+</section>
 
+<section
+class="thinking-block branch-block"
+aria-labelledby="commonTheoryBlockTitle"
+>
+<div class="thinking-block-heading">
+<span class="thinking-step-number">02</span>
+
+<div>
+<p>COMMON THEORY</p>
+<h4 id="commonTheoryBlockTitle">
+一般的な考え方
+</h4>
+</div>
+</div>
+<h5 id="whyTitle"></h5>
+<p id="whyText"></p>
+<div
+class="branch-list"
+id="whyPoints"
+>
+</div>
 </section>
 
 <section
 class="thinking-block reframe-block"
 aria-labelledby="adjustmentBlockTitle"
 >
-
 <div class="thinking-block-heading">
-<span class="thinking-step-number">02</span>
-
+<span class="thinking-step-number">03</span>
 <div>
 <p>ADJUSTMENT VIEW</p>
 <h4 id="adjustmentBlockTitle">
-adjustmentではこう考えます
+adjustmentではこう捉えます
 </h4>
 </div>
 </div>
-
+<h5 id="adjustmentTitle"></h5>
 <p id="adjustmentText"></p>
-
-</section>
-
-<section
-class="thinking-block branch-block"
-aria-labelledby="whyBlockTitle"
->
-
-<div class="thinking-block-heading">
-<span class="thinking-step-number">03</span>
-
-<div>
-<p>WHY</p>
-<h4 id="whyBlockTitle">
-なぜそう考えるのか
-</h4>
-</div>
-
-</div>
-
-<h5 id="whyTitle"></h5>
-
-<p id="whyText"></p>
-
-<div
-class="branch-list"
-id="whyPoints"
->
-</div>
-
 </section>
 
 <section
 class="thinking-block checkpoint-block"
-aria-labelledby="checkpointBlockTitle"
+aria-labelledby="nextStepBlockTitle"
 >
-
 <div class="thinking-block-heading">
 <span class="thinking-step-number">04</span>
-
 <div>
-<p>CHECK POINT</p>
-<h4 id="checkpointBlockTitle">
-まず確認してみる
+<p>NEXT STEP</p>
+<h4 id="nextStepBlockTitle">
+さらに深く考える
 </h4>
 </div>
-
 </div>
-
-<div
-class="checkpoint-list"
-id="checkpointList"
->
-</div>
-
+<h5 id="nextStepTitle"></h5>
+<p id="nextStepText"></p>
 </section>
-<section class="thinking-block branch-block" aria-labelledby="relatedListTitle">
+
+<section
+class="thinking-block branch-block"
+id="premiumPanel"
+aria-labelledby="premiumBlockTitle"
+hidden
+>
 <div class="thinking-block-heading">
 <span class="thinking-step-number">05</span>
 <div>
-<p>RELATED CONTENT</p>
-<h4 id="relatedListTitle">関連する資料</h4>
+<p>PREMIUM</p>
+<h4 id="premiumBlockTitle">
+さらに先の検証へ
+</h4>
 </div>
 </div>
-
-<div class="branch-list" id="relatedList"></div>
+<h5 id="premiumTitle"></h5>
+<p id="premiumText"></p>
 </section>
-</section>
-</div>
 
-<section class="related-thinking-section" aria-labelledby="bookshelfTitle">
-<div class="related-thinking-heading">
-<div>
-<p class="eyebrow">Campus Bookshelf</p>
-<h3 id="bookshelfTitle">思考を横断して読む。</h3>
-</div>
-
-<p>
-選択した現象との関連度を反映しながら、研究、PDS、現場事例、用語や概念を表示します。
-</p>
-</div>
-
-<div
-class="related-thinking-grid"
-id="bookshelf"
-aria-live="polite"
-aria-busy="true"
+<section
+class="thinking-block branch-block"
+aria-labelledby="relatedListTitle"
 >
-<div class="loading-placeholder">
-資料データを読み込んでいます。
+<div class="thinking-block-heading">
+<span class="thinking-step-number">06</span>
+<div>
+<p>RELATED CONTENT</p>
+<h4 id="relatedListTitle">
+関連する資料
+</h4>
 </div>
+</div>
+<div
+class="branch-list"
+id="relatedList"
+>
 </div>
 </section>
-</div>
+
 </section>
 
 <section
