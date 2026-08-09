@@ -30,10 +30,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "フォームが悪いと思う", "next": "commonTheory" },
-        { "id": "mobility", "label": "柔軟性不足だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -84,10 +84,10 @@
         "text": "まず『荷重位置・加速開始・分離の再現性』を考えます。"
       },
       "branches": [
-        { "id": "release", "label": "リリース位置の問題だと思う", "next": "commonTheory" },
-        { "id": "balance", "label": "バランスの問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "release","next": "commonTheory" },
+        { "id": "balance","next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -138,10 +138,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "スイングの問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -192,10 +192,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで力が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "technique", "label": "技術の問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "technique", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -246,10 +246,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "velocity", "label": "球速不足だと思う", "next": "commonTheory" },
-        { "id": "spin", "label": "回転の問題だと思う", "next": "commonTheory" },
-        { "id": "release", "label": "リリースの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "velocity", "next": "commonTheory" },
+        { "id": "spin", "next": "commonTheory" },
+        { "id": "release", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -299,10 +299,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで回転速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "grip", "label": "握り方の問題だと思う", "next": "commonTheory" },
-        { "id": "fingers", "label": "指先の使い方だと思う", "next": "commonTheory" },
-        { "id": "forearm", "label": "前腕の使い方だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "grip", "next": "commonTheory" },
+        { "id": "fingers", "next": "commonTheory" },
+        { "id": "forearm", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -353,10 +353,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで再現性が失われているかを考えます。"
       },
       "branches": [
-        { "id": "swing", "label": "スイングの問題だと思う", "next": "commonTheory" },
-        { "id": "vision", "label": "見極めの問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "swing", "next": "commonTheory" },
+        { "id": "vision", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -407,10 +407,10 @@
         "text": "まず『荷重・加速距離・分離』のどこでタイミングが乱れているかを考えます。"
       },
       "branches": [
-        { "id": "reaction", "label": "反応の問題だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動作の問題だと思う", "next": "commonTheory" },
-        { "id": "rhythm", "label": "リズムの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "reaction", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "rhythm", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -462,10 +462,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "スイングの問題だと思う", "next": "commonTheory" },
-        { "id": "mobility", "label": "柔軟性不足だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -516,10 +516,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで速度が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "フォームの問題だと思う", "next": "commonTheory" },
-        { "id": "mobility", "label": "柔軟性不足だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -570,10 +570,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで再現性が失われているかを考えます。"
       },
       "branches": [
-        { "id": "release", "label": "リリースの問題だと思う", "next": "commonTheory" },
-        { "id": "balance", "label": "バランスの問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "release", "next": "commonTheory" },
+        { "id": "balance", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -625,10 +625,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで加速が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "脚力不足だと思う", "next": "commonTheory" },
-        { "id": "technique", "label": "走り方の問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "スタートの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "technique", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -680,10 +680,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで初速が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "脚力不足だと思う", "next": "commonTheory" },
-        { "id": "reaction", "label": "反応の問題だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動作の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "reaction", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -735,10 +735,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで切り返しが失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "balance", "label": "バランスの問題だと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "切り返しの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "balance", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -789,10 +789,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "肩の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "フォームの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -843,10 +843,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "肘の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "フォームの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -897,10 +897,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "腰の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "フォームの問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -951,10 +951,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "股関節の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1005,10 +1005,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "背中の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1058,10 +1058,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が増えているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "前腕の問題だと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1112,10 +1112,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで負担が集中しているかを考えます。"
       },
       "branches": [
-        { "id": "fatigue", "label": "疲労だと思う", "next": "commonTheory" },
-        { "id": "hydration", "label": "水分・電解質だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "fatigue", "next": "commonTheory" },
+        { "id": "hydration", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1166,10 +1166,10 @@
         "text": "まず『荷重・加速距離・分離』が試合でも再現できているかを考えます。"
       },
       "branches": [
-        { "id": "mental", "label": "メンタルだと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングだと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mental", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1221,10 +1221,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで力が失われているかを考えます。"
       },
       "branches": [
-        { "id": "strength", "label": "脚力不足だと思う", "next": "commonTheory" },
-        { "id": "mobility", "label": "股関節の問題だと思う", "next": "commonTheory" },
-        { "id": "mechanics", "label": "動き方の問題だと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "mechanics", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1275,10 +1275,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで動きが止まっているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "身体が硬いと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "coordination", "label": "連動が悪いと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "coordination", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1329,10 +1329,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで再現性が失われているかを考えます。"
       },
       "branches": [
-        { "id": "form", "label": "フォームが悪いと思う", "next": "commonTheory" },
-        { "id": "balance", "label": "バランスが悪いと思う", "next": "commonTheory" },
-        { "id": "timing", "label": "タイミングが安定しないと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "form", "next": "commonTheory" },
+        { "id": "balance", "next": "commonTheory" },
+        { "id": "timing", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
@@ -1384,10 +1384,10 @@
         "text": "まず『荷重・加速距離・分離』のどこで時間差が失われているかを考えます。"
       },
       "branches": [
-        { "id": "mobility", "label": "身体が硬いと思う", "next": "commonTheory" },
-        { "id": "strength", "label": "筋力不足だと思う", "next": "commonTheory" },
-        { "id": "coordination", "label": "連動が悪いと思う", "next": "commonTheory" },
-        { "id": "unknown", "label": "原因が分からない", "next": "commonTheory" }
+        { "id": "mobility", "next": "commonTheory" },
+        { "id": "strength", "next": "commonTheory" },
+        { "id": "coordination", "next": "commonTheory" },
+        { "id": "unknown", "next": "commonTheory" }
       ],
       "commonTheory": {
         "title": "一般的な考え方",
