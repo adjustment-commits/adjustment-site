@@ -722,6 +722,58 @@ response:normalizeString(choice.response)
 };
 }
 
+function normalizeThinkingFlow(thinkingFlow) {
+  const source = isPlainObject(thinkingFlow) ? thinkingFlow : {};
+
+  const entryQuestion = isPlainObject(source.entryQuestion)
+    ? source.entryQuestion
+    : {};
+
+  const commonTheory = isPlainObject(source.commonTheory)
+    ? source.commonTheory
+    : {};
+
+  const adjustmentView = isPlainObject(source.adjustmentView)
+    ? source.adjustmentView
+    : {};
+
+  const nextStep = isPlainObject(source.nextStep) ? source.nextStep : {};
+
+  const premium = isPlainObject(source.premium) ? source.premium : {};
+
+  return {
+    entryQuestion: {
+      title: normalizeString(entryQuestion.title),
+      text: normalizeString(entryQuestion.text),
+    },
+    branches: normalizeArray(source.branches)
+      .filter(isPlainObject)
+      .map((branch, index) => {
+        return {
+          id: normalizeString(branch.id, `branch-${index + 1}`),
+          next: normalizeString(branch.next),
+        };
+      }),
+    commonTheory: {
+      title: normalizeString(commonTheory.title),
+      text: normalizeString(commonTheory.text),
+    },
+    adjustmentView: {
+      title: normalizeString(adjustmentView.title, "Adjustment View"),
+      text: normalizeString(adjustmentView.text),
+    },
+    nextStep: {
+      title: normalizeString(nextStep.title),
+      text: normalizeString(nextStep.text),
+    },
+    premium: {
+      locked: Boolean(premium.locked),
+      title: normalizeString(premium.title),
+      text: normalizeString(premium.text),
+    },
+  };
+}
+
 function normalizeData(data) {
   return {
     meta: {
@@ -732,163 +784,79 @@ function normalizeData(data) {
     },
 
     phenomena: data.phenomena.map((phenomenon) => {
-      const thinkingFlow = isPlainObject(
-        phenomenon.thinkingFlow
-      )
-        ? phenomenon.thinkingFlow
-        : {};
+  const thinkingFlow = normalizeThinkingFlow(phenomenon.thinkingFlow);
 
-      const adjustmentView = isPlainObject(
-        phenomenon.adjustmentView
-      )
-        ? phenomenon.adjustmentView
-        : (
-          isPlainObject(thinkingFlow.adjustmentView)
-            ? thinkingFlow.adjustmentView
-            : {}
-        );
+  const checkpoints = normalizeArray(phenomenon.checkpoints);
 
-      const why = isPlainObject(
-        phenomenon.why
-      )
-        ? phenomenon.why
-        : (
-          isPlainObject(thinkingFlow.commonTheory)
-            ? thinkingFlow.commonTheory
-            : {}
-        );
+  return {
+    id: normalizeString(phenomenon.id),
 
-      const nextAction = isPlainObject(
-        phenomenon.nextAction
-      )
-        ? phenomenon.nextAction
-        : (
-          isPlainObject(thinkingFlow.nextStep)
-            ? thinkingFlow.nextStep
-            : {}
-        );
+    label: normalizeString(phenomenon.label, "\u73fe\u8c61"),
 
-      const branches =
-        normalizeArray(phenomenon.branches).length > 0
-          ? phenomenon.branches
-          : thinkingFlow.branches;
+    title: normalizeString(
+      phenomenon.title,
+      "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+    ),
 
-      const checkpoints =
-        normalizeArray(phenomenon.checkpoints).length > 0
-          ? phenomenon.checkpoints
-          : thinkingFlow.checkpoints;
+    description: normalizeString(
+      phenomenon.description,
+      "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
+    ),
 
+    path: normalizeArray(phenomenon.path)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
+
+    question: normalizeQuestion(phenomenon.question),
+
+    thinkingFlow,
+
+    adjustmentView: {
+      title: normalizeString(
+        thinkingFlow.adjustmentView.title,
+        "Adjustment View"
+      ),
+      heading: normalizeString(
+        thinkingFlow.adjustmentView.title,
+        "Adjustment View"
+      ),
+      text: normalizeString(thinkingFlow.adjustmentView.text),
+    },
+
+    why: {
+      title: normalizeString(thinkingFlow.commonTheory.title),
+      text: normalizeString(thinkingFlow.commonTheory.text),
+      points: [],
+    },
+
+    branches: thinkingFlow.branches,
+
+    checkpoints: checkpoints.filter(isPlainObject).map((checkpoint, index) => {
       return {
-        id: normalizeString(phenomenon.id),
-        label: normalizeString(
-          phenomenon.label,
-          "\u73fe\u8c61"
-        ),
+        id: normalizeString(checkpoint.id, `checkpoint-${index + 1}`),
         title: normalizeString(
-          phenomenon.title,
-          "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+          checkpoint.title || checkpoint.label,
+          `CHECK ${index + 1}`
         ),
-        description: normalizeString(
-          phenomenon.description,
-          "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
-        ),
-        path: normalizeArray(phenomenon.path)
-          .map((item) => normalizeString(item))
-          .filter(Boolean),
-        question: normalizeQuestion(
-          phenomenon.question
-        ),
-        adjustmentView: {
-          title: normalizeString(
-            adjustmentView.title,
-            "Adjustment View"
-          ),
-         heading: normalizeString(
-adjustmentView.heading,
-"adjustment\u3067\u306f\u3053\u3046\u8003\u3048\u307e\u3059"
-),
-          text: normalizeString(
-            adjustmentView.text,
-            "\u73fe\u8c61\u3092\u4e00\u3064\u306e\u8981\u7d20\u3060\u3051\u3067\u6c7a\u3081\u305a\u3001\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u3064\u306a\u3044\u3067\u8003\u3048\u307e\u3059\u3002"
-          )
-        },
-        why: {
-          title: normalizeString(
-            why.title,
-            "\u306a\u305c\u305d\u3046\u8003\u3048\u308b\u306e\u304b"
-          ),
-          text: normalizeString(
-            why.text,
-            "\u7d50\u679c\u306b\u3064\u306a\u304c\u308b\u6761\u4ef6\u3092\u5206\u3051\u3066\u78ba\u8a8d\u3059\u308b\u305f\u3081\u3067\u3059\u3002"
-          ),
-          points: normalizeArray(
-            why.points || why.keyPoints
-          )
-            .map((item) => normalizeString(item))
-            .filter(Boolean)
-        },
-        branches: normalizeArray(branches)
-          .filter(isPlainObject)
-          .map((branch, index) => {
-            return {
-              id: normalizeString(
-                branch.id,
-                `branch-${index + 1}`
-              ),
-              title: normalizeString(
-                branch.title || branch.label,
-                `BRANCH ${index + 1}`
-              ),
-              description: normalizeString(
-                branch.description
-              ),
-              next: normalizeString(
-                branch.next
-              ),
-              relatedIds: normalizeArray(
-                branch.relatedIds
-              )
-                .map((item) => normalizeString(item))
-                .filter(Boolean)
-            };
-          }),
-        checkpoints: normalizeArray(checkpoints)
-          .filter(isPlainObject)
-          .map((checkpoint, index) => {
-            return {
-              id: normalizeString(
-                checkpoint.id,
-                `checkpoint-${index + 1}`
-              ),
-              title: normalizeString(
-                checkpoint.title || checkpoint.label,
-                `CHECK ${index + 1}`
-              ),
-              description: normalizeString(
-                checkpoint.description
-              )
-            };
-          }),
-        nextAction: {
-          title: normalizeString(
-            nextAction.title || nextAction.heading
-          ),
-          text: normalizeString(
-            nextAction.text
-          ),
-          relatedIds: normalizeArray(
-            nextAction.relatedIds
-          )
-            .map((item) => normalizeString(item))
-            .filter(Boolean)
-        },
-        relatedIds: normalizeArray(
-          phenomenon.relatedIds
-        )
-          .map((item) => normalizeString(item))
-          .filter(Boolean)
+        description: normalizeString(checkpoint.description),
       };
     }),
+
+    nextAction: {
+      title: normalizeString(thinkingFlow.nextStep.title),
+      text: normalizeString(thinkingFlow.nextStep.text),
+      relatedIds: [],
+    },
+
+    relatedIds: normalizeArray(phenomenon.relatedIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
+
+    relatedTopicIds: normalizeArray(phenomenon.relatedTopicIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
+  };
+}),
 
     contents: data.contents.map((content) => {
       return {
@@ -1374,167 +1342,142 @@ responseElement
 }
 
 function selectQuestionChoice(choiceId) {
-const phenomenon =
-getActivePhenomenon();
+  const phenomenon = getActivePhenomenon();
 
-if (!phenomenon) {
-return;
-}
+  if (!phenomenon) {
+    return;
+  }
 
-const choice = phenomenon.question.choices.find(
-(item) => item.id === choiceId
-);
+  const choice = phenomenon.question.choices.find(
+    (item) => item.id === choiceId
+  );
 
-if (!choice) {
-return;
-}
+  if (!choice) {
+    return;
+  }
 
-state.selectedChoiceId = choice.id;
+  const branch = phenomenon.thinkingFlow.branches.find(
+    (item) => item.id === choice.id
+  );
 
-if (elements.questionChoices) {
-elements.questionChoices
-.querySelectorAll("[data-choice-id]")
-.forEach((button) => {
-const isSelected =
-button.dataset.choiceId === choice.id;
+  if (!branch) {
+    console.warn(
+      "[Digital Research Campus] thinkingFlow branch not found:",
+      choice.id
+    );
+    return;
+  }
 
-button.classList.toggle(
-"is-active",
-isSelected
-);
+  state.selectedChoiceId = choice.id;
 
-button.setAttribute(
-"aria-pressed",
-String(isSelected)
-);
-});
-}
+  if (elements.questionChoices) {
+    elements.questionChoices
+      .querySelectorAll("[data-choice-id]")
+      .forEach((button) => {
+        const isSelected = button.dataset.choiceId === choice.id;
 
-renderQuestionResponse(choice.response);
+        button.classList.toggle("is-active", isSelected);
+
+        button.setAttribute("aria-pressed", String(isSelected));
+      });
+  }
+
+  renderQuestionResponse(phenomenon.thinkingFlow.entryQuestion.text);
+
+  renderAdjustmentView(phenomenon);
+  renderWhy(phenomenon);
 }
 
 function renderQuestion(phenomenon) {
-if (elements.questionTitle) {
-elements.questionTitle.textContent =
-phenomenon.question.text;
-}
+  if (elements.questionTitle) {
+    elements.questionTitle.textContent = phenomenon.question.title;
+  }
 
-if (elements.questionText) {
-elements.questionText.textContent =
-phenomenon.question.description;
-}
+  if (elements.questionText) {
+    elements.questionText.textContent = phenomenon.question.text;
+  }
 
-if (!elements.questionChoices) {
-return;
-}
+  if (!elements.questionChoices) {
+    return;
+  }
 
-if (phenomenon.question.choices.length === 0) {
-elements.questionChoices.innerHTML =
-'<div class="loading-placeholder">\u9078\u629e\u80a2\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-return;
-}
+  if (phenomenon.question.choices.length === 0) {
+    elements.questionChoices.innerHTML = "\u9078\u629e\u80a2\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
+    return;
+  }
 
-elements.questionChoices.innerHTML =
-phenomenon.question.choices
-.map((choice,index) => {
-const isSelected =
-choice.id === state.selectedChoiceId;
+  elements.questionChoices.innerHTML = phenomenon.question.choices
+    .map((choice, index) => {
+      const isSelected = choice.id === state.selectedChoiceId;
 
-return (
-'<button' +
-' class="question-choice' +
-(isSelected ? " is-active" : "") +
-'"' +
-' type="button"' +
-' data-choice-id="' +
-escapeHtml(choice.id) +
-'"' +
-' aria-pressed="' +
-String(isSelected) +
-'"' +
-'>' +
-'<span class="question-choice-number" aria-hidden="true">' +
-String(index + 1).padStart(2,"0") +
-'</span>' +
-'<span class="question-choice-label">' +
-escapeHtml(choice.label) +
-'</span>' +
-'</button>'
-);
-})
-.join("");
+      return (
+        `<button` +
+        ` class="question-choice${isSelected ? " is-active" : ""}"` +
+        ` type="button"` +
+        ` data-choice-id="${escapeHtml(choice.id)}"` +
+        ` aria-pressed="${String(isSelected)}"` +
+        `>` +
+  `<span class="question-choice-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>` +
+  `<span class="question-choice-label">${escapeHtml(choice.label)}</span>`+
+    
+    `</button>`
+      );
+    })
+    .join("");
 
-elements.questionChoices
-.querySelectorAll("[data-choice-id]")
-.forEach((button) => {
-button.addEventListener(
-"click",
-() => {
-selectQuestionChoice(
-button.dataset.choiceId
-);
-}
-);
-});
+  elements.questionChoices
+    .querySelectorAll("[data-choice-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        selectQuestionChoice(button.dataset.choiceId);
+      });
+    });
 
-const selectedChoice =
-phenomenon.question.choices.find(
-(choice) => choice.id === state.selectedChoiceId
-);
+  const selectedChoice = phenomenon.question.choices.find((choice) => {
+    return choice.id === state.selectedChoiceId;
+  });
 
-renderQuestionResponse(
-selectedChoice
-? selectedChoice.response
-: ""
-);
+  renderQuestionResponse(
+    selectedChoice ? phenomenon.thinkingFlow.entryQuestion.text : ""
+  );
 }
 
 function renderAdjustmentView(phenomenon) {
-if (elements.adjustmentTitle) {
-elements.adjustmentTitle.textContent =
-phenomenon.adjustmentView.heading;
-}
+  const isUnlocked = Boolean(state.selectedChoiceId);
 
-if (elements.adjustmentText) {
-elements.adjustmentText.textContent =
-phenomenon.adjustmentView.text;
-}
+  if (elements.adjustmentTitle) {
+    elements.adjustmentTitle.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.adjustmentView.title
+      : "";
+  }
+
+  if (elements.adjustmentText) {
+    elements.adjustmentText.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.adjustmentView.text
+      : "";
+  }
 }
 
 function renderWhy(phenomenon) {
+  const isUnlocked = Boolean(state.selectedChoiceId);
+
   if (elements.whyTitle) {
-    elements.whyTitle.textContent =
-      phenomenon.why.title;
+    elements.whyTitle.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.commonTheory.title
+      : "";
   }
 
   if (elements.whyText) {
-    elements.whyText.textContent =
-      phenomenon.why.text;
+    elements.whyText.textContent = isUnlocked
+      ? phenomenon.thinkingFlow.commonTheory.text
+      : "";
   }
 
   if (!elements.whyPoints) {
     return;
   }
 
-  if (phenomenon.why.points.length === 0) {
-    elements.whyPoints.innerHTML =
-      '<div class="empty-message">\u7406\u7531\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002</div>';
-    return;
-  }
-
-  elements.whyPoints.innerHTML =
-    phenomenon.why.points
-      .map((point, index) => {
-        const itemNumber =
-          String(index + 1).padStart(2, "0");
-
-        return `
-          <div class="branch-item why-point" data-index="${itemNumber}">
-            <span class="why-point-text">${escapeHtml(point)}</span>
-          </div>
-        `;
-      })
-      .join("");
+  elements.whyPoints.innerHTML = "";
 }
 
 
