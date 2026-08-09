@@ -2567,3 +2567,271 @@ transition-duration:0.01ms !important;
     padding: 8px;
   }
 }
+
+/* Thinking flow 6-step extension */
+
+.question-choice {
+  width: 100%;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.question-choice:hover {
+  transform: translateY(-1px);
+  border-color: #acd9ca;
+  background: #f7fbf9;
+}
+
+.question-choice.is-active {
+  border-color: #83ccb4;
+  background: #eef8f4;
+  box-shadow:
+    0 6px 18px rgba(53, 184, 144, 0.08),
+    inset 0 0 0 1px rgba(53, 184, 144, 0.05);
+}
+
+.question-choice-number {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f5f8f7;
+  color: var(--accent-dark);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.question-choice.is-active .question-choice-number {
+  border-color: #a9daca;
+  background: #ffffff;
+}
+
+.question-choice-label {
+  min-width: 0;
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 760;
+  line-height: 1.65;
+}
+
+.question-response {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  padding: 14px 15px;
+  border: 1px solid #bde5d4;
+  border-radius: 12px;
+  background: #f3faf7;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  line-height: 1.8;
+}
+
+.thinking-block > h5 {
+  margin: 18px 0 0;
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+.thinking-block > p {
+  margin: 10px 0 0;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  line-height: 1.85;
+}
+
+.thinking-block > h5:empty,
+.thinking-block > p:empty {
+  display: none;
+}
+
+/* Step 02 - Common theory */
+
+.thinking-block[aria-labelledby="commonTheoryBlockTitle"] {
+  --block-accent: var(--blue);
+}
+
+/* Step 03 - Adjustment view */
+
+.thinking-block[aria-labelledby="adjustmentBlockTitle"] {
+  --block-accent: var(--orange);
+  background: #fffdfa;
+}
+
+/* Step 04 - Next step */
+
+.thinking-block[aria-labelledby="nextStepBlockTitle"] {
+  --block-accent: var(--purple);
+  background: #fcfbfe;
+}
+
+/* Step 05 - Premium */
+
+#premiumPanel {
+  --block-accent: var(--accent);
+  background: #f8fcfa;
+  border-color: #c5e5da;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+#premiumPanel.is-locked {
+  border-color: #d8dee2;
+  background: #f7f8f9;
+}
+
+#premiumPanel.is-locked::before {
+  background: #9aa5ab;
+}
+
+#premiumPanel.is-locked .thinking-step-number {
+  color: #78848c;
+}
+
+#premiumPanel.is-locked .thinking-block-heading p {
+  color: #78848c;
+}
+
+#premiumPanel.is-locked > h5 {
+  color: #56616a;
+}
+
+#premiumPanel.is-locked > p {
+  color: #7a858c;
+}
+
+/* Step 06 - Related content */
+
+.thinking-block[aria-labelledby="relatedListTitle"] {
+  --block-accent: var(--green);
+}
+
+#relatedList .related-item {
+  grid-template-columns: 48px minmax(0, 0.72fr) minmax(0, 1.4fr) 22px;
+  gap: 10px;
+}
+
+#relatedList .related-item > span:nth-child(1) {
+  width: 48px;
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  border-radius: 9px;
+  background: #eef8f4;
+  color: var(--accent-dark);
+  font-size: 0.56rem;
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+}
+
+#relatedList .related-item > span:nth-child(2) {
+  min-width: 0;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+#relatedList .related-item > span:nth-child(3) {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.58rem;
+  line-height: 1.55;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#relatedList .related-item > span:nth-child(4) {
+  color: #8f9aa1;
+  font-size: 0.76rem;
+  text-align: right;
+}
+
+/* Thinking flow mobile */
+
+@media (max-width: 700px) {
+  .question-choice {
+    min-height: 66px;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .question-choice-number {
+    width: 34px;
+    height: 34px;
+  }
+
+  .question-choice-label {
+    font-size: 0.67rem;
+  }
+
+  .question-response {
+    padding: 12px 13px;
+    font-size: 0.65rem;
+  }
+
+  .thinking-block > h5 {
+    font-size: 0.78rem;
+  }
+
+  .thinking-block > p {
+    font-size: 0.69rem;
+  }
+
+  #relatedList .related-item {
+    grid-template-columns: 42px minmax(0, 1fr) 20px;
+    gap: 9px;
+  }
+
+  #relatedList .related-item > span:nth-child(1) {
+    width: 42px;
+  }
+
+  #relatedList .related-item > span:nth-child(2) {
+    font-size: 0.66rem;
+  }
+
+  #relatedList .related-item > span:nth-child(3) {
+    grid-column: 2 / 3;
+    margin-top: -4px;
+    font-size: 0.56rem;
+    white-space: normal;
+  }
+
+  #relatedList .related-item > span:nth-child(4) {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+@media (hover: none) {
+  .question-choice:hover {
+    transform: none;
+  }
+}
