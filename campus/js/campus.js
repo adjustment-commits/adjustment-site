@@ -494,204 +494,432 @@ errors.push(
 });
 }
 
+function validateNonEmptyText(value, location, errors) {
+  if (!normalizeString(value)) {
+    errors.push(`${location}\u304c\u3042\u308a\u307e\u305b\u3093\u3002`);
+  }
+}
+
+function validateRelatedTopicIds(ids, location, errors) {
+  if (!Array.isArray(ids)) {
+    errors.push(
+      `${location}\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+    return;
+  }
+
+  const topicIds = new Set();
+
+  ids.forEach((topicId, index) => {
+    const normalizedId = normalizeString(topicId);
+
+    if (!normalizedId) {
+      errors.push(
+        `${location}[${index}]\u306btopic ID\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+      return;
+    }
+
+    if (topicIds.has(normalizedId)) {
+      errors.push(
+        `${location}\u5185\u3067topic ID\u300c${normalizedId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    topicIds.add(normalizedId);
+  });
+}
+
+function validatePhenomenonQuestion(question, phenomenonIndex, errors) {
+  const location = `phenomena[${phenomenonIndex}].question`;
+
+  if (!isPlainObject(question)) {
+    errors.push(
+      `${location}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+
+    return new Set();
+  }
+
+  validateNonEmptyText(question.title, `${location}.title`, errors);
+
+  validateNonEmptyText(question.text, `${location}.text`, errors);
+
+  if (!Array.isArray(question.choices)) {
+    errors.push(
+      `${location}.choices\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+
+    return new Set();
+  }
+
+  if (question.choices.length === 0) {
+    errors.push(
+      `${location}.choices\u306b\u9078\u629e\u80a2\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+    );
+  }
+
+  const choiceIds = new Set();
+
+  question.choices.forEach((choice, choiceIndex) => {
+    const choiceLocation = `${location}.choices[${choiceIndex}]`;
+
+    if (!isPlainObject(choice)) {
+      errors.push(
+        `${choiceLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const choiceId = normalizeString(choice.id);
+
+    if (!choiceId) {
+      errors.push(`${choiceLocation}.id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`);
+    } else if (choiceIds.has(choiceId)) {
+      errors.push(
+        `${location}.choices\u5185\u3067id\u300c${choiceId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+    } else {
+      choiceIds.add(choiceId);
+    }
+
+    validateNonEmptyText(choice.label, `${choiceLocation}.label`, errors);
+  });
+
+  return choiceIds;
+}
+
+function validateThinkingFlow(
+  thinkingFlow,
+  choiceIds,
+  phenomenonIndex,
+  errors
+) {
+  const location = `phenomena[${phenomenonIndex}].thinkingFlow`;
+
+  if (!isPlainObject(thinkingFlow)) {
+    errors.push(
+      `${location}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+    return;
+  }
+
+  const requiredSections = [
+    ["entryQuestion", thinkingFlow.entryQuestion],
+    ["commonTheory", thinkingFlow.commonTheory],
+    ["adjustmentView", thinkingFlow.adjustmentView],
+    ["nextStep", thinkingFlow.nextStep],
+  ];
+
+  requiredSections.forEach(([sectionName, section]) => {
+    const sectionLocation = `${location}.${sectionName}`;
+
+    if (!isPlainObject(section)) {
+      errors.push(
+        `${sectionLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    validateNonEmptyText(section.title, `${sectionLocation}.title`, errors);
+
+    validateNonEmptyText(section.text, `${sectionLocation}.text`, errors);
+  });
+
+  if (!Array.isArray(thinkingFlow.branches)) {
+    errors.push(
+      `${location}.branches\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+  } else {
+    const branchIds = new Set();
+
+    thinkingFlow.branches.forEach((branch, branchIndex) => {
+      const branchLocation = `${location}.branches[${branchIndex}]`;
+
+      if (!isPlainObject(branch)) {
+        errors.push(
+          `${branchLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+        );
+        return;
+      }
+
+      const branchId = normalizeString(branch.id);
+
+      if (!branchId) {
+        errors.push(
+          `${branchLocation}.id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+        );
+      } else if (branchIds.has(branchId)) {
+        errors.push(
+          `${location}.branches\u5185\u3067id\u300c${branchId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+        );
+      } else {
+        branchIds.add(branchId);
+      }
+
+      const next = normalizeString(branch.next);
+
+      if (!next) {
+        errors.push(
+          `${branchLocation}.next\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+        );
+      } else if (next !== "commonTheory") {
+        errors.push(
+          `${branchLocation}.next\u300c${next}\u300d\u306f\u73fe\u884c\u306e6STEP\u4ed5\u69d8\u3067\u306f\u300ccommonTheory\u300d\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+        );
+      }
+    });
+
+    choiceIds.forEach((choiceId) => {
+      if (!branchIds.has(choiceId)) {
+        errors.push(
+          `${location}.branches\u306bquestion choice\u300c${choiceId}\u300d\u306b\u5bfe\u5fdc\u3059\u308bbranch\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+        );
+      }
+    });
+
+    branchIds.forEach((branchId) => {
+      if (!choiceIds.has(branchId)) {
+        errors.push(
+          `${location}.branches\u306eid\u300c${branchId}\u300d\u306b\u5bfe\u5fdc\u3059\u308bquestion choice\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+        );
+      }
+    });
+  }
+
+  const premium = thinkingFlow.premium;
+
+  if (!isPlainObject(premium)) {
+    errors.push(
+      `${location}.premium\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+    return;
+  }
+
+  if (typeof premium.locked !== "boolean") {
+    errors.push(
+      `${location}.premium.locked\u306fboolean\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+    );
+  }
+
+  validateNonEmptyText(premium.title, `${location}.premium.title`, errors);
+
+  validateNonEmptyText(premium.text, `${location}.premium.text`, errors);
+}
+
 function validateData(data) {
-const errors = [];
+  const errors = [];
 
-if (!isPlainObject(data)) {
-return {
-valid:false,
-errors:[
-"Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-]
-};
+  if (!isPlainObject(data)) {
+    return {
+      valid: false,
+      errors: [
+        "Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+      ],
+    };
+  }
+
+  if (!Array.isArray(data.phenomena)) {
+    errors.push(
+      "phenomena\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+    );
+  }
+
+  if (!Array.isArray(data.contents)) {
+    errors.push(
+      "contents\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+    );
+  }
+
+  if (!Array.isArray(data.updates)) {
+    errors.push(
+      "updates\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+    );
+  }
+
+  if (!Array.isArray(data.facilities)) {
+    errors.push(
+      "facilities\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+    );
+  }
+
+  if (errors.length > 0) {
+    return {
+      valid: false,
+      errors,
+    };
+  }
+
+  const contentIds = new Set();
+  const phenomenonIds = new Set();
+  const facilityTypes = new Set();
+
+  data.contents.forEach((content, index) => {
+    if (!isPlainObject(content)) {
+      errors.push(
+        `contents[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const id = normalizeString(content.id);
+
+    if (!id) {
+      errors.push(
+        `contents[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (contentIds.has(id)) {
+      errors.push(
+        `contents\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+    } else {
+      contentIds.add(id);
+    }
+
+    if (!normalizeString(content.type)) {
+      errors.push(
+        `contents[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+
+    if (!normalizeString(content.title)) {
+      errors.push(
+        `contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+  });
+
+  data.phenomena.forEach((phenomenon, index) => {
+    if (!isPlainObject(phenomenon)) {
+      errors.push(
+        `phenomena[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const id = normalizeString(phenomenon.id);
+
+    if (!id) {
+      errors.push(
+        `phenomena[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (phenomenonIds.has(id)) {
+      errors.push(
+        `phenomena\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+    } else {
+      phenomenonIds.add(id);
+    }
+
+    if (!normalizeString(phenomenon.label)) {
+      errors.push(
+        `phenomena[${index}].label\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+
+    if (!normalizeString(phenomenon.title)) {
+      errors.push(
+        `phenomena[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+
+    if (!normalizeString(phenomenon.description)) {
+      errors.push(
+        `phenomena[${index}].description\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+
+    const choiceIds = validatePhenomenonQuestion(
+      phenomenon.question,
+      index,
+      errors
+    );
+
+    validateThinkingFlow(
+      phenomenon.thinkingFlow,
+      choiceIds,
+      index,
+      errors
+    );
+
+    validateRelatedTopicIds(
+      phenomenon.relatedTopicIds,
+      `phenomena[${index}].relatedTopicIds`,
+      errors
+    );
+
+    validateRelatedIds(
+      phenomenon.relatedIds,
+      contentIds,
+      `phenomena[${index}].relatedIds`,
+      errors
+    );
+  });
+
+  data.contents.forEach((content, index) => {
+    if (!isPlainObject(content)) {
+      return;
+    }
+
+    validateRelatedIds(
+      content.relatedIds,
+      contentIds,
+      `contents[${index}].relatedIds`,
+      errors
+    );
+  });
+
+  data.updates.forEach((update, index) => {
+    if (!isPlainObject(update)) {
+      errors.push(
+        `updates[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const contentId = normalizeString(update.contentId);
+
+    if (!contentId) {
+      errors.push(
+        `updates[${index}].contentId\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (!contentIds.has(contentId)) {
+      errors.push(
+        `updates[${index}]\u306econtentId\u300c${contentId}\u300d\u306b\u5bfe\u5fdc\u3059\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+  });
+
+  data.facilities.forEach((facility, index) => {
+    if (!isPlainObject(facility)) {
+      errors.push(
+        `facilities[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const type = normalizeString(facility.type);
+
+    if (!type) {
+      errors.push(
+        `facilities[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (facilityTypes.has(type)) {
+      errors.push(
+        `facilities\u5185\u3067type\u300c${type}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+    } else {
+      facilityTypes.add(type);
+    }
+  });
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
 }
 
-if (!Array.isArray(data.phenomena)) {
-errors.push(
-"phenomena\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-);
-}
-
-if (!Array.isArray(data.contents)) {
-errors.push(
-"contents\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-);
-}
-
-if (!Array.isArray(data.updates)) {
-errors.push(
-"updates\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-);
-}
-
-if (!Array.isArray(data.facilities)) {
-errors.push(
-"facilities\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
-);
-}
-
-if (errors.length > 0) {
-return {
-valid:false,
-errors
-};
-}
-
-const contentIds = new Set();
-const phenomenonIds = new Set();
-const facilityTypes = new Set();
-
-data.contents.forEach((content,index) => {
-if (!isPlainObject(content)) {
-errors.push(
-`contents[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-);
-return;
-}
-
-const id = normalizeString(content.id);
-
-if (!id) {
-errors.push(
-`contents[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-} else if (contentIds.has(id)) {
-errors.push(
-`contents\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-);
-} else {
-contentIds.add(id);
-}
-
-if (!normalizeString(content.type)) {
-errors.push(
-`contents[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-}
-
-if (!normalizeString(content.title)) {
-errors.push(
-`contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-}
-});
-
-data.phenomena.forEach((phenomenon,index) => {
-if (!isPlainObject(phenomenon)) {
-errors.push(
-`phenomena[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-);
-return;
-}
-
-const id = normalizeString(phenomenon.id);
-
-if (!id) {
-errors.push(
-`phenomena[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-} else if (phenomenonIds.has(id)) {
-errors.push(
-`phenomena\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-);
-} else {
-phenomenonIds.add(id);
-}
-
-if (!normalizeString(phenomenon.label)) {
-errors.push(
-`phenomena[${index}].label\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-}
-
-validateRelatedIds(
-phenomenon.relatedIds,
-contentIds,
-`phenomena[${index}].relatedIds`,
-errors
-);
-
-normalizeArray(phenomenon.branches).forEach((branch,branchIndex) => {
-if (!isPlainObject(branch)) {
-return;
-}
-
-validateRelatedIds(
-branch.relatedIds,
-contentIds,
-`phenomena[${index}].branches[${branchIndex}].relatedIds`,
-errors
-);
-});
-
-if (isPlainObject(phenomenon.nextAction)) {
-validateRelatedIds(
-phenomenon.nextAction.relatedIds,
-contentIds,
-`phenomena[${index}].nextAction.relatedIds`,
-errors
-);
-}
-});
-
-data.contents.forEach((content,index) => {
-validateRelatedIds(
-content.relatedIds,
-contentIds,
-`contents[${index}].relatedIds`,
-errors
-);
-});
-
-data.updates.forEach((update,index) => {
-if (!isPlainObject(update)) {
-errors.push(
-`updates[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-);
-return;
-}
-
-const contentId = normalizeString(update.contentId);
-
-if (!contentId) {
-errors.push(
-`updates[${index}].contentId\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-} else if (!contentIds.has(contentId)) {
-errors.push(
-`updates[${index}]\u306econtentId\u300c${contentId}\u300d\u306b\u5bfe\u5fdc\u3059\u308b\u8cc7\u6599\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-}
-});
-
-data.facilities.forEach((facility,index) => {
-if (!isPlainObject(facility)) {
-errors.push(
-`facilities[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-);
-return;
-}
-
-const type = normalizeString(facility.type);
-
-if (!type) {
-errors.push(
-`facilities[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-);
-} else if (facilityTypes.has(type)) {
-errors.push(
-`facilities\u5185\u3067type\u300c${type}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-);
-} else {
-facilityTypes.add(type);
-}
-});
-
-return {
-valid:errors.length === 0,
-errors
-};
-}
 
 function normalizeQuestion(question) {
 const source = isPlainObject(question)
