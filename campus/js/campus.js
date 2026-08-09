@@ -1389,10 +1389,14 @@ function selectQuestionChoice(choiceId) {
       });
   }
 
-  renderQuestionResponse(phenomenon.thinkingFlow.entryQuestion.text);
+renderQuestionResponse(
+phenomenon.thinkingFlow.entryQuestion.text
+);
 
-  renderAdjustmentView(phenomenon);
-  renderWhy(phenomenon);
+renderWhy(phenomenon);
+renderAdjustmentView(phenomenon);
+renderNextStep(phenomenon);
+renderPremium(phenomenon);
 }
 
 function renderQuestion(phenomenon) {
@@ -1511,6 +1515,11 @@ function renderPremium(phenomenon) {
 
   if (elements.premiumPanel) {
     elements.premiumPanel.hidden = !isUnlocked;
+
+    elements.premiumPanel.classList.toggle(
+      "is-locked",
+      Boolean(isUnlocked && premium.locked)
+    );
   }
 
   if (elements.premiumTitle) {
@@ -1520,6 +1529,58 @@ function renderPremium(phenomenon) {
   if (elements.premiumText) {
     elements.premiumText.textContent = isUnlocked ? premium.text : "";
   }
+}
+
+function renderRelatedContents(phenomenon) {
+  if (!elements.relatedList) {
+    return;
+  }
+
+  const mergedIds = [
+    ...phenomenon.relatedIds,
+    ...phenomenon.nextAction.relatedIds,
+  ];
+
+  const uniqueIds = [...new Set(mergedIds)];
+
+  const relatedContents = getRelatedContents(uniqueIds);
+
+  if (relatedContents.length === 0) {
+    elements.relatedList.innerHTML =
+      "\u95a2\u9023\u8cc7\u6599\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
+    return;
+  }
+
+  elements.relatedList.innerHTML = relatedContents
+    .map((content) => {
+      return (
+        `<button` +
+        ` class="related-item"` +
+        ` type="button"` +
+        ` data-related-id="${escapeHtml(content.id)}"` +
+        `>` +
+        `<span>${escapeHtml(content.code)}</span>` +
+        `<span>${escapeHtml(content.title)}</span>` +
+        `<span>${escapeHtml(content.summary)}</span>` +
+        `<span>\u2192</span>` +
+        `</button>`
+      );
+    })
+    .join("");
+
+  elements.relatedList
+    .querySelectorAll("[data-related-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const contentId = button.dataset.relatedId;
+
+        state.selectedContentId = contentId;
+
+        renderBooks();
+
+        openContent(contentId, button);
+      });
+    });
 }
 
 
@@ -1572,19 +1633,26 @@ elements.whyTitle.textContent = "";
 if (elements.whyText) {
 elements.whyText.textContent = "";
 }
-whyTitle: document.getElementById("whyTitle"),
-whyText: document.getElementById("whyText"),
-whyPoints: document.getElementById("whyPoints"),
 
-nextStepTitle: document.getElementById("nextStepTitle"),
-nextStepText: document.getElementById("nextStepText"),
+if (elements.nextStepTitle) {
+elements.nextStepTitle.textContent = "";
+}
 
-premiumPanel: document.getElementById("premiumPanel"),
-premiumTitle: document.getElementById("premiumTitle"),
-premiumText: document.getElementById("premiumText"),
+if (elements.nextStepText) {
+  elements.nextStepText.textContent = "";
+}
 
-relatedList: document.getElementById("relatedList"),
+if (elements.premiumTitle) {
+  elements.premiumTitle.textContent = "";
+}
 
+if (elements.premiumText) {
+  elements.premiumText.textContent = "";
+}
+
+if (elements.premiumPanel) {
+  elements.premiumPanel.hidden = true;
+}
 return;
 }
 
