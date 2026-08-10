@@ -659,43 +659,73 @@ function validatePhenomenonQuestion(
 
 
 function validateThinkingFlow(
-  thinkingFlow,
-  choiceIds,
-  phenomenonIndex,
-  errors
+thinkingFlow,
+choiceIds,
+phenomenonIndex,
+errors
 ) {
-  const location = `phenomena[${phenomenonIndex}].thinkingFlow`;
+const location =
+`phenomena[${phenomenonIndex}].thinkingFlow`;
 
-  if (!isPlainObject(thinkingFlow)) {
+if (!isPlainObject(thinkingFlow)) {
+errors.push(
+`${location}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
+
+const requiredSections = [
+[
+"entryQuestion",
+thinkingFlow.entryQuestion,
+true
+],
+[
+"commonTheory",
+thinkingFlow.commonTheory,
+false
+],
+[
+"adjustmentView",
+thinkingFlow.adjustmentView,
+false
+],
+[
+"nextStep",
+thinkingFlow.nextStep,
+false
+]
+];
+
+requiredSections.forEach(
+([sectionName, section, requiresTitle]) => {
+const sectionLocation =
+`${location}.${sectionName}`;
+  if (!isPlainObject(section)) {
     errors.push(
-      `${location}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      `${sectionLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
     );
     return;
   }
 
-  const requiredSections = [
-    ["entryQuestion", thinkingFlow.entryQuestion],
-    ["commonTheory", thinkingFlow.commonTheory],
-    ["adjustmentView", thinkingFlow.adjustmentView],
-    ["nextStep", thinkingFlow.nextStep],
-  ];
+  if (requiresTitle) {
+    validateNonEmptyText(
+      section.title,
+      `${sectionLocation}.title`,
+      errors
+    );
+  }
 
-  requiredSections.forEach(([sectionName, section]) => {
-    const sectionLocation = `${location}.${sectionName}`;
-
-    if (!isPlainObject(section)) {
-      errors.push(
-        `${sectionLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-      );
-      return;
-    }
-
-    validateNonEmptyText(section.title, `${sectionLocation}.title`, errors);
-
-    validateNonEmptyText(section.text, `${sectionLocation}.text`, errors);
-  });
-
+  validateNonEmptyText(
+    section.text,
+    `${sectionLocation}.text`,
+    errors
+  );
+}
+);
+  
   if (!Array.isArray(thinkingFlow.branches)) {
+    
     errors.push(
       `${location}.branches\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
     );
@@ -1132,17 +1162,11 @@ function normalizeThinkingFlow(thinkingFlow) {
         };
       }),
     commonTheory: {
-      title: normalizeString(commonTheory.title),
-      text: normalizeString(commonTheory.text),
-    },
+      text: normalizeString(commonTheory.text)},
     adjustmentView: {
-      title: normalizeString(adjustmentView.title, "Adjustment View"),
-      text: normalizeString(adjustmentView.text),
-    },
+      text: normalizeString(adjustmentView.text)},
     nextStep: {
-      title: normalizeString(nextStep.title),
-      text: normalizeString(nextStep.text),
-    },
+      text: normalizeString(nextStep.text)},
     premium: {
       locked: Boolean(premium.locked),
       title: normalizeString(premium.title),
@@ -1207,29 +1231,18 @@ function normalizeData(data) {
 
         thinkingFlow,
 
-        adjustmentView: {
-          title: normalizeString(
-            thinkingFlow.adjustmentView.title,
-            "Adjustment View"
-          ),
-          heading: normalizeString(
-            thinkingFlow.adjustmentView.title,
-            "Adjustment View"
-          ),
-          text: normalizeString(
-            thinkingFlow.adjustmentView.text
-          )
-        },
+     adjustmentView: {
+text: normalizeString(
+thinkingFlow.adjustmentView.text
+)
+},
 
-        why: {
-          title: normalizeString(
-            thinkingFlow.commonTheory.title
-          ),
-          text: normalizeString(
-            thinkingFlow.commonTheory.text
-          ),
-          points: []
-        },
+why: {
+text: normalizeString(
+thinkingFlow.commonTheory.text
+),
+points: []
+},
 
         branches: thinkingFlow.branches,
 
@@ -1251,15 +1264,12 @@ function normalizeData(data) {
             };
           }),
 
-        nextAction: {
-          title: normalizeString(
-            thinkingFlow.nextStep.title
-          ),
-          text: normalizeString(
-            thinkingFlow.nextStep.text
-          ),
-          relatedIds: []
-        },
+       nextAction: {
+text: normalizeString(
+thinkingFlow.nextStep.text
+),
+relatedIds: []
+},
 
         relatedIds: normalizeArray(phenomenon.relatedIds)
           .map((item) => normalizeString(item))
@@ -1867,68 +1877,75 @@ function renderQuestion(phenomenon) {
 }
 
 function renderAdjustmentView(phenomenon) {
-  const isUnlocked = Boolean(state.selectedChoiceId);
+const isUnlocked =
+Boolean(state.selectedChoiceId);
 
-  if (elements.adjustmentPanel) {
-    elements.adjustmentPanel.hidden = !isUnlocked;
-  }
+if (elements.adjustmentPanel) {
+elements.adjustmentPanel.hidden =
+!isUnlocked;
+}
 
-  if (elements.adjustmentTitle) {
-    elements.adjustmentTitle.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.adjustmentView.title
-      : "";
-  }
+if (elements.adjustmentTitle) {
+elements.adjustmentTitle.textContent =
+"";
+}
 
-  if (elements.adjustmentText) {
-    elements.adjustmentText.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.adjustmentView.text
-      : "";
-  }
+if (elements.adjustmentText) {
+elements.adjustmentText.textContent =
+isUnlocked
+? phenomenon.thinkingFlow.adjustmentView.text
+: "";
+}
 }
 
 function renderWhy(phenomenon) {
-  const isUnlocked = Boolean(state.selectedChoiceId);
+const isUnlocked =
+Boolean(state.selectedChoiceId);
 
-  if (elements.commonTheoryPanel) {
-    elements.commonTheoryPanel.hidden = !isUnlocked;
-  }
+if (elements.commonTheoryPanel) {
+elements.commonTheoryPanel.hidden =
+!isUnlocked;
+}
 
-  if (elements.whyTitle) {
-    elements.whyTitle.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.commonTheory.title
-      : "";
-  }
+if (elements.whyTitle) {
+elements.whyTitle.textContent =
+"";
+}
 
-  if (elements.whyText) {
-    elements.whyText.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.commonTheory.text
-      : "";
-  }
+if (elements.whyText) {
+elements.whyText.textContent =
+isUnlocked
+? phenomenon.thinkingFlow.commonTheory.text
+: "";
+}
 
-  if (elements.whyPoints) {
-    elements.whyPoints.innerHTML = "";
-  }
+if (elements.whyPoints) {
+elements.whyPoints.innerHTML =
+"";
+}
 }
 
 
 function renderNextStep(phenomenon) {
-  const isUnlocked = Boolean(state.selectedChoiceId);
+const isUnlocked =
+Boolean(state.selectedChoiceId);
 
-  if (elements.nextStepPanel) {
-    elements.nextStepPanel.hidden = !isUnlocked;
-  }
+if (elements.nextStepPanel) {
+elements.nextStepPanel.hidden =
+!isUnlocked;
+}
 
-  if (elements.nextStepTitle) {
-    elements.nextStepTitle.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.nextStep.title
-      : "";
-  }
+if (elements.nextStepTitle) {
+elements.nextStepTitle.textContent =
+"";
+}
 
-  if (elements.nextStepText) {
-    elements.nextStepText.textContent = isUnlocked
-      ? phenomenon.thinkingFlow.nextStep.text
-      : "";
-  }
+if (elements.nextStepText) {
+elements.nextStepText.textContent =
+isUnlocked
+? phenomenon.thinkingFlow.nextStep.text
+: "";
+}
 }
 
 function renderPremium(phenomenon) {
