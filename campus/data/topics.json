@@ -10,6 +10,9 @@
       "topic-ground-reaction-force",
       "topic-center-of-mass",
       "topic-balance"
+    ],
+    "relatedContentIds": [
+      "CASE-001"
     ]
   },
   {
@@ -23,6 +26,11 @@
       "topic-acceleration",
       "topic-timing",
       "topic-repeatability"
+    ],
+    "relatedContentIds": [
+      "R-001",
+      "CASE-001",
+      "DICT-001"
     ]
   },
   {
@@ -37,6 +45,10 @@
       "topic-pelvis",
       "topic-scapular-girdle",
       "topic-acceleration-distance"
+    ],
+    "relatedContentIds": [
+      "R-001",
+      "CASE-001"
     ]
   },
   {
@@ -49,7 +61,8 @@
       "topic-ground-reaction-force",
       "topic-center-of-mass",
       "topic-balance"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-force-utilization",
@@ -61,7 +74,8 @@
       "topic-speed-transfer",
       "topic-acceleration",
       "topic-reacceleration"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-ground-reaction-force",
@@ -75,7 +89,8 @@
       "topic-foot",
       "topic-hip-joint",
       "topic-speed-transfer"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-center-of-mass",
@@ -88,7 +103,8 @@
       "topic-acceleration",
       "topic-deceleration",
       "topic-reacceleration"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-deceleration",
@@ -100,7 +116,8 @@
       "topic-reacceleration",
       "topic-balance",
       "topic-force-utilization"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-reacceleration",
@@ -112,7 +129,8 @@
       "topic-acceleration",
       "topic-force-utilization",
       "topic-speed-transfer"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-kinetic-chain",
@@ -126,6 +144,9 @@
       "topic-scapular-girdle",
       "topic-coordination",
       "topic-loading"
+    ],
+    "relatedContentIds": [
+      "CASE-001"
     ]
   },
   {
@@ -140,6 +161,11 @@
       "topic-speed-transfer",
       "topic-posture",
       "topic-mobility"
+    ],
+    "relatedContentIds": [
+      "R-001",
+      "PDS-001",
+      "CASE-001"
     ]
   },
   {
@@ -153,7 +179,8 @@
       "topic-loading",
       "topic-ground-reaction-force",
       "topic-speed-transfer"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-scapular-girdle",
@@ -166,6 +193,9 @@
       "topic-coordination",
       "topic-repeatability",
       "topic-mobility"
+    ],
+    "relatedContentIds": [
+      "PDS-001"
     ]
   },
   {
@@ -179,7 +209,8 @@
       "topic-loading",
       "topic-ground-reaction-force",
       "topic-acceleration"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-foot",
@@ -192,7 +223,8 @@
       "topic-hip-joint",
       "topic-balance",
       "topic-center-of-mass"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-spine",
@@ -205,6 +237,9 @@
       "topic-posture",
       "topic-mobility",
       "topic-stability"
+    ],
+    "relatedContentIds": [
+      "PDS-001"
     ]
   },
   {
@@ -217,6 +252,9 @@
       "topic-thorax",
       "topic-posture",
       "topic-mobility"
+    ],
+    "relatedContentIds": [
+      "PDS-001"
     ]
   },
   {
@@ -230,7 +268,8 @@
       "topic-posture",
       "topic-timing",
       "topic-balance"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-balance",
@@ -243,7 +282,8 @@
       "topic-posture",
       "topic-repeatability",
       "topic-stability"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-posture",
@@ -256,7 +296,8 @@
       "topic-pelvis",
       "topic-breathing",
       "topic-stability"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-acceleration",
@@ -269,6 +310,11 @@
       "topic-speed-transfer",
       "topic-reacceleration",
       "topic-timing"
+    ],
+    "relatedContentIds": [
+      "R-001",
+      "CASE-001",
+      "DICT-001"
     ]
   },
   {
@@ -282,7 +328,8 @@
       "topic-balance",
       "topic-center-of-mass",
       "topic-force-utilization"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-timing",
@@ -295,6 +342,9 @@
       "topic-acceleration-distance",
       "topic-repeatability",
       "topic-breathing"
+    ],
+    "relatedContentIds": [
+      "R-001"
     ]
   },
   {
@@ -308,7 +358,8 @@
       "topic-posture",
       "topic-coordination",
       "topic-speed-transfer"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-compensation",
@@ -321,7 +372,8 @@
       "topic-coordination",
       "topic-posture",
       "topic-repeatability"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-mobility",
@@ -334,6 +386,9 @@
       "topic-thorax",
       "topic-hip-joint",
       "topic-rib-cage"
+    ],
+    "relatedContentIds": [
+      "PDS-001"
     ]
   },
   {
@@ -347,7 +402,8 @@
       "topic-posture",
       "topic-repeatability",
       "topic-compensation"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-coordination",
@@ -360,7 +416,8 @@
       "topic-kinetic-chain",
       "topic-scapular-girdle",
       "topic-compensation"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-elastic-energy",
@@ -374,7 +431,8 @@
       "topic-reacceleration",
       "topic-speed-transfer",
       "topic-ground-reaction-force"
-    ]
+    ],
+    "relatedContentIds": []
   },
   {
     "id": "topic-movement-strategy",
@@ -388,6 +446,10 @@
       "topic-kinetic-chain",
       "topic-repeatability",
       "topic-coordination"
+    ],
+    "relatedContentIds": [
+      "R-001",
+      "CASE-001"
     ]
   }
 ]
