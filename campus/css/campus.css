@@ -3515,3 +3515,134 @@ transition-duration:0.01ms !important;
     min-height: 88px;
   }
 }
+
+/* Topic detail hierarchy refinement - Responsive Overrides */
+
+@media (max-width: 700px) {
+  #relatedTopicList > .topic-card.main-topic + .topic-header {
+    min-height: 0;
+    padding: 10px 12px;
+    border-color: #d6e7e0;
+    background: #f8fbfa;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header::after {
+    display: none;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header .topic-category {
+    min-height: 18px;
+    padding: 3px 6px;
+    border-color: #d4dfdb;
+    background: #ffffff;
+    color: #60716a;
+    font-size: 0.55rem;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header .topic-title {
+    margin-top: 7px;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header .topic-summary {
+    margin-top: 4px;
+    font-size: 0.65rem;
+    line-height: 1.5;
+  }
+
+  #relatedTopicList [data-topic-id] {
+    min-height: 74px;
+    padding: 9px 10px;
+  }
+
+  #relatedTopicList [data-topic-id]::after {
+    top: 10px;
+    right: 10px;
+    font-size: 0.55rem;
+  }
+
+  #relatedTopicList [data-topic-id] .topic-category {
+    min-height: 18px;
+    padding: 3px 6px;
+    font-size: 0.55rem;
+  }
+
+  #relatedTopicList [data-topic-id] .topic-title,
+  #relatedTopicList [data-topic-id] .topic-label {
+    margin-top: 6px;
+    padding-right: 18px;
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  #relatedTopicList [data-topic-id] .topic-summary {
+    margin-top: 3px;
+    font-size: 0.65rem;
+    line-height: 1.45;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] {
+    min-height: 82px;
+    padding: 10px;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-category {
+    min-height: 18px;
+    padding: 3px 6px;
+    font-size: 0.55rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-title {
+    margin-top: 7px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-summary {
+    margin-top: 4px;
+    font-size: 0.65rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 420px) {
+  #relatedTopicList > .topic-card.main-topic + .topic-header {
+    padding: 9px 10px;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header .topic-title {
+    font-size: 0.72rem;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header .topic-summary {
+    font-size: 0.62rem;
+  }
+
+  #relatedTopicList [data-topic-id] {
+    min-height: 70px;
+    padding: 8px 9px;
+  }
+
+  #relatedTopicList [data-topic-id] .topic-title,
+  #relatedTopicList [data-topic-id] .topic-label {
+    font-size: 0.68rem;
+  }
+
+  #relatedTopicList [data-topic-id] .topic-summary {
+    font-size: 0.6rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] {
+    min-height: 78px;
+    padding: 9px;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-title {
+    font-size: 0.68rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-summary {
+    font-size: 0.6rem;
+  }
+}
