@@ -975,6 +975,19 @@ function validateData(data) {
     }
   });
 
+  data.topics.forEach((topic, index) => {
+    if (!isPlainObject(topic)) {
+      return;
+    }
+
+    validateRelatedIds(
+      topic.relatedContentIds,
+      contentIds,
+      `topics[${index}].relatedContentIds`,
+      errors
+    );
+  });
+
   data.phenomena.forEach((phenomenon, index) => {
     if (!isPlainObject(phenomenon)) {
       errors.push(
@@ -1114,15 +1127,15 @@ function normalizeQuestion(question) {
   return {
     title: normalizeString(
       source.title,
-      "まず考えてみましょう"
+      "ã¾ãèãã¦ã¿ã¾ããã"
     ),
     text: normalizeString(
       source.text,
-      "この現象をどのように捉えていますか。"
+      "ãã®ç¾è±¡ãã©ã®ããã«æãã¦ãã¾ããã"
     ),
     description: normalizeString(
       source.description,
-      "まず自分の捉え方を確認します。"
+      "ã¾ãèªåã®æãæ¹ãç¢ºèªãã¾ãã"
     ),
     choices: normalizeArray(source.choices)
       .filter(isPlainObject)
@@ -1203,6 +1216,9 @@ function normalizeData(data) {
         category: normalizeString(topic.category),
         summary: normalizeString(topic.summary),
         relatedTopicIds: normalizeArray(topic.relatedTopicIds)
+          .map((item) => normalizeString(item))
+          .filter(Boolean),
+        relatedContentIds: normalizeArray(topic.relatedContentIds)
           .map((item) => normalizeString(item))
           .filter(Boolean)
       };
@@ -2041,6 +2057,7 @@ function openTopic(topicId, triggerElement = null) {
 
   // Retrieve related data safely
   const relatedTopics = getRelatedTopics(topic.relatedTopicIds || []);
+  const relatedContents = getRelatedContents(topic.relatedContentIds || []);
   const relatedPhenomena = getPhenomenaByTopicId(topic.id);
 
   // Unhide the panel if present
@@ -2066,8 +2083,8 @@ function openTopic(topicId, triggerElement = null) {
     const relatedTopicsHeadingHtml = `
       <div class="topic-header">
         <span class="topic-category">RELATED TOPICS</span>
-        <h3 class="topic-title">関連する概念</h3>
-        <p class="topic-summary">この概念から、別の視点へ思考を広げます。</p>
+        <h3 class="topic-title">é¢é£ããæ¦å¿µ</h3>
+        <p class="topic-summary">ãã®æ¦å¿µãããå¥ã®è¦ç¹ã¸æèãåºãã¾ãã</p>
       </div>
     `;
 
@@ -2084,14 +2101,38 @@ function openTopic(topicId, triggerElement = null) {
             <p class="topic-summary">${escapeHtml(related.summary || '')}</p>
           </button>
         `).join("")
-      : '<p class="empty-message">関連する概念はまだありません。</p>';
+      : '<p class="empty-message">é¢é£ããæ¦å¿µã¯ã¾ã ããã¾ããã</p>';
 
-    // 3. Render Related Phenomena Section
+    // 3. Render Related Content Section
+    const relatedContentHeadingHtml = `
+      <div class="topic-header">
+        <span class="topic-category">RELATED CONTENT</span>
+        <h3 class="topic-title">é¢é£ããè³æ</h3>
+        <p class="topic-summary">ãã®æ¦å¿µããç ç©¶ã»è©ä¾¡ã»äºä¾ã»ç¨èªããããã«ç¢ºèªãã¾ãã</p>
+      </div>
+    `;
+
+    const relatedContentHtml = relatedContents.length > 0
+      ? relatedContents.map((content) => `
+          <button
+            class="topic-item"
+            type="button"
+            data-topic-content-id="${escapeHtml(content.id || '')}"
+            aria-label="${escapeHtml(content.title || '')}"
+          >
+            <span class="topic-category">${escapeHtml(formatTypeLabel(content.type))}</span>
+            <span class="topic-title">${escapeHtml(content.title || '')}</span>
+            <p class="topic-summary">${escapeHtml(content.summary || '')}</p>
+          </button>
+        `).join("")
+      : '<p class="empty-message">ãã®æ¦å¿µã«é¢é£ä»ããããè³æã¯ã¾ã ããã¾ããã</p>';
+
+    // 4. Render Related Phenomena Section
     const relatedPhenomenaHeadingHtml = `
       <div class="topic-header">
         <span class="topic-category">RELATED PHENOMENA</span>
-        <h3 class="topic-title">この概念と関係する現象</h3>
-        <p class="topic-summary">この概念が、実際のフィールドでどのような現象とつながるかを確認します。</p>
+        <h3 class="topic-title">ãã®æ¦å¿µã¨é¢ä¿ããç¾è±¡</h3>
+        <p class="topic-summary">ãã®æ¦å¿µããå®éã®ãã£ã¼ã«ãã§ã©ã®ãããªç¾è±¡ã¨ã¤ãªããããç¢ºèªãã¾ãã</p>
       </div>
     `;
 
@@ -2108,17 +2149,19 @@ function openTopic(topicId, triggerElement = null) {
             <p class="topic-summary">${escapeHtml(phenomenon.description || '')}</p>
           </button>
         `).join("")
-      : '<p class="empty-message">この概念に関連付けられた現象はまだありません。</p>';
+      : '<p class="empty-message">ãã®æ¦å¿µã«é¢é£ä»ããããç¾è±¡ã¯ã¾ã ããã¾ããã</p>';
 
-    // 4. Inject Full HTML into Container
+    // 5. Inject Full HTML into Container
     elements.relatedTopicList.innerHTML = 
       mainTopicHtml +
       relatedTopicsHeadingHtml +
       relatedTopicsHtml +
+      relatedContentHeadingHtml +
+      relatedContentHtml +
       relatedPhenomenaHeadingHtml +
       relatedPhenomenaHtml;
 
-    // 5. Attach Topic Click Event Handlers
+    // 6. Attach Topic Click Event Handlers
     elements.relatedTopicList
       .querySelectorAll("[data-topic-id]")
       .forEach((button) => {
@@ -2127,7 +2170,16 @@ function openTopic(topicId, triggerElement = null) {
         });
       });
 
-    // 6. Attach Phenomenon Click Event Handlers
+    // 7. Attach Content Click Event Handlers
+    elements.relatedTopicList
+      .querySelectorAll("[data-topic-content-id]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          openContent(button.dataset.topicContentId, button);
+        });
+      });
+
+    // 8. Attach Phenomenon Click Event Handlers
     elements.relatedTopicList
       .querySelectorAll("[data-topic-phenomenon-id]")
       .forEach((button) => {
@@ -2215,14 +2267,14 @@ function renderInsight() {
     }
 
     if (elements.questionTitle) {
-      elements.questionTitle.textContent = "課題を選択してください。";
+      elements.questionTitle.textContent = "èª²é¡ãé¸æãã¦ãã ããã";
     }
 
     if (elements.questionText) {
-      elements.questionText.textContent = "課題を選択すると質問が表示されます。";
+      elements.questionText.textContent = "èª²é¡ãé¸æããã¨è³ªåãè¡¨ç¤ºããã¾ãã";
     }
 
-    // 要素のクリア処理（innerHTML）
+    // è¦ç´ ã®ã¯ãªã¢å¦çï¼innerHTMLï¼
     [
       elements.questionChoices,
       elements.whyPoints,
@@ -2234,7 +2286,7 @@ function renderInsight() {
       }
     });
 
-    // パネルの非表示処理
+    // ããã«ã®éè¡¨ç¤ºå¦ç
     [
       elements.entryPanel,
       elements.commonTheoryPanel,
@@ -2247,7 +2299,7 @@ function renderInsight() {
       }
     });
 
-    // テキスト要素のクリア処理（textContent）
+    // ãã­ã¹ãè¦ç´ ã®ã¯ãªã¢å¦çï¼textContentï¼
     [
       elements.entryTitle,
 elements.entryText,
@@ -2942,7 +2994,7 @@ function applyUrlState() {
 
   const params = new URLSearchParams(window.location.search);
 
-  // パラメータ取得と状態設定のマッピング
+  // ãã©ã¡ã¼ã¿åå¾ã¨ç¶æè¨­å®ã®ãããã³ã°
   const parameterMappings = [
     { key: "phenomenon", stateKey: "activePhenomenonId", validate: getPhenomenonById },
     { key: "content", stateKey: "selectedContentId", validate: getContentById },
@@ -3005,12 +3057,12 @@ async function loadCampusData() {
 
     state.data = null;
 
-    // エラー時のフォールバックテキスト一括更新
+    // ã¨ã©ã¼æã®ãã©ã¼ã«ããã¯ãã­ã¹ãä¸æ¬æ´æ°
     const errorMessages = [
-      { element: elements.phenomenonList, text: "現象データを表示できません。" },
-      { element: elements.bookshelf, text: "資料データを表示できません。" },
-      { element: elements.updateGrid, text: "更新情報を表示できません。" },
-      { element: elements.facilityGrid, text: "施設情報を表示できません。" }
+      { element: elements.phenomenonList, text: "ç¾è±¡ãã¼ã¿ãè¡¨ç¤ºã§ãã¾ããã" },
+      { element: elements.bookshelf, text: "è³æãã¼ã¿ãè¡¨ç¤ºã§ãã¾ããã" },
+      { element: elements.updateGrid, text: "æ´æ°æå ±ãè¡¨ç¤ºã§ãã¾ããã" },
+      { element: elements.facilityGrid, text: "æ½è¨­æå ±ãè¡¨ç¤ºã§ãã¾ããã" }
     ];
 
     errorMessages.forEach(({ element, text }) => {
@@ -3022,7 +3074,7 @@ async function loadCampusData() {
     showDataError(
       error instanceof Error
         ? error.message
-        : "Campusデータの読み込み中に不明なエラーが発生しました。"
+        : "Campusãã¼ã¿ã®èª­ã¿è¾¼ã¿ä¸­ã«ä¸æãªã¨ã©ã¼ãçºçãã¾ããã"
     );
   } finally {
     setLoadingState(false);
