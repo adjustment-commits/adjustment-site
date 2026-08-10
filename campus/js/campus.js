@@ -1127,15 +1127,15 @@ function normalizeQuestion(question) {
   return {
     title: normalizeString(
       source.title,
-      "ã¾ãèãã¦ã¿ã¾ããã"
+      "\u307e\u305a\u8003\u3048\u3066\u307f\u307e\u3057\u3087\u3046"
     ),
     text: normalizeString(
       source.text,
-      "ãã®ç¾è±¡ãã©ã®ããã«æãã¦ãã¾ããã"
+      "\u3053\u306e\u73fe\u8c61\u3092\u3069\u306e\u3088\u3046\u306b\u6349\u3048\u3066\u3044\u307e\u3059\u304b\u3002"
     ),
     description: normalizeString(
       source.description,
-      "ã¾ãèªåã®æãæ¹ãç¢ºèªãã¾ãã"
+      "\u307e\u305a\u81ea\u5206\u306e\u6349\u3048\u65b9\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002"
     ),
     choices: normalizeArray(source.choices)
       .filter(isPlainObject)
@@ -2083,8 +2083,8 @@ function openTopic(topicId, triggerElement = null) {
     const relatedTopicsHeadingHtml = `
       <div class="topic-header">
         <span class="topic-category">RELATED TOPICS</span>
-        <h3 class="topic-title">é¢é£ããæ¦å¿µ</h3>
-        <p class="topic-summary">ãã®æ¦å¿µãããå¥ã®è¦ç¹ã¸æèãåºãã¾ãã</p>
+        <h3 class="topic-title">\u95a2\u9023\u3059\u308b\u6982\u5ff5</h3>
+        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002</p>
       </div>
     `;
 
@@ -2101,14 +2101,14 @@ function openTopic(topicId, triggerElement = null) {
             <p class="topic-summary">${escapeHtml(related.summary || '')}</p>
           </button>
         `).join("")
-      : '<p class="empty-message">é¢é£ããæ¦å¿µã¯ã¾ã ããã¾ããã</p>';
+      : '<p class="empty-message">\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
 
     // 3. Render Related Content Section
     const relatedContentHeadingHtml = `
       <div class="topic-header">
         <span class="topic-category">RELATED CONTENT</span>
-        <h3 class="topic-title">é¢é£ããè³æ</h3>
-        <p class="topic-summary">ãã®æ¦å¿µããç ç©¶ã»è©ä¾¡ã»äºä¾ã»ç¨èªããããã«ç¢ºèªãã¾ãã</p>
+        <h3 class="topic-title">\u95a2\u9023\u3059\u308b\u8cc7\u6599</h3>
+        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>
       </div>
     `;
 
@@ -2125,14 +2125,14 @@ function openTopic(topicId, triggerElement = null) {
             <p class="topic-summary">${escapeHtml(content.summary || '')}</p>
           </button>
         `).join("")
-      : '<p class="empty-message">ãã®æ¦å¿µã«é¢é£ä»ããããè³æã¯ã¾ã ããã¾ããã</p>';
+      : '<p class="empty-message">\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u8cc7\u6599\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
 
     // 4. Render Related Phenomena Section
     const relatedPhenomenaHeadingHtml = `
       <div class="topic-header">
         <span class="topic-category">RELATED PHENOMENA</span>
-        <h3 class="topic-title">ãã®æ¦å¿µã¨é¢ä¿ããç¾è±¡</h3>
-        <p class="topic-summary">ãã®æ¦å¿µããå®éã®ãã£ã¼ã«ãã§ã©ã®ãããªç¾è±¡ã¨ã¤ãªããããç¢ºèªãã¾ãã</p>
+        <h3 class="topic-title">\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61</h3>
+        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>
       </div>
     `;
 
@@ -2149,7 +2149,7 @@ function openTopic(topicId, triggerElement = null) {
             <p class="topic-summary">${escapeHtml(phenomenon.description || '')}</p>
           </button>
         `).join("")
-      : '<p class="empty-message">ãã®æ¦å¿µã«é¢é£ä»ããããç¾è±¡ã¯ã¾ã ããã¾ããã</p>';
+      : '<p class="empty-message">\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u73fe\u8c61\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
 
     // 5. Inject Full HTML into Container
     elements.relatedTopicList.innerHTML = 
@@ -2267,14 +2267,14 @@ function renderInsight() {
     }
 
     if (elements.questionTitle) {
-      elements.questionTitle.textContent = "èª²é¡ãé¸æãã¦ãã ããã";
+      elements.questionTitle.textContent = "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
     }
 
     if (elements.questionText) {
-      elements.questionText.textContent = "èª²é¡ãé¸æããã¨è³ªåãè¡¨ç¤ºããã¾ãã";
+      elements.questionText.textContent = "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
     }
 
-    // è¦ç´ ã®ã¯ãªã¢å¦çï¼innerHTMLï¼
+    // \u8981\u7d20\u306e\u30af\u30ea\u30a2\u51e6\u7406\uff08innerHTML\uff09
     [
       elements.questionChoices,
       elements.whyPoints,
@@ -2286,7 +2286,7 @@ function renderInsight() {
       }
     });
 
-    // ããã«ã®éè¡¨ç¤ºå¦ç
+    // \u30d1\u30cd\u30eb\u306e\u975e\u8868\u793a\u51e6\u7406
     [
       elements.entryPanel,
       elements.commonTheoryPanel,
@@ -2299,7 +2299,7 @@ function renderInsight() {
       }
     });
 
-    // ãã­ã¹ãè¦ç´ ã®ã¯ãªã¢å¦çï¼textContentï¼
+    // \u30c6\u30ad\u30b9\u30c8\u8981\u7d20\u306e\u30af\u30ea\u30a2\u51e6\u7406\uff08textContent\uff09
     [
       elements.entryTitle,
 elements.entryText,
@@ -2994,7 +2994,7 @@ function applyUrlState() {
 
   const params = new URLSearchParams(window.location.search);
 
-  // ãã©ã¡ã¼ã¿åå¾ã¨ç¶æè¨­å®ã®ãããã³ã°
+  // \u30d1\u30e9\u30e1\u30fc\u30bf\u53d6\u5f97\u3068\u72b6\u614b\u8a2d\u5b9a\u306e\u30de\u30c3\u30d4\u30f3\u30b0
   const parameterMappings = [
     { key: "phenomenon", stateKey: "activePhenomenonId", validate: getPhenomenonById },
     { key: "content", stateKey: "selectedContentId", validate: getContentById },
@@ -3057,12 +3057,12 @@ async function loadCampusData() {
 
     state.data = null;
 
-    // ã¨ã©ã¼æã®ãã©ã¼ã«ããã¯ãã­ã¹ãä¸æ¬æ´æ°
+    // \u30a8\u30e9\u30fc\u6642\u306e\u30d5\u30a9\u30fc\u30eb\u30d0\u30c3\u30af\u30c6\u30ad\u30b9\u30c8\u4e00\u62ec\u66f4\u65b0
     const errorMessages = [
-      { element: elements.phenomenonList, text: "ç¾è±¡ãã¼ã¿ãè¡¨ç¤ºã§ãã¾ããã" },
-      { element: elements.bookshelf, text: "è³æãã¼ã¿ãè¡¨ç¤ºã§ãã¾ããã" },
-      { element: elements.updateGrid, text: "æ´æ°æå ±ãè¡¨ç¤ºã§ãã¾ããã" },
-      { element: elements.facilityGrid, text: "æ½è¨­æå ±ãè¡¨ç¤ºã§ãã¾ããã" }
+      { element: elements.phenomenonList, text: "\u73fe\u8c61\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002" },
+      { element: elements.bookshelf, text: "\u8cc7\u6599\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002" },
+      { element: elements.updateGrid, text: "\u66f4\u65b0\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002" },
+      { element: elements.facilityGrid, text: "\u65bd\u8a2d\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002" }
     ];
 
     errorMessages.forEach(({ element, text }) => {
@@ -3074,7 +3074,7 @@ async function loadCampusData() {
     showDataError(
       error instanceof Error
         ? error.message
-        : "Campusãã¼ã¿ã®èª­ã¿è¾¼ã¿ä¸­ã«ä¸æãªã¨ã©ã¼ãçºçãã¾ããã"
+        : "Campus\u30c7\u30fc\u30bf\u306e\u8aad\u307f\u8fbc\u307f\u4e2d\u306b\u4e0d\u660e\u306a\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002"
     );
   } finally {
     setLoadingState(false);
