@@ -114,6 +114,9 @@ drawerPdsEvaluation:document.getElementById("drawerPdsEvaluation"),
 drawerTrackingData:document.getElementById("drawerTrackingData"),
 drawerHypotheses:document.getElementById("drawerHypotheses"),
 drawerResearchQuestions:document.getElementById("drawerResearchQuestions"),
+drawerPerformanceConnection:document.getElementById("drawerPerformanceConnection"),
+drawerInterpretation:document.getElementById("drawerInterpretation"),
+drawerLimitations:document.getElementById("drawerLimitations"),
 drawerObservation:document.getElementById("drawerObservation"),
 drawerThinking:document.getElementById("drawerThinking"),
 drawerVerification:document.getElementById("drawerVerification"),
@@ -1486,6 +1489,60 @@ item.status,
 };
 }
 
+function normalizePdsTextSection(section) {
+  const source = isPlainObject(section) ? section : {};
+
+  return {
+    title: normalizeString(source.title),
+    text: normalizeString(source.text),
+    points: normalizeArray(source.points)
+      .map((item) => normalizeString(item))
+      .filter(Boolean)
+  };
+}
+
+function normalizePdsEvaluationItem(item) {
+  const source = isPlainObject(item) ? item : {};
+  const method = isPlainObject(source.method) ? source.method : {};
+
+  return {
+    title: normalizeString(source.title),
+    japaneseTitle: normalizeString(source.japaneseTitle),
+    objective: normalizeString(source.objective),
+
+    method: {
+      title: normalizeString(method.title),
+      text: normalizeString(method.text)
+    },
+
+    checkpoints: normalizeArray(source.checkpoints)
+      .filter(isPlainObject)
+      .map((checkpoint, index) => {
+        return {
+          id: normalizeString(checkpoint.id, `pds-checkpoint-${index + 1}`),
+          title: normalizeString(checkpoint.title, `CHECK ${index + 1}`),
+          text: normalizeString(checkpoint.text)
+        };
+      })
+  };
+}
+
+function normalizePdsDetail(pdsDetail) {
+  if (!isPlainObject(pdsDetail)) {
+    return null;
+  }
+
+  return {
+    definition: normalizePdsTextSection(pdsDetail.definition),
+    purpose: normalizePdsTextSection(pdsDetail.purpose),
+    principles: normalizePdsTextSection(pdsDetail.principles),
+    evaluationItem: normalizePdsEvaluationItem(pdsDetail.evaluationItem),
+    performanceConnection: normalizePdsTextSection(pdsDetail.performanceConnection),
+    interpretation: normalizePdsTextSection(pdsDetail.interpretation),
+    limitations: normalizePdsTextSection(pdsDetail.limitations)
+  };
+}
+
 function normalizeData(data) {
   return {
     meta: {
@@ -1643,15 +1700,20 @@ relatedIds: []
           content.limitation,
           "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
         ),
-        researchDetail:
-          normalizeString(content.type) === "research"
-            ? normalizeResearchDetail(
-                content.researchDetail
-              )
-            : null,
-        relatedIds: normalizeArray(content.relatedIds)
-          .map((item) => normalizeString(item))
-          .filter(Boolean)
+              researchDetail:
+        normalizeString(content.type) === 'research'
+          ? normalizeResearchDetail(content.researchDetail)
+          : null,
+
+      pdsDetail:
+        normalizeString(content.type) === 'pds'
+          ? normalizePdsDetail(content.pdsDetail)
+          : null,
+
+      relatedIds: normalizeArray(content.relatedIds)
+        .map((item) => normalizeString(item))
+        .filter(Boolean),
+
       };
     }),
 
@@ -2950,7 +3012,10 @@ elements.drawerCheckpoints,
 elements.drawerPdsEvaluation,
 elements.drawerTrackingData,
 elements.drawerHypotheses,
-elements.drawerResearchQuestions
+elements.drawerResearchQuestions,
+elements.drawerPerformanceConnection,
+elements.drawerInterpretation,
+elements.drawerLimitations
 ].forEach((element) => {
 if (!element) {
 return;
@@ -3218,6 +3283,101 @@ detail.researchQuestions
 );
 }
 
+function renderPdsDetail(content) {
+  clearResearchDrawerSections();
+
+  if (
+    !content ||
+    content.type !== "pds" ||
+    !isPlainObject(content.pdsDetail)
+  ) {
+    return;
+  }
+
+  const detail = content.pdsDetail;
+
+  // 1. 各テキストセクションのレンダリング
+  renderResearchSection(
+    elements.drawerQuestion,
+    detail.definition
+  );
+
+  renderResearchSection(
+    elements.drawerCommonTheory,
+    detail.purpose
+  );
+
+  renderResearchSection(
+    elements.drawerAdjustmentView,
+    detail.principles
+  );
+
+  // 2. evaluationItem (評価項目およびチェックポイント) のレンダリング
+  const evaluationItem = detail.evaluationItem;
+
+  if (
+    elements.drawerPdsEvaluation &&
+    isPlainObject(evaluationItem)
+  ) {
+    const parts = [];
+
+    // タイトル / 日本語タイトル / 目的の追加
+    if (evaluationItem.title) {
+      parts.push(`<h3>${escapeHtml(evaluationItem.title)}</h3>`);
+    }
+    if (evaluationItem.japaneseTitle) {
+      parts.push(`<p class="subtitle">${escapeHtml(evaluationItem.japaneseTitle)}</p>`);
+    }
+    if (evaluationItem.objective) {
+      parts.push(`<p class="objective">${escapeHtml(evaluationItem.objective)}</p>`);
+    }
+
+    // 評価方法 (method) の追加
+    if (isPlainObject(evaluationItem.method)) {
+      parts.push('<div class="evaluation-method">');
+      if (evaluationItem.method.title) {
+        parts.push(`<h4>${escapeHtml(evaluationItem.method.title)}</h4>`);
+      }
+      if (evaluationItem.method.text) {
+        parts.push(`<p>${escapeHtml(evaluationItem.method.text)}</p>`);
+      }
+      parts.push('</div>');
+    }
+
+    // チェックポイント (checkpoints) のリスト描画
+    if (Array.isArray(evaluationItem.checkpoints) && evaluationItem.checkpoints.length > 0) {
+      parts.push('<ul class="checkpoint-list">');
+      evaluationItem.checkpoints.forEach((cp) => {
+        parts.push(`
+          <li id="${escapeHtml(cp.id)}">
+            <strong>${escapeHtml(cp.title)}</strong>
+            <p>${escapeHtml(cp.text)}</p>
+          </li>
+        `);
+      });
+      parts.push('</ul>');
+    }
+
+    elements.drawerPdsEvaluation.innerHTML = parts.join('');
+  }
+
+  // 3. 残りのテキストセクションのレンダリング
+  renderResearchSection(
+    elements.drawerPerformanceConnection,
+    detail.performanceConnection
+  );
+
+  renderResearchSection(
+    elements.drawerInterpretation,
+    detail.interpretation
+  );
+
+  renderResearchSection(
+    elements.drawerLimitations,
+    detail.limitations
+  );
+}
+
 function renderDrawerRelated(content) {
 if (!elements.drawerRelated) {
 return;
@@ -3343,7 +3503,14 @@ elements.drawerLimitation.textContent =
 content.limitation;
 }
 
+if (content.type === "research") {
 renderResearchDetail(content);
+} else if (content.type === "pds") {
+renderPdsDetail(content);
+} else {
+clearResearchDrawerSections();
+}
+
 renderDrawerMeta(content);
 renderDrawerRelated(content);
 renderBooks();
