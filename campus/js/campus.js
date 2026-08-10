@@ -2,15 +2,17 @@
 "use strict";
 
 const DATA_URLS = {
-meta:"./data/meta.json",
-phenomena:"./data/phenomena.json",
-research:"./data/research.json",
-pds:"./data/pds.json",
-cases:"./data/cases.json",
-dictionary:"./data/dictionary.json",
-updates:"./data/updates.json",
-facilities:"./data/facilities.json"
+  meta: "./data/meta.json",
+  phenomena: "./data/phenomena.json",
+  topics: "./data/topics.json",
+  research: "./data/research.json",
+  pds: "./data/pds.json",
+  cases: "./data/cases.json",
+  dictionary: "./data/dictionary.json",
+  updates: "./data/updates.json",
+  facilities: "./data/facilities.json"
 };
+
 
 const TYPE_LABELS = {
 research:"RESEARCH",
@@ -500,7 +502,12 @@ function validateNonEmptyText(value, location, errors) {
   }
 }
 
-function validateRelatedTopicIds(ids, location, errors) {
+function validateRelatedTopicIds(
+  ids,
+  validTopicIds,
+  location,
+  errors
+) {
   if (!Array.isArray(ids)) {
     errors.push(
       `${location}\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
@@ -508,7 +515,7 @@ function validateRelatedTopicIds(ids, location, errors) {
     return;
   }
 
-  const topicIds = new Set();
+  const localTopicIds = new Set();
 
   ids.forEach((topicId, index) => {
     const normalizedId = normalizeString(topicId);
@@ -520,18 +527,31 @@ function validateRelatedTopicIds(ids, location, errors) {
       return;
     }
 
-    if (topicIds.has(normalizedId)) {
+    if (localTopicIds.has(normalizedId)) {
       errors.push(
         `${location}\u5185\u3067topic ID\u300c${normalizedId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
       );
       return;
     }
 
-    topicIds.add(normalizedId);
+    localTopicIds.add(normalizedId);
+
+    if (
+      validTopicIds instanceof Set &&
+      !validTopicIds.has(normalizedId)
+    ) {
+      errors.push(
+        `${location}\u306b\u5b58\u5728\u3057\u306a\u3044topic ID\u300c${normalizedId}\u300d\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+    }
   });
 }
 
-function validatePhenomenonQuestion(question, phenomenonIndex, errors) {
+function validatePhenomenonQuestion(
+  question,
+  phenomenonIndex,
+  errors
+) {
   const location = `phenomena[${phenomenonIndex}].question`;
 
   if (!isPlainObject(question)) {
@@ -542,9 +562,17 @@ function validatePhenomenonQuestion(question, phenomenonIndex, errors) {
     return new Set();
   }
 
-  validateNonEmptyText(question.title, `${location}.title`, errors);
+  validateNonEmptyText(
+    question.title,
+    `${location}.title`,
+    errors
+  );
 
-  validateNonEmptyText(question.text, `${location}.text`, errors);
+  validateNonEmptyText(
+    question.text,
+    `${location}.text`,
+    errors
+  );
 
   if (!Array.isArray(question.choices)) {
     errors.push(
@@ -575,7 +603,9 @@ function validatePhenomenonQuestion(question, phenomenonIndex, errors) {
     const choiceId = normalizeString(choice.id);
 
     if (!choiceId) {
-      errors.push(`${choiceLocation}.id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`);
+      errors.push(
+        `${choiceLocation}.id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
     } else if (choiceIds.has(choiceId)) {
       errors.push(
         `${location}.choices\u5185\u3067id\u300c${choiceId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
@@ -584,11 +614,16 @@ function validatePhenomenonQuestion(question, phenomenonIndex, errors) {
       choiceIds.add(choiceId);
     }
 
-    validateNonEmptyText(choice.label, `${choiceLocation}.label`, errors);
+    validateNonEmptyText(
+      choice.label,
+      `${choiceLocation}.label`,
+      errors
+    );
   });
 
   return choiceIds;
 }
+
 
 function validateThinkingFlow(
   thinkingFlow,
@@ -715,14 +750,20 @@ function validateData(data) {
     return {
       valid: false,
       errors: [
-        "Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
-      ],
+        "Campus\u30c7\u30fc\u30bf\u306e\u30eb\u30fc\u30c8\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+      ]
     };
   }
 
   if (!Array.isArray(data.phenomena)) {
     errors.push(
       "phenomena\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
+    );
+  }
+
+  if (!Array.isArray(data.topics)) {
+    errors.push(
+      "topics\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002"
     );
   }
 
@@ -747,13 +788,80 @@ function validateData(data) {
   if (errors.length > 0) {
     return {
       valid: false,
-      errors,
+      errors
     };
   }
 
   const contentIds = new Set();
   const phenomenonIds = new Set();
+  const topicIds = new Set();
   const facilityTypes = new Set();
+
+  const allowedTopicCategories = new Set([
+    "foundation",
+    "body",
+    "movement"
+  ]);
+
+  data.topics.forEach((topic, index) => {
+    if (!isPlainObject(topic)) {
+      errors.push(
+        `topics[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+      );
+      return;
+    }
+
+    const id = normalizeString(topic.id);
+
+    if (!id) {
+      errors.push(
+        `topics[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (topicIds.has(id)) {
+      errors.push(
+        `topics\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
+      );
+    } else {
+      topicIds.add(id);
+    }
+
+    if (!normalizeString(topic.label)) {
+      errors.push(
+        `topics[${index}].label\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+
+    const category = normalizeString(topic.category);
+
+    if (!category) {
+      errors.push(
+        `topics[${index}].category\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    } else if (!allowedTopicCategories.has(category)) {
+      errors.push(
+        `topics[${index}].category\u300c${category}\u300d\u306f\u672a\u5b9a\u7fa9\u3067\u3059\u3002`
+      );
+    }
+
+    if (!normalizeString(topic.summary)) {
+      errors.push(
+        `topics[${index}].summary\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+      );
+    }
+  });
+
+  data.topics.forEach((topic, index) => {
+    if (!isPlainObject(topic)) {
+      return;
+    }
+
+    validateRelatedTopicIds(
+      topic.relatedTopicIds,
+      topicIds,
+      `topics[${index}].relatedTopicIds`,
+      errors
+    );
+  });
 
   data.contents.forEach((content, index) => {
     if (!isPlainObject(content)) {
@@ -845,6 +953,7 @@ function validateData(data) {
 
     validateRelatedTopicIds(
       phenomenon.relatedTopicIds,
+      topicIds,
       `phenomena[${index}].relatedTopicIds`,
       errors
     );
@@ -916,9 +1025,10 @@ function validateData(data) {
 
   return {
     valid: errors.length === 0,
-    errors,
+    errors
   };
 }
+
 
 
 function normalizeQuestion(question) {
@@ -1013,85 +1123,121 @@ function normalizeData(data) {
   return {
     meta: {
       ...DEFAULT_META,
-      ...(isPlainObject(data.meta)
-        ? data.meta
-        : {})
+      ...(isPlainObject(data.meta) ? data.meta : {})
     },
 
-    phenomena: data.phenomena.map((phenomenon) => {
-  const thinkingFlow = normalizeThinkingFlow(phenomenon.thinkingFlow);
-
-  const checkpoints = normalizeArray(phenomenon.checkpoints);
-
-  return {
-    id: normalizeString(phenomenon.id),
-
-    label: normalizeString(phenomenon.label, "\u73fe\u8c61"),
-
-    title: normalizeString(
-      phenomenon.title,
-      "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-    ),
-
-    description: normalizeString(
-      phenomenon.description,
-      "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
-    ),
-
-    path: normalizeArray(phenomenon.path)
-      .map((item) => normalizeString(item))
-      .filter(Boolean),
-
-    question: normalizeQuestion(phenomenon.question),
-
-    thinkingFlow,
-
-    adjustmentView: {
-      title: normalizeString(
-        thinkingFlow.adjustmentView.title,
-        "Adjustment View"
-      ),
-      heading: normalizeString(
-        thinkingFlow.adjustmentView.title,
-        "Adjustment View"
-      ),
-      text: normalizeString(thinkingFlow.adjustmentView.text),
-    },
-
-    why: {
-      title: normalizeString(thinkingFlow.commonTheory.title),
-      text: normalizeString(thinkingFlow.commonTheory.text),
-      points: [],
-    },
-
-    branches: thinkingFlow.branches,
-
-    checkpoints: checkpoints.filter(isPlainObject).map((checkpoint, index) => {
+    topics: data.topics.map((topic) => {
       return {
-        id: normalizeString(checkpoint.id, `checkpoint-${index + 1}`),
-        title: normalizeString(
-          checkpoint.title || checkpoint.label,
-          `CHECK ${index + 1}`
-        ),
-        description: normalizeString(checkpoint.description),
+        id: normalizeString(topic.id),
+        label: normalizeString(topic.label),
+        category: normalizeString(topic.category),
+        summary: normalizeString(topic.summary),
+        relatedTopicIds: normalizeArray(topic.relatedTopicIds)
+          .map((item) => normalizeString(item))
+          .filter(Boolean)
       };
     }),
 
-    nextAction: {
-      title: normalizeString(thinkingFlow.nextStep.title),
-      text: normalizeString(thinkingFlow.nextStep.text),
-      relatedIds: [],
-    },
+    phenomena: data.phenomena.map((phenomenon) => {
+      const thinkingFlow = normalizeThinkingFlow(
+        phenomenon.thinkingFlow
+      );
 
-    relatedIds: normalizeArray(phenomenon.relatedIds)
-      .map((item) => normalizeString(item))
-      .filter(Boolean),
+      const checkpoints = normalizeArray(
+        phenomenon.checkpoints
+      );
 
-    relatedTopicIds: normalizeArray(phenomenon.relatedTopicIds)
-      .map((item) => normalizeString(item))
-      .filter(Boolean),
-  };
-}),
+      return {
+        id: normalizeString(phenomenon.id),
+
+        label: normalizeString(
+          phenomenon.label,
+          "\u73fe\u8c61"
+        ),
+
+        title: normalizeString(
+          phenomenon.title,
+          "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+        ),
+
+        description: normalizeString(
+          phenomenon.description,
+          "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
+        ),
+
+        path: normalizeArray(phenomenon.path)
+          .map((item) => normalizeString(item))
+          .filter(Boolean),
+
+        question: normalizeQuestion(
+          phenomenon.question
+        ),
+
+        thinkingFlow,
+
+        adjustmentView: {
+          title: normalizeString(
+            thinkingFlow.adjustmentView.title,
+            "Adjustment View"
+          ),
+          heading: normalizeString(
+            thinkingFlow.adjustmentView.title,
+            "Adjustment View"
+          ),
+          text: normalizeString(
+            thinkingFlow.adjustmentView.text
+          )
+        },
+
+        why: {
+          title: normalizeString(
+            thinkingFlow.commonTheory.title
+          ),
+          text: normalizeString(
+            thinkingFlow.commonTheory.text
+          ),
+          points: []
+        },
+
+        branches: thinkingFlow.branches,
+
+        checkpoints: checkpoints
+          .filter(isPlainObject)
+          .map((checkpoint, index) => {
+            return {
+              id: normalizeString(
+                checkpoint.id,
+                `checkpoint-${index + 1}`
+              ),
+              title: normalizeString(
+                checkpoint.title || checkpoint.label,
+                `CHECK ${index + 1}`
+              ),
+              description: normalizeString(
+                checkpoint.description
+              )
+            };
+          }),
+
+        nextAction: {
+          title: normalizeString(
+            thinkingFlow.nextStep.title
+          ),
+          text: normalizeString(
+            thinkingFlow.nextStep.text
+          ),
+          relatedIds: []
+        },
+
+        relatedIds: normalizeArray(phenomenon.relatedIds)
+          .map((item) => normalizeString(item))
+          .filter(Boolean),
+
+        relatedTopicIds: normalizeArray(phenomenon.relatedTopicIds)
+          .map((item) => normalizeString(item))
+          .filter(Boolean)
+      };
+    }),
 
     contents: data.contents.map((content) => {
       return {
@@ -1141,9 +1287,7 @@ function normalizeData(data) {
           content.limitation,
           "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
         ),
-        relatedIds: normalizeArray(
-          content.relatedIds
-        )
+        relatedIds: normalizeArray(content.relatedIds)
           .map((item) => normalizeString(item))
           .filter(Boolean)
       };
@@ -1152,17 +1296,13 @@ function normalizeData(data) {
     updates: data.updates.map((update) => {
       return {
         id: normalizeString(update.id),
-        contentId: normalizeString(
-          update.contentId
-        ),
+        contentId: normalizeString(update.contentId),
         date: normalizeString(update.date),
         label: normalizeString(
           update.label,
           "UPDATED"
         ),
-        labelClass: normalizeString(
-          update.labelClass
-        ),
+        labelClass: normalizeString(update.labelClass),
         title: normalizeString(
           update.title,
           "\u66f4\u65b0\u60c5\u5831"
@@ -1176,9 +1316,7 @@ function normalizeData(data) {
 
     facilities: data.facilities.map((facility) => {
       return {
-        type: normalizeString(
-          facility.type
-        ),
+        type: normalizeString(facility.type),
         code: normalizeString(
           facility.code,
           "?"
@@ -1193,7 +1331,7 @@ function normalizeData(data) {
         ),
         description: normalizeString(
           facility.description,
-          "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
+          "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
         ),
         detail: normalizeString(
           facility.detail,
@@ -1237,66 +1375,96 @@ throw new Error(
 }
 
 async function fetchCampusData() {
-const [
-meta,
-phenomena,
-research,
-pds,
-cases,
-dictionary,
-updates,
-facilities
-] = await Promise.all([
-fetchJsonFile("meta.json",DATA_URLS.meta),
-fetchJsonFile("phenomena.json",DATA_URLS.phenomena),
-fetchJsonFile("research.json",DATA_URLS.research),
-fetchJsonFile("pds.json",DATA_URLS.pds),
-fetchJsonFile("cases.json",DATA_URLS.cases),
-fetchJsonFile("dictionary.json",DATA_URLS.dictionary),
-fetchJsonFile("updates.json",DATA_URLS.updates),
-fetchJsonFile("facilities.json",DATA_URLS.facilities)
-]);
+  const [
+    meta,
+    phenomena,
+    topics,
+    research,
+    pds,
+    cases,
+    dictionary,
+    updates,
+    facilities
+  ] = await Promise.all([
+    fetchJsonFile(
+      "meta.json",
+      DATA_URLS.meta
+    ),
+    fetchJsonFile(
+      "phenomena.json",
+      DATA_URLS.phenomena
+    ),
+    fetchJsonFile(
+      "topics.json",
+      DATA_URLS.topics
+    ),
+    fetchJsonFile(
+      "research.json",
+      DATA_URLS.research
+    ),
+    fetchJsonFile(
+      "pds.json",
+      DATA_URLS.pds
+    ),
+    fetchJsonFile(
+      "cases.json",
+      DATA_URLS.cases
+    ),
+    fetchJsonFile(
+      "dictionary.json",
+      DATA_URLS.dictionary
+    ),
+    fetchJsonFile(
+      "updates.json",
+      DATA_URLS.updates
+    ),
+    fetchJsonFile(
+      "facilities.json",
+      DATA_URLS.facilities
+    )
+  ]);
 
-const data = {
-meta:{
-version:normalizeString(
-meta &&
-meta.site &&
-meta.site.version,
-DEFAULT_META.version
-),
-updatedAt:normalizeString(
-meta &&
-meta.site &&
-meta.site.updatedAt
-),
-copyright:normalizeString(
-meta &&
-meta.branding &&
-meta.branding.copyright,
-DEFAULT_META.copyright
-)
-},
-phenomena,
-contents:[
-...research,
-...pds,
-...cases,
-...dictionary
-],
-updates,
-facilities
-};
+  const data = {
+    meta: {
+      version: normalizeString(
+        meta &&
+        meta.site &&
+        meta.site.version,
+        DEFAULT_META.version
+      ),
+      updatedAt: normalizeString(
+        meta &&
+        meta.site &&
+        meta.site.updatedAt
+      ),
+      copyright: normalizeString(
+        meta &&
+        meta.branding &&
+        meta.branding.copyright,
+        DEFAULT_META.copyright
+      )
+    },
+    phenomena,
+    topics,
+    contents: [
+      ...research,
+      ...pds,
+      ...cases,
+      ...dictionary
+    ],
+    updates,
+    facilities
+  };
 
-const validation = validateData(data);
+  const validation = validateData(data);
 
-if (!validation.valid) {
-throw new Error(
-validation.errors.join(" ")
-);
-}
+  if (!validation.valid) {
+    throw new Error(
+      validation.errors.join(" ")
+    );
+  }
 
-return normalizeData(data);
+  return normalizeData(data);
 }
 
 function renderMeta() {
