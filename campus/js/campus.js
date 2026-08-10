@@ -105,10 +105,6 @@ drawerEyebrow:document.getElementById("drawerEyebrow"),
 drawerTitle:document.getElementById("drawerTitle"),
 drawerSummary:document.getElementById("drawerSummary"),
 drawerMeta:document.getElementById("drawerMeta"),
-drawerObservation:document.getElementById("drawerObservation"),
-drawerThinking:document.getElementById("drawerThinking"),
-drawerVerification:document.getElementById("drawerVerification"),
-drawerLimitation:document.getElementById("drawerLimitation"),
 drawerQuestion:document.getElementById("drawerQuestion"),
 drawerCommonTheory:document.getElementById("drawerCommonTheory"),
 drawerAdjustmentView:document.getElementById("drawerAdjustmentView"),
@@ -118,6 +114,10 @@ drawerPdsEvaluation:document.getElementById("drawerPdsEvaluation"),
 drawerTrackingData:document.getElementById("drawerTrackingData"),
 drawerHypotheses:document.getElementById("drawerHypotheses"),
 drawerResearchQuestions:document.getElementById("drawerResearchQuestions"),
+drawerObservation:document.getElementById("drawerObservation"),
+drawerThinking:document.getElementById("drawerThinking"),
+drawerVerification:document.getElementById("drawerVerification"),
+drawerLimitation:document.getElementById("drawerLimitation"),
 drawerRelated:document.getElementById("drawerRelated"),
 
 heroFloatingBooks:document.getElementById("heroFloatingBooks")
@@ -845,7 +845,7 @@ errors.push(
 return;
 }
 
-const blockNames = [
+const requiredTextSections = [
 "question",
 "commonTheory",
 "adjustmentView",
@@ -855,56 +855,54 @@ const blockNames = [
 "tracking"
 ];
 
-blockNames.forEach((blockName) => {
-const block = researchDetail[blockName];
-const blockLocation = `${location}.${blockName}`;
+requiredTextSections.forEach((sectionName) => {
+const section =
+researchDetail[sectionName];
 
-if (!isPlainObject(block)) {
+const sectionLocation =
+`${location}.${sectionName}`;
+
+if (!isPlainObject(section)) {
 errors.push(
-`${blockLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+`${sectionLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
 );
 return;
 }
 
 validateNonEmptyText(
-block.title,
-`${blockLocation}.title`,
+section.title,
+`${sectionLocation}.title`,
 errors
 );
 
 validateNonEmptyText(
-block.text,
-`${blockLocation}.text`,
+section.text,
+`${sectionLocation}.text`,
 errors
 );
 
 if (
-Object.prototype.hasOwnProperty.call(block,"points") &&
-!Array.isArray(block.points)
+Object.prototype.hasOwnProperty.call(
+section,
+"points"
+) &&
+!Array.isArray(section.points)
 ) {
 errors.push(
-`${blockLocation}.points\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+`${sectionLocation}.points\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
 );
 }
 });
 
-[
-["hypotheses",researchDetail.hypotheses],
-["researchQuestions",researchDetail.researchQuestions]
-].forEach(([listName,list]) => {
-const listLocation = `${location}.${listName}`;
-
-if (!Array.isArray(list)) {
+if (!Array.isArray(researchDetail.hypotheses)) {
 errors.push(
-`${listLocation}\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+`${location}.hypotheses\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
 );
-return;
-}
-
-const itemIds = new Set();
-
-list.forEach((item,itemIndex) => {
-const itemLocation = `${listLocation}[${itemIndex}]`;
+} else {
+researchDetail.hypotheses.forEach(
+(item,index) => {
+const itemLocation =
+`${location}.hypotheses[${index}]`;
 
 if (!isPlainObject(item)) {
 errors.push(
@@ -913,19 +911,17 @@ errors.push(
 return;
 }
 
-const itemId = normalizeString(item.id);
+validateNonEmptyText(
+item.id,
+`${itemLocation}.id`,
+errors
+);
 
-if (!itemId) {
-errors.push(
-`${itemLocation}.id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
+validateNonEmptyText(
+item.title,
+`${itemLocation}.title`,
+errors
 );
-} else if (itemIds.has(itemId)) {
-errors.push(
-`${listLocation}\u5185\u3067id\u300c${itemId}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-);
-} else {
-itemIds.add(itemId);
-}
 
 validateNonEmptyText(
 item.text,
@@ -938,8 +934,47 @@ item.status,
 `${itemLocation}.status`,
 errors
 );
-});
-});
+}
+);
+}
+
+if (!Array.isArray(researchDetail.researchQuestions)) {
+errors.push(
+`${location}.researchQuestions\u306f\u914d\u5217\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+} else {
+researchDetail.researchQuestions.forEach(
+(item,index) => {
+const itemLocation =
+`${location}.researchQuestions[${index}]`;
+
+if (!isPlainObject(item)) {
+errors.push(
+`${itemLocation}\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+);
+return;
+}
+
+validateNonEmptyText(
+item.id,
+`${itemLocation}.id`,
+errors
+);
+
+validateNonEmptyText(
+item.text,
+`${itemLocation}.text`,
+errors
+);
+
+validateNonEmptyText(
+item.status,
+`${itemLocation}.status`,
+errors
+);
+}
+);
+}
 }
 
 function validateData(data) {
@@ -1095,17 +1130,6 @@ function validateData(data) {
         `contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
       );
     }
-
-    if (
-      content.type === "research" &&
-      Object.prototype.hasOwnProperty.call(content,"researchDetail")
-    ) {
-      validateResearchDetail(
-        content.researchDetail,
-        index,
-        errors
-      );
-    }
   });
 
   data.topics.forEach((topic, index) => {
@@ -1194,6 +1218,20 @@ function validateData(data) {
       return;
     }
 
+    if (
+      normalizeString(content.type) === "research" &&
+      Object.prototype.hasOwnProperty.call(
+        content,
+        "researchDetail"
+      )
+    ) {
+      validateResearchDetail(
+        content.researchDetail,
+        index,
+        errors
+      );
+    }
+
     validateRelatedIds(
       content.relatedIds,
       contentIds,
@@ -1202,7 +1240,7 @@ function validateData(data) {
     );
 
     if (
-      content.type === "research" &&
+      normalizeString(content.type) === "research" &&
       isPlainObject(content.researchDetail) &&
       isPlainObject(content.researchDetail.pdsEvaluation)
     ) {
@@ -1349,9 +1387,10 @@ function normalizeThinkingFlow(thinkingFlow) {
 }
 
 
-function normalizeResearchDetailBlock(value) {
-const source = isPlainObject(value)
-? value
+function normalizeResearchTextSection(section) {
+const source =
+isPlainObject(section)
+? section
 : {};
 
 return {
@@ -1363,66 +1402,87 @@ points:normalizeArray(source.points)
 };
 }
 
-function normalizeResearchDetailList(value) {
-return normalizeArray(value)
+function normalizeResearchDetail(researchDetail) {
+if (!isPlainObject(researchDetail)) {
+return null;
+}
+
+const pdsEvaluation =
+normalizeResearchTextSection(
+researchDetail.pdsEvaluation
+);
+
+pdsEvaluation.relatedIds =
+normalizeArray(
+researchDetail.pdsEvaluation &&
+researchDetail.pdsEvaluation.relatedIds
+)
+.map((item) => normalizeString(item))
+.filter(Boolean);
+
+return {
+question:
+normalizeResearchTextSection(
+researchDetail.question
+),
+commonTheory:
+normalizeResearchTextSection(
+researchDetail.commonTheory
+),
+adjustmentView:
+normalizeResearchTextSection(
+researchDetail.adjustmentView
+),
+why:
+normalizeResearchTextSection(
+researchDetail.why
+),
+fieldCheck:
+normalizeResearchTextSection(
+researchDetail.fieldCheck
+),
+pdsEvaluation,
+tracking:
+normalizeResearchTextSection(
+researchDetail.tracking
+),
+hypotheses:
+normalizeArray(
+researchDetail.hypotheses
+)
 .filter(isPlainObject)
 .map((item,index) => {
 return {
 id:normalizeString(
 item.id,
-`item-${index + 1}`
+`research-hypothesis-${index + 1}`
 ),
 title:normalizeString(item.title),
 text:normalizeString(item.text),
-status:normalizeString(item.status)
+status:normalizeString(
+item.status,
+"ACTIVE"
+)
 };
-});
-}
-
-function normalizeResearchDetail(value) {
-if (!isPlainObject(value)) {
-return null;
-}
-
-const pdsEvaluation =
-normalizeResearchDetailBlock(
-value.pdsEvaluation
-);
-
+}),
+researchQuestions:
+normalizeArray(
+researchDetail.researchQuestions
+)
+.filter(isPlainObject)
+.map((item,index) => {
 return {
-question:normalizeResearchDetailBlock(
-value.question
+id:normalizeString(
+item.id,
+`research-question-${index + 1}`
 ),
-commonTheory:normalizeResearchDetailBlock(
-value.commonTheory
-),
-adjustmentView:normalizeResearchDetailBlock(
-value.adjustmentView
-),
-why:normalizeResearchDetailBlock(
-value.why
-),
-fieldCheck:normalizeResearchDetailBlock(
-value.fieldCheck
-),
-pdsEvaluation:{
-...pdsEvaluation,
-relatedIds:normalizeArray(
-value.pdsEvaluation &&
-value.pdsEvaluation.relatedIds
+text:normalizeString(item.text),
+status:normalizeString(
+item.status,
+"OPEN"
 )
-.map((item) => normalizeString(item))
-.filter(Boolean)
-},
-tracking:normalizeResearchDetailBlock(
-value.tracking
-),
-hypotheses:normalizeResearchDetailList(
-value.hypotheses
-),
-researchQuestions:normalizeResearchDetailList(
-value.researchQuestions
-)
+};
+})
 };
 }
 
@@ -1583,9 +1643,12 @@ relatedIds: []
           content.limitation,
           "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
         ),
-        researchDetail: normalizeResearchDetail(
-          content.researchDetail
-        ),
+        researchDetail:
+          normalizeString(content.type) === "research"
+            ? normalizeResearchDetail(
+                content.researchDetail
+              )
+            : null,
         relatedIds: normalizeArray(content.relatedIds)
           .map((item) => normalizeString(item))
           .filter(Boolean)
@@ -2816,245 +2879,6 @@ triggerElement
 );
 }
 
-
-function setDrawerSectionVisible(
-element,
-isVisible
-) {
-if (!element) {
-return;
-}
-
-const section = element.closest(
-".drawer-section"
-);
-
-if (section) {
-section.hidden = !isVisible;
-}
-}
-
-function hasResearchDetailBlock(value) {
-if (!isPlainObject(value)) {
-return false;
-}
-
-return Boolean(
-normalizeString(value.title) ||
-normalizeString(value.text) ||
-normalizeArray(value.points).length > 0
-);
-}
-
-function renderDrawerResearchBlock(
-element,
-value
-) {
-if (!element) {
-return;
-}
-
-const block = isPlainObject(value)
-? value
-: {};
-
-const title = normalizeString(block.title);
-const text = normalizeString(block.text);
-const points = normalizeArray(block.points)
-.map((item) => normalizeString(item))
-.filter(Boolean);
-
-const parts = [];
-
-if (title) {
-parts.push(
-'<h4 class="drawer-content-title">' +
-escapeHtml(title) +
-'</h4>'
-);
-}
-
-if (text) {
-parts.push(
-'<p class="drawer-content-text">' +
-escapeHtml(text) +
-'</p>'
-);
-}
-
-if (points.length > 0) {
-parts.push(
-'<div class="drawer-research-points">' +
-points.map((point,index) => {
-return (
-'<div class="drawer-list-item">' +
-'<strong>' +
-escapeHtml(
-String(index + 1).padStart(2,"0")
-) +
-'</strong>' +
-'<span>' +
-escapeHtml(point) +
-'</span>' +
-'</div>'
-);
-}).join("") +
-'</div>'
-);
-}
-
-element.innerHTML = parts.join("");
-setDrawerSectionVisible(
-element,
-parts.length > 0
-);
-}
-
-function renderDrawerResearchList(
-element,
-items,
-options = {}
-) {
-if (!element) {
-return;
-}
-
-const normalizedItems = normalizeArray(items)
-.filter(isPlainObject);
-
-if (normalizedItems.length === 0) {
-element.innerHTML = "";
-setDrawerSectionVisible(element,false);
-return;
-}
-
-const useIndexTitle =
-options.useIndexTitle === true;
-
-element.innerHTML = normalizedItems
-.map((item,index) => {
-const title = normalizeString(
-item.title,
-useIndexTitle
-? String(index + 1).padStart(2,"0")
-: ""
-);
-
-const text = normalizeString(item.text);
-const status = normalizeString(item.status);
-
-return (
-'<div class="drawer-list-item drawer-research-item">' +
-'<div class="drawer-research-item-head">' +
-(
-title
-? '<strong>' + escapeHtml(title) + '</strong>'
-: '<span></span>'
-) +
-(
-status
-? '<span class="tag">' + escapeHtml(status) + '</span>'
-: ''
-) +
-'</div>' +
-(
-text
-? '<span class="drawer-research-item-text">' +
-escapeHtml(text) +
-'</span>'
-: ''
-) +
-'</div>'
-);
-})
-.join("");
-
-setDrawerSectionVisible(element,true);
-}
-
-function resetResearchDrawerSections() {
-[
-elements.drawerQuestion,
-elements.drawerCommonTheory,
-elements.drawerAdjustmentView,
-elements.drawerWhy,
-elements.drawerCheckpoints,
-elements.drawerPdsEvaluation,
-elements.drawerTrackingData,
-elements.drawerHypotheses,
-elements.drawerResearchQuestions
-].forEach((element) => {
-if (!element) {
-return;
-}
-
-element.innerHTML = "";
-setDrawerSectionVisible(element,true);
-});
-}
-
-function renderDrawerResearchDetail(content) {
-const detail = content && content.researchDetail;
-
-if (
-content.type !== "research" ||
-!isPlainObject(detail)
-) {
-resetResearchDrawerSections();
-return false;
-}
-
-renderDrawerResearchBlock(
-elements.drawerQuestion,
-detail.question
-);
-
-renderDrawerResearchBlock(
-elements.drawerCommonTheory,
-detail.commonTheory
-);
-
-renderDrawerResearchBlock(
-elements.drawerAdjustmentView,
-detail.adjustmentView
-);
-
-renderDrawerResearchBlock(
-elements.drawerWhy,
-detail.why
-);
-
-renderDrawerResearchBlock(
-elements.drawerCheckpoints,
-detail.fieldCheck
-);
-
-renderDrawerResearchBlock(
-elements.drawerPdsEvaluation,
-detail.pdsEvaluation
-);
-
-renderDrawerResearchBlock(
-elements.drawerTrackingData,
-detail.tracking
-);
-
-renderDrawerResearchList(
-elements.drawerHypotheses,
-detail.hypotheses
-);
-
-renderDrawerResearchList(
-elements.drawerResearchQuestions,
-detail.researchQuestions,
-{
-useIndexTitle:true
-}
-);
-
-return true;
-}
-
 function renderDrawerMeta(content) {
 if (!elements.drawerMeta) {
 return;
@@ -3095,6 +2919,303 @@ escapeHtml(item.value) +
 );
 })
 .join("");
+}
+
+
+function setDrawerSectionVisible(
+element,
+isVisible
+) {
+if (!element) {
+return;
+}
+
+const section =
+element.closest(
+".drawer-section"
+);
+
+if (section) {
+section.hidden = !isVisible;
+}
+}
+
+function clearResearchDrawerSections() {
+[
+elements.drawerQuestion,
+elements.drawerCommonTheory,
+elements.drawerAdjustmentView,
+elements.drawerWhy,
+elements.drawerCheckpoints,
+elements.drawerPdsEvaluation,
+elements.drawerTrackingData,
+elements.drawerHypotheses,
+elements.drawerResearchQuestions
+].forEach((element) => {
+if (!element) {
+return;
+}
+
+element.innerHTML = "";
+setDrawerSectionVisible(
+element,
+false
+);
+});
+}
+
+function renderResearchSection(
+element,
+section
+) {
+if (!element) {
+return;
+}
+
+const source =
+isPlainObject(section)
+? section
+: {};
+
+const title =
+normalizeString(source.title);
+
+const bodyText =
+normalizeString(source.text);
+
+const points =
+normalizeArray(source.points)
+.map((item) => normalizeString(item))
+.filter(Boolean);
+
+const parts = [];
+
+if (title) {
+parts.push(
+'<h4 class="drawer-content-title">' +
+escapeHtml(title) +
+'</h4>'
+);
+}
+
+if (bodyText) {
+parts.push(
+'<p class="drawer-content-text">' +
+escapeHtml(bodyText) +
+'</p>'
+);
+}
+
+if (points.length > 0) {
+parts.push(
+points
+.map((point,index) => {
+return (
+'<div class="drawer-list-item">' +
+'<strong>' +
+escapeHtml(
+String(index + 1).padStart(2,"0")
+) +
+'</strong>' +
+'<span>' +
+escapeHtml(point) +
+'</span>' +
+'</div>'
+);
+})
+.join("")
+);
+}
+
+element.innerHTML =
+parts.join("");
+
+setDrawerSectionVisible(
+element,
+parts.length > 0
+);
+}
+
+function renderResearchHypotheses(
+hypotheses
+) {
+const element =
+elements.drawerHypotheses;
+
+if (!element) {
+return;
+}
+
+const items =
+normalizeArray(hypotheses);
+
+if (items.length === 0) {
+element.innerHTML = "";
+setDrawerSectionVisible(
+element,
+false
+);
+return;
+}
+
+element.innerHTML =
+items
+.map((item,index) => {
+const title =
+normalizeString(
+item.title,
+`HYPOTHESIS ${index + 1}`
+);
+
+const status =
+normalizeString(
+item.status,
+"ACTIVE"
+);
+
+const itemText =
+normalizeString(item.text);
+
+return (
+'<div class="drawer-list-item">' +
+'<strong>' +
+escapeHtml(
+`${status} / ${title}`
+) +
+'</strong>' +
+(
+itemText
+? '<span>' +
+escapeHtml(itemText) +
+'</span>'
+: ""
+) +
+'</div>'
+);
+})
+.join("");
+
+setDrawerSectionVisible(
+element,
+true
+);
+}
+
+function renderResearchQuestions(
+questions
+) {
+const element =
+elements.drawerResearchQuestions;
+
+if (!element) {
+return;
+}
+
+const items =
+normalizeArray(questions);
+
+if (items.length === 0) {
+element.innerHTML = "";
+setDrawerSectionVisible(
+element,
+false
+);
+return;
+}
+
+element.innerHTML =
+items
+.map((item,index) => {
+const status =
+normalizeString(
+item.status,
+"OPEN"
+);
+
+const itemText =
+normalizeString(item.text);
+
+return (
+'<div class="drawer-list-item">' +
+'<strong>' +
+escapeHtml(
+`${status} / ${String(index + 1).padStart(2,"0")}`
+) +
+'</strong>' +
+(
+itemText
+? '<span>' +
+escapeHtml(itemText) +
+'</span>'
+: ""
+) +
+'</div>'
+);
+})
+.join("");
+
+setDrawerSectionVisible(
+element,
+true
+);
+}
+
+function renderResearchDetail(content) {
+clearResearchDrawerSections();
+
+if (
+!content ||
+content.type !== "research" ||
+!isPlainObject(content.researchDetail)
+) {
+return;
+}
+
+const detail =
+content.researchDetail;
+
+renderResearchSection(
+elements.drawerQuestion,
+detail.question
+);
+
+renderResearchSection(
+elements.drawerCommonTheory,
+detail.commonTheory
+);
+
+renderResearchSection(
+elements.drawerAdjustmentView,
+detail.adjustmentView
+);
+
+renderResearchSection(
+elements.drawerWhy,
+detail.why
+);
+
+renderResearchSection(
+elements.drawerCheckpoints,
+detail.fieldCheck
+);
+
+renderResearchSection(
+elements.drawerPdsEvaluation,
+detail.pdsEvaluation
+);
+
+renderResearchSection(
+elements.drawerTrackingData,
+detail.tracking
+);
+
+renderResearchHypotheses(
+detail.hypotheses
+);
+
+renderResearchQuestions(
+detail.researchQuestions
+);
 }
 
 function renderDrawerRelated(content) {
@@ -3222,7 +3343,7 @@ elements.drawerLimitation.textContent =
 content.limitation;
 }
 
-renderDrawerResearchDetail(content);
+renderResearchDetail(content);
 renderDrawerMeta(content);
 renderDrawerRelated(content);
 renderBooks();
