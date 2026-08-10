@@ -284,11 +284,34 @@ id="questionChoices"
 </section>
 
 <section
-class="thinking-block branch-block"
-aria-labelledby="commonTheoryBlockTitle"
+class="thinking-block entry-block"
+id="entryPanel"
+aria-labelledby="entryBlockTitle"
+hidden
 >
 <div class="thinking-block-heading">
 <span class="thinking-step-number">02</span>
+
+<div>
+<p>ENTRY VIEW</p>
+<h4 id="entryBlockTitle">
+最初に見るポイント
+</h4>
+</div>
+</div>
+
+<h5 id="entryTitle"></h5>
+<p id="entryText"></p>
+</section>
+
+<section
+class="thinking-block branch-block"
+id="commonTheoryPanel"
+aria-labelledby="commonTheoryBlockTitle"
+hidden
+>
+<div class="thinking-block-heading">
+<span class="thinking-step-number">03</span>
 
 <div>
 <p>COMMON THEORY</p>
@@ -297,21 +320,20 @@ aria-labelledby="commonTheoryBlockTitle"
 </h4>
 </div>
 </div>
-<h5 id="whyTitle"></h5>
-<p id="whyText"></p>
-<div
-class="branch-list"
-id="whyPoints"
->
-</div>
-</section>
 
+ <h5 id="whyTitle"></h5>
+<p id="whyText"></p>
+</section>
+ 
 <section
 class="thinking-block reframe-block"
+id="adjustmentPanel"
 aria-labelledby="adjustmentBlockTitle"
+hidden
 >
 <div class="thinking-block-heading">
-<span class="thinking-step-number">03</span>
+<span class="thinking-step-number">04</span>
+
 <div>
 <p>ADJUSTMENT VIEW</p>
 <h4 id="adjustmentBlockTitle">
@@ -319,16 +341,20 @@ adjustmentではこう捉えます
 </h4>
 </div>
 </div>
+
 <h5 id="adjustmentTitle"></h5>
 <p id="adjustmentText"></p>
 </section>
 
 <section
 class="thinking-block checkpoint-block"
+id="nextStepPanel"
 aria-labelledby="nextStepBlockTitle"
+hidden
 >
 <div class="thinking-block-heading">
-<span class="thinking-step-number">04</span>
+<span class="thinking-step-number">05</span>
+
 <div>
 <p>NEXT STEP</p>
 <h4 id="nextStepBlockTitle">
@@ -336,6 +362,7 @@ aria-labelledby="nextStepBlockTitle"
 </h4>
 </div>
 </div>
+
 <h5 id="nextStepTitle"></h5>
 <p id="nextStepText"></p>
 </section>
@@ -347,7 +374,8 @@ aria-labelledby="premiumBlockTitle"
 hidden
 >
 <div class="thinking-block-heading">
-<span class="thinking-step-number">05</span>
+<span class="thinking-step-number">06</span>
+
 <div>
 <p>PREMIUM</p>
 <h4 id="premiumBlockTitle">
@@ -355,16 +383,40 @@ hidden
 </h4>
 </div>
 </div>
+
 <h5 id="premiumTitle"></h5>
 <p id="premiumText"></p>
 </section>
 
 <section
-class="thinking-block branch-block"
+class="thinking-block topic-block"
+id="relatedTopicsPanel"
+aria-labelledby="relatedTopicsTitle"
+>
+<div class="thinking-block-heading">
+<div>
+<p>RELATED TOPICS</p>
+<h4 id="relatedTopicsTitle">
+関連する概念
+</h4>
+</div>
+</div>
+<p class="thinking-block-guide">
+この現象と関係する概念から、別の視点へ思考を広げます。
+</p>
+<div
+class="branch-list"
+id="relatedTopicList"
+aria-live="polite"
+>
+</div>
+</section>
+
+<section
+class="thinking-block related-content-block"
 aria-labelledby="relatedListTitle"
 >
 <div class="thinking-block-heading">
-<span class="thinking-step-number">06</span>
 <div>
 <p>RELATED CONTENT</p>
 <h4 id="relatedListTitle">
@@ -378,7 +430,8 @@ id="relatedList"
 >
 </div>
 </section>
- </section>
+ 
+</section>
 
 </div>
 
