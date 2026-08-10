@@ -34,15 +34,16 @@ copyright:"\u00a9 adjustment Digital Research Campus"
 };
 
 const state = {
-data:null,
-activePhenomenonId:"",
-selectedChoiceId:"",
-selectedContentId:"",
-activeFacilityType:"",
-lastFocusedElement:null,
-drawerOpen:false,
-mobileMenuOpen:false,
-phenomenonAccordionOpen:false
+  data: null,
+  activePhenomenonId: "",
+  activeTopicId: "",
+  selectedChoiceId: "",
+  selectedContentId: "",
+  activeFacilityType: "",
+  lastFocusedElement: null,
+  drawerOpen: false,
+  mobileMenuOpen: false,
+  phenomenonAccordionOpen: false
 };
 
 const elements = {
@@ -56,17 +57,27 @@ mobileNav:document.getElementById("mobileNav"),
 phenomenonList:document.getElementById("phenomenonList"),
 bookshelf:document.getElementById("bookshelf"),
 
-insightPanel:document.getElementById("insightPanel"),
-insightCount:document.getElementById("insightCount"),
-questionTitle:document.getElementById("questionTitle"),
-questionText:document.getElementById("questionText"),
-questionChoices:document.getElementById("questionChoices"),
-adjustmentTitle:document.getElementById("adjustmentTitle"),
-adjustmentText:document.getElementById("adjustmentText"),
+insightPanel: document.getElementById("insightPanel"),
+insightCount: document.getElementById("insightCount"),
+
+questionTitle: document.getElementById("questionTitle"),
+questionText: document.getElementById("questionText"),
+questionChoices: document.getElementById("questionChoices"),
+
+entryPanel: document.getElementById("entryPanel"),
+entryTitle: document.getElementById("entryTitle"),
+entryText: document.getElementById("entryText"),
+
+commonTheoryPanel: document.getElementById("commonTheoryPanel"),
 whyTitle: document.getElementById("whyTitle"),
 whyText: document.getElementById("whyText"),
 whyPoints: document.getElementById("whyPoints"),
 
+adjustmentPanel: document.getElementById("adjustmentPanel"),
+adjustmentTitle: document.getElementById("adjustmentTitle"),
+adjustmentText: document.getElementById("adjustmentText"),
+
+nextStepPanel: document.getElementById("nextStepPanel"),
 nextStepTitle: document.getElementById("nextStepTitle"),
 nextStepText: document.getElementById("nextStepText"),
 
@@ -74,7 +85,11 @@ premiumPanel: document.getElementById("premiumPanel"),
 premiumTitle: document.getElementById("premiumTitle"),
 premiumText: document.getElementById("premiumText"),
 
+relatedTopicsPanel: document.getElementById("relatedTopicsPanel"),
+relatedTopicList: document.getElementById("relatedTopicList"),
+
 relatedList: document.getElementById("relatedList"),
+
 
 updateGrid:document.getElementById("updateGrid"),
 facilityGrid:document.getElementById("facilityGrid"),
@@ -360,6 +375,24 @@ return normalizeArray(ids)
 return getContentById(contentId);
 })
 .filter(Boolean);
+}
+  
+function getTopicById(topicId) {
+  if (!state.data) {
+    return null;
+  }
+
+  return state.data.topics.find((topic) => {
+    return topic.id === topicId;
+  }) || null;
+}
+
+function getRelatedTopics(ids) {
+  return normalizeArray(ids)
+    .map((topicId) => {
+      return getTopicById(topicId);
+    })
+    .filter(Boolean);
 }
 
 function formatTypeLabel(type) {
@@ -1032,41 +1065,39 @@ function validateData(data) {
 
 
 function normalizeQuestion(question) {
-const source = isPlainObject(question)
-? question
-: {};
+  const source = isPlainObject(question) ? question : {};
 
-return {
-title:normalizeString(
-source.title,
-"\u307e\u305a\u8003\u3048\u3066\u307f\u307e\u3057\u3087\u3046"
-),
-text:normalizeString(
-source.text,
-"\u3053\u306e\u73fe\u8c61\u3092\u3069\u306e\u3088\u3046\u306b\u6349\u3048\u3066\u3044\u307e\u3059\u304b\u3002"
-),
-description:normalizeString(
-facility.description,
-“\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002”
-),
-
-choices:normalizeArray(source.choices)
-.filter(isPlainObject)
-.map((choice,index) => {
-return {
-id:normalizeString(
-choice.id,
-`choice-${index + 1}`
-),
-label:normalizeString(
-choice.label,
-`CHOICE ${index + 1}`
-),
-response:normalizeString(choice.response)
-};
-})
-};
+  return {
+    title: normalizeString(
+      source.title,
+      "まず考えてみましょう"
+    ),
+    text: normalizeString(
+      source.text,
+      "この現象をどのように捉えていますか。"
+    ),
+    description: normalizeString(
+      source.description,
+      "まず自分の捉え方を確認します。"
+    ),
+    choices: normalizeArray(source.choices)
+      .filter(isPlainObject)
+      .map((choice, index) => {
+        return {
+          id: normalizeString(
+            choice.id,
+            `choice-${index + 1}`
+          ),
+          label: normalizeString(
+            choice.label,
+            `CHOICE ${index + 1}`
+          ),
+          response: normalizeString(choice.response)
+        };
+      })
+  };
 }
+
 
 function normalizeThinkingFlow(thinkingFlow) {
   const source = isPlainObject(thinkingFlow) ? thinkingFlow : {};
@@ -1331,10 +1362,9 @@ function normalizeData(data) {
           "\u7814\u7a76\u65bd\u8a2d"
         ),
         description: normalizeString(
-          facility.description,
-          "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
-        ),
-        detail: normalizeString(
+facility.description,
+"\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
+),        detail: normalizeString(
           facility.detail,
           "Archive"
         ),
@@ -1704,46 +1734,29 @@ elements.bookshelf.setAttribute(
 }
 
 function renderQuestionResponse(response) {
-if (!elements.questionChoices) {
-return;
+  if (!elements.entryPanel) {
+    return;
+  }
+
+  const source = isPlainObject(response) ? response : {};
+  const isUnlocked = Boolean(state.selectedChoiceId);
+
+  elements.entryPanel.hidden = !isUnlocked;
+
+  if (elements.entryTitle) {
+    elements.entryTitle.textContent = isUnlocked
+      ? normalizeString(source.title)
+      : "";
+  }
+
+  if (elements.entryText) {
+    elements.entryText.textContent = isUnlocked
+      ? normalizeString(source.text)
+      : "";
+  }
 }
 
-const existing =
-elements.questionChoices.querySelector(
-".question-response"
-);
 
-if (existing) {
-existing.remove();
-}
-
-if (!response) {
-return;
-}
-
-const responseElement =
-document.createElement("div");
-
-responseElement.className =
-"question-response";
-
-responseElement.textContent =
-response;
-
-responseElement.setAttribute(
-"role",
-"status"
-);
-
-responseElement.setAttribute(
-"aria-live",
-"polite"
-);
-
-elements.questionChoices.appendChild(
-responseElement
-);
-}
 
 function selectQuestionChoice(choiceId) {
   const phenomenon = getActivePhenomenon();
@@ -1781,28 +1794,33 @@ function selectQuestionChoice(choiceId) {
         const isSelected = button.dataset.choiceId === choice.id;
 
         button.classList.toggle("is-active", isSelected);
-
         button.setAttribute("aria-pressed", String(isSelected));
       });
   }
 
-renderQuestionResponse(
-phenomenon.thinkingFlow.entryQuestion.text
-);
+  renderQuestionResponse(phenomenon.thinkingFlow.entryQuestion);
 
-renderWhy(phenomenon);
-renderAdjustmentView(phenomenon);
-renderNextStep(phenomenon);
-renderPremium(phenomenon);
+  renderWhy(phenomenon);
+  renderAdjustmentView(phenomenon);
+  renderNextStep(phenomenon);
+  renderPremium(phenomenon);
+  renderRelatedTopics(phenomenon);
+
+  if (elements.insightCount) {
+    elements.insightCount.textContent = "STEP 6 / 6";
+  }
 }
+
 
 function renderQuestion(phenomenon) {
   if (elements.questionTitle) {
-    elements.questionTitle.textContent = phenomenon.question.title;
+    elements.questionTitle.textContent =
+      phenomenon.question.title;
   }
 
   if (elements.questionText) {
-    elements.questionText.textContent = phenomenon.question.text;
+    elements.questionText.textContent =
+      phenomenon.question.text;
   }
 
   if (!elements.questionChoices) {
@@ -1810,7 +1828,8 @@ function renderQuestion(phenomenon) {
   }
 
   if (phenomenon.question.choices.length === 0) {
-    elements.questionChoices.innerHTML = "\u9078\u629e\u80a2\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
+    elements.questionChoices.innerHTML =
+      "\u9078\u629e\u80a2\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
     return;
   }
 
@@ -1819,16 +1838,15 @@ function renderQuestion(phenomenon) {
       const isSelected = choice.id === state.selectedChoiceId;
 
       return (
-        `<button` +
-        ` class="question-choice${isSelected ? " is-active" : ""}"` +
-        ` type="button"` +
-        ` data-choice-id="${escapeHtml(choice.id)}"` +
-        ` aria-pressed="${String(isSelected)}"` +
-        `>` +
-  `<span class="question-choice-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>` +
-  `<span class="question-choice-label">${escapeHtml(choice.label)}</span>`+
-    
-    `</button>`
+        '<button' +
+        ' class="question-choice' + (isSelected ? " is-active" : "") + '"' +
+        ' type="button"' +
+        ' data-choice-id="' + escapeHtml(choice.id) + '"' +
+        ' aria-pressed="' + String(isSelected) + '"' +
+        '>' +
+        '<span>' + String(index + 1).padStart(2, "0") + '</span>' +
+        '<span>' + escapeHtml(choice.label) + '</span>' +
+        '</button>'
       );
     })
     .join("");
@@ -1841,17 +1859,19 @@ function renderQuestion(phenomenon) {
       });
     });
 
-  const selectedChoice = phenomenon.question.choices.find((choice) => {
-    return choice.id === state.selectedChoiceId;
-  });
-
   renderQuestionResponse(
-    selectedChoice ? phenomenon.thinkingFlow.entryQuestion.text : ""
+    state.selectedChoiceId
+      ? phenomenon.thinkingFlow.entryQuestion
+      : null
   );
 }
 
 function renderAdjustmentView(phenomenon) {
   const isUnlocked = Boolean(state.selectedChoiceId);
+
+  if (elements.adjustmentPanel) {
+    elements.adjustmentPanel.hidden = !isUnlocked;
+  }
 
   if (elements.adjustmentTitle) {
     elements.adjustmentTitle.textContent = isUnlocked
@@ -1869,6 +1889,10 @@ function renderAdjustmentView(phenomenon) {
 function renderWhy(phenomenon) {
   const isUnlocked = Boolean(state.selectedChoiceId);
 
+  if (elements.commonTheoryPanel) {
+    elements.commonTheoryPanel.hidden = !isUnlocked;
+  }
+
   if (elements.whyTitle) {
     elements.whyTitle.textContent = isUnlocked
       ? phenomenon.thinkingFlow.commonTheory.title
@@ -1881,16 +1905,18 @@ function renderWhy(phenomenon) {
       : "";
   }
 
-  if (!elements.whyPoints) {
-    return;
+  if (elements.whyPoints) {
+    elements.whyPoints.innerHTML = "";
   }
-
-  elements.whyPoints.innerHTML = "";
 }
 
 
 function renderNextStep(phenomenon) {
   const isUnlocked = Boolean(state.selectedChoiceId);
+
+  if (elements.nextStepPanel) {
+    elements.nextStepPanel.hidden = !isUnlocked;
+  }
 
   if (elements.nextStepTitle) {
     elements.nextStepTitle.textContent = isUnlocked
@@ -1920,13 +1946,167 @@ function renderPremium(phenomenon) {
   }
 
   if (elements.premiumTitle) {
-    elements.premiumTitle.textContent = isUnlocked ? premium.title : "";
+    elements.premiumTitle.textContent = isUnlocked
+      ? premium.title
+      : "";
   }
 
   if (elements.premiumText) {
-    elements.premiumText.textContent = isUnlocked ? premium.text : "";
+    elements.premiumText.textContent = isUnlocked
+      ? premium.text
+      : "";
   }
 }
+
+function renderRelatedTopics(phenomenon) {
+  if (
+    !elements.relatedTopicsPanel ||
+    !elements.relatedTopicList
+  ) {
+    return;
+  }
+
+  const relatedTopics = getRelatedTopics(
+    phenomenon.relatedTopicIds
+  );
+
+  elements.relatedTopicsPanel.hidden = false;
+
+  if (relatedTopics.length === 0) {
+    elements.relatedTopicList.innerHTML =
+      "\u95a2\u9023\u3059\u308b\u6982\u5ff5\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
+    return;
+  }
+
+  elements.relatedTopicList.innerHTML = relatedTopics
+    .map((topic) => {
+      return (
+        '<button' +
+        ' class="topic-item"' +
+        ' type="button"' +
+        ' data-topic-id="' +
+        escapeHtml(topic.id) +
+        '"' +
+        '>' +
+        '<span class="topic-category">' +
+        escapeHtml(topic.category.toUpperCase()) +
+        '</span>' +
+        '<strong class="topic-label">' +
+        escapeHtml(topic.label) +
+        '</strong>' +
+        '<p class="topic-summary">' +
+        escapeHtml(topic.summary) +
+        '</p>' +
+        '</button>'
+      );
+    })
+    .join("");
+
+  elements.relatedTopicList
+    .querySelectorAll("[data-topic-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        openTopic(
+          button.dataset.topicId,
+          button
+        );
+      });
+    });
+}
+
+function openTopic(
+topicId,
+triggerElement = null
+){
+const topic = getTopicById(topicId);
+
+if (!topic) {
+return;
+}
+
+state.activeTopicId = topic.id;
+
+const relatedTopics = getRelatedTopics(
+topic.relatedTopicIds
+);
+
+if (elements.relatedTopicsPanel) {
+elements.relatedTopicsPanel.hidden = false;
+}
+
+let mainTopicHtml = "";
+
+if (elements.relatedTopicList) {
+mainTopicHtml =
+'<div class="topic-header">' +
+'<span class="topic-category">' +
+escapeHtml(
+topic.category.toUpperCase()
+) +
+'</span>' +
+'<h3 class="topic-title">' +
+escapeHtml(topic.label) +
+'</h3>' +
+'<p class="topic-summary">' +
+escapeHtml(topic.summary) +
+'</p>' +
+'</div>';
+
+const relatedTopicsHtml =
+  relatedTopics.length > 0
+    ? relatedTopics
+        .map((related) => {
+          return (
+            '<button' +
+            ' class="topic-item"' +
+            ' type="button"' +
+            ' data-topic-id="' +
+            escapeHtml(related.id) +
+            '"' +
+            '>' +
+            '<span class="topic-category">' +
+            escapeHtml(
+              related.category.toUpperCase()
+            ) +
+            '</span>' +
+            '<span class="topic-title">' +
+            escapeHtml(related.label) +
+            '</span>' +
+            '<p class="topic-summary">' +
+            escapeHtml(related.summary) +
+            '</p>' +
+            '</button>'
+          );
+        })
+        .join("")
+    : "";
+
+elements.relatedTopicList.innerHTML =
+  mainTopicHtml +
+  relatedTopicsHtml;
+
+elements.relatedTopicList
+  .querySelectorAll(
+    "[data-topic-id]"
+  )
+  .forEach((button) => {
+    button.addEventListener(
+      "click",
+      () => {
+        openTopic(
+          button.dataset.topicId,
+          button
+        );
+      }
+    );
+  });
+}
+  
+updateUrlState({
+topic: topic.id
+});
+}
+
 
 function renderRelatedContents(phenomenon) {
   if (!elements.relatedList) {
@@ -1982,94 +2162,86 @@ function renderRelatedContents(phenomenon) {
 
 
 function renderInsight() {
-if (!state.data) {
-return;
+  if (!state.data) {
+    return;
+  }
+
+  const phenomenon = getActivePhenomenon();
+
+  if (!phenomenon) {
+    if (elements.insightCount) {
+      elements.insightCount.textContent = "STEP 1 / 6";
+    }
+
+    if (elements.questionTitle) {
+      elements.questionTitle.textContent = "課題を選択してください。";
+    }
+
+    if (elements.questionText) {
+      elements.questionText.textContent = "課題を選択すると質問が表示されます。";
+    }
+
+    // 要素のクリア処理（innerHTML）
+    [
+      elements.questionChoices,
+      elements.whyPoints,
+      elements.relatedTopicList,
+      elements.relatedList
+    ].forEach((element) => {
+      if (element) {
+        element.innerHTML = "";
+      }
+    });
+
+    // パネルの非表示処理
+    [
+      elements.entryPanel,
+      elements.commonTheoryPanel,
+      elements.adjustmentPanel,
+      elements.nextStepPanel,
+      elements.premiumPanel
+    ].forEach((panel) => {
+      if (panel) {
+        panel.hidden = true;
+      }
+    });
+
+    // テキスト要素のクリア処理（textContent）
+    [
+      elements.entryTitle,
+      elements.entryText,
+      elements.adjustmentTitle,
+      elements.adjustmentText,
+      elements.whyTitle,
+      elements.whyText,
+      elements.nextStepTitle,
+      elements.nextStepText,
+      elements.premiumTitle,
+      elements.premiumText
+    ].forEach((element) => {
+      if (element) {
+        element.textContent = "";
+      }
+    });
+
+    return;
+  }
+
+  if (elements.insightCount) {
+    elements.insightCount.textContent = state.selectedChoiceId
+      ? "STEP 6 / 6"
+      : "STEP 1 / 6";
+  }
+
+  renderQuestion(phenomenon);
+  renderWhy(phenomenon);
+  renderAdjustmentView(phenomenon);
+  renderNextStep(phenomenon);
+  renderPremium(phenomenon);
+  renderRelatedTopics(phenomenon);
+  renderRelatedContents(phenomenon);
 }
 
-const phenomenon =
-getActivePhenomenon();
-
-if (!phenomenon) {
-if (elements.insightCount) {
-elements.insightCount.textContent =
-"STEP 1 / 5";
-}
-
-if (elements.questionTitle) {
-elements.questionTitle.textContent =
-"\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
-}
-
-if (elements.questionText) {
-elements.questionText.textContent =
-"\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
-}
-
-[
-elements.questionChoices,
-elements.whyPoints,
-elements.relatedList
-].forEach((element) => {
-if (element) {
-element.innerHTML = "";
-}
-});
-
-if (elements.adjustmentTitle) {
-elements.adjustmentTitle.textContent = "";
-}
-
-if (elements.adjustmentText) {
-elements.adjustmentText.textContent = "";
-}
-
-if (elements.whyTitle) {
-elements.whyTitle.textContent = "";
-}
-
-if (elements.whyText) {
-elements.whyText.textContent = "";
-}
-
-if (elements.nextStepTitle) {
-elements.nextStepTitle.textContent = "";
-}
-
-if (elements.nextStepText) {
-  elements.nextStepText.textContent = "";
-}
-
-if (elements.premiumTitle) {
-  elements.premiumTitle.textContent = "";
-}
-
-if (elements.premiumText) {
-  elements.premiumText.textContent = "";
-}
-
-if (elements.premiumPanel) {
-  elements.premiumPanel.hidden = true;
-}
-return;
-}
-
-const relatedContents =
-getRelatedContents(
-phenomenon.relatedIds
-);
-
-if (elements.insightCount) {
-elements.insightCount.textContent =
-`${relatedContents.length} CONNECTIONS`;
-}
-
-renderQuestion(phenomenon);
-renderWhy(phenomenon);
-renderAdjustmentView(phenomenon);
-renderNextStep(phenomenon);
-renderPremium(phenomenon);
-renderRelatedContents(phenomenon);
-}
 
 function renderUpdates() {
 if (!elements.updateGrid || !state.data) {
@@ -2268,32 +2440,33 @@ button
 }
 
 function selectPhenomenon(phenomenonId) {
-const phenomenon =
-getPhenomenonById(phenomenonId);
+  const phenomenon = getPhenomenonById(phenomenonId);
 
-if (!phenomenon) {
-return;
+  if (!phenomenon) {
+    return;
+  }
+
+  state.activePhenomenonId = phenomenon.id;
+
+  state.activeTopicId = "";
+  state.selectedChoiceId = "";
+  state.selectedContentId = "";
+  state.activeFacilityType = "";
+  state.phenomenonAccordionOpen = false;
+
+  renderPhenomena();
+  renderBooks();
+  renderInsight();
+  renderFacilities();
+  syncPhenomenonAccordion();
+
+  updateUrlState({
+    phenomenon: phenomenon.id,
+    content: "",
+    topic: ""
+  });
 }
 
-state.activePhenomenonId =
-phenomenon.id;
-
-state.selectedChoiceId = "";
-state.selectedContentId = "";
-state.activeFacilityType = "";
-state.phenomenonAccordionOpen = false;
-
-renderPhenomena();
-renderBooks();
-renderInsight();
-renderFacilities();
-syncPhenomenonAccordion();
-
-updateUrlState({
-phenomenon:phenomenon.id,
-content:""
-});
-}
 
 function openFacility(type,triggerElement = null) {
 if (!state.data) {
@@ -2705,95 +2878,47 @@ closeMobileMenu();
 }
 
 function updateUrlState(changes) {
-const url = new URL(
-window.location.href
-);
+  const url = new URL(window.location.href);
+  const keys = ["phenomenon", "content", "topic"];
 
-if (
-Object.prototype.hasOwnProperty.call(
-changes,
-"phenomenon"
-)
-) {
-const phenomenon =
-normalizeString(
-changes.phenomenon
-);
+  keys.forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(changes, key)) {
+      const value = normalizeString(changes[key]);
 
-if (phenomenon) {
-url.searchParams.set(
-"phenomenon",
-phenomenon
-);
-} else {
-url.searchParams.delete(
-"phenomenon"
-);
-}
+      if (value) {
+        url.searchParams.set(key, value);
+      } else {
+        url.searchParams.delete(key);
+      }
+    }
+  });
+
+  window.history.replaceState({}, "", url);
 }
 
-if (
-Object.prototype.hasOwnProperty.call(
-changes,
-"content"
-)
-) {
-const content =
-normalizeString(
-changes.content
-);
-
-if (content) {
-url.searchParams.set(
-"content",
-content
-);
-} else {
-url.searchParams.delete(
-"content"
-);
-}
-}
-
-window.history.replaceState(
-{},
-"",
-url
-);
-}
 
 function applyUrlState() {
-if (!state.data) {
-return;
+  if (!state.data) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+
+  // パラメータ取得と状態設定のマッピング
+  const parameterMappings = [
+    { key: "phenomenon", stateKey: "activePhenomenonId", validate: getPhenomenonById },
+    { key: "content", stateKey: "selectedContentId", validate: getContentById },
+    { key: "topic", stateKey: "activeTopicId", validate: getTopicById }
+  ];
+
+  parameterMappings.forEach(({ key, stateKey, validate }) => {
+    const value = params.get(key);
+    if (value && validate(value)) {
+      state[stateKey] = value;
+    }
+  });
 }
 
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-const phenomenonId =
-params.get("phenomenon");
-
-const contentId =
-params.get("content");
-
-if (
-phenomenonId &&
-getPhenomenonById(phenomenonId)
-) {
-state.activePhenomenonId =
-phenomenonId;
-}
-
-if (
-contentId &&
-getContentById(contentId)
-) {
-state.selectedContentId =
-contentId;
-}
-}
 
 function renderAll() {
 renderMeta();
@@ -2805,77 +2930,67 @@ renderFacilities();
 }
 
 function initializeState() {
-if (!state.data) {
-return;
-}
+  if (!state.data) {
+    return;
+  }
 
-state.selectedChoiceId = "";
+  state.selectedChoiceId = "";
+  state.activeTopicId = "";
 
-if (state.data.phenomena.length > 0) {
-state.activePhenomenonId =
-state.data.phenomena[0].id;
-}
+  if (state.data.phenomena && state.data.phenomena.length > 0) {
+    state.activePhenomenonId = state.data.phenomena[0].id;
+  }
 
-applyUrlState();
-renderAll();
+  applyUrlState();
+  renderAll();
 
-if (state.selectedContentId) {
-openContent(
-state.selectedContentId,
-null,
-{
-preserveFocus:true
-}
-);
-}
+  if (state.activeTopicId) {
+    openTopic(state.activeTopicId, null);
+  }
+
+  if (state.selectedContentId) {
+    openContent(state.selectedContentId, null, {
+      preserveFocus: true
+    });
+  }
 }
 
 async function loadCampusData() {
-setLoadingState(true);
-hideDataError();
+  setLoadingState(true);
+  hideDataError();
 
-try {
-state.data =
-await fetchCampusData();
+  try {
+    state.data = await fetchCampusData();
+    initializeState();
+  } catch (error) {
+    console.error("[Digital Research Campus]", error);
 
-initializeState();
-} catch (error) {
-console.error(
-"[Digital Research Campus]",
-error
-);
+    state.data = null;
 
-state.data = null;
+    // エラー時のフォールバックテキスト一括更新
+    const errorMessages = [
+      { element: elements.phenomenonList, text: "現象データを表示できません。" },
+      { element: elements.bookshelf, text: "資料データを表示できません。" },
+      { element: elements.updateGrid, text: "更新情報を表示できません。" },
+      { element: elements.facilityGrid, text: "施設情報を表示できません。" }
+    ];
 
-if (elements.phenomenonList) {
-elements.phenomenonList.innerHTML =
-'<div class="loading-placeholder">\u73fe\u8c61\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
+    errorMessages.forEach(({ element, text }) => {
+      if (element) {
+        element.textContent = text;
+      }
+    });
+
+    showDataError(
+      error instanceof Error
+        ? error.message
+        : "Campusデータの読み込み中に不明なエラーが発生しました。"
+    );
+  } finally {
+    setLoadingState(false);
+  }
 }
 
-if (elements.bookshelf) {
-elements.bookshelf.innerHTML =
-'<div class="loading-placeholder">\u8cc7\u6599\u30c7\u30fc\u30bf\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-}
-
-if (elements.updateGrid) {
-elements.updateGrid.innerHTML =
-'<div class="loading-placeholder">\u66f4\u65b0\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-}
-
-if (elements.facilityGrid) {
-elements.facilityGrid.innerHTML =
-'<div class="loading-placeholder">\u65bd\u8a2d\u60c5\u5831\u3092\u8868\u793a\u3067\u304d\u307e\u305b\u3093\u3002</div>';
-}
-
-showDataError(
-error instanceof Error
-? error.message
-: "Campus\u30c7\u30fc\u30bf\u306e\u8aad\u307f\u8fbc\u307f\u4e2d\u306b\u4e0d\u660e\u306a\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002"
-);
-} finally {
-setLoadingState(false);
-}
-}
 
 function handleGlobalKeydown(event) {
 if (event.key === "Escape") {
