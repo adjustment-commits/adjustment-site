@@ -1885,11 +1885,6 @@ elements.adjustmentPanel.hidden =
 !isUnlocked;
 }
 
-if (elements.adjustmentTitle) {
-elements.adjustmentTitle.textContent =
-"";
-}
-
 if (elements.adjustmentText) {
 elements.adjustmentText.textContent =
 isUnlocked
@@ -1907,11 +1902,6 @@ elements.commonTheoryPanel.hidden =
 !isUnlocked;
 }
 
-if (elements.whyTitle) {
-elements.whyTitle.textContent =
-"";
-}
-
 if (elements.whyText) {
 elements.whyText.textContent =
 isUnlocked
@@ -1925,7 +1915,6 @@ elements.whyPoints.innerHTML =
 }
 }
 
-
 function renderNextStep(phenomenon) {
 const isUnlocked =
 Boolean(state.selectedChoiceId);
@@ -1933,11 +1922,6 @@ Boolean(state.selectedChoiceId);
 if (elements.nextStepPanel) {
 elements.nextStepPanel.hidden =
 !isUnlocked;
-}
-
-if (elements.nextStepTitle) {
-elements.nextStepTitle.textContent =
-"";
 }
 
 if (elements.nextStepText) {
@@ -2232,18 +2216,15 @@ function renderInsight() {
     // テキスト要素のクリア処理（textContent）
     [
       elements.entryTitle,
-      elements.entryText,
-      elements.adjustmentTitle,
-      elements.adjustmentText,
-      elements.whyTitle,
-      elements.whyText,
-      elements.nextStepTitle,
-      elements.nextStepText,
-      elements.premiumTitle,
-      elements.premiumText
-    ].forEach((element) => {
-      if (element) {
-        element.textContent = "";
+elements.entryText,
+elements.adjustmentText,
+elements.whyText,
+elements.nextStepText,
+elements.premiumTitle,
+elements.premiumText
+].forEach((element) => {
+if (element) {
+element.textContent = "";
       }
     });
 
