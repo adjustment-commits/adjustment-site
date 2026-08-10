@@ -2835,3 +2835,257 @@ transition-duration:0.01ms !important;
     transform: none;
   }
 }
+
+/* Topic navigation */
+
+#relatedTopicsPanel {
+  --block-accent: var(--accent);
+  background: #f9fcfb;
+  border-color: #c9e4da;
+}
+
+#relatedTopicList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.topic-item {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 126px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #ffffff;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.topic-item::after {
+  content: ">";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: #98a3a9;
+  font-size: 0.68rem;
+  font-weight: 900;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.topic-item:hover {
+  transform: translateY(-1px);
+  border-color: #9fd6c4;
+  background: #f7fbf9;
+  box-shadow: 0 6px 18px rgba(26, 39, 48, 0.06);
+}
+
+.topic-item:hover::after {
+  color: var(--accent-dark);
+  transform: translateX(2px);
+}
+
+.topic-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.topic-category {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 4px 7px;
+  border: 1px solid #c8e4da;
+  border-radius: 999px;
+  background: #f0f8f5;
+  color: var(--accent-dark);
+  font-size: 0.52rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.topic-label,
+.topic-title {
+  display: block;
+  max-width: calc(100% - 22px);
+  margin-top: 12px;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 820;
+  line-height: 1.5;
+}
+
+.topic-summary {
+  margin: 7px 0 0;
+  color: var(--text-muted);
+  font-size: 0.61rem;
+  line-height: 1.7;
+}
+
+.topic-header {
+  position: relative;
+  grid-column: 1 / -1;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid #a9daca;
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      135deg,
+      #eef8f4 0%,
+      #f8fcfa 68%,
+      #ffffff 100%
+    );
+}
+
+.topic-header::after {
+  content: "";
+  position: absolute;
+  right: -48px;
+  bottom: -48px;
+  width: 130px;
+  height: 130px;
+  border: 1px solid rgba(53, 184, 144, 0.13);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.topic-header .topic-category {
+  position: relative;
+  z-index: 1;
+  border-color: #acd9ca;
+  background: #ffffff;
+}
+
+.topic-header .topic-title {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin: 14px 0 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 850;
+  line-height: 1.5;
+}
+
+.topic-header .topic-summary {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 9px 0 0;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  line-height: 1.8;
+}
+
+#relatedTopicList > .empty-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  background: #fbfcfd;
+  color: var(--text-muted);
+  font-size: 0.64rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.topic-item .topic-category:first-child {
+  margin-right: 22px;
+}
+
+@media (max-width: 700px) {
+  #relatedTopicList {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 14px;
+  }
+
+  .topic-item {
+    min-height: 112px;
+    padding: 13px;
+    border-radius: 12px;
+  }
+
+  .topic-item::after {
+    top: 13px;
+    right: 13px;
+  }
+
+  .topic-category {
+    min-height: 21px;
+    padding: 4px 7px;
+    font-size: 0.5rem;
+  }
+
+  .topic-label,
+  .topic-title {
+    margin-top: 10px;
+    font-size: 0.71rem;
+  }
+
+  .topic-summary {
+    margin-top: 6px;
+    font-size: 0.59rem;
+    line-height: 1.65;
+  }
+
+  .topic-header {
+    padding: 17px;
+    border-radius: 13px;
+  }
+
+  .topic-header .topic-title {
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+
+  .topic-header .topic-summary {
+    margin-top: 8px;
+    font-size: 0.64rem;
+    line-height: 1.75;
+  }
+}
+
+@media (max-width: 420px) {
+  .topic-item {
+    min-height: 106px;
+    padding: 12px;
+  }
+
+  .topic-header {
+    padding: 15px;
+  }
+
+  .topic-header .topic-title {
+    font-size: 0.86rem;
+  }
+}
+
+@media (hover: none) {
+  .topic-item:hover {
+    transform: none;
+  }
+
+  .topic-item:hover::after {
+    transform: none;
+  }
+}
