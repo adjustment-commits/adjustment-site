@@ -3326,3 +3326,192 @@ transition-duration:0.01ms !important;
     font-size: 0.62rem;
   }
 }
+
+/* Topic detail mobile optimization */
+
+@media (max-width: 700px) {
+  #relatedTopicsPanel {
+    padding: 14px;
+  }
+
+  #relatedTopicList {
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .topic-card.main-topic {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .topic-card.main-topic::before {
+    width: 3px;
+  }
+
+  .topic-card.main-topic::after {
+    right: -54px;
+    bottom: -54px;
+    width: 138px;
+    height: 138px;
+  }
+
+  .topic-card.main-topic .topic-category {
+    min-height: 19px;
+    padding: 3px 6px;
+    font-size: 0.47rem;
+  }
+
+  .topic-card.main-topic .topic-label {
+    margin-top: 9px;
+    font-size: 0.86rem;
+    line-height: 1.4;
+  }
+
+  .topic-card.main-topic .topic-summary {
+    margin-top: 5px;
+    font-size: 0.59rem;
+    line-height: 1.6;
+  }
+
+  #relatedTopicList > .topic-header {
+    padding: 12px 13px;
+    border-radius: 11px;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header {
+    margin-top: 5px;
+  }
+
+  #relatedTopicList [data-topic-id] + .topic-header,
+  #relatedTopicList .empty-message + .topic-header {
+    margin-top: 6px;
+  }
+
+  #relatedTopicList > .topic-header .topic-category {
+    min-height: 19px;
+    padding: 3px 6px;
+    font-size: 0.46rem;
+  }
+
+  #relatedTopicList > .topic-header .topic-title {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  #relatedTopicList > .topic-header .topic-summary {
+    margin-top: 5px;
+    font-size: 0.57rem;
+    line-height: 1.55;
+  }
+
+  #relatedTopicList .topic-item {
+    min-height: 86px;
+    padding: 10px 11px;
+    border-radius: 11px;
+  }
+
+  #relatedTopicList .topic-item::after {
+    top: 10px;
+    right: 11px;
+    font-size: 0.58rem;
+  }
+
+  #relatedTopicList .topic-item .topic-category {
+    min-height: 19px;
+    padding: 3px 6px;
+    font-size: 0.46rem;
+  }
+
+  #relatedTopicList .topic-item .topic-title,
+  #relatedTopicList .topic-item .topic-label {
+    margin-top: 8px;
+    font-size: 0.67rem;
+    line-height: 1.4;
+  }
+
+  #relatedTopicList .topic-item .topic-summary {
+    margin-top: 4px;
+    font-size: 0.55rem;
+    line-height: 1.5;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] {
+    min-height: 94px;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id]::after {
+    top: 10px;
+    right: 11px;
+    font-size: 0.42rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-title {
+    padding-right: 34px;
+  }
+
+  #relatedTopicList > .empty-message {
+    padding: 11px;
+    font-size: 0.57rem;
+    line-height: 1.55;
+  }
+
+  .topic-block .thinking-block-guide {
+    margin-top: 7px;
+    font-size: 0.58rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 420px) {
+  #relatedTopicsPanel {
+    padding: 12px;
+  }
+
+  #relatedTopicList {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .topic-card.main-topic {
+    padding: 12px;
+  }
+
+  .topic-card.main-topic .topic-label {
+    font-size: 0.82rem;
+  }
+
+  .topic-card.main-topic .topic-summary {
+    font-size: 0.57rem;
+  }
+
+  #relatedTopicList > .topic-header {
+    padding: 11px 12px;
+  }
+
+  #relatedTopicList > .topic-header .topic-title {
+    font-size: 0.75rem;
+  }
+
+  #relatedTopicList > .topic-header .topic-summary {
+    font-size: 0.55rem;
+  }
+
+  #relatedTopicList .topic-item {
+    min-height: 80px;
+    padding: 9px 10px;
+  }
+
+  #relatedTopicList .topic-item .topic-title,
+  #relatedTopicList .topic-item .topic-label {
+    font-size: 0.65rem;
+  }
+
+  #relatedTopicList .topic-item .topic-summary {
+    font-size: 0.53rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] {
+    min-height: 88px;
+  }
+}
