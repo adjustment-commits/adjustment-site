@@ -1046,9 +1046,10 @@ source.text,
 "\u3053\u306e\u73fe\u8c61\u3092\u3069\u306e\u3088\u3046\u306b\u6349\u3048\u3066\u3044\u307e\u3059\u304b\u3002"
 ),
 description:normalizeString(
-source.description,
-"\u307e\u305a\u81ea\u5206\u306e\u6349\u3048\u65b9\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002"
+facility.description,
+“\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002”
 ),
+
 choices:normalizeArray(source.choices)
 .filter(isPlainObject)
 .map((choice,index) => {
