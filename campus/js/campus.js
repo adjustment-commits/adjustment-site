@@ -2017,7 +2017,7 @@ function renderRelatedTopics(phenomenon) {
 function openTopic(
 topicId,
 triggerElement = null
-){
+) {
 const topic = getTopicById(topicId);
 
 if (!topic) {
@@ -2026,18 +2026,18 @@ return;
 
 state.activeTopicId = topic.id;
 
-const relatedTopics = getRelatedTopics(
+const relatedTopics =
+getRelatedTopics(
 topic.relatedTopicIds
 );
 
 if (elements.relatedTopicsPanel) {
-elements.relatedTopicsPanel.hidden = false;
+elements.relatedTopicsPanel.hidden =
+false;
 }
 
-let mainTopicHtml = "";
-
 if (elements.relatedTopicList) {
-mainTopicHtml =
+const mainTopicHtml =
 '<div class="topic-header">' +
 '<span class="topic-category">' +
 escapeHtml(
@@ -2053,59 +2053,65 @@ escapeHtml(topic.summary) +
 '</div>';
 
 const relatedTopicsHtml =
-  relatedTopics.length > 0
-    ? relatedTopics
-        .map((related) => {
-          return (
-            '<button' +
-            ' class="topic-item"' +
-            ' type="button"' +
-            ' data-topic-id="' +
-            escapeHtml(related.id) +
-            '"' +
-            '>' +
-            '<span class="topic-category">' +
-            escapeHtml(
-              related.category.toUpperCase()
-            ) +
-            '</span>' +
-            '<span class="topic-title">' +
-            escapeHtml(related.label) +
-            '</span>' +
-            '<p class="topic-summary">' +
-            escapeHtml(related.summary) +
-            '</p>' +
-            '</button>'
-          );
-        })
-        .join("")
-    : "";
+relatedTopics.length > 0
+? relatedTopics
+.map((related) => {
+return (
+'<button' +
+' class="topic-item"' +
+' type="button"' +
+' data-topic-id="' +
+escapeHtml(related.id) +
+'"' +
+' aria-label="' +
+escapeHtml(related.label) +
+'"' +
+'>' +
+'<span class="topic-category">' +
+escapeHtml(
+related.category.toUpperCase()
+) +
+'</span>' +
+'<span class="topic-title">' +
+escapeHtml(related.label) +
+'</span>' +
+'<p class="topic-summary">' +
+escapeHtml(related.summary) +
+'</p>' +
+'</button>'
+);
+})
+.join("")
+: '<p class="empty-message">' +
+'\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002' +
+'</p>';
 
 elements.relatedTopicList.innerHTML =
-  mainTopicHtml +
-  relatedTopicsHtml;
+mainTopicHtml +
+relatedTopicsHtml;
 
 elements.relatedTopicList
-  .querySelectorAll(
-    "[data-topic-id]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        openTopic(
-          button.dataset.topicId,
-          button
-        );
-      }
-    );
-  });
+.querySelectorAll(
+"[data-topic-id]"
+)
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+openTopic(
+button.dataset.topicId,
+button
+);
 }
-  
-updateUrlState({
-topic: topic.id
+);
 });
 }
+
+updateUrlState({
+topic:topic.id
+});
+}
+
 
 
 function renderRelatedContents(phenomenon) {
