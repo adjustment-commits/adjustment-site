@@ -3089,3 +3089,240 @@ transition-duration:0.01ms !important;
     transform: none;
   }
 }
+
+/* Topic detail extension */
+
+.topic-card.main-topic {
+  position: relative;
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 22px;
+  overflow: hidden;
+  border: 1px solid #8fcfba;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    #eaf7f2 0%,
+    #f6fbf9 58%,
+    #ffffff 100%
+  );
+  box-shadow:
+    0 8px 24px rgba(26, 39, 48, 0.06),
+    inset 0 0 0 1px rgba(53, 184, 144, 0.04);
+}
+
+.topic-card.main-topic::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: var(--accent);
+}
+
+.topic-card.main-topic::after {
+  content: "";
+  position: absolute;
+  right: -62px;
+  bottom: -62px;
+  width: 168px;
+  height: 168px;
+  border: 1px solid rgba(53, 184, 144, 0.14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.topic-card.main-topic .topic-category {
+  position: relative;
+  z-index: 1;
+  border-color: #9fd6c4;
+  background: #ffffff;
+}
+
+.topic-card.main-topic .topic-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 100%;
+  margin: 15px 0 0;
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 880;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+}
+
+.topic-card.main-topic .topic-summary {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  line-height: 1.85;
+}
+
+#relatedTopicList > .topic-header {
+  margin-top: 8px;
+}
+
+#relatedTopicList > .topic-card.main-topic + .topic-header {
+  margin-top: 12px;
+}
+
+#relatedTopicList > .topic-header .topic-category {
+  background: #ffffff;
+  letter-spacing: 0.09em;
+}
+
+#relatedTopicList > .topic-header .topic-title {
+  font-size: 0.9rem;
+}
+
+#relatedTopicList [data-topic-id] {
+  border-color: #d8e1e5;
+}
+
+#relatedTopicList [data-topic-id]:hover {
+  border-color: #9fd6c4;
+  background: #f5faf8;
+}
+
+#relatedTopicList [data-topic-phenomenon-id] {
+  border-color: #d9dfe7;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fafbfd 100%
+  );
+}
+
+#relatedTopicList [data-topic-phenomenon-id]::after {
+  content: "VIEW";
+  position: absolute;
+  top: 15px;
+  right: 14px;
+  width: auto;
+  height: auto;
+  color: #7a8790;
+  font-size: 0.48rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+#relatedTopicList [data-topic-phenomenon-id]:hover {
+  border-color: #b8c7d3;
+  background: #f7f9fb;
+}
+
+#relatedTopicList [data-topic-phenomenon-id]:hover::after {
+  color: var(--accent-dark);
+  transform: none;
+}
+
+#relatedTopicList [data-topic-phenomenon-id] .topic-category {
+  border-color: #d4dde4;
+  background: #f6f8fa;
+  color: #60707b;
+}
+
+#relatedTopicList [data-topic-phenomenon-id] .topic-title {
+  padding-right: 34px;
+}
+
+#relatedTopicList .topic-header + .empty-message {
+  grid-column: 1 / -1;
+}
+
+#relatedTopicList .topic-card.main-topic + .topic-header {
+  border-color: #c8e4da;
+  background: linear-gradient(
+    135deg,
+    #f2faf7 0%,
+    #ffffff 100%
+  );
+}
+
+#relatedTopicList [data-topic-id] + .topic-header,
+#relatedTopicList .empty-message + .topic-header {
+  margin-top: 12px;
+}
+
+#relatedTopicList .topic-header:nth-of-type(n + 2) {
+  border-color: #d7e0e5;
+  background: linear-gradient(
+    135deg,
+    #f7f9fa 0%,
+    #ffffff 100%
+  );
+}
+
+#relatedTopicList .topic-header:nth-of-type(n + 2) .topic-category {
+  border-color: #d6dfe5;
+  background: #ffffff;
+  color: #5f6d76;
+}
+
+.topic-block .thinking-block-guide {
+  margin: 10px 0 0;
+  color: var(--text-muted);
+  font-size: 0.64rem;
+  line-height: 1.75;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 700px) {
+  .topic-card.main-topic {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .topic-card.main-topic .topic-label {
+    margin-top: 12px;
+    font-size: 0.94rem;
+  }
+
+  .topic-card.main-topic .topic-summary {
+    margin-top: 8px;
+    font-size: 0.65rem;
+    line-height: 1.78;
+  }
+
+  #relatedTopicList > .topic-header {
+    margin-top: 6px;
+  }
+
+  #relatedTopicList > .topic-card.main-topic + .topic-header {
+    margin-top: 9px;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id]::after {
+    top: 13px;
+    right: 12px;
+    font-size: 0.45rem;
+  }
+
+  #relatedTopicList [data-topic-phenomenon-id] .topic-title {
+    padding-right: 30px;
+  }
+
+  .topic-block .thinking-block-guide {
+    font-size: 0.61rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .topic-card.main-topic {
+    padding: 15px;
+  }
+
+  .topic-card.main-topic .topic-label {
+    font-size: 0.88rem;
+  }
+
+  .topic-card.main-topic .topic-summary {
+    font-size: 0.62rem;
+  }
+}
