@@ -3359,6 +3359,10 @@ function renderPdsDetail(content) {
     }
 
     elements.drawerPdsEvaluation.innerHTML = parts.join('');
+    setDrawerSectionVisible(
+elements.drawerPdsEvaluation,
+parts.length > 0
+);
   }
 
   // 3. 残りのテキストセクションのレンダリング
