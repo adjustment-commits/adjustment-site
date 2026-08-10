@@ -394,6 +394,20 @@ function getRelatedTopics(ids) {
     })
     .filter(Boolean);
 }
+  
+function getPhenomenaByTopicId(topicId) {
+  const normalizedTopicId = normalizeString(topicId);
+  const phenomena = state.data?.phenomena;
+
+  if (!normalizedTopicId || !Array.isArray(phenomena)) {
+    return [];
+  }
+
+  return phenomena.filter((phenomenon) => {
+    const relatedTopicIds = normalizeArray(phenomenon?.relatedTopicIds);
+    return relatedTopicIds.includes(normalizedTopicId);
+  });
+}
 
 function formatTypeLabel(type) {
 return TYPE_LABELS[type] ||
@@ -2015,104 +2029,124 @@ function renderRelatedTopics(phenomenon) {
     });
 }
 
-function openTopic(
-topicId,
-triggerElement = null
-) {
-const topic = getTopicById(topicId);
+function openTopic(topicId, triggerElement = null) {
+  const topic = getTopicById(topicId);
 
-if (!topic) {
-return;
+  if (!topic) {
+    return;
+  }
+
+  // Update application state
+  state.activeTopicId = topic.id;
+
+  // Retrieve related data safely
+  const relatedTopics = getRelatedTopics(topic.relatedTopicIds || []);
+  const relatedPhenomena = getPhenomenaByTopicId(topic.id);
+
+  // Unhide the panel if present
+  if (elements.relatedTopicsPanel) {
+    elements.relatedTopicsPanel.hidden = false;
+  }
+
+  if (elements.relatedTopicList) {
+    // 1. Render Main Topic Card
+    const mainCategory = escapeHtml((topic.category || '').toUpperCase());
+    const mainLabel = escapeHtml(topic.label || '');
+    const mainSummary = escapeHtml(topic.summary || '');
+
+    const mainTopicHtml = `
+      <div class="topic-card main-topic">
+        <span class="topic-category">${mainCategory}</span>
+        <h3 class="topic-label">${mainLabel}</h3>
+        <p class="topic-summary">${mainSummary}</p>
+      </div>
+    `;
+
+    // 2. Render Related Topics Section
+    const relatedTopicsHeadingHtml = `
+      <div class="topic-header">
+        <span class="topic-category">RELATED TOPICS</span>
+        <h3 class="topic-title">関連する概念</h3>
+        <p class="topic-summary">この概念から、別の視点へ思考を広げます。</p>
+      </div>
+    `;
+
+    const relatedTopicsHtml = relatedTopics.length > 0
+      ? relatedTopics.map((related) => `
+          <button 
+            class="topic-item" 
+            type="button" 
+            data-topic-id="${escapeHtml(related.id || '')}" 
+            aria-label="${escapeHtml(related.label || '')}"
+          >
+            <span class="topic-category">${escapeHtml((related.category || '').toUpperCase())}</span>
+            <span class="topic-title">${escapeHtml(related.label || '')}</span>
+            <p class="topic-summary">${escapeHtml(related.summary || '')}</p>
+          </button>
+        `).join("")
+      : '<p class="empty-message">関連する概念はまだありません。</p>';
+
+    // 3. Render Related Phenomena Section
+    const relatedPhenomenaHeadingHtml = `
+      <div class="topic-header">
+        <span class="topic-category">RELATED PHENOMENA</span>
+        <h3 class="topic-title">この概念と関係する現象</h3>
+        <p class="topic-summary">この概念が、実際のフィールドでどのような現象とつながるかを確認します。</p>
+      </div>
+    `;
+
+    const relatedPhenomenaHtml = relatedPhenomena.length > 0
+      ? relatedPhenomena.map((phenomenon) => `
+          <button 
+            class="topic-item" 
+            type="button" 
+            data-topic-phenomenon-id="${escapeHtml(phenomenon.id || '')}" 
+            aria-label="${escapeHtml(phenomenon.label || '')}"
+          >
+            <span class="topic-category">PHENOMENON</span>
+            <span class="topic-title">${escapeHtml(phenomenon.label || '')}</span>
+            <p class="topic-summary">${escapeHtml(phenomenon.description || '')}</p>
+          </button>
+        `).join("")
+      : '<p class="empty-message">この概念に関連付けられた現象はまだありません。</p>';
+
+    // 4. Inject Full HTML into Container
+    elements.relatedTopicList.innerHTML = 
+      mainTopicHtml +
+      relatedTopicsHeadingHtml +
+      relatedTopicsHtml +
+      relatedPhenomenaHeadingHtml +
+      relatedPhenomenaHtml;
+
+    // 5. Attach Topic Click Event Handlers
+    elements.relatedTopicList
+      .querySelectorAll("[data-topic-id]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          openTopic(button.dataset.topicId, button);
+        });
+      });
+
+    // 6. Attach Phenomenon Click Event Handlers
+    elements.relatedTopicList
+      .querySelectorAll("[data-topic-phenomenon-id]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          selectPhenomenon(button.dataset.topicPhenomenonId);
+
+          if (elements.insightPanel) {
+            elements.insightPanel.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+        });
+      });
+  }
+
+  // Synchronize URL State
+  updateUrlState({ topic: topic.id });
 }
-
-state.activeTopicId = topic.id;
-
-const relatedTopics =
-getRelatedTopics(
-topic.relatedTopicIds
-);
-
-if (elements.relatedTopicsPanel) {
-elements.relatedTopicsPanel.hidden =
-false;
-}
-
-if (elements.relatedTopicList) {
-const mainTopicHtml =
-'<div class="topic-header">' +
-'<span class="topic-category">' +
-escapeHtml(
-topic.category.toUpperCase()
-) +
-'</span>' +
-'<h3 class="topic-title">' +
-escapeHtml(topic.label) +
-'</h3>' +
-'<p class="topic-summary">' +
-escapeHtml(topic.summary) +
-'</p>' +
-'</div>';
-
-const relatedTopicsHtml =
-relatedTopics.length > 0
-? relatedTopics
-.map((related) => {
-return (
-'<button' +
-' class="topic-item"' +
-' type="button"' +
-' data-topic-id="' +
-escapeHtml(related.id) +
-'"' +
-' aria-label="' +
-escapeHtml(related.label) +
-'"' +
-'>' +
-'<span class="topic-category">' +
-escapeHtml(
-related.category.toUpperCase()
-) +
-'</span>' +
-'<span class="topic-title">' +
-escapeHtml(related.label) +
-'</span>' +
-'<p class="topic-summary">' +
-escapeHtml(related.summary) +
-'</p>' +
-'</button>'
-);
-})
-.join("")
-: '<p class="empty-message">' +
-'\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002' +
-'</p>';
-
-elements.relatedTopicList.innerHTML =
-mainTopicHtml +
-relatedTopicsHtml;
-
-elements.relatedTopicList
-.querySelectorAll(
-"[data-topic-id]"
-)
-.forEach((button) => {
-button.addEventListener(
-"click",
-() => {
-openTopic(
-button.dataset.topicId,
-button
-);
-}
-);
-});
-}
-
-updateUrlState({
-topic:topic.id
-});
-}
-
 
 
 function renderRelatedContents(phenomenon) {
