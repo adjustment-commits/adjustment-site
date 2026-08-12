@@ -108,9 +108,6 @@ drawerMeta:document.getElementById("drawerMeta"),
 drawerQuestion:document.getElementById("drawerQuestion"),
 drawerCommonTheory:document.getElementById("drawerCommonTheory"),
 drawerAdjustmentView:document.getElementById("drawerAdjustmentView"),
-drawerQuestion:document.getElementById("drawerQuestion"),
-drawerCommonTheory:document.getElementById("drawerCommonTheory"),
-drawerAdjustmentView:document.getElementById("drawerAdjustmentView"),
 drawerWhy:document.getElementById("drawerWhy"),
 drawerCheckpoints:document.getElementById("drawerCheckpoints"),
 drawerPdsEvaluation:document.getElementById("drawerPdsEvaluation"),
@@ -3004,7 +3001,29 @@ if (section) {
 section.hidden = !isVisible;
 }
 }
+  
+function renderDrawerSectionHeadings(contentType) {
+const isPds = contentType === "pds";
 
+if (elements.drawerQuestionHeading) {
+elements.drawerQuestionHeading.textContent = isPds
+? "PDS OVERVIEW / PDSについて"
+: "QUESTION / 最初の問い";
+}
+
+if (elements.drawerCommonTheoryHeading) {
+elements.drawerCommonTheoryHeading.textContent = isPds
+? "PURPOSE / 評価の目的"
+: "COMMON THEORY / 一般的な考え方";
+}
+
+if (elements.drawerAdjustmentViewHeading) {
+elements.drawerAdjustmentViewHeading.textContent = isPds
+? "PRINCIPLES / 評価の考え方"
+: "ADJUSTMENT VIEW / 捉え直し";
+}
+}
+  
 function clearResearchDrawerSections() {
 [
 elements.drawerQuestion,
@@ -3509,6 +3528,8 @@ if (elements.drawerLimitation) {
 elements.drawerLimitation.textContent =
 content.limitation;
 }
+
+renderDrawerSectionHeadings(content.type);
 
 if (content.type === "research") {
 renderResearchDetail(content);
