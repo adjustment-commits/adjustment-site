@@ -18,6 +18,48 @@
     "limitation": "",
     "relatedIds": [
       "R-001"
-    ]
+    ],
+    "caseDetail": {
+      "background": {
+        "title": "Case Background",
+        "text": "この症例の背景情報を整理中です。",
+        "points": []
+      },
+      "phenomenon": {
+        "title": "Observed Phenomenon",
+        "text": "現場で確認された現象を整理中です。",
+        "points": []
+      },
+      "initialInterpretation": {
+        "title": "Initial Interpretation",
+        "text": "初期段階での捉え方を整理中です。",
+        "points": []
+      },
+      "assessment": {
+        "title": "Assessment",
+        "text": "確認した評価項目を整理中です。",
+        "points": []
+      },
+      "intervention": {
+        "title": "Intervention",
+        "text": "実施した介入内容を整理中です。",
+        "points": []
+      },
+      "response": {
+        "title": "Response",
+        "text": "介入後に確認された反応を整理中です。",
+        "points": []
+      },
+      "interpretation": {
+        "title": "Interpretation",
+        "text": "結果から考えられることを整理中です。",
+        "points": []
+      },
+      "limitations": {
+        "title": "Limitations",
+        "text": "この症例から断定できない点を整理中です。",
+        "points": []
+      }
+    }
   }
 ]
