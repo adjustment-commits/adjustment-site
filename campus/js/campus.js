@@ -3338,55 +3338,105 @@ function renderPdsDetail(content) {
   );
 
   // 2. evaluationItem (評価項目およびチェックポイント) のレンダリング
-  const evaluationItem = detail.evaluationItem;
+const evaluationItem = detail.evaluationItem;
+if (
+elements.drawerPdsEvaluation &&
+isPlainObject(evaluationItem)
+) {
+const parts = [];
 
-  if (
-    elements.drawerPdsEvaluation &&
-    isPlainObject(evaluationItem)
-  ) {
-    const parts = [];
+if (evaluationItem.title) {
+  parts.push(
+    '<h4 class="drawer-content-title">' +
+    escapeHtml(evaluationItem.title) +
+    '</h4>'
+  );
+}
 
-    // タイトル / 日本語タイトル / 目的の追加
-    if (evaluationItem.title) {
-      parts.push(`<h3>${escapeHtml(evaluationItem.title)}</h3>`);
-    }
-    if (evaluationItem.japaneseTitle) {
-      parts.push(`<p class="subtitle">${escapeHtml(evaluationItem.japaneseTitle)}</p>`);
-    }
-    if (evaluationItem.objective) {
-      parts.push(`<p class="objective">${escapeHtml(evaluationItem.objective)}</p>`);
-    }
+if (evaluationItem.japaneseTitle) {
+  parts.push(
+    '<p class="drawer-content-text">' +
+    escapeHtml(evaluationItem.japaneseTitle) +
+    '</p>'
+  );
+}
 
-    // 評価方法 (method) の追加
-    if (isPlainObject(evaluationItem.method)) {
-      parts.push('<div class="evaluation-method">');
-      if (evaluationItem.method.title) {
-        parts.push(`<h4>${escapeHtml(evaluationItem.method.title)}</h4>`);
-      }
-      if (evaluationItem.method.text) {
-        parts.push(`<p>${escapeHtml(evaluationItem.method.text)}</p>`);
-      }
-      parts.push('</div>');
-    }
+if (evaluationItem.objective) {
+  parts.push(
+    '<div class="drawer-list-item">' +
+    '<strong>OBJECTIVE</strong>' +
+    '<span>' +
+    escapeHtml(evaluationItem.objective) +
+    '</span>' +
+    '</div>'
+  );
+}
 
-    // チェックポイント (checkpoints) のリスト描画
-    if (Array.isArray(evaluationItem.checkpoints) && evaluationItem.checkpoints.length > 0) {
-      parts.push('<ul class="checkpoint-list">');
-      evaluationItem.checkpoints.forEach((cp) => {
-        parts.push(`
-          <li id="${escapeHtml(cp.id)}">
-            <strong>${escapeHtml(cp.title)}</strong>
-            <p>${escapeHtml(cp.text)}</p>
-          </li>
-        `);
-      });
-      parts.push('</ul>');
-    }
+if (
+  isPlainObject(evaluationItem.method) &&
+  (
+    evaluationItem.method.title ||
+    evaluationItem.method.text
+  )
+) {
+  parts.push(
+    '<div class="drawer-list-item">' +
+    '<strong>' +
+    escapeHtml(
+      evaluationItem.method.title ||
+      "METHOD"
+    ) +
+    '</strong>' +
+    (
+      evaluationItem.method.text
+        ? '<span>' +
+          escapeHtml(evaluationItem.method.text) +
+          '</span>'
+        : ""
+    ) +
+    '</div>'
+  );
+}
 
-    elements.drawerPdsEvaluation.innerHTML = parts.join('');
-    setDrawerSectionVisible(
-elements.drawerPdsEvaluation,
-parts.length > 0
+if (
+  Array.isArray(evaluationItem.checkpoints) &&
+  evaluationItem.checkpoints.length > 0
+) {
+  evaluationItem.checkpoints.forEach(
+    (checkpoint, index) => {
+      parts.push(
+        '<div' +
+        ' class="drawer-list-item"' +
+        ' id="' +
+        escapeHtml(checkpoint.id) +
+        '"' +
+        '>' +
+        '<strong>' +
+        escapeHtml(
+          String(index + 1).padStart(2, "0")
+        ) +
+        " / " +
+        escapeHtml(checkpoint.title) +
+        '</strong>' +
+        (
+          checkpoint.text
+            ? '<span>' +
+              escapeHtml(checkpoint.text) +
+              '</span>'
+            : ""
+        ) +
+        '</div>'
+      );
+    }
+  );
+}
+
+elements.drawerPdsEvaluation.innerHTML =
+  parts.join("");
+
+setDrawerSectionVisible(
+  elements.drawerPdsEvaluation,
+  parts.length > 0
 );
   }
 
