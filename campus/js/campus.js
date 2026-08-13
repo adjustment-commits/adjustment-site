@@ -2512,33 +2512,60 @@ function renderRelatedTopics(phenomenon) {
 
   if (relatedTopics.length === 0) {
     elements.relatedTopicList.innerHTML =
-      "\u95a2\u9023\u3059\u308b\u6982\u5ff5\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
+      "関連する概念を整理中です。";
     return;
   }
 
   elements.relatedTopicList.innerHTML = relatedTopics
     .map((topic) => {
-      return (
-        '<button' +
-        ' class="topic-item"' +
-        ' type="button"' +
-        ' data-topic-id="' +
-        escapeHtml(topic.id) +
-        '"' +
-        '>' +
-        '<span class="topic-category">' +
-        escapeHtml(topic.category.toUpperCase()) +
-        '</span>' +
-        '<strong class="topic-label">' +
-        escapeHtml(topic.label) +
-        '</strong>' +
-        '<p class="topic-summary">' +
-        escapeHtml(topic.summary) +
-        '</p>' +
-        '</button>'
-      );
+      const isActive = topic.id === state.activeTopicId;
+      return `
+        <li>
+          <button
+            type="button"
+            class="${isActive ? "active" : ""}"
+            data-topic-id="${topic.id}"
+          >
+            ${topic.title}
+          </button>
+        </li>
+      `;
     })
     .join("");
+}
+  return (
+    '<button' +
+    ' class="topic-item' +
+    (isActive ? " is-active" : "") +
+    '"' +
+    ' type="button"' +
+    ' data-topic-id="' +
+    escapeHtml(topic.id) +
+    '"' +
+    ' aria-pressed="' +
+    String(isActive) +
+    '"' +
+    '>' +
+    '<span class="topic-category">' +
+    escapeHtml(topic.category.toUpperCase()) +
+    '</span>' +
+    '<strong class="topic-label">' +
+    escapeHtml(topic.label) +
+    '</strong>' +
+    '<p class="topic-summary">' +
+    escapeHtml(topic.summary) +
+    '</p>' +
+    '</button>'
+  );
+})
+.join("");
+    bindTopicViewEvents();
+}
+
+function bindTopicViewEvents() {
+  if (!elements.relatedTopicList) {
+    return;
+  }
 
   elements.relatedTopicList
     .querySelectorAll("[data-topic-id]")
@@ -2550,6 +2577,171 @@ function renderRelatedTopics(phenomenon) {
         );
       });
     });
+
+  elements.relatedTopicList
+    .querySelectorAll("[data-topic-content-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        openContent(
+          button.dataset.topicContentId,
+          button
+        );
+      });
+    });
+
+  elements.relatedTopicList
+    .querySelectorAll("[data-topic-phenomenon-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        selectPhenomenon(
+          button.dataset.topicPhenomenonId
+        );
+      });
+    });
+}
+    if (elements.insightPanel) {
+      elements.insightPanel.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+    }
+  });
+});
+const backButton =
+elements.relatedTopicList.querySelector(
+"[data-topic-back]"
+);
+
+if (backButton) {
+backButton.addEventListener(
+"click",
+closeTopic
+);
+}
+
+
+function renderTopicView(topic) {
+  if (
+    !topic ||
+    !elements.relatedTopicsPanel ||
+    !elements.relatedTopicList
+  ) {
+    return;
+  }
+
+  const relatedTopics = getRelatedTopics(topic.relatedTopicIds);
+  const relatedContents = getRelatedContents(topic.relatedContentIds);
+  const relatedPhenomena = getPhenomenaByTopicId(topic.id);
+
+  const relatedTopicsHtml =
+    relatedTopics.length > 0
+      ? relatedTopics
+          .map((related) => {
+            return `
+              <button
+                class="topic-item"
+                type="button"
+                data-topic-id="${escapeHtml(related.id)}"
+                aria-pressed="false"
+              >
+                ${escapeHtml(related.category.toUpperCase())}
+                ${escapeHtml(related.label)}
+                ${escapeHtml(related.summary)}
+              </button>
+            `;
+          })
+          .join("")
+      : "関連する概念はまだありません。";
+
+  const relatedContentsHtml =
+    relatedContents.length > 0
+      ? relatedContents
+          .map((content) => {
+            return `
+              <button
+                class="topic-item"
+                type="button"
+                data-topic-content-id="${escapeHtml(content.id)}"
+              >
+                ${escapeHtml(formatTypeLabel(content.type))}
+                ${escapeHtml(content.title)}
+                ${escapeHtml(content.summary)}
+              </button>
+            `;
+          })
+          .join("")
+      : "この概念に関連付けられた資料はまだありません。";
+
+  const relatedPhenomenaHtml =
+    relatedPhenomena.length > 0
+      ? relatedPhenomena
+          .map((phenomenon) => {
+            return `
+              <button
+                class="topic-item"
+                type="button"
+                data-topic-phenomenon-id="${escapeHtml(phenomenon.id)}"
+              >
+                PHENOMENON
+                ${escapeHtml(phenomenon.label)}
+                ${escapeHtml(phenomenon.description)}
+              </button>
+            `;
+          })
+          .join("")
+      : "この概念に関連付けられた現象はまだありません。";
+
+  elements.relatedTopicsPanel.hidden = false;
+
+  elements.relatedTopicList.innerHTML = `
+    <button
+      class="topic-back"
+      type="button"
+      data-topic-back
+    >
+      ← RELATED TOPICS
+    </button>
+  `;
+}
+  '<div class="topic-card main-topic">' +
+    '<span class="topic-category">' +
+    escapeHtml(
+      topic.category.toUpperCase()
+    ) +
+    '</span>' +
+    '<h3 class="topic-label">' +
+    escapeHtml(topic.label) +
+    '</h3>' +
+    '<p class="topic-summary">' +
+    escapeHtml(topic.summary) +
+    '</p>' +
+  '</div>' +
+
+  '<div class="topic-header">' +
+    '<span class="topic-category">RELATED TOPICS</span>' +
+    '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u6982\u5ff5</h3>' +
+    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002</p>' +
+  '</div>' +
+
+  relatedTopicsHtml +
+
+  '<div class="topic-header">' +
+    '<span class="topic-category">RELATED CONTENT</span>' +
+    '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u8cc7\u6599</h3>' +
+    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
+  '</div>' +
+
+  relatedContentsHtml +
+
+  '<div class="topic-header">' +
+    '<span class="topic-category">RELATED PHENOMENA</span>' +
+    '<h3 class="topic-title">\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61</h3>' +
+    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
+  '</div>' +
+
+  relatedPhenomenaHtml +
+'</div>';
+    bindTopicViewEvents();
 }
 
 function openTopic(topicId, triggerElement = null) {
@@ -2559,153 +2751,44 @@ function openTopic(topicId, triggerElement = null) {
     return;
   }
 
-  // Update application state
   state.activeTopicId = topic.id;
 
-  // Retrieve related data safely
-  const relatedTopics = getRelatedTopics(topic.relatedTopicIds || []);
-  const relatedContents = getRelatedContents(topic.relatedContentIds || []);
-  const relatedPhenomena = getPhenomenaByTopicId(topic.id);
+  renderTopicView(topic);
 
-  // Unhide the panel if present
-  if (elements.relatedTopicsPanel) {
-    elements.relatedTopicsPanel.hidden = false;
+  updateUrlState({
+    topic: topic.id
+  });
+
+  if (
+    triggerElement instanceof HTMLElement &&
+    elements.relatedTopicsPanel
+  ) {
+    elements.relatedTopicsPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+function closeTopic() {
+  const phenomenon = getActivePhenomenon();
+
+  state.activeTopicId = "";
+
+  updateUrlState({
+    topic: ""
+  });
+
+  if (phenomenon) {
+    renderRelatedTopics(phenomenon);
+    return;
   }
 
   if (elements.relatedTopicList) {
-    // 1. Render Main Topic Card
-    const mainCategory = escapeHtml((topic.category || '').toUpperCase());
-    const mainLabel = escapeHtml(topic.label || '');
-    const mainSummary = escapeHtml(topic.summary || '');
-
-    const mainTopicHtml = `
-      <div class="topic-card main-topic">
-        <span class="topic-category">${mainCategory}</span>
-        <h3 class="topic-label">${mainLabel}</h3>
-        <p class="topic-summary">${mainSummary}</p>
-      </div>
-    `;
-
-    // 2. Render Related Topics Section
-    const relatedTopicsHeadingHtml = `
-      <div class="topic-header">
-        <span class="topic-category">RELATED TOPICS</span>
-        <h3 class="topic-title">\u95a2\u9023\u3059\u308b\u6982\u5ff5</h3>
-        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002</p>
-      </div>
-    `;
-
-    const relatedTopicsHtml = relatedTopics.length > 0
-      ? relatedTopics.map((related) => `
-          <button 
-            class="topic-item" 
-            type="button" 
-            data-topic-id="${escapeHtml(related.id || '')}" 
-            aria-label="${escapeHtml(related.label || '')}"
-          >
-            <span class="topic-category">${escapeHtml((related.category || '').toUpperCase())}</span>
-            <span class="topic-title">${escapeHtml(related.label || '')}</span>
-            <p class="topic-summary">${escapeHtml(related.summary || '')}</p>
-          </button>
-        `).join("")
-      : '<p class="empty-message">\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
-
-    // 3. Render Related Content Section
-    const relatedContentHeadingHtml = `
-      <div class="topic-header">
-        <span class="topic-category">RELATED CONTENT</span>
-        <h3 class="topic-title">\u95a2\u9023\u3059\u308b\u8cc7\u6599</h3>
-        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>
-      </div>
-    `;
-
-    const relatedContentHtml = relatedContents.length > 0
-      ? relatedContents.map((content) => `
-          <button
-            class="topic-item"
-            type="button"
-            data-topic-content-id="${escapeHtml(content.id || '')}"
-            aria-label="${escapeHtml(content.title || '')}"
-          >
-            <span class="topic-category">${escapeHtml(formatTypeLabel(content.type))}</span>
-            <span class="topic-title">${escapeHtml(content.title || '')}</span>
-            <p class="topic-summary">${escapeHtml(content.summary || '')}</p>
-          </button>
-        `).join("")
-      : '<p class="empty-message">\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u8cc7\u6599\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
-
-    // 4. Render Related Phenomena Section
-    const relatedPhenomenaHeadingHtml = `
-      <div class="topic-header">
-        <span class="topic-category">RELATED PHENOMENA</span>
-        <h3 class="topic-title">\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61</h3>
-        <p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>
-      </div>
-    `;
-
-    const relatedPhenomenaHtml = relatedPhenomena.length > 0
-      ? relatedPhenomena.map((phenomenon) => `
-          <button 
-            class="topic-item" 
-            type="button" 
-            data-topic-phenomenon-id="${escapeHtml(phenomenon.id || '')}" 
-            aria-label="${escapeHtml(phenomenon.label || '')}"
-          >
-            <span class="topic-category">PHENOMENON</span>
-            <span class="topic-title">${escapeHtml(phenomenon.label || '')}</span>
-            <p class="topic-summary">${escapeHtml(phenomenon.description || '')}</p>
-          </button>
-        `).join("")
-      : '<p class="empty-message">\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u73fe\u8c61\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002</p>';
-
-    // 5. Inject Full HTML into Container
-    elements.relatedTopicList.innerHTML = 
-      mainTopicHtml +
-      relatedTopicsHeadingHtml +
-      relatedTopicsHtml +
-      relatedContentHeadingHtml +
-      relatedContentHtml +
-      relatedPhenomenaHeadingHtml +
-      relatedPhenomenaHtml;
-
-    // 6. Attach Topic Click Event Handlers
-    elements.relatedTopicList
-      .querySelectorAll("[data-topic-id]")
-      .forEach((button) => {
-        button.addEventListener("click", () => {
-          openTopic(button.dataset.topicId, button);
-        });
-      });
-
-    // 7. Attach Content Click Event Handlers
-    elements.relatedTopicList
-      .querySelectorAll("[data-topic-content-id]")
-      .forEach((button) => {
-        button.addEventListener("click", () => {
-          openContent(button.dataset.topicContentId, button);
-        });
-      });
-
-    // 8. Attach Phenomenon Click Event Handlers
-    elements.relatedTopicList
-      .querySelectorAll("[data-topic-phenomenon-id]")
-      .forEach((button) => {
-        button.addEventListener("click", () => {
-          selectPhenomenon(button.dataset.topicPhenomenonId);
-
-          if (elements.insightPanel) {
-            elements.insightPanel.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          }
-        });
-      });
+    elements.relatedTopicList.innerHTML = "";
   }
-
-  // Synchronize URL State
-  updateUrlState({ topic: topic.id });
 }
+
 
 
 function renderRelatedContents(phenomenon) {
