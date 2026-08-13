@@ -92,6 +92,12 @@ relatedTopicList: document.getElementById("relatedTopicList"),
 
 relatedList: document.getElementById("relatedList"),
 
+cardiumSection: document.getElementById("cardiumSection"),
+cardiumViewport: document.getElementById("cardiumViewport"),
+cardiumConnections: document.getElementById("cardiumConnections"),
+cardiumNodes: document.getElementById("cardiumNodes"),
+cardiumEmpty: document.getElementById("cardiumEmpty"),
+
 
 updateGrid:document.getElementById("updateGrid"),
 facilityGrid:document.getElementById("facilityGrid"),
