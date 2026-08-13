@@ -2599,9 +2599,17 @@ function renderTopicView(topic) {
     return;
   }
 
-  const relatedTopics = getRelatedTopics(topic.relatedTopicIds);
-  const relatedContents = getRelatedContents(topic.relatedContentIds);
-  const relatedPhenomena = getPhenomenaByTopicId(topic.id);
+  const relatedTopics = getRelatedTopics(
+    topic.relatedTopicIds
+  );
+
+  const relatedContents = getRelatedContents(
+    topic.relatedContentIds
+  );
+
+  const relatedPhenomena = getPhenomenaByTopicId(
+    topic.id
+  );
 
   const relatedTopicsHtml =
     relatedTopics.length > 0
@@ -2617,7 +2625,9 @@ function renderTopicView(topic) {
               ' aria-pressed="false"' +
               '>' +
               '<span class="topic-category">' +
-              escapeHtml(related.category.toUpperCase()) +
+              escapeHtml(
+                related.category.toUpperCase()
+              ) +
               '</span>' +
               '<strong class="topic-label">' +
               escapeHtml(related.label) +
@@ -2629,7 +2639,11 @@ function renderTopicView(topic) {
             );
           })
           .join("")
-      : '\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
+      : (
+          '<div class="topic-empty">' +
+          '\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002' +
+          '</div>'
+        );
 
   const relatedContentsHtml =
     relatedContents.length > 0
@@ -2637,14 +2651,16 @@ function renderTopicView(topic) {
           .map((content) => {
             return (
               '<button' +
-              ' class="topic-item"' +
+              ' class="topic-item topic-content-item"' +
               ' type="button"' +
               ' data-topic-content-id="' +
               escapeHtml(content.id) +
               '"' +
               '>' +
               '<span class="topic-category">' +
-              escapeHtml(formatTypeLabel(content.type)) +
+              escapeHtml(
+                formatTypeLabel(content.type)
+              ) +
               '</span>' +
               '<strong class="topic-label">' +
               escapeHtml(content.title) +
@@ -2656,21 +2672,35 @@ function renderTopicView(topic) {
             );
           })
           .join("")
-      : '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u8cc7\u6599\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
+      : (
+          '<div class="topic-empty">' +
+          '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u8cc7\u6599\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002' +
+          '</div>'
+        );
 
   const relatedPhenomenaHtml =
     relatedPhenomena.length > 0
       ? relatedPhenomena
           .map((phenomenon) => {
+            const isCurrent =
+              phenomenon.id ===
+              state.activePhenomenonId;
+
             return (
               '<button' +
-              ' class="topic-item"' +
+              ' class="topic-item topic-phenomenon-item' +
+              (isCurrent ? ' is-current' : '') +
+              '"' +
               ' type="button"' +
               ' data-topic-phenomenon-id="' +
               escapeHtml(phenomenon.id) +
               '"' +
               '>' +
-              '<span class="topic-category">PHENOMENON</span>' +
+              '<span class="topic-category">' +
+              (isCurrent
+                ? 'CURRENT PHENOMENON'
+                : 'PHENOMENON') +
+              '</span>' +
               '<strong class="topic-label">' +
               escapeHtml(phenomenon.label) +
               '</strong>' +
@@ -2681,7 +2711,11 @@ function renderTopicView(topic) {
             );
           })
           .join("")
-      : '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u73fe\u8c61\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
+      : (
+          '<div class="topic-empty">' +
+          '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u73fe\u8c61\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002' +
+          '</div>'
+        );
 
   elements.relatedTopicsPanel.hidden = false;
 
@@ -2706,25 +2740,38 @@ function renderTopicView(topic) {
     '</div>' +
     '<div class="topic-header">' +
     '<span class="topic-category">RELATED TOPICS</span>' +
-    '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u6982\u5ff5</h3>' +
-    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002</p>' +
+    '<h3 class="topic-title">' +
+    '\u95a2\u9023\u3059\u308b\u6982\u5ff5' +
+    '</h3>' +
+    '<p class="topic-summary">' +
+    '\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002' +
+    '</p>' +
     '</div>' +
     relatedTopicsHtml +
     '<div class="topic-header">' +
     '<span class="topic-category">RELATED CONTENT</span>' +
-    '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u8cc7\u6599</h3>' +
-    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
+    '<h3 class="topic-title">' +
+    '\u95a2\u9023\u3059\u308b\u8cc7\u6599' +
+    '</h3>' +
+    '<p class="topic-summary">' +
+    '\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002' +
+    '</p>' +
     '</div>' +
     relatedContentsHtml +
     '<div class="topic-header">' +
     '<span class="topic-category">RELATED PHENOMENA</span>' +
-    '<h3 class="topic-title">\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61</h3>' +
-    '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
+    '<h3 class="topic-title">' +
+    '\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61' +
+    '</h3>' +
+    '<p class="topic-summary">' +
+    '\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002' +
+    '</p>' +
     '</div>' +
     relatedPhenomenaHtml;
 
   bindTopicViewEvents();
 }
+
 
 function openTopic(topicId, triggerElement = null) {
   const topic = getTopicById(topicId);
