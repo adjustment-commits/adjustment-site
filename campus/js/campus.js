@@ -35,6 +35,7 @@ copyright:"\u00a9 adjustment Digital Research Campus"
 
 const state = {
   data: null,
+  cardiumGraph: null,
   activePhenomenonId: "",
   activeTopicId: "",
   selectedChoiceId: "",
@@ -423,6 +424,375 @@ function getPhenomenaByTopicId(topicId) {
     return relatedTopicIds.includes(normalizedTopicId);
   });
 }
+
+function createCardiumNodeId(kind, entityId) {
+  const normalizedKind = normalizeString(kind);
+  const normalizedEntityId = normalizeString(entityId);
+
+  if (!normalizedKind || !normalizedEntityId) {
+    return "";
+  }
+
+  return `${normalizedKind}:${normalizedEntityId}`;
+}
+
+function createCardiumConnectionId(
+  sourceNodeId,
+  targetNodeId,
+  relation
+) {
+  const source = normalizeString(sourceNodeId);
+  const target = normalizeString(targetNodeId);
+  const normalizedRelation = normalizeString(
+    relation,
+    "related"
+  );
+
+  if (!source || !target) {
+    return "";
+  }
+
+  const pair = [source, target].sort();
+
+  return [
+    normalizedRelation,
+    pair[0],
+    pair[1]
+  ].join("::");
+}
+
+function buildCardiumGraph(data) {
+  if (!isPlainObject(data)) {
+    return {
+      nodes: [],
+      connections: [],
+      nodeMap: new Map(),
+      connectionMap: new Map()
+    };
+  }
+
+  const nodes = [];
+  const connections = [];
+  const nodeMap = new Map();
+  const connectionMap = new Map();
+
+  const addNode = (node) => {
+    if (!isPlainObject(node)) {
+      return null;
+    }
+
+    const nodeId = normalizeString(node.id);
+
+    if (!nodeId) {
+      return null;
+    }
+
+    if (nodeMap.has(nodeId)) {
+      return nodeMap.get(nodeId);
+    }
+
+    const normalizedNode = {
+      id: nodeId,
+      entityId: normalizeString(node.entityId),
+      kind: normalizeString(node.kind),
+      subtype: normalizeString(node.subtype),
+      label: normalizeString(node.label),
+      title: normalizeString(node.title),
+      summary: normalizeString(node.summary),
+      code: normalizeString(node.code),
+      category: normalizeString(node.category)
+    };
+
+    nodes.push(normalizedNode);
+    nodeMap.set(nodeId, normalizedNode);
+
+    return normalizedNode;
+  };
+
+  const addConnection = (
+    sourceNodeId,
+    targetNodeId,
+    relation
+  ) => {
+    const source = normalizeString(sourceNodeId);
+    const target = normalizeString(targetNodeId);
+    const normalizedRelation = normalizeString(
+      relation,
+      "related"
+    );
+
+    if (
+      !source ||
+      !target ||
+      source === target ||
+      !nodeMap.has(source) ||
+      !nodeMap.has(target)
+    ) {
+      return null;
+    }
+
+    const connectionId = createCardiumConnectionId(
+      source,
+      target,
+      normalizedRelation
+    );
+
+    if (!connectionId) {
+      return null;
+    }
+
+    if (connectionMap.has(connectionId)) {
+      return connectionMap.get(connectionId);
+    }
+
+    const connection = {
+      id: connectionId,
+      source,
+      target,
+      relation: normalizedRelation
+    };
+
+    connections.push(connection);
+    connectionMap.set(connectionId, connection);
+
+    return connection;
+  };
+
+  // 1. ノード（Phenomena, Topics, Contents）の登録
+  normalizeArray(data.phenomena).forEach((phenomenon) => {
+    const entityId = normalizeString(phenomenon.id);
+
+    if (!entityId) {
+      return;
+    }
+
+    addNode({
+      id: createCardiumNodeId(
+        "phenomenon",
+        entityId
+      ),
+      entityId,
+      kind: "phenomenon",
+      subtype: "phenomenon",
+      label: phenomenon.label,
+      title: phenomenon.title,
+      summary: phenomenon.description,
+      code: "",
+      category: ""
+    });
+  });
+
+  normalizeArray(data.topics).forEach((topic) => {
+    const entityId = normalizeString(topic.id);
+
+    if (!entityId) {
+      return;
+    }
+
+    addNode({
+      id: createCardiumNodeId(
+        "topic",
+        entityId
+      ),
+      entityId,
+      kind: "topic",
+      subtype: topic.category,
+      label: topic.label,
+      title: topic.label,
+      summary: topic.summary,
+      code: "",
+      category: topic.category
+    });
+  });
+
+  normalizeArray(data.contents).forEach((content) => {
+    const entityId = normalizeString(content.id);
+    if (!entityId) {
+      return;
+    }
+
+    addNode({
+      id: createCardiumNodeId(
+        "content",
+        entityId
+      ),
+      entityId,
+      kind: "content",
+      subtype: content.type,
+      label: content.title,
+      title: content.title,
+      summary: content.summary,
+      code: content.code,
+      category: content.type
+    });
+  });
+
+  // 2. コネクション（関連性）の登録
+  normalizeArray(data.phenomena).forEach((phenomenon) => {
+    const phenomenonNodeId = createCardiumNodeId(
+      "phenomenon",
+      phenomenon.id
+    );
+    normalizeArray(
+      phenomenon.relatedTopicIds
+    ).forEach((topicId) => {
+      addConnection(
+        phenomenonNodeId,
+        createCardiumNodeId(
+          "topic",
+          topicId
+        ),
+        "phenomenon-topic"
+      );
+    });
+
+    normalizeArray(
+      phenomenon.relatedIds
+    ).forEach((contentId) => {
+      addConnection(
+        phenomenonNodeId,
+        createCardiumNodeId(
+          "content",
+          contentId
+        ),
+        "phenomenon-content"
+      );
+    });
+  });
+
+  normalizeArray(data.topics).forEach((topic) => {
+    const topicNodeId = createCardiumNodeId(
+      "topic",
+      topic.id
+    );
+    normalizeArray(
+      topic.relatedTopicIds
+    ).forEach((relatedTopicId) => {
+      addConnection(
+        topicNodeId,
+        createCardiumNodeId(
+          "topic",
+          relatedTopicId
+        ),
+        "topic-topic"
+      );
+    });
+
+    normalizeArray(
+      topic.relatedContentIds
+    ).forEach((contentId) => {
+      addConnection(
+        topicNodeId,
+        createCardiumNodeId(
+          "content",
+          contentId
+        ),
+        "topic-content"
+      );
+    });
+  });
+
+  normalizeArray(data.contents).forEach((content) => {
+    const contentNodeId = createCardiumNodeId(
+      "content",
+      content.id
+    );
+    normalizeArray(
+      content.relatedIds
+    ).forEach((relatedContentId) => {
+      addConnection(
+        contentNodeId,
+        createCardiumNodeId(
+          "content",
+          relatedContentId
+        ),
+        "content-content"
+      );
+    });
+  });
+
+  return {
+    nodes,
+    connections,
+    nodeMap,
+    connectionMap
+  };
+}
+
+function getCardiumNodeById(nodeId) {
+  if (
+    !state.cardiumGraph ||
+    !(state.cardiumGraph.nodeMap instanceof Map)
+  ) {
+    return null;
+  }
+
+  return (
+    state.cardiumGraph.nodeMap.get(
+      normalizeString(nodeId)
+    ) || null
+  );
+}
+
+function getCardiumNode(kind, entityId) {
+  return getCardiumNodeById(
+    createCardiumNodeId(
+      kind,
+      entityId
+    )
+  );
+}
+
+function getCardiumConnectionsForNode(nodeId) {
+  if (
+    !state.cardiumGraph ||
+    !Array.isArray(
+      state.cardiumGraph.connections
+    )
+  ) {
+    return [];
+  }
+
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId) {
+    return [];
+  }
+
+  return state.cardiumGraph.connections.filter(
+    (connection) => {
+      return (
+        connection.source === normalizedNodeId ||
+        connection.target === normalizedNodeId
+      );
+    }
+  );
+}
+
+function getCardiumNeighbors(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId) {
+    return [];
+  }
+
+  const neighborIds = getCardiumConnectionsForNode(
+    normalizedNodeId
+  )
+    .map((connection) => {
+      return connection.source === normalizedNodeId
+        ? connection.target
+        : connection.source;
+    })
+    .filter(Boolean);
+
+  return [...new Set(neighborIds)]
+    .map((neighborId) => {
+      return getCardiumNodeById(neighborId);
+    })
+    .filter(Boolean);
+}
+
 
 function formatTypeLabel(type) {
 return TYPE_LABELS[type] ||
@@ -4184,29 +4554,44 @@ renderFacilities();
 }
 
 function initializeState() {
-  if (!state.data) {
-    return;
-  }
+if (!state.data) {
+return;
+}
 
-  state.selectedChoiceId = "";
-  state.activeTopicId = "";
+state.selectedChoiceId = "";
+state.activeTopicId = "";
 
-  if (state.data.phenomena && state.data.phenomena.length > 0) {
-    state.activePhenomenonId = state.data.phenomena[0].id;
-  }
+state.cardiumGraph = buildCardiumGraph(
+state.data
+);
 
-  applyUrlState();
-  renderAll();
+if (
+state.data.phenomena &&
+state.data.phenomena.length > 0
+) {
+state.activePhenomenonId =
+state.data.phenomena[0].id;
+}
 
-  if (state.activeTopicId) {
-    openTopic(state.activeTopicId, null);
-  }
+applyUrlState();
+renderAll();
 
-  if (state.selectedContentId) {
-    openContent(state.selectedContentId, null, {
-      preserveFocus: true
-    });
-  }
+if (state.activeTopicId) {
+openTopic(
+state.activeTopicId,
+null
+);
+}
+
+if (state.selectedContentId) {
+openContent(
+state.selectedContentId,
+null,
+{
+preserveFocus: true
+}
+);
+}
 }
 
 async function loadCampusData() {
@@ -4220,6 +4605,7 @@ async function loadCampusData() {
     console.error("[Digital Research Campus]", error);
 
     state.data = null;
+    state.cardiumGraph = null;
 
     // \u30a8\u30e9\u30fc\u6642\u306e\u30d5\u30a9\u30fc\u30eb\u30d0\u30c3\u30af\u30c6\u30ad\u30b9\u30c8\u4e00\u62ec\u66f4\u65b0
     const errorMessages = [
