@@ -34,19 +34,20 @@ copyright:"\u00a9 adjustment Digital Research Campus"
 };
 
 const state = {
-  data: null,
-  cardiumGraph: null,
-  activePhenomenonId: "",
-  activeTopicId: "",
-  selectedChoiceId: "",
-  selectedContentId: "",
-  activeFacilityType: "",
-  lastFocusedElement: null,
-  drawerOpen: false,
-  mobileMenuOpen: false,
-  phenomenonAccordionOpen: false
+data: null,
+cardiumGraph: null,
+cardiumViewModel: null,
+activePhenomenonId: "",
+activeTopicId: "",
+selectedChoiceId: "",
+selectedContentId: "",
+activeFacilityType: "",
+lastFocusedElement: null,
+drawerOpen: false,
+mobileMenuOpen: false,
+phenomenonAccordionOpen: false
 };
-
+  
 const elements = {
 siteHeader:document.getElementById("siteHeader"),
 campusVersion:document.getElementById("campusVersion"),
@@ -793,7 +794,263 @@ function getCardiumNeighbors(nodeId) {
     .filter(Boolean);
 }
 
+function getCardiumNeighborEntries(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
 
+  if (!normalizedNodeId) {
+    return [];
+  }
+
+  const entryMap = new Map();
+
+  getCardiumConnectionsForNode(
+    normalizedNodeId
+  ).forEach((connection) => {
+    const neighborNodeId =
+      connection.source === normalizedNodeId
+        ? connection.target
+        : connection.source;
+    const neighborNode =
+      getCardiumNodeById(neighborNodeId);
+
+    if (!neighborNode) {
+      return;
+    }
+
+    if (!entryMap.has(neighborNodeId)) {
+      entryMap.set(neighborNodeId, {
+        node: neighborNode,
+        relations: [],
+        connectionIds: []
+      });
+    }
+
+    const entry =
+      entryMap.get(neighborNodeId);
+
+    if (
+      !entry.relations.includes(
+        connection.relation
+      )
+    ) {
+      entry.relations.push(
+        connection.relation
+      );
+    }
+
+    if (
+      !entry.connectionIds.includes(
+        connection.id
+      )
+    ) {
+      entry.connectionIds.push(
+        connection.id
+      );
+    }
+  });
+
+  return Array.from(
+    entryMap.values()
+  );
+}
+
+function buildCardiumViewModel(centerNodeId) {
+  const center =
+    getCardiumNodeById(centerNodeId);
+
+  if (!center) {
+    return {
+      center: null,
+      ring1: [],
+      ring2: [],
+      visibleNodeIds: [],
+      visibleConnectionIds: []
+    };
+  }
+
+  const ring1 =
+    getCardiumNeighborEntries(
+      center.id
+    );
+
+  const ring1NodeIds =
+    new Set(
+      ring1.map((entry) => {
+        return entry.node.id;
+      })
+    );
+
+  const ring2Map =
+    new Map();
+
+  ring1.forEach((parentEntry) => {
+    const parentNodeId =
+      parentEntry.node.id;
+    getCardiumNeighborEntries(
+      parentNodeId
+    ).forEach((entry) => {
+      const nodeId =
+        entry.node.id;
+
+      if (
+        nodeId === center.id ||
+        ring1NodeIds.has(nodeId)
+      ) {
+        return;
+      }
+
+      if (!ring2Map.has(nodeId)) {
+        ring2Map.set(nodeId, {
+          node: entry.node,
+          relations: [],
+          connectionIds: [],
+          parentNodeIds: []
+        });
+      }
+
+      const ring2Entry =
+        ring2Map.get(nodeId);
+
+      entry.relations.forEach(
+        (relation) => {
+          if (
+            !ring2Entry.relations.includes(
+              relation
+            )
+          ) {
+            ring2Entry.relations.push(
+              relation
+            );
+          }
+        }
+      );
+
+      entry.connectionIds.forEach(
+        (connectionId) => {
+          if (
+            !ring2Entry.connectionIds.includes(
+              connectionId
+            )
+          ) {
+            ring2Entry.connectionIds.push(
+              connectionId
+            );
+          }
+        }
+      );
+
+      if (
+        !ring2Entry.parentNodeIds.includes(
+          parentNodeId
+        )
+      ) {
+        ring2Entry.parentNodeIds.push(
+          parentNodeId
+        );
+      }
+    });
+  });
+
+  const ring2 =
+    Array.from(
+      ring2Map.values()
+    );
+
+  const visibleNodeIds = [
+    center.id,
+    ...ring1.map((entry) => {
+      return entry.node.id;
+    }),
+    ...ring2.map((entry) => {
+      return entry.node.id;
+    })
+  ];
+
+  const visibleNodeIdSet =
+    new Set(visibleNodeIds);
+
+  const visibleConnectionIds =
+    state.cardiumGraph &&
+    Array.isArray(
+      state.cardiumGraph.connections
+    )
+      ? state.cardiumGraph.connections
+          .filter((connection) => {
+            return (
+              visibleNodeIdSet.has(
+                connection.source
+              ) &&
+              visibleNodeIdSet.has(
+                connection.target
+              )
+            );
+          })
+          .map((connection) => {
+            return connection.id;
+          })
+      : [];
+
+  return {
+    center,
+    ring1,
+    ring2,
+    visibleNodeIds,
+    visibleConnectionIds
+  };
+}
+
+function resolveCardiumCenterNodeId() {
+  if (state.selectedContentId) {
+    const contentNode =
+      getCardiumNode(
+        "content",
+        state.selectedContentId
+      );
+    if (contentNode) {
+      return contentNode.id;
+    }
+  }
+
+  if (state.activeTopicId) {
+    const topicNode =
+      getCardiumNode(
+        "topic",
+        state.activeTopicId
+      );
+    if (topicNode) {
+      return topicNode.id;
+    }
+  }
+
+  if (state.activePhenomenonId) {
+    const phenomenonNode =
+      getCardiumNode(
+        "phenomenon",
+        state.activePhenomenonId
+      );
+    if (phenomenonNode) {
+      return phenomenonNode.id;
+    }
+  }
+
+  return "";
+}
+
+function syncCardiumViewModel() {
+  const centerNodeId =
+    resolveCardiumCenterNodeId();
+
+  state.cardiumViewModel =
+    centerNodeId
+      ? buildCardiumViewModel(
+          centerNodeId
+        )
+      : null;
+
+  return state.cardiumViewModel;
+}
+
+  
 function formatTypeLabel(type) {
 return TYPE_LABELS[type] ||
 normalizeString(type,"CONTENT").toUpperCase();
@@ -3152,6 +3409,8 @@ function openTopic(topicId, triggerElement = null) {
 
   state.activeTopicId = topic.id;
 
+  syncCardiumViewModel();
+
   renderTopicView(topic);
 
   updateUrlState({
@@ -3170,24 +3429,25 @@ function openTopic(topicId, triggerElement = null) {
 }
 
 function closeTopic() {
-  const phenomenon = getActivePhenomenon();
+const phenomenon = getActivePhenomenon();
 
-  state.activeTopicId = "";
+state.activeTopicId = "";
 
-  updateUrlState({
-    topic: ""
-  });
+syncCardiumViewModel();
 
-  if (phenomenon) {
-    renderRelatedTopics(phenomenon);
-    return;
-  }
+updateUrlState({
+topic: ""
+});
 
-  if (elements.relatedTopicList) {
-    elements.relatedTopicList.innerHTML = "";
-  }
+if (phenomenon) {
+renderRelatedTopics(phenomenon);
+return;
 }
 
+if (elements.relatedTopicList) {
+elements.relatedTopicList.innerHTML = "";
+}
+}
 
 
 function renderRelatedContents(phenomenon) {
@@ -3197,7 +3457,7 @@ function renderRelatedContents(phenomenon) {
 
   const mergedIds = [
     ...phenomenon.relatedIds,
-    ...phenomenon.nextAction.relatedIds,
+    ...phenomenon.nextAction.relatedIds
   ];
 
   const uniqueIds = [...new Set(mergedIds)];
@@ -3212,18 +3472,18 @@ function renderRelatedContents(phenomenon) {
 
   elements.relatedList.innerHTML = relatedContents
     .map((content) => {
-      return (
-        `<button` +
-        ` class="related-item"` +
-        ` type="button"` +
-        ` data-related-id="${escapeHtml(content.id)}"` +
-        `>` +
-        `<span>${escapeHtml(content.code)}</span>` +
-        `<span>${escapeHtml(content.title)}</span>` +
-        `<span>${escapeHtml(content.summary)}</span>` +
-        `<span>\u2192</span>` +
-        `</button>`
-      );
+      return `
+        <button
+          class="related-item"
+          type="button"
+          data-related-id="${escapeHtml(content.id)}"
+        >
+          <span>${escapeHtml(content.code)}</span>
+          <span>${escapeHtml(content.title)}</span>
+          <span>${escapeHtml(content.summary)}</span>
+          <span>\u2192</span>
+        </button>
+      `;
     })
     .join("");
 
@@ -3232,12 +3492,10 @@ function renderRelatedContents(phenomenon) {
     .forEach((button) => {
       button.addEventListener("click", () => {
         const contentId = button.dataset.relatedId;
-
-        state.selectedContentId = contentId;
-
-        renderBooks();
-
-        openContent(contentId, button);
+        openContent(
+          contentId,
+          button
+        );
       });
     });
 }
@@ -3526,12 +3784,13 @@ function selectPhenomenon(phenomenonId) {
   }
 
   state.activePhenomenonId = phenomenon.id;
-
   state.activeTopicId = "";
   state.selectedChoiceId = "";
   state.selectedContentId = "";
   state.activeFacilityType = "";
   state.phenomenonAccordionOpen = false;
+
+  syncCardiumViewModel();
 
   renderPhenomena();
   renderBooks();
@@ -3545,6 +3804,7 @@ function selectPhenomenon(phenomenonId) {
     topic: ""
   });
 }
+
 
 
 function openFacility(type,triggerElement = null) {
@@ -4242,6 +4502,8 @@ triggerElement;
 state.selectedContentId =
 content.id;
 
+syncCardiumViewModel();
+
 if (elements.drawerEyebrow) {
 elements.drawerEyebrow.textContent =
 `${formatTypeLabel(content.type)} / ${content.code}`;
@@ -4365,6 +4627,8 @@ document.body.classList.remove(
 
 state.drawerOpen = false;
 state.selectedContentId = "";
+
+syncCardiumViewModel();
 
 renderBooks();
 
@@ -4574,6 +4838,7 @@ state.data.phenomena[0].id;
 }
 
 applyUrlState();
+syncCardiumViewModel();
 renderAll();
 
 if (state.activeTopicId) {
@@ -4604,8 +4869,9 @@ async function loadCampusData() {
   } catch (error) {
     console.error("[Digital Research Campus]", error);
 
-    state.data = null;
-    state.cardiumGraph = null;
+state.data = null;
+state.cardiumGraph = null;
+state.cardiumViewModel = null;
 
     // \u30a8\u30e9\u30fc\u6642\u306e\u30d5\u30a9\u30fc\u30eb\u30d0\u30c3\u30af\u30c6\u30ad\u30b9\u30c8\u4e00\u62ec\u66f4\u65b0
     const errorMessages = [
