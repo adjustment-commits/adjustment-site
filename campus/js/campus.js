@@ -128,7 +128,12 @@ drawerVerification:document.getElementById("drawerVerification"),
 drawerLimitation:document.getElementById("drawerLimitation"),
 drawerRelated:document.getElementById("drawerRelated"),
 
-heroFloatingBooks:document.getElementById("heroFloatingBooks")
+heroFloatingBooks:document.getElementById("heroFloatingBooks"),
+cardiumSection: document.getElementById("cardiumSection"),
+cardiumViewport: document.getElementById("cardiumViewport"),
+cardiumConnections: document.getElementById("cardiumConnections"),
+cardiumNodes: document.getElementById("cardiumNodes"),
+cardiumEmpty: document.getElementById("cardiumEmpty")
 };
 
 const phenomenonAccordionElements = {
