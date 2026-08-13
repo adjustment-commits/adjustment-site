@@ -3270,26 +3270,34 @@ section.hidden = !isVisible;
 }
   
 function renderDrawerSectionHeadings(contentType) {
-const isPds = contentType === "pds";
+  const isPds = contentType === "pds";
+  const isCase = contentType === "case";
 
-if (elements.drawerQuestionHeading) {
-elements.drawerQuestionHeading.textContent = isPds
-? "PDS OVERVIEW / PDSについて"
-: "QUESTION / 最初の問い";
+  if (elements.drawerQuestionHeading) {
+    elements.drawerQuestionHeading.textContent = isPds
+      ? "PDS OVERVIEW / PDSについて"
+      : isCase
+      ? "BACKGROUND / 背景"
+      : "QUESTION / 最初の問い";
+  }
+
+  if (elements.drawerCommonTheoryHeading) {
+    elements.drawerCommonTheoryHeading.textContent = isPds
+      ? "PURPOSE / 評価の目的"
+      : isCase
+      ? "PHENOMENON / 起きていた現象"
+      : "COMMON THEORY / 一般的な考え方";
+  }
+
+  if (elements.drawerAdjustmentViewHeading) {
+    elements.drawerAdjustmentViewHeading.textContent = isPds
+      ? "PRINCIPLES / 評価の考え方"
+      : isCase
+      ? "INITIAL INTERPRETATION / 最初の捉え方"
+      : "ADJUSTMENT VIEW / 捉え直し";
+  }
 }
 
-if (elements.drawerCommonTheoryHeading) {
-elements.drawerCommonTheoryHeading.textContent = isPds
-? "PURPOSE / 評価の目的"
-: "COMMON THEORY / 一般的な考え方";
-}
-
-if (elements.drawerAdjustmentViewHeading) {
-elements.drawerAdjustmentViewHeading.textContent = isPds
-? "PRINCIPLES / 評価の考え方"
-: "ADJUSTMENT VIEW / 捉え直し";
-}
-}
   
 function clearResearchDrawerSections() {
 [
@@ -3720,6 +3728,59 @@ setDrawerSectionVisible(
     detail.limitations
   );
 }
+function renderCaseDetail(content) {
+  clearResearchDrawerSections();
+
+  if (
+    !content ||
+    content.type !== "case" ||
+    !isPlainObject(content.caseDetail)
+  ) {
+    return;
+  }
+
+  const detail = content.caseDetail;
+
+  renderResearchSection(
+    elements.drawerQuestion,
+    detail.background
+  );
+
+  renderResearchSection(
+    elements.drawerCommonTheory,
+    detail.phenomenon
+  );
+
+  renderResearchSection(
+    elements.drawerAdjustmentView,
+    detail.initialInterpretation
+  );
+
+  renderResearchSection(
+    elements.drawerWhy,
+    detail.assessment
+  );
+
+  renderResearchSection(
+    elements.drawerCheckpoints,
+    detail.intervention
+  );
+
+  renderResearchSection(
+    elements.drawerPdsEvaluation,
+    detail.response
+  );
+
+  renderResearchSection(
+    elements.drawerInterpretation,
+    detail.interpretation
+  );
+
+  renderResearchSection(
+    elements.drawerLimitations,
+    detail.limitations
+  );
+}
 
 function renderDrawerRelated(content) {
 if (!elements.drawerRelated) {
@@ -3849,12 +3910,15 @@ content.limitation;
 renderDrawerSectionHeadings(content.type);
 
 if (content.type === "research") {
-renderResearchDetail(content);
+  renderResearchDetail(content);
 } else if (content.type === "pds") {
-renderPdsDetail(content);
+  renderPdsDetail(content);
+} else if (content.type === "case") {
+  renderCaseDetail(content);
 } else {
-clearResearchDrawerSections();
+  clearResearchDrawerSections();
 }
+
 
 renderDrawerMeta(content);
 renderDrawerRelated(content);
