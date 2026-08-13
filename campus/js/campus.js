@@ -1079,40 +1079,276 @@ function renderCardium() {
 
   elements.cardiumEmpty.hidden = true;
 
-  const center = viewModel.center;
+  const viewportWidth =
+    elements.cardiumViewport.clientWidth || 1;
 
-  const typeLabel =
-    center.kind === "phenomenon"
-      ? "PHENOMENON"
-      : center.kind === "topic"
-      ? "TOPIC"
-      : formatTypeLabel(center.subtype);
+  const viewportHeight =
+    elements.cardiumViewport.clientHeight || 1;
 
-  const title = normalizeString(
-    center.title || center.label,
-    "UNTITLED"
+  const centerX = viewportWidth / 2;
+  const centerY = viewportHeight / 2;
+
+  const ring1Radius = Math.min(
+    viewportWidth * 0.28,
+    viewportHeight * 0.29
   );
 
-  const summary = normalizeString(center.summary);
+  const ring2Radius = Math.min(
+    viewportWidth * 0.43,
+    viewportHeight * 0.43
+  );
 
-  const code = normalizeString(center.code);
+  const nodePositions = new Map();
 
-  elements.cardiumNodes.innerHTML = `
-    <button
-      class="cardium-node cardium-node-center"
-      type="button"
-      data-cardium-node-id="${escapeHtml(center.id)}"
-    >
-      <span class="cardium-type">${escapeHtml(typeLabel)}</span>
-      <span class="cardium-title">${escapeHtml(title)}</span>
-      ${code ? `<span class="cardium-code">${escapeHtml(code)}</span>` : ""}
-      ${summary ? `<span class="cardium-summary">${escapeHtml(summary)}</span>` : ""}
-    </button>
-  `;
+  const normalizeCardiumType = (node) => {
+    if (!node) {
+      return "content";
+    }
+    if (node.kind === "phenomenon") {
+      return "phenomenon";
+    }
 
+    if (node.kind === "topic") {
+      return "topic";
+    }
+
+    return normalizeString(
+      node.subtype,
+      "content"
+    );
+  };
+
+  const getCardiumTypeLabel = (node) => {
+    if (!node) {
+      return "CONTENT";
+    }
+
+    if (node.kind === "phenomenon") {
+      return "PHENOMENON";
+    }
+
+    if (node.kind === "topic") {
+      return "TOPIC";
+    }
+
+    return formatTypeLabel(node.subtype);
+  };
+
+  const createNodeHtml = (
+    node,
+    x,
+    y,
+    options = {}
+  ) => {
+    const isCenter = Boolean(options.isCenter);
+
+    const ring = normalizeString(
+      options.ring,
+      "ring1"
+    );
+
+    const type = normalizeCardiumType(node);
+    const typeLabel = getCardiumTypeLabel(node);
+
+    const title = normalizeString(
+      node.title || node.label,
+      "UNTITLED"
+    );
+
+    const code = normalizeString(node.code);
+
+    nodePositions.set(node.id, { x, y });
+
+    return (
+      '<button' +
+      ' class="cardium-node' +
+      (isCenter ? ' is-center' : '') +
+      '"' +
+      ' type="button"' +
+      ' data-cardium-node-id="' +
+      escapeHtml(node.id) +
+      '"' +
+      ' data-cardium-ring="' +
+      escapeHtml(ring) +
+      '"' +
+      ' data-type="' +
+      escapeHtml(type) +
+      '"' +
+      ' style="' +
+      'left:' +
+      x.toFixed(2) +
+      'px;' +
+      'top:' +
+      y.toFixed(2) +
+      'px;' +
+      '"' +
+      ' aria-label="' +
+      escapeHtml(`${typeLabel}: ${title}`) +
+      '"' +
+      '>' +
+      '<span class="cardium-node-inner">' +
+      '<span class="cardium-node-type">' +
+      escapeHtml(typeLabel) +
+      '</span>' +
+      '<span class="cardium-node-title">' +
+      escapeHtml(title) +
+      '</span>' +
+      (code
+        ? '<span class="cardium-node-code">' +
+          escapeHtml(code) +
+          '</span>'
+        : '') +
+      '</span>' +
+      '</button>'
+    );
+  };
+
+  const nodeHtml = [];
+
+  // 中央ノードの配置
+  nodeHtml.push(
+    createNodeHtml(
+      viewModel.center,
+      centerX,
+      centerY,
+      {
+        isCenter: true,
+        ring: "center"
+      }
+    )
+  );
+
+  // Ring 1 ノードの配置
+  const ring1Count = viewModel.ring1.length;
+
+  viewModel.ring1.forEach((entry, index) => {
+    const angle =
+      ring1Count === 1
+        ? -Math.PI / 2
+        : -Math.PI / 2 + (Math.PI * 2 * index) / ring1Count;
+
+    const x = centerX + Math.cos(angle) * ring1Radius;
+    const y = centerY + Math.sin(angle) * ring1Radius;
+
+    nodeHtml.push(
+      createNodeHtml(entry.node, x, y, {
+        ring: "ring1"
+      })
+    );
+  });
+
+  // Ring 2 ノードの配置
+  const ring2Count = viewModel.ring2.length;
+
+  viewModel.ring2.forEach((entry, index) => {
+    const angle =
+      ring2Count === 1
+        ? Math.PI / 2
+        : -Math.PI / 2 + (Math.PI * 2 * index) / ring2Count;
+
+    const x = centerX + Math.cos(angle) * ring2Radius;
+    const y = centerY + Math.sin(angle) * ring2Radius;
+
+    nodeHtml.push(
+      createNodeHtml(entry.node, x, y, {
+        ring: "ring2"
+      })
+    );
+  });
+
+  elements.cardiumNodes.innerHTML = nodeHtml.join("");
+
+  // コネクション（接続線）の描画
   if (elements.cardiumConnections) {
-    elements.cardiumConnections.innerHTML = "";
+    elements.cardiumConnections.setAttribute(
+      "viewBox",
+      `0 0 ${viewportWidth} ${viewportHeight}`
+    );
+    elements.cardiumConnections.setAttribute(
+      "width",
+      String(viewportWidth)
+    );
+    elements.cardiumConnections.setAttribute(
+      "height",
+      String(viewportHeight)
+    );
+
+    const visibleConnectionIdSet = new Set(
+      viewModel.visibleConnectionIds
+    );
+
+    const connectionHtml = state.cardiumGraph.connections
+      .filter((connection) => {
+        return visibleConnectionIdSet.has(connection.id);
+      })
+      .map((connection) => {
+        const sourcePosition = nodePositions.get(
+          connection.source
+        );
+        const targetPosition = nodePositions.get(
+          connection.target
+        );
+
+        if (!sourcePosition || !targetPosition) {
+          return "";
+        }
+
+        const isPrimary =
+          connection.source === viewModel.center.id ||
+          connection.target === viewModel.center.id;
+
+        return (
+          '<line' +
+          ' class="cardium-connection' +
+          (isPrimary ? ' is-primary' : '') +
+          '"' +
+          ' x1="' +
+          sourcePosition.x.toFixed(2) +
+          '"' +
+          ' y1="' +
+          sourcePosition.y.toFixed(2) +
+          '"' +
+          ' x2="' +
+          targetPosition.x.toFixed(2) +
+          '"' +
+          ' y2="' +
+          targetPosition.y.toFixed(2) +
+          '"' +
+          ' />'
+        );
+      })
+      .join("");
+
+    elements.cardiumConnections.innerHTML = connectionHtml;
   }
+
+  // ノードへのクリックイベントハンドラーの設定
+  elements.cardiumNodes
+    .querySelectorAll("[data-cardium-node-id]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const nodeId = button.dataset.cardiumNodeId;
+        const node = getCardiumNodeById(nodeId);
+
+        if (!node) {
+          return;
+        }
+
+        if (node.kind === "phenomenon") {
+          selectPhenomenon(node.entityId);
+          return;
+        }
+
+        if (node.kind === "topic") {
+          openTopic(node.entityId, button);
+          return;
+        }
+
+        if (node.kind === "content") {
+          openContent(node.entityId, button);
+        }
+      });
+    });
 }
 
   
