@@ -135,11 +135,6 @@ drawerLimitation:document.getElementById("drawerLimitation"),
 drawerRelated:document.getElementById("drawerRelated"),
 
 heroFloatingBooks:document.getElementById("heroFloatingBooks"),
-cardiumSection: document.getElementById("cardiumSection"),
-cardiumViewport: document.getElementById("cardiumViewport"),
-cardiumConnections: document.getElementById("cardiumConnections"),
-cardiumNodes: document.getElementById("cardiumNodes"),
-cardiumEmpty: document.getElementById("cardiumEmpty")
 };
 
 const phenomenonAccordionElements = {
@@ -1059,6 +1054,65 @@ function syncCardiumViewModel() {
       : null;
 
   return state.cardiumViewModel;
+}
+
+function renderCardium() {
+  if (
+    !elements.cardiumSection ||
+    !elements.cardiumViewport ||
+    !elements.cardiumNodes ||
+    !elements.cardiumEmpty
+  ) {
+    return;
+  }
+
+  const viewModel = syncCardiumViewModel();
+
+  if (!viewModel || !viewModel.center) {
+    elements.cardiumNodes.innerHTML = "";
+    elements.cardiumEmpty.hidden = false;
+    if (elements.cardiumConnections) {
+      elements.cardiumConnections.innerHTML = "";
+    }
+    return;
+  }
+
+  elements.cardiumEmpty.hidden = true;
+
+  const center = viewModel.center;
+
+  const typeLabel =
+    center.kind === "phenomenon"
+      ? "PHENOMENON"
+      : center.kind === "topic"
+      ? "TOPIC"
+      : formatTypeLabel(center.subtype);
+
+  const title = normalizeString(
+    center.title || center.label,
+    "UNTITLED"
+  );
+
+  const summary = normalizeString(center.summary);
+
+  const code = normalizeString(center.code);
+
+  elements.cardiumNodes.innerHTML = `
+    <button
+      class="cardium-node cardium-node-center"
+      type="button"
+      data-cardium-node-id="${escapeHtml(center.id)}"
+    >
+      <span class="cardium-type">${escapeHtml(typeLabel)}</span>
+      <span class="cardium-title">${escapeHtml(title)}</span>
+      ${code ? `<span class="cardium-code">${escapeHtml(code)}</span>` : ""}
+      ${summary ? `<span class="cardium-summary">${escapeHtml(summary)}</span>` : ""}
+    </button>
+  `;
+
+  if (elements.cardiumConnections) {
+    elements.cardiumConnections.innerHTML = "";
+  }
 }
 
   
@@ -3421,7 +3475,7 @@ function openTopic(topicId, triggerElement = null) {
   state.activeTopicId = topic.id;
 
   syncCardiumViewModel();
-
+  renderCardium();
   renderTopicView(topic);
 
   updateUrlState({
@@ -3445,6 +3499,7 @@ const phenomenon = getActivePhenomenon();
 state.activeTopicId = "";
 
 syncCardiumViewModel();
+renderCardium();
 
 updateUrlState({
 topic: ""
@@ -3802,7 +3857,7 @@ function selectPhenomenon(phenomenonId) {
   state.phenomenonAccordionOpen = false;
 
   syncCardiumViewModel();
-
+  renderCardium();
   renderPhenomena();
   renderBooks();
   renderInsight();
@@ -4514,6 +4569,7 @@ state.selectedContentId =
 content.id;
 
 syncCardiumViewModel();
+renderCardium();
 
 if (elements.drawerEyebrow) {
 elements.drawerEyebrow.textContent =
@@ -4640,7 +4696,7 @@ state.drawerOpen = false;
 state.selectedContentId = "";
 
 syncCardiumViewModel();
-
+renderCardium();
 renderBooks();
 
 updateUrlState({
@@ -4824,6 +4880,7 @@ renderMeta();
 renderPhenomena();
 renderBooks();
 renderInsight();
+renderCardium();
 renderUpdates();
 renderFacilities();
 }
@@ -4850,6 +4907,7 @@ state.data.phenomena[0].id;
 
 applyUrlState();
 syncCardiumViewModel();
+
 renderAll();
 
 if (state.activeTopicId) {
