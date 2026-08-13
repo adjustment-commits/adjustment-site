@@ -983,6 +983,59 @@ errors
 }
 }
 
+// ==========================================
+// 1. validateCaseDetail 関数の修正版
+// ==========================================
+function validateCaseDetail(caseDetail, contentIndex, errors) {
+  const location = `contents[${contentIndex}].caseDetail`;
+
+  if (!isPlainObject(caseDetail)) {
+    errors.push(`${location}はオブジェクトである必要があります。`);
+    return;
+  }
+
+  const requiredSections = [
+    "background",
+    "phenomenon",
+    "initialInterpretation",
+    "assessment",
+    "intervention",
+    "response",
+    "interpretation",
+    "limitations"
+  ];
+
+  requiredSections.forEach((sectionName) => {
+    const section = caseDetail[sectionName];
+    const sectionLocation = `${location}.${sectionName}`;
+
+    if (!isPlainObject(section)) {
+      errors.push(`${sectionLocation}はオブジェクトである必要があります。`);
+      return;
+    }
+
+    validateNonEmptyText(
+      section.title,
+      `${sectionLocation}.title`,
+      errors
+    );
+
+    validateNonEmptyText(
+      section.text,
+      `${sectionLocation}.text`,
+      errors
+    );
+
+    if (
+      Object.prototype.hasOwnProperty.call(section, "points") &&
+      !Array.isArray(section.points)
+    ) {
+      errors.push(`${sectionLocation}.pointsは配列である必要があります。`);
+    }
+  });
+}
+
+
 function validateData(data) {
   const errors = [];
 
@@ -1103,40 +1156,43 @@ function validateData(data) {
     );
   });
 
-  data.contents.forEach((content, index) => {
-    if (!isPlainObject(content)) {
-      errors.push(
-        `contents[${index}]\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-      );
-      return;
-    }
+ data.contents.forEach((content, index) => {
+  if (!isPlainObject(content)) {
+    errors.push(
+      `contents[${index}]はオブジェクトである必要があります。`
+    );
+    return;
+  }
 
-    const id = normalizeString(content.id);
+  const id = normalizeString(content.id);
 
-    if (!id) {
-      errors.push(
-        `contents[${index}].id\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-      );
-    } else if (contentIds.has(id)) {
-      errors.push(
-        `contents\u5185\u3067id\u300c${id}\u300d\u304c\u91cd\u8907\u3057\u3066\u3044\u307e\u3059\u3002`
-      );
-    } else {
-      contentIds.add(id);
-    }
+  if (!id) {
+    errors.push(
+      `contents[${index}].idがありません。`
+    );
+  } else if (contentIds.has(id)) {
+    errors.push(
+      `contents内でid「${id}」が重複しています。`
+    );
+  } else {
+    contentIds.add(id);
+  }
 
-    if (!normalizeString(content.type)) {
-      errors.push(
-        `contents[${index}].type\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-      );
-    }
+  if (!normalizeString(content.type)) {
+    errors.push(
+      `contents[${index}].typeがありません。`
+    );
+  }
 
-    if (!normalizeString(content.title)) {
-      errors.push(
-        `contents[${index}].title\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
-      );
-    }
-  });
+  if (!normalizeString(content.title)) {
+    errors.push(
+      `contents[${index}].titleがありません。`
+    );
+  }
+});
+
+
+
 
   data.topics.forEach((topic, index) => {
     if (!isPlainObject(topic)) {
@@ -1219,45 +1275,55 @@ function validateData(data) {
     );
   });
 
-  data.contents.forEach((content, index) => {
-    if (!isPlainObject(content)) {
-      return;
-    }
+ data.contents.forEach((content, index) => {
+  if (!isPlainObject(content)) {
+    return;
+  }
 
-    if (
-      normalizeString(content.type) === "research" &&
-      Object.prototype.hasOwnProperty.call(
-        content,
-        "researchDetail"
-      )
-    ) {
-      validateResearchDetail(
-        content.researchDetail,
-        index,
-        errors
-      );
-    }
+  const contentType = normalizeString(content.type);
 
-    validateRelatedIds(
-      content.relatedIds,
-      contentIds,
-      `contents[${index}].relatedIds`,
+  if (
+    contentType === "research" &&
+    Object.prototype.hasOwnProperty.call(content, "researchDetail")
+  ) {
+    validateResearchDetail(
+      content.researchDetail,
+      index,
       errors
     );
+  }
 
-    if (
-      normalizeString(content.type) === "research" &&
-      isPlainObject(content.researchDetail) &&
-      isPlainObject(content.researchDetail.pdsEvaluation)
-    ) {
-      validateRelatedIds(
-        content.researchDetail.pdsEvaluation.relatedIds,
-        contentIds,
-        `contents[${index}].researchDetail.pdsEvaluation.relatedIds`,
-        errors
-      );
-    }
-  });
+  if (
+    contentType === "case" &&
+    Object.prototype.hasOwnProperty.call(content, "caseDetail")
+  ) {
+    validateCaseDetail(
+      content.caseDetail,
+      index,
+      errors
+    );
+  }
+
+  validateRelatedIds(
+    content.relatedIds,
+    contentIds,
+    `contents[${index}].relatedIds`,
+    errors
+  );
+
+  if (
+    contentType === "research" &&
+    isPlainObject(content.researchDetail) &&
+    isPlainObject(content.researchDetail.pdsEvaluation)
+  ) {
+    validateRelatedIds(
+      content.researchDetail.pdsEvaluation.relatedIds,
+      contentIds,
+      `contents[${index}].researchDetail.pdsEvaluation.relatedIds`,
+      errors
+    );
+  }
+});
 
   data.updates.forEach((update, index) => {
     if (!isPlainObject(update)) {
@@ -1546,229 +1612,315 @@ function normalizePdsDetail(pdsDetail) {
   };
 }
 
+function normalizeCaseDetail(caseDetail) {
+if (!isPlainObject(caseDetail)) {
+return null;
+}
+
+return {
+background:
+normalizeResearchTextSection(
+caseDetail.background
+),
+phenomenon:
+  normalizeResearchTextSection(
+    caseDetail.phenomenon
+  ),
+
+initialInterpretation:
+  normalizeResearchTextSection(
+    caseDetail.initialInterpretation
+  ),
+
+assessment:
+  normalizeResearchTextSection(
+    caseDetail.assessment
+  ),
+
+intervention:
+  normalizeResearchTextSection(
+    caseDetail.intervention
+  ),
+
+response:
+  normalizeResearchTextSection(
+    caseDetail.response
+  ),
+
+interpretation:
+  normalizeResearchTextSection(
+    caseDetail.interpretation
+  ),
+
+limitations:
+  normalizeResearchTextSection(
+    caseDetail.limitations
+  )
+};
+}
+  
 function normalizeData(data) {
-  return {
-    meta: {
-      ...DEFAULT_META,
-      ...(isPlainObject(data.meta) ? data.meta : {})
-    },
+return {
+meta: {
+  ...DEFAULT_META,
+  ...(isPlainObject(data.meta) ? data.meta : {})
+},
+
 
     topics: data.topics.map((topic) => {
-      return {
-        id: normalizeString(topic.id),
-        label: normalizeString(topic.label),
-        category: normalizeString(topic.category),
-        summary: normalizeString(topic.summary),
-        relatedTopicIds: normalizeArray(topic.relatedTopicIds)
-          .map((item) => normalizeString(item))
-          .filter(Boolean),
-        relatedContentIds: normalizeArray(topic.relatedContentIds)
-          .map((item) => normalizeString(item))
-          .filter(Boolean)
-      };
-    }),
+  return {
+    id: normalizeString(topic.id),
+    label: normalizeString(topic.label),
+    category: normalizeString(topic.category),
+    summary: normalizeString(topic.summary),
+    relatedTopicIds: normalizeArray(topic.relatedTopicIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
+    relatedContentIds: normalizeArray(topic.relatedContentIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean)
+  };
+}),
 
-    phenomena: data.phenomena.map((phenomenon) => {
-      const thinkingFlow = normalizeThinkingFlow(
-        phenomenon.thinkingFlow
-      );
+phenomena: data.phenomena.map((phenomenon) => {
+  const thinkingFlow = normalizeThinkingFlow(
+    phenomenon.thinkingFlow
+  );
 
-      const checkpoints = normalizeArray(
-        phenomenon.checkpoints
-      );
+  const checkpoints = normalizeArray(
+    phenomenon.checkpoints
+  );
 
-      return {
-        id: normalizeString(phenomenon.id),
+  return {
+    id: normalizeString(phenomenon.id),
 
-        label: normalizeString(
-          phenomenon.label,
-          "\u73fe\u8c61"
-        ),
+    label: normalizeString(
+      phenomenon.label,
+      "\u73fe\u8c61"
+    ),
 
-        title: normalizeString(
-          phenomenon.title,
-          "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-        ),
+    title: normalizeString(
+      phenomenon.title,
+      "\u73fe\u8c61\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+    ),
 
-        description: normalizeString(
-          phenomenon.description,
-          "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
-        ),
+    description: normalizeString(
+      phenomenon.description,
+      "\u95a2\u9023\u3059\u308b\u60c5\u5831\u3092\u6574\u7406\u3057\u3066\u3044\u307e\u3059\u3002"
+    ),
 
-        path: normalizeArray(phenomenon.path)
-          .map((item) => normalizeString(item))
-          .filter(Boolean),
+    path: normalizeArray(phenomenon.path)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
 
-        question: normalizeQuestion(
-          phenomenon.question
-        ),
+    question: normalizeQuestion(
+      phenomenon.question
+    ),
 
-        thinkingFlow,
+    thinkingFlow,
 
-     adjustmentView: {
-text: normalizeString(
-thinkingFlow.adjustmentView.text
-)
-},
+    adjustmentView: {
+      text: normalizeString(
+        thinkingFlow.adjustmentView.text
+      )
+    },
 
-why: {
-text: normalizeString(
-thinkingFlow.commonTheory.text
-),
-points: []
-},
+    why: {
+      text: normalizeString(
+        thinkingFlow.commonTheory.text
+      ),
+      points: []
+    },
 
-        branches: thinkingFlow.branches,
+    branches: thinkingFlow.branches,
 
-        checkpoints: checkpoints
-          .filter(isPlainObject)
-          .map((checkpoint, index) => {
-            return {
-              id: normalizeString(
-                checkpoint.id,
-                `checkpoint-${index + 1}`
-              ),
-              title: normalizeString(
-                checkpoint.title || checkpoint.label,
-                `CHECK ${index + 1}`
-              ),
-              description: normalizeString(
-                checkpoint.description
-              )
-            };
-          }),
+    checkpoints: checkpoints
+      .filter(isPlainObject)
+      .map((checkpoint, index) => {
+        return {
+          id: normalizeString(
+            checkpoint.id,
+            `checkpoint-${index + 1}`
+          ),
+          title: normalizeString(
+            checkpoint.title || checkpoint.label,
+            `CHECK ${index + 1}`
+          ),
+          description: normalizeString(
+            checkpoint.description
+          )
+        };
+      }),
 
-       nextAction: {
-text: normalizeString(
-thinkingFlow.nextStep.text
-),
-relatedIds: []
-},
+    nextAction: {
+      text: normalizeString(
+        thinkingFlow.nextStep.text
+      ),
+      relatedIds: []
+    },
 
-        relatedIds: normalizeArray(phenomenon.relatedIds)
-          .map((item) => normalizeString(item))
-          .filter(Boolean),
+    relatedIds: normalizeArray(phenomenon.relatedIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
 
-        relatedTopicIds: normalizeArray(phenomenon.relatedTopicIds)
-          .map((item) => normalizeString(item))
-          .filter(Boolean)
-      };
-    }),
+    relatedTopicIds: normalizeArray(phenomenon.relatedTopicIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean)
+  };
+}),
 
-    contents: data.contents.map((content) => {
-      return {
-        id: normalizeString(content.id),
-        type: normalizeString(
-          content.type,
-          "research"
-        ),
-        code: normalizeString(
-          content.code,
-          "NO-CODE"
-        ),
-        title: normalizeString(
-          content.title,
-          "\u7121\u984c"
-        ),
-        summary: normalizeString(
-          content.summary,
-          "\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
-        ),
-        tags: normalizeArray(content.tags)
-          .map((item) => normalizeString(item))
-          .filter(Boolean),
-        status: normalizeString(
-          content.status,
-          "DRAFT"
-        ),
-        statusClass: normalizeString(
-          content.statusClass
-        ),
-        updatedAt: normalizeString(
-          content.updatedAt
-        ),
-        observation: normalizeString(
-          content.observation,
-          "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-        ),
-        thinking: normalizeString(
-          content.thinking,
-          "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
-        ),
-        verification: normalizeString(
-          content.verification,
-          "\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
-        ),
-        limitation: normalizeString(
-          content.limitation,
-          "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
-        ),
-              researchDetail:
-        normalizeString(content.type) === 'research'
-          ? normalizeResearchDetail(content.researchDetail)
-          : null,
+contents: data.contents.map((content) => {
+  return {
+    id: normalizeString(content.id),
 
-      pdsDetail:
-        normalizeString(content.type) === 'pds'
-          ? normalizePdsDetail(content.pdsDetail)
-          : null,
+    type: normalizeString(
+      content.type,
+      "research"
+    ),
 
-      relatedIds: normalizeArray(content.relatedIds)
-        .map((item) => normalizeString(item))
-        .filter(Boolean),
+    code: normalizeString(
+      content.code,
+      "NO-CODE"
+    ),
 
-      };
-    }),
+    title: normalizeString(
+      content.title,
+      "\u7121\u984c"
+    ),
 
-    updates: data.updates.map((update) => {
-      return {
-        id: normalizeString(update.id),
-        contentId: normalizeString(update.contentId),
-        date: normalizeString(update.date),
-        label: normalizeString(
-          update.label,
-          "UPDATED"
-        ),
-        labelClass: normalizeString(update.labelClass),
-        title: normalizeString(
-          update.title,
-          "\u66f4\u65b0\u60c5\u5831"
-        ),
-        summary: normalizeString(
-          update.summary,
-          "\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
-        )
-      };
-    }),
+    summary: normalizeString(
+      content.summary,
+      "\u6982\u8981\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002"
+    ),
 
-    facilities: data.facilities.map((facility) => {
-      return {
-        type: normalizeString(facility.type),
-        code: normalizeString(
-          facility.code,
-          "?"
-        ),
-        name: normalizeString(
-          facility.name,
-          "Facility"
-        ),
-        japaneseName: normalizeString(
-          facility.japaneseName,
-          "\u7814\u7a76\u65bd\u8a2d"
-        ),
-        description: normalizeString(
-facility.description,
-"\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
-),        detail: normalizeString(
-          facility.detail,
-          "Archive"
-        ),
-        status: normalizeString(
-          facility.status,
-          "OPEN"
-        )
-      };
-    })
+    tags: normalizeArray(content.tags)
+      .map((item) => normalizeString(item))
+      .filter(Boolean),
+
+    status: normalizeString(
+      content.status,
+      "DRAFT"
+    ),
+
+    statusClass: normalizeString(
+      content.statusClass
+    ),
+
+    updatedAt: normalizeString(
+      content.updatedAt
+    ),
+
+    observation: normalizeString(
+      content.observation,
+      "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+    ),
+
+    thinking: normalizeString(
+      content.thinking,
+      "\u73fe\u5728\u6574\u7406\u4e2d\u3067\u3059\u3002"
+    ),
+
+    verification: normalizeString(
+      content.verification,
+      "\u73fe\u5728\u691c\u8a3c\u4e2d\u3067\u3059\u3002"
+    ),
+
+    limitation: normalizeString(
+      content.limitation,
+      "\u73fe\u6642\u70b9\u3067\u306f\u4eee\u8aac\u6bb5\u968e\u3092\u542b\u307f\u307e\u3059\u3002\u500b\u5225\u306e\u8a3a\u65ad\u3084\u552f\u4e00\u306e\u6b63\u89e3\u3092\u793a\u3059\u3082\u306e\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002"
+    ),
+
+    researchDetail:
+      normalizeString(content.type) === "research"
+        ? normalizeResearchDetail(content.researchDetail)
+        : null,
+
+    pdsDetail:
+      normalizeString(content.type) === "pds"
+        ? normalizePdsDetail(content.pdsDetail)
+        : null,
+
+    caseDetail:
+      normalizeString(content.type) === "case"
+        ? normalizeCaseDetail(content.caseDetail)
+        : null,
+
+    relatedIds: normalizeArray(content.relatedIds)
+      .map((item) => normalizeString(item))
+      .filter(Boolean)
+  };
+}),
+
+updates: data.updates.map((update) => {
+  return {
+    id: normalizeString(update.id),
+
+    contentId: normalizeString(
+      update.contentId
+    ),
+
+    date: normalizeString(
+      update.date
+    ),
+
+    label: normalizeString(
+      update.label,
+      "UPDATED"
+    ),
+
+    labelClass: normalizeString(
+      update.labelClass
+    ),
+
+    title: normalizeString(
+      update.title,
+      "\u66f4\u65b0\u60c5\u5831"
+    ),
+
+    summary: normalizeString(
+      update.summary,
+      "\u5185\u5bb9\u3092\u66f4\u65b0\u3057\u307e\u3057\u305f\u3002"
+    )
+  };
+}),
+
+facilities: data.facilities.map((facility) => {
+  return {
+    type: normalizeString(
+      facility.type
+    ),
+
+    code: normalizeString(
+      facility.code,
+      "?"
+    ),
+
+    name: normalizeString(
+      facility.name,
+      "Facility"
+    ),
+
+    japaneseName: normalizeString(
+      facility.japaneseName,
+      "\u7814\u7a76\u65bd\u8a2d"
+    ),
+
+    description: normalizeString(
+      facility.description,
+      "\u8cc7\u6599\u3092\u5206\u985e\u3057\u3066\u4fdd\u7ba1\u3057\u3066\u3044\u307e\u3059\u3002"
+    ),
+
+    detail: normalizeString(
+      facility.detail,
+      "Archive"
+    ),
+
+    status: normalizeString(
+      facility.status,
+      "OPEN"
+    )
+  };
+})
   };
 }
 
