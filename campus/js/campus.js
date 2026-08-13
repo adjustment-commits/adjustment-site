@@ -2497,69 +2497,56 @@ function renderPremium(phenomenon) {
 }
 
 function renderRelatedTopics(phenomenon) {
-  if (
-    !elements.relatedTopicsPanel ||
-    !elements.relatedTopicList
-  ) {
+  // DOM要素が存在しない場合は処理を中断
+  if (!elements.relatedTopicsPanel || !elements.relatedTopicList) {
     return;
   }
 
-  const relatedTopics = getRelatedTopics(
-    phenomenon.relatedTopicIds
-  );
+  // phenomenon や relatedTopicIds が未定義の場合の安全策
+  const topicIds = phenomenon?.relatedTopicIds || [];
+  const relatedTopics = getRelatedTopics(topicIds);
 
   elements.relatedTopicsPanel.hidden = false;
 
+  // 関連トピックがない場合
   if (relatedTopics.length === 0) {
-    elements.relatedTopicList.innerHTML =
-      "関連する概念を整理中です。";
+    elements.relatedTopicList.innerHTML = "関連する概念を整理中です。";
     return;
   }
 
+  // 関連トピックのリストを HTML として描画
   elements.relatedTopicList.innerHTML = relatedTopics
     .map((topic) => {
       const isActive = topic.id === state.activeTopicId;
-      return `
-        <li>
-          <button
-            type="button"
-            class="${isActive ? "active" : ""}"
-            data-topic-id="${topic.id}"
-          >
-            ${topic.title}
-          </button>
-        </li>
-      `;
+
+      return (
+        '<button' +
+        ' class="topic-item' +
+        (isActive ? " is-active" : "") +
+        '"' +
+        ' type="button"' +
+        ' data-topic-id="' +
+        escapeHtml(topic.id) +
+        '"' +
+        ' aria-pressed="' +
+        String(isActive) +
+        '"' +
+        '>' +
+        '<span class="topic-category">' +
+        escapeHtml(topic.category.toUpperCase()) +
+        '</span>' +
+        '<strong class="topic-label">' +
+        escapeHtml(topic.label) +
+        '</strong>' +
+        '<p class="topic-summary">' +
+        escapeHtml(topic.summary) +
+        '</p>' +
+        '</button>'
+      );
     })
     .join("");
-}
-  return (
-    '<button' +
-    ' class="topic-item' +
-    (isActive ? " is-active" : "") +
-    '"' +
-    ' type="button"' +
-    ' data-topic-id="' +
-    escapeHtml(topic.id) +
-    '"' +
-    ' aria-pressed="' +
-    String(isActive) +
-    '"' +
-    '>' +
-    '<span class="topic-category">' +
-    escapeHtml(topic.category.toUpperCase()) +
-    '</span>' +
-    '<strong class="topic-label">' +
-    escapeHtml(topic.label) +
-    '</strong>' +
-    '<p class="topic-summary">' +
-    escapeHtml(topic.summary) +
-    '</p>' +
-    '</button>'
-  );
-})
-.join("");
-    bindTopicViewEvents();
+
+  bindTopicViewEvents();
 }
 
 function bindTopicViewEvents() {
@@ -2567,58 +2554,41 @@ function bindTopicViewEvents() {
     return;
   }
 
+  // トピック開閉ボタンのイベントリスナー設定
   elements.relatedTopicList
     .querySelectorAll("[data-topic-id]")
     .forEach((button) => {
       button.addEventListener("click", () => {
-        openTopic(
-          button.dataset.topicId,
-          button
-        );
+        openTopic(button.dataset.topicId, button);
       });
     });
 
+  // コンテンツ開閉ボタンのイベントリスナー設定
   elements.relatedTopicList
     .querySelectorAll("[data-topic-content-id]")
     .forEach((button) => {
       button.addEventListener("click", () => {
-        openContent(
-          button.dataset.topicContentId,
-          button
-        );
+        openContent(button.dataset.topicContentId, button);
       });
     });
 
+  // 現象選択ボタンのイベントリスナー設定
   elements.relatedTopicList
     .querySelectorAll("[data-topic-phenomenon-id]")
     .forEach((button) => {
       button.addEventListener("click", () => {
-        selectPhenomenon(
-          button.dataset.topicPhenomenonId
-        );
+        selectPhenomenon(button.dataset.topicPhenomenonId);
       });
     });
-}
-    if (elements.insightPanel) {
-      elements.insightPanel.scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
-    }
-  });
-});
-const backButton =
-elements.relatedTopicList.querySelector(
-"[data-topic-back]"
-);
 
-if (backButton) {
-backButton.addEventListener(
-"click",
-closeTopic
-);
-}
+  // 戻るボタンのイベントリスナー設定
+  const backButton =
+    elements.relatedTopicList.querySelector("[data-topic-back]");
 
+  if (backButton) {
+    backButton.addEventListener("click", closeTopic);
+  }
+}
 
 function renderTopicView(topic) {
   if (
@@ -2637,77 +2607,95 @@ function renderTopicView(topic) {
     relatedTopics.length > 0
       ? relatedTopics
           .map((related) => {
-            return `
-              <button
-                class="topic-item"
-                type="button"
-                data-topic-id="${escapeHtml(related.id)}"
-                aria-pressed="false"
-              >
-                ${escapeHtml(related.category.toUpperCase())}
-                ${escapeHtml(related.label)}
-                ${escapeHtml(related.summary)}
-              </button>
-            `;
+            return (
+              '<button' +
+              ' class="topic-item"' +
+              ' type="button"' +
+              ' data-topic-id="' +
+              escapeHtml(related.id) +
+              '"' +
+              ' aria-pressed="false"' +
+              '>' +
+              '<span class="topic-category">' +
+              escapeHtml(related.category.toUpperCase()) +
+              '</span>' +
+              '<strong class="topic-label">' +
+              escapeHtml(related.label) +
+              '</strong>' +
+              '<p class="topic-summary">' +
+              escapeHtml(related.summary) +
+              '</p>' +
+              '</button>'
+            );
           })
           .join("")
-      : "関連する概念はまだありません。";
+      : '\u95a2\u9023\u3059\u308b\u6982\u5ff5\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
 
   const relatedContentsHtml =
     relatedContents.length > 0
       ? relatedContents
           .map((content) => {
-            return `
-              <button
-                class="topic-item"
-                type="button"
-                data-topic-content-id="${escapeHtml(content.id)}"
-              >
-                ${escapeHtml(formatTypeLabel(content.type))}
-                ${escapeHtml(content.title)}
-                ${escapeHtml(content.summary)}
-              </button>
-            `;
+            return (
+              '<button' +
+              ' class="topic-item"' +
+              ' type="button"' +
+              ' data-topic-content-id="' +
+              escapeHtml(content.id) +
+              '"' +
+              '>' +
+              '<span class="topic-category">' +
+              escapeHtml(formatTypeLabel(content.type)) +
+              '</span>' +
+              '<strong class="topic-label">' +
+              escapeHtml(content.title) +
+              '</strong>' +
+              '<p class="topic-summary">' +
+              escapeHtml(content.summary) +
+              '</p>' +
+              '</button>'
+            );
           })
           .join("")
-      : "この概念に関連付けられた資料はまだありません。";
+      : '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u8cc7\u6599\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
 
   const relatedPhenomenaHtml =
     relatedPhenomena.length > 0
       ? relatedPhenomena
           .map((phenomenon) => {
-            return `
-              <button
-                class="topic-item"
-                type="button"
-                data-topic-phenomenon-id="${escapeHtml(phenomenon.id)}"
-              >
-                PHENOMENON
-                ${escapeHtml(phenomenon.label)}
-                ${escapeHtml(phenomenon.description)}
-              </button>
-            `;
+            return (
+              '<button' +
+              ' class="topic-item"' +
+              ' type="button"' +
+              ' data-topic-phenomenon-id="' +
+              escapeHtml(phenomenon.id) +
+              '"' +
+              '>' +
+              '<span class="topic-category">PHENOMENON</span>' +
+              '<strong class="topic-label">' +
+              escapeHtml(phenomenon.label) +
+              '</strong>' +
+              '<p class="topic-summary">' +
+              escapeHtml(phenomenon.description) +
+              '</p>' +
+              '</button>'
+            );
           })
           .join("")
-      : "この概念に関連付けられた現象はまだありません。";
+      : '\u3053\u306e\u6982\u5ff5\u306b\u95a2\u9023\u4ed8\u3051\u3089\u308c\u305f\u73fe\u8c61\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002';
 
   elements.relatedTopicsPanel.hidden = false;
 
-  elements.relatedTopicList.innerHTML = `
-    <button
-      class="topic-back"
-      type="button"
-      data-topic-back
-    >
-      ← RELATED TOPICS
-    </button>
-  `;
-}
-  '<div class="topic-card main-topic">' +
+  elements.relatedTopicList.innerHTML =
+    '<button' +
+    ' class="topic-back"' +
+    ' type="button"' +
+    ' data-topic-back' +
+    '>' +
+    '\u2190 RELATED TOPICS' +
+    '</button>' +
+    '<div class="topic-card main-topic">' +
     '<span class="topic-category">' +
-    escapeHtml(
-      topic.category.toUpperCase()
-    ) +
+    escapeHtml(topic.category.toUpperCase()) +
     '</span>' +
     '<h3 class="topic-label">' +
     escapeHtml(topic.label) +
@@ -2715,33 +2703,27 @@ function renderTopicView(topic) {
     '<p class="topic-summary">' +
     escapeHtml(topic.summary) +
     '</p>' +
-  '</div>' +
-
-  '<div class="topic-header">' +
+    '</div>' +
+    '<div class="topic-header">' +
     '<span class="topic-category">RELATED TOPICS</span>' +
     '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u6982\u5ff5</h3>' +
     '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304b\u3089\u3001\u5225\u306e\u8996\u70b9\u3078\u601d\u8003\u3092\u5e83\u3052\u307e\u3059\u3002</p>' +
-  '</div>' +
-
-  relatedTopicsHtml +
-
-  '<div class="topic-header">' +
+    '</div>' +
+    relatedTopicsHtml +
+    '<div class="topic-header">' +
     '<span class="topic-category">RELATED CONTENT</span>' +
     '<h3 class="topic-title">\u95a2\u9023\u3059\u308b\u8cc7\u6599</h3>' +
     '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u3092\u3001\u7814\u7a76\u30fb\u8a55\u4fa1\u30fb\u4e8b\u4f8b\u30fb\u7528\u8a9e\u304b\u3089\u3055\u3089\u306b\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
-  '</div>' +
-
-  relatedContentsHtml +
-
-  '<div class="topic-header">' +
+    '</div>' +
+    relatedContentsHtml +
+    '<div class="topic-header">' +
     '<span class="topic-category">RELATED PHENOMENA</span>' +
     '<h3 class="topic-title">\u3053\u306e\u6982\u5ff5\u3068\u95a2\u4fc2\u3059\u308b\u73fe\u8c61</h3>' +
     '<p class="topic-summary">\u3053\u306e\u6982\u5ff5\u304c\u3001\u5b9f\u969b\u306e\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u3069\u306e\u3088\u3046\u306a\u73fe\u8c61\u3068\u3064\u306a\u304c\u308b\u304b\u3092\u78ba\u8a8d\u3057\u307e\u3059\u3002</p>' +
-  '</div>' +
+    '</div>' +
+    relatedPhenomenaHtml;
 
-  relatedPhenomenaHtml +
-'</div>';
-    bindTopicViewEvents();
+  bindTopicViewEvents();
 }
 
 function openTopic(topicId, triggerElement = null) {
