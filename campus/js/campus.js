@@ -587,7 +587,7 @@ function buildCardiumGraph(data) {
     return connection;
   };
 
-  // 1. ノード（Phenomena, Topics, Contents）の登録
+  // 1. ãã¼ãï¼Phenomena, Topics, Contentsï¼ã®ç»é²
   normalizeArray(data.phenomena).forEach((phenomenon) => {
     const entityId = normalizeString(phenomenon.id);
 
@@ -656,7 +656,7 @@ function buildCardiumGraph(data) {
     });
   });
 
-  // 2. コネクション（関連性）の登録
+  // 2. ã³ãã¯ã·ã§ã³ï¼é¢é£æ§ï¼ã®ç»é²
   normalizeArray(data.phenomena).forEach((phenomenon) => {
     const phenomenonNodeId = createCardiumNodeId(
       "phenomenon",
@@ -1396,15 +1396,15 @@ function getCardiumFocusActionLabel(node) {
   }
 
   if (node.kind === "phenomenon") {
-    return "この現象から考える";
+    return "ãã®ç¾è±¡ããèãã";
   }
 
   if (node.kind === "topic") {
-    return "この概念を中心に探索する";
+    return "ãã®æ¦å¿µãä¸­å¿ã«æ¢ç´¢ãã";
   }
 
   if (node.kind === "content") {
-    return "資料を開く";
+    return "è³æãéã";
   }
 
   return "";
@@ -1538,7 +1538,7 @@ function renderCardiumFocus(nodeId) {
 
  if (elements.cardiumFocusMeta) {
   elements.cardiumFocusMeta.innerHTML = metaItems
-    .map((item) => `<span>${escapeHtml(item)}</span>`)
+    .map((item) => `<span class="cardium-focus-meta-item">${escapeHtml(item)}</span>`)
     .join("");
 }
 
@@ -1546,7 +1546,7 @@ function renderCardiumFocus(nodeId) {
     elements.cardiumFocusActions.innerHTML = actionLabel
       ? `<button class="cardium-focus-action is-primary" type="button" data-cardium-focus-action-id="${escapeHtml(
           node.id
-        )}">${escapeHtml(actionLabel)} →</button>`
+        )}">${escapeHtml(actionLabel)} â</button>`
       : "";
   }
 }
@@ -1776,7 +1776,7 @@ nodePositions.set(node.id, { x, y });
 
   const nodeHtml = [];
 
-  // 中央ノードの配置
+  // ä¸­å¤®ãã¼ãã®éç½®
   nodeHtml.push(
     createNodeHtml(
       viewModel.center,
@@ -1789,7 +1789,7 @@ nodePositions.set(node.id, { x, y });
     )
   );
 
-  // Ring 1 ノードの配置
+  // Ring 1 ãã¼ãã®éç½®
   const ring1Count = viewModel.ring1.length;
 
   viewModel.ring1.forEach((entry, index) => {
@@ -1808,7 +1808,7 @@ nodePositions.set(node.id, { x, y });
     );
   });
 
-  // Ring 2 ノードの配置
+  // Ring 2 ãã¼ãã®éç½®
   const ring2Count = viewModel.ring2.length;
 
   viewModel.ring2.forEach((entry, index) => {
@@ -1829,7 +1829,7 @@ nodePositions.set(node.id, { x, y });
 
   elements.cardiumNodes.innerHTML = nodeHtml.join("");
 
-  // コネクション（接続線）の描画
+  // ã³ãã¯ã·ã§ã³ï¼æ¥ç¶ç·ï¼ã®æç»
   if (elements.cardiumConnections) {
     elements.cardiumConnections.setAttribute(
       "viewBox",
@@ -1903,7 +1903,7 @@ const connectionHtml = state.cardiumGraph.connections
     elements.cardiumConnections.innerHTML = connectionHtml;
   }
 
- // Cardiumノードのクリックを探索経路と画面状態へ接続
+ // Cardiumãã¼ãã®ã¯ãªãã¯ãæ¢ç´¢çµè·¯ã¨ç»é¢ç¶æã¸æ¥ç¶
 elements.cardiumNodes
 .querySelectorAll("[data-cardium-node-id]")
 .forEach((button) => {
@@ -2493,13 +2493,13 @@ errors
 }
 
 // ==========================================
-// 1. validateCaseDetail 関数の修正版
+// 1. validateCaseDetail é¢æ°ã®ä¿®æ­£ç
 // ==========================================
 function validateCaseDetail(caseDetail, contentIndex, errors) {
   const location = `contents[${contentIndex}].caseDetail`;
 
   if (!isPlainObject(caseDetail)) {
-    errors.push(`${location}はオブジェクトである必要があります。`);
+    errors.push(`${location}ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`);
     return;
   }
 
@@ -2519,7 +2519,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
     const sectionLocation = `${location}.${sectionName}`;
 
     if (!isPlainObject(section)) {
-      errors.push(`${sectionLocation}はオブジェクトである必要があります。`);
+      errors.push(`${sectionLocation}ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`);
       return;
     }
 
@@ -2539,7 +2539,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
       Object.prototype.hasOwnProperty.call(section, "points") &&
       !Array.isArray(section.points)
     ) {
-      errors.push(`${sectionLocation}.pointsは配列である必要があります。`);
+      errors.push(`${sectionLocation}.pointsã¯éåã§ããå¿è¦ãããã¾ãã`);
     }
   });
 }
@@ -2668,7 +2668,7 @@ function validateData(data) {
  data.contents.forEach((content, index) => {
   if (!isPlainObject(content)) {
     errors.push(
-      `contents[${index}]はオブジェクトである必要があります。`
+      `contents[${index}]ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`
     );
     return;
   }
@@ -2677,11 +2677,11 @@ function validateData(data) {
 
   if (!id) {
     errors.push(
-      `contents[${index}].idがありません。`
+      `contents[${index}].idãããã¾ããã`
     );
   } else if (contentIds.has(id)) {
     errors.push(
-      `contents内でid「${id}」が重複しています。`
+      `contentsåã§idã${id}ããéè¤ãã¦ãã¾ãã`
     );
   } else {
     contentIds.add(id);
@@ -2689,13 +2689,13 @@ function validateData(data) {
 
   if (!normalizeString(content.type)) {
     errors.push(
-      `contents[${index}].typeがありません。`
+      `contents[${index}].typeãããã¾ããã`
     );
   }
 
   if (!normalizeString(content.title)) {
     errors.push(
-      `contents[${index}].titleがありません。`
+      `contents[${index}].titleãããã¾ããã`
     );
   }
 });
@@ -4007,24 +4007,24 @@ function renderPremium(phenomenon) {
 }
 
 function renderRelatedTopics(phenomenon) {
-  // DOM要素が存在しない場合は処理を中断
+  // DOMè¦ç´ ãå­å¨ããªãå ´åã¯å¦çãä¸­æ­
   if (!elements.relatedTopicsPanel || !elements.relatedTopicList) {
     return;
   }
 
-  // phenomenon や relatedTopicIds が未定義の場合の安全策
+  // phenomenon ã relatedTopicIds ãæªå®ç¾©ã®å ´åã®å®å¨ç­
   const topicIds = phenomenon?.relatedTopicIds || [];
   const relatedTopics = getRelatedTopics(topicIds);
 
   elements.relatedTopicsPanel.hidden = false;
 
-  // 関連トピックがない場合
+  // é¢é£ãããã¯ããªãå ´å
   if (relatedTopics.length === 0) {
-    elements.relatedTopicList.innerHTML = "関連する概念を整理中です。";
+    elements.relatedTopicList.innerHTML = "é¢é£ããæ¦å¿µãæ´çä¸­ã§ãã";
     return;
   }
 
-  // 関連トピックのリストを HTML として描画
+  // é¢é£ãããã¯ã®ãªã¹ãã HTML ã¨ãã¦æç»
   elements.relatedTopicList.innerHTML = relatedTopics
     .map((topic) => {
       const isActive = topic.id === state.activeTopicId;
@@ -4064,7 +4064,7 @@ function bindTopicViewEvents() {
     return;
   }
 
-  // トピック開閉ボタンのイベントリスナー設定
+  // ãããã¯ééãã¿ã³ã®ã¤ãã³ããªã¹ãã¼è¨­å®
   elements.relatedTopicList
     .querySelectorAll("[data-topic-id]")
     .forEach((button) => {
@@ -4073,7 +4073,7 @@ function bindTopicViewEvents() {
       });
     });
 
-  // コンテンツ開閉ボタンのイベントリスナー設定
+  // ã³ã³ãã³ãééãã¿ã³ã®ã¤ãã³ããªã¹ãã¼è¨­å®
   elements.relatedTopicList
     .querySelectorAll("[data-topic-content-id]")
     .forEach((button) => {
@@ -4082,7 +4082,7 @@ function bindTopicViewEvents() {
       });
     });
 
-  // 現象選択ボタンのイベントリスナー設定
+  // ç¾è±¡é¸æãã¿ã³ã®ã¤ãã³ããªã¹ãã¼è¨­å®
   elements.relatedTopicList
     .querySelectorAll("[data-topic-phenomenon-id]")
     .forEach((button) => {
@@ -4091,7 +4091,7 @@ function bindTopicViewEvents() {
       });
     });
 
-  // 戻るボタンのイベントリスナー設定
+  // æ»ããã¿ã³ã®ã¤ãã³ããªã¹ãã¼è¨­å®
   const backButton =
     elements.relatedTopicList.querySelector("[data-topic-back]");
 
@@ -4385,89 +4385,95 @@ function renderRelatedContents(phenomenon) {
 }
 
 
-if (!state.data) {
-  return;
-}
+function renderInsight() {
+  if (!state.data) {
+    return;
+  }
 
-const phenomenon = getActivePhenomenon();
+  const phenomenon = getActivePhenomenon();
 
-if (!phenomenon) {
+  if (!phenomenon) {
+    if (elements.insightCount) {
+      elements.insightCount.textContent = "STEP 1 / 5";
+    }
+
+    if (elements.questionTitle) {
+      elements.questionTitle.textContent =
+        "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
+    }
+
+    if (elements.questionText) {
+      elements.questionText.textContent =
+        "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
+    }
+
+    [
+      elements.questionChoices,
+      elements.whyPoints,
+      elements.relatedTopicList,
+      elements.relatedList
+    ].forEach((element) => {
+      if (element) {
+        element.innerHTML = "";
+      }
+    });
+
+    [
+      elements.entryPanel,
+      elements.commonTheoryPanel,
+      elements.adjustmentPanel,
+      elements.nextStepPanel,
+      elements.premiumPanel,
+      elements.relatedTopicsPanel
+    ].forEach((panel) => {
+      if (panel) {
+        panel.hidden = true;
+      }
+    });
+
+    [
+      elements.entryTitle,
+      elements.entryText,
+      elements.adjustmentText,
+      elements.whyText,
+      elements.nextStepText,
+      elements.premiumTitle,
+      elements.premiumText
+    ].forEach((element) => {
+      if (element) {
+        element.textContent = "";
+      }
+    });
+
+    hideLegacyThinkingPanels();
+    syncCardiumVisibility();
+    closeCardiumFocus();
+
+    return;
+  }
+
   if (elements.insightCount) {
-    elements.insightCount.textContent = "STEP 1 / 5";
+    elements.insightCount.textContent = state.selectedChoiceId
+      ? "EXPLORE"
+      : "STEP 1 / 5";
   }
 
-  if (elements.questionTitle) {
-  elements.questionTitle.textContent =
-    "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
-}
+  renderQuestion(phenomenon);
+  renderWhy(phenomenon);
+  renderAdjustmentView(phenomenon);
+  renderNextStep(phenomenon);
 
-if (elements.questionText) {
-  elements.questionText.textContent =
-    "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
-}
+  hideLegacyThinkingPanels();
+  syncCardiumVisibility();
 
-[
-  elements.questionChoices,
-  elements.whyPoints,
-  elements.relatedTopicList,
-  elements.relatedList
-].forEach((element) => {
-  if (element) {
-    element.innerHTML = "";
+  if (state.selectedChoiceId) {
+    renderCardium({
+      preserveActiveNode: true
+    });
+  } else {
+    closeCardiumFocus();
   }
-});
-
-[
-  elements.entryPanel,
-  elements.commonTheoryPanel,
-  elements.adjustmentPanel,
-  elements.nextStepPanel,
-  elements.premiumPanel,
-  elements.relatedTopicsPanel
-].forEach((panel) => {
-  if (panel) {
-    panel.hidden = true;
-  }
-});
-
-[
-  elements.entryTitle,
-  elements.entryText,
-  elements.adjustmentText,
-  elements.whyText,
-  elements.nextStepText,
-  elements.premiumTitle,
-  elements.premiumText
-].forEach((element) => {
-  if (element) {
-    element.textContent = "";
-  }
-});
-
-hideLegacyThinkingPanels();
-syncCardiumVisibility();
-
-return;
-
-if (elements.insightCount) {
-  elements.insightCount.textContent = state.selectedChoiceId
-    ? "EXPLORE"
-    : "STEP 1 / 5";
 }
-
-renderQuestion(phenomenon);
-renderWhy(phenomenon);
-renderAdjustmentView(phenomenon);
-renderNextStep(phenomenon);
-
-hideLegacyThinkingPanels();
-syncCardiumVisibility();
-
-if (state.selectedChoiceId) {
-  renderCardium();
-}
-
-
 
 function renderUpdates() {
 if (!elements.updateGrid || !state.data) {
@@ -4800,26 +4806,26 @@ function renderDrawerSectionHeadings(contentType) {
 
   if (elements.drawerQuestionHeading) {
     elements.drawerQuestionHeading.textContent = isPds
-      ? "PDS OVERVIEW / PDSについて"
+      ? "PDS OVERVIEW / PDSã«ã¤ãã¦"
       : isCase
-      ? "BACKGROUND / 背景"
-      : "QUESTION / 最初の問い";
+      ? "BACKGROUND / èæ¯"
+      : "QUESTION / æåã®åã";
   }
 
   if (elements.drawerCommonTheoryHeading) {
     elements.drawerCommonTheoryHeading.textContent = isPds
-      ? "PURPOSE / 評価の目的"
+      ? "PURPOSE / è©ä¾¡ã®ç®ç"
       : isCase
-      ? "PHENOMENON / 起きていた現象"
-      : "COMMON THEORY / 一般的な考え方";
+      ? "PHENOMENON / èµ·ãã¦ããç¾è±¡"
+      : "COMMON THEORY / ä¸è¬çãªèãæ¹";
   }
 
   if (elements.drawerAdjustmentViewHeading) {
     elements.drawerAdjustmentViewHeading.textContent = isPds
-      ? "PRINCIPLES / 評価の考え方"
+      ? "PRINCIPLES / è©ä¾¡ã®èãæ¹"
       : isCase
-      ? "INITIAL INTERPRETATION / 最初の捉え方"
-      : "ADJUSTMENT VIEW / 捉え直し";
+      ? "INITIAL INTERPRETATION / æåã®æãæ¹"
+      : "ADJUSTMENT VIEW / æãç´ã";
   }
 }
 
@@ -5118,7 +5124,7 @@ function renderPdsDetail(content) {
 
   const detail = content.pdsDetail;
 
-  // 1. 各テキストセクションのレンダリング
+  // 1. åãã­ã¹ãã»ã¯ã·ã§ã³ã®ã¬ã³ããªã³ã°
   renderResearchSection(
     elements.drawerQuestion,
     detail.definition
@@ -5134,7 +5140,7 @@ function renderPdsDetail(content) {
     detail.principles
   );
 
-  // 2. evaluationItem (評価項目およびチェックポイント) のレンダリング
+  // 2. evaluationItem (è©ä¾¡é ç®ããã³ãã§ãã¯ãã¤ã³ã) ã®ã¬ã³ããªã³ã°
 const evaluationItem = detail.evaluationItem;
 if (
 elements.drawerPdsEvaluation &&
@@ -5237,7 +5243,7 @@ setDrawerSectionVisible(
 );
   }
 
-  // 3. 残りのテキストセクションのレンダリング
+  // 3. æ®ãã®ãã­ã¹ãã»ã¯ã·ã§ã³ã®ã¬ã³ããªã³ã°
   renderResearchSection(
     elements.drawerPerformanceConnection,
     detail.performanceConnection
