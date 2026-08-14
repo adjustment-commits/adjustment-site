@@ -100,7 +100,12 @@ cardiumViewport: document.getElementById("cardiumViewport"),
 cardiumConnections: document.getElementById("cardiumConnections"),
 cardiumNodes: document.getElementById("cardiumNodes"),
 cardiumEmpty: document.getElementById("cardiumEmpty"),
-
+cardiumFocus: document.getElementById("cardiumFocus"),
+cardiumFocusType: document.getElementById("cardiumFocusType"),
+cardiumFocusTitle: document.getElementById("cardiumFocusTitle"),
+cardiumFocusSummary: document.getElementById("cardiumFocusSummary"),
+cardiumFocusAction: document.getElementById("cardiumFocusAction"),
+cardiumFocusClose: document.getElementById("cardiumFocusClose"),
 
 updateGrid:document.getElementById("updateGrid"),
 facilityGrid:document.getElementById("facilityGrid"),
@@ -990,16 +995,67 @@ function selectCardiumExplorationNode(nodeId) {
   const pathIndex = getCardiumPathIndex(normalizedNodeId);
 
   if (pathIndex !== -1) {
-    state.activeCardiumPath = state.activeCardiumPath.slice(0, pathIndex + 1);
-  } else {
-    state.activeCardiumPath.push(normalizedNodeId);
+    state.activeCardiumPath = state.activeCardiumPath.slice(
+      0,
+      pathIndex + 1
+    );
+    state.activeCardiumNodeId = normalizedNodeId;
+
+    state.expandedCardiumNodeIds = new Set(state.activeCardiumPath);
+
+    return true;
   }
 
+  const currentNodeId = normalizeString(state.activeCardiumNodeId);
+
+  if (
+    currentNodeId &&
+    !getCardiumConnectionBetween(currentNodeId, normalizedNodeId)
+  ) {
+    return false;
+  }
+
+  state.activeCardiumPath.push(normalizedNodeId);
+
   state.activeCardiumNodeId = normalizedNodeId;
+
   state.expandedCardiumNodeIds.add(normalizedNodeId);
 
   return true;
 }
+
+function getCardiumExplorationChildren(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId) {
+    return [];
+  }
+
+  const pathIndex = getCardiumPathIndex(normalizedNodeId);
+
+  const previousNodeId =
+    pathIndex > 0 ? state.activeCardiumPath[pathIndex - 1] : "";
+
+  const nextNodeId =
+    pathIndex !== -1 && pathIndex < state.activeCardiumPath.length - 1
+      ? state.activeCardiumPath[pathIndex + 1]
+      : "";
+
+  return getCardiumNeighborEntries(normalizedNodeId).filter((entry) => {
+    const childNodeId = entry.node.id;
+
+    if (childNodeId === previousNodeId) {
+      return false;
+    }
+
+    if (nextNodeId && childNodeId === nextNodeId) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
 
 function getCardiumExplorationChildren(nodeId) {
   const normalizedNodeId = normalizeString(nodeId);
@@ -1017,88 +1073,84 @@ function getCardiumExplorationChildren(nodeId) {
   });
 }
   
-  function buildCardiumViewModel(centerNodeId) {
-const center = getCardiumNodeById(centerNodeId);
+function buildCardiumViewModel(centerNodeId) {
+  const center = getCardiumNodeById(centerNodeId);
 
-if (!center) {
-return {
-center: null,
-ring1: [],
-ring2: [],
-visibleNodeIds: [],
-visibleConnectionIds: [],
-activeNodeIds: [],
-activeConnectionIds: []
-};
-}
-
-const ring1 = getCardiumNeighborEntries(center.id);
-
-const ring1NodeIds = new Set(
-ring1.map((entry) => {
-return entry.node.id;
-})
-);
-
-const ring2Map = new Map();
-
-ring1.forEach((parentEntry) => {
-const parentNodeId = parentEntry.node.id;
-
-const shouldExpand =
-  isCardiumNodeExpanded(parentNodeId) ||
-  isCardiumNodeOnActivePath(parentNodeId);
-
-if (!shouldExpand) {
-  return;
-}
-
-getCardiumExplorationChildren(parentNodeId).forEach((entry) => {
-  const nodeId = entry.node.id;
-
-  if (
-    nodeId === center.id ||
-    ring1NodeIds.has(nodeId)
-  ) {
-    return;
+  if (!center) {
+    return {
+      center: null,
+      ring1: [],
+      ring2: [],
+      visibleNodeIds: [],
+      visibleConnectionIds: [],
+      activeNodeIds: [],
+      activeConnectionIds: []
+    };
   }
 
-  if (!ring2Map.has(nodeId)) {
-    ring2Map.set(nodeId, {
-      node: entry.node,
-      relations: [],
-      connectionIds: [],
-      parentNodeIds: []
+  const ring1 = getCardiumNeighborEntries(center.id);
+
+  const ring1NodeIds = new Set(
+    ring1.map((entry) => {
+      return entry.node.id;
+    })
+  );
+
+  const ring2Map = new Map();
+
+  ring1.forEach((parentEntry) => {
+    const parentNodeId = parentEntry.node.id;
+
+    const shouldExpand =
+      isCardiumNodeExpanded(parentNodeId) ||
+      isCardiumNodeOnActivePath(parentNodeId);
+
+    if (!shouldExpand) {
+      return;
+    }
+
+    getCardiumExplorationChildren(parentNodeId).forEach((entry) => {
+      const nodeId = entry.node.id;
+
+      if (nodeId === center.id || ring1NodeIds.has(nodeId)) {
+        return;
+      }
+
+      if (!ring2Map.has(nodeId)) {
+        ring2Map.set(nodeId, {
+          node: entry.node,
+          relations: [],
+          connectionIds: [],
+          parentNodeIds: []
+        });
+      }
+
+      const ring2Entry = ring2Map.get(nodeId);
+
+      entry.relations.forEach((relation) => {
+        if (!ring2Entry.relations.includes(relation)) {
+          ring2Entry.relations.push(relation);
+        }
+      });
+
+      entry.connectionIds.forEach((connectionId) => {
+        if (!ring2Entry.connectionIds.includes(connectionId)) {
+          ring2Entry.connectionIds.push(connectionId);
+        }
+      });
+
+      if (!ring2Entry.parentNodeIds.includes(parentNodeId)) {
+        ring2Entry.parentNodeIds.push(parentNodeId);
+      }
     });
-  }
-
-  const ring2Entry = ring2Map.get(nodeId);
-
-  entry.relations.forEach((relation) => {
-    if (!ring2Entry.relations.includes(relation)) {
-      ring2Entry.relations.push(relation);
-    }
   });
-
-  entry.connectionIds.forEach((connectionId) => {
-    if (!ring2Entry.connectionIds.includes(connectionId)) {
-      ring2Entry.connectionIds.push(connectionId);
-    }
-  });
-
-  if (!ring2Entry.parentNodeIds.includes(parentNodeId)) {
-    ring2Entry.parentNodeIds.push(parentNodeId);
-  }
-});
-
-});
 
   const ring2 = Array.from(ring2Map.values());
 
   const visibleNodeIds = [
     center.id,
     ...ring1.map((entry) => entry.node.id),
-    ...ring2.map((entry) => entry.node.id),
+    ...ring2.map((entry) => entry.node.id)
   ];
 
   const visibleNodeIdSet = new Set(visibleNodeIds);
@@ -1112,7 +1164,9 @@ getCardiumExplorationChildren(parentNodeId).forEach((entry) => {
               visibleNodeIdSet.has(connection.target)
             );
           })
-          .map((connection) => connection.id)
+          .map((connection) => {
+            return connection.id;
+          })
       : [];
 
   const activeNodeIds = Array.isArray(state.activeCardiumPath)
@@ -1128,9 +1182,10 @@ getCardiumExplorationChildren(parentNodeId).forEach((entry) => {
     visibleNodeIds,
     visibleConnectionIds,
     activeNodeIds,
-    activeConnectionIds,
+    activeConnectionIds
   };
 }
+
 
 
 function resolveCardiumCenterNodeId() {
@@ -1236,6 +1291,116 @@ centerNodeId
 );
 
 return state.cardiumViewModel;
+}
+
+function getCardiumFocusActionLabel(node) {
+  if (!node) {
+    return "";
+  }
+
+  if (node.kind === "phenomenon") {
+    return "この現象から考える"; // Unicode unescaped: \u3053\u306e\u73fe\u8c61\u304b\u3089\u8003\u3048\u308b
+  }
+
+  if (node.kind === "topic") {
+    return "この概念を見る"; // Unicode unescaped: \u3053\u306e\u6982\u5ff5\u3092\u898b\u308b
+  }
+
+  if (node.kind === "content") {
+    return "資料を開く"; // Unicode unescaped: \u8cc7\u6599\u3092\u958b\u304f
+  }
+
+  return "";
+}
+
+function closeCardiumFocus() {
+  if (!elements.cardiumFocus) {
+    return;
+  }
+
+  elements.cardiumFocus.hidden = true;
+  elements.cardiumFocus.removeAttribute("data-cardium-focus-node-id");
+
+  if (elements.cardiumFocusType) {
+    elements.cardiumFocusType.textContent = "";
+  }
+
+  if (elements.cardiumFocusTitle) {
+    elements.cardiumFocusTitle.textContent = "";
+  }
+
+  if (elements.cardiumFocusSummary) {
+    elements.cardiumFocusSummary.textContent = "";
+  }
+
+  if (elements.cardiumFocusAction) {
+    elements.cardiumFocusAction.textContent = "";
+    elements.cardiumFocusAction.removeAttribute("data-cardium-focus-action-id");
+  }
+}
+
+function renderCardiumFocus(nodeId) {
+  if (!elements.cardiumFocus) {
+    return;
+  }
+
+  const node = getCardiumNodeById(nodeId);
+
+  if (!node) {
+    closeCardiumFocus();
+    return;
+  }
+
+  let typeLabel = "CONTENT";
+
+  if (node.kind === "phenomenon") {
+    typeLabel = "PHENOMENON";
+  } else if (node.kind === "topic") {
+    typeLabel = "TOPIC";
+  } else if (node.kind === "content") {
+    typeLabel = formatTypeLabel(node.subtype);
+  }
+
+  const title = normalizeString(node.title || node.label, "UNTITLED");
+  const summary = normalizeString(node.summary);
+
+  elements.cardiumFocus.hidden = false;
+  elements.cardiumFocus.setAttribute("data-cardium-focus-node-id", node.id);
+
+  if (elements.cardiumFocusType) {
+    elements.cardiumFocusType.textContent = typeLabel;
+  }
+
+  if (elements.cardiumFocusTitle) {
+    elements.cardiumFocusTitle.textContent = title;
+  }
+
+  if (elements.cardiumFocusSummary) {
+    elements.cardiumFocusSummary.textContent = summary;
+  }
+
+  if (elements.cardiumFocusAction) {
+    elements.cardiumFocusAction.textContent = getCardiumFocusActionLabel(node);
+    elements.cardiumFocusAction.setAttribute("data-cardium-focus-action-id", node.id);
+  }
+}
+
+function activateCardiumFocusNode(nodeId) {
+  const node = getCardiumNodeById(nodeId);
+
+  if (!node) {
+    return;
+  }
+
+  if (node.kind === "phenomenon") {
+    selectPhenomenon(node.entityId);
+  } else if (node.kind === "topic") {
+    openTopic(node.entityId, elements.cardiumFocusAction);
+  } else if (node.kind === "content") {
+    openContent(node.entityId, elements.cardiumFocusAction);
+  }
+
+  closeCardiumFocus();
 }
   
 function renderCardium() {
