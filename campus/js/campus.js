@@ -587,7 +587,7 @@ function buildCardiumGraph(data) {
     return connection;
   };
 
-  // 1. ãã¼ãï¼Phenomena, Topics, Contentsï¼ã®ç»é²
+  // 1. Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ¯Â¼ÂPhenomena, Topics, ContentsÃ¯Â¼ÂÃ£ÂÂ®Ã§ÂÂ»Ã©ÂÂ²
   normalizeArray(data.phenomena).forEach((phenomenon) => {
     const entityId = normalizeString(phenomenon.id);
 
@@ -656,7 +656,7 @@ function buildCardiumGraph(data) {
     });
   });
 
-  // 2. ã³ãã¯ã·ã§ã³ï¼é¢é£æ§ï¼ã®ç»é²
+  // 2. Ã£ÂÂ³Ã£ÂÂÃ£ÂÂ¯Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¯Â¼ÂÃ©ÂÂ¢Ã©ÂÂ£Ã¦ÂÂ§Ã¯Â¼ÂÃ£ÂÂ®Ã§ÂÂ»Ã©ÂÂ²
   normalizeArray(data.phenomena).forEach((phenomenon) => {
     const phenomenonNodeId = createCardiumNodeId(
       "phenomenon",
@@ -1396,15 +1396,15 @@ function getCardiumFocusActionLabel(node) {
   }
 
   if (node.kind === "phenomenon") {
-    return "ãã®ç¾è±¡ããèãã";
+    return "Ã£ÂÂÃ£ÂÂ®Ã§ÂÂ¾Ã¨Â±Â¡Ã£ÂÂÃ£ÂÂÃ¨ÂÂÃ£ÂÂÃ£ÂÂ";
   }
 
   if (node.kind === "topic") {
-    return "ãã®æ¦å¿µãä¸­å¿ã«æ¢ç´¢ãã";
+    return "Ã£ÂÂÃ£ÂÂ®Ã¦Â¦ÂÃ¥Â¿ÂµÃ£ÂÂÃ¤Â¸Â­Ã¥Â¿ÂÃ£ÂÂ«Ã¦ÂÂ¢Ã§Â´Â¢Ã£ÂÂÃ£ÂÂ";
   }
 
   if (node.kind === "content") {
-    return "è³æãéã";
+    return "Ã¨Â³ÂÃ¦ÂÂÃ£ÂÂÃ©ÂÂÃ£ÂÂ";
   }
 
   return "";
@@ -1546,7 +1546,7 @@ function renderCardiumFocus(nodeId) {
     elements.cardiumFocusActions.innerHTML = actionLabel
       ? `<button class="cardium-focus-action is-primary" type="button" data-cardium-focus-action-id="${escapeHtml(
           node.id
-        )}">${escapeHtml(actionLabel)} â</button>`
+        )}">${escapeHtml(actionLabel)} Ã¢ÂÂ</button>`
       : "";
   }
 }
@@ -1776,7 +1776,7 @@ nodePositions.set(node.id, { x, y });
 
   const nodeHtml = [];
 
-  // ä¸­å¤®ãã¼ãã®éç½®
+  // Ã¤Â¸Â­Ã¥Â¤Â®Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
   nodeHtml.push(
     createNodeHtml(
       viewModel.center,
@@ -1789,7 +1789,7 @@ nodePositions.set(node.id, { x, y });
     )
   );
 
-  // Ring 1 ãã¼ãã®éç½®
+  // Ring 1 Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
   const ring1Count = viewModel.ring1.length;
 
   viewModel.ring1.forEach((entry, index) => {
@@ -1808,7 +1808,7 @@ nodePositions.set(node.id, { x, y });
     );
   });
 
-  // Ring 2 ãã¼ãã®éç½®
+  // Ring 2 Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
   const ring2Count = viewModel.ring2.length;
 
   viewModel.ring2.forEach((entry, index) => {
@@ -1829,7 +1829,7 @@ nodePositions.set(node.id, { x, y });
 
   elements.cardiumNodes.innerHTML = nodeHtml.join("");
 
-  // ã³ãã¯ã·ã§ã³ï¼æ¥ç¶ç·ï¼ã®æç»
+  // Ã£ÂÂ³Ã£ÂÂÃ£ÂÂ¯Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¯Â¼ÂÃ¦ÂÂ¥Ã§Â¶ÂÃ§Â·ÂÃ¯Â¼ÂÃ£ÂÂ®Ã¦ÂÂÃ§ÂÂ»
   if (elements.cardiumConnections) {
     elements.cardiumConnections.setAttribute(
       "viewBox",
@@ -1903,7 +1903,7 @@ const connectionHtml = state.cardiumGraph.connections
     elements.cardiumConnections.innerHTML = connectionHtml;
   }
 
- // Cardiumãã¼ãã®ã¯ãªãã¯ãæ¢ç´¢çµè·¯ã¨ç»é¢ç¶æã¸æ¥ç¶
+ // CardiumÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¯Ã£ÂÂÃ¦ÂÂ¢Ã§Â´Â¢Ã§ÂµÂÃ¨Â·Â¯Ã£ÂÂ¨Ã§ÂÂ»Ã©ÂÂ¢Ã§ÂÂ¶Ã¦ÂÂÃ£ÂÂ¸Ã¦ÂÂ¥Ã§Â¶Â
 elements.cardiumNodes
 .querySelectorAll("[data-cardium-node-id]")
 .forEach((button) => {
@@ -1994,6 +1994,7 @@ return [];
 return Array.from(
 container.querySelectorAll(
 [
+
 "a[href]",
 "button:not([disabled])",
 "input:not([disabled])",
@@ -2493,13 +2494,13 @@ errors
 }
 
 // ==========================================
-// 1. validateCaseDetail é¢æ°ã®ä¿®æ­£ç
+// 1. validateCaseDetail Ã©ÂÂ¢Ã¦ÂÂ°Ã£ÂÂ®Ã¤Â¿Â®Ã¦Â­Â£Ã§ÂÂ
 // ==========================================
 function validateCaseDetail(caseDetail, contentIndex, errors) {
   const location = `contents[${contentIndex}].caseDetail`;
 
   if (!isPlainObject(caseDetail)) {
-    errors.push(`${location}ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`);
+    errors.push(`${location}Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
     return;
   }
 
@@ -2519,7 +2520,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
     const sectionLocation = `${location}.${sectionName}`;
 
     if (!isPlainObject(section)) {
-      errors.push(`${sectionLocation}ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`);
+      errors.push(`${sectionLocation}Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
       return;
     }
 
@@ -2539,7 +2540,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
       Object.prototype.hasOwnProperty.call(section, "points") &&
       !Array.isArray(section.points)
     ) {
-      errors.push(`${sectionLocation}.pointsã¯éåã§ããå¿è¦ãããã¾ãã`);
+      errors.push(`${sectionLocation}.pointsÃ£ÂÂ¯Ã©ÂÂÃ¥ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
     }
   });
 }
@@ -2668,7 +2669,7 @@ function validateData(data) {
  data.contents.forEach((content, index) => {
   if (!isPlainObject(content)) {
     errors.push(
-      `contents[${index}]ã¯ãªãã¸ã§ã¯ãã§ããå¿è¦ãããã¾ãã`
+      `contents[${index}]Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`
     );
     return;
   }
@@ -2677,11 +2678,11 @@ function validateData(data) {
 
   if (!id) {
     errors.push(
-      `contents[${index}].idãããã¾ããã`
+      `contents[${index}].idÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
     );
   } else if (contentIds.has(id)) {
     errors.push(
-      `contentsåã§idã${id}ããéè¤ãã¦ãã¾ãã`
+      `contentsÃ¥ÂÂÃ£ÂÂ§idÃ£ÂÂ${id}Ã£ÂÂÃ£ÂÂÃ©ÂÂÃ¨Â¤ÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`
     );
   } else {
     contentIds.add(id);
@@ -2689,13 +2690,13 @@ function validateData(data) {
 
   if (!normalizeString(content.type)) {
     errors.push(
-      `contents[${index}].typeãããã¾ããã`
+      `contents[${index}].typeÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
     );
   }
 
   if (!normalizeString(content.title)) {
     errors.push(
-      `contents[${index}].titleãããã¾ããã`
+      `contents[${index}].titleÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
     );
   }
 });
@@ -3988,7 +3989,8 @@ function renderPremium(phenomenon) {
     elements.premiumPanel.hidden = !isUnlocked;
 
     elements.premiumPanel.classList.toggle(
-      "is-locked",
+
+   "is-locked",
       Boolean(isUnlocked && premium.locked)
     );
   }
@@ -4385,6 +4387,7 @@ function renderRelatedContents(phenomenon) {
 }
 
 
+function renderInsight() {
 if (!state.data) {
   return;
 }
@@ -4448,6 +4451,7 @@ hideLegacyThinkingPanels();
 syncCardiumVisibility();
 
 return;
+}
 
 if (elements.insightCount) {
   elements.insightCount.textContent = state.selectedChoiceId
@@ -4466,7 +4470,7 @@ syncCardiumVisibility();
 if (state.selectedChoiceId) {
   renderCardium();
 }
-
+}
 
 
 function renderUpdates() {
@@ -5984,6 +5988,7 @@ updatePosition
 },
 {
 passive:true
+
 }
 );
 }
