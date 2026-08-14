@@ -366,108 +366,121 @@ hidden
 <h5 id="nextStepTitle"></h5>
 <p id="nextStepText"></p>
 </section>
-
 <section
-class="thinking-block branch-block"
-id="premiumPanel"
-aria-labelledby="premiumBlockTitle"
-hidden
+  class="thinking-block branch-block campus-legacy-flow"
+  id="premiumPanel"
+  aria-labelledby="premiumBlockTitle"
+  hidden
 >
-<div class="thinking-block-heading">
-<span class="thinking-step-number">06</span>
-
-<div>
-<p>PREMIUM</p>
-<h4 id="premiumBlockTitle">
-さらに先の検証へ
-</h4>
-</div>
-</div>
-
-<h5 id="premiumTitle"></h5>
-<p id="premiumText"></p>
+  <div class="thinking-block-heading">
+    <span class="thinking-step-number">06</span>
+    <div>
+      <p>PREMIUM</p>
+      <h4 id="premiumBlockTitle">さらに先の検証へ</h4>
+    </div>
+  </div>
+  <h5 id="premiumTitle"></h5>
+  <p id="premiumText"></p>
 </section>
 
 <section
-class="thinking-block topic-block"
-id="relatedTopicsPanel"
-aria-labelledby="relatedTopicsTitle"
+  class="thinking-block topic-block campus-legacy-flow"
+  id="relatedTopicsPanel"
+  aria-labelledby="relatedTopicsTitle"
+  hidden
 >
-<div class="thinking-block-heading">
-<div>
-<p>RELATED TOPICS</p>
-<h4 id="relatedTopicsTitle">
-関連する概念
-</h4>
-</div>
-</div>
-<p class="thinking-block-guide">
-この現象と関係する概念から、別の視点へ思考を広げます。
-</p>
-<div
-class="branch-list"
-id="relatedTopicList"
-aria-live="polite"
->
-</div>
+  <div class="thinking-block-heading">
+    <div>
+      <p>RELATED TOPICS</p>
+      <h4 id="relatedTopicsTitle">関連する概念</h4>
+    </div>
+  </div>
+  <p class="thinking-block-guide">
+    この現象と関係する概念から、別の視点へ思考を広げます。
+  </p>
+  <div
+    class="branch-list"
+    id="relatedTopicList"
+    aria-live="polite"
+  ></div>
 </section>
 
 <section
-class="thinking-block related-content-block"
-aria-labelledby="relatedListTitle"
+  class="thinking-block related-content-block campus-legacy-flow"
+  id="relatedContentPanel"
+  aria-labelledby="relatedListTitle"
+  hidden
 >
-<div class="thinking-block-heading">
-<div>
-<p>RELATED CONTENT</p>
-<h4 id="relatedListTitle">
-関連する資料
-</h4>
+  <div class="thinking-block-heading">
+    <div>
+      <p>RELATED CONTENT</p>
+      <h4 id="relatedListTitle">関連する資料</h4>
+    </div>
+  </div>
+  <div class="branch-list" id="relatedList"></div>
+</section>
+ </section>
 </div>
-</div>
-<div
-class="branch-list"
-id="relatedList"
+
+<section
+  class="cardium-reveal"
+  id="cardiumReveal"
+  aria-labelledby="cardiumRevealTitle"
 >
-</div>
+  <div class="cardium-reveal-inner">
+    <p class="eyebrow">FROM ANSWER TO EXPLORATION</p>
+    <h2 class="cardium-reveal-title" id="cardiumRevealTitle">
+      ここから先は、<br />
+      答えではなくつながりを見る。
+    </h2>
+    <p class="cardium-reveal-description">
+      一つの現象には、一つの答えだけがあるわけではありません。
+      身体、技術、データ、感覚。
+      視点を変えると、次に確認したいことも変わります。
+    </p>
+    <div class="cardium-reveal-path" aria-label="思考探索の流れ">
+      <span>PHENOMENON</span>
+      <span aria-hidden="true">→</span>
+      <span>QUESTION</span>
+      <span aria-hidden="true">→</span>
+      <span>VIEW</span>
+      <span aria-hidden="true">→</span>
+      <strong>EXPLORE</strong>
+    </div>
+    <a class="cardium-reveal-action" href="#cardiumSection">
+      思考のつながりを見る ↓
+    </a>
+  </div>
 </section>
 
-</section>
-
-</div>
- 
 <section
   class="cardium-section"
   id="cardiumSection"
   aria-labelledby="cardiumTitle"
 >
   <div class="section-heading">
-    <span class="eyebrow">CARDIUM</span>
-    <h2 id="cardiumTitle">思考のつながりを探索する</h2>
-    <p>
-      現象・概念・研究資料の関係をたどりながら、別の視点へ思考を広げます。
-    </p>
-  </div><div
-class="cardium-viewport"
-id="cardiumViewport"
-aria-live="polite"
->
-<svg
-class="cardium-connections"
-id="cardiumConnections"
-aria-hidden="true"
-></svg>
-<div
-class="cardium-nodes"
-id="cardiumNodes"
-></div>
-<div
-class="cardium-empty"
-id="cardiumEmpty"
-hidden
->
-関連する思考経路を整理中です。
-</div>
-</div>
+    <div class="section-heading-copy">
+      <p class="eyebrow">CARDIUM</p>
+      <h2 class="section-title" id="cardiumTitle">
+        思考のつながりを探索する。
+      </h2>
+    </div>
+  </div>
+  <div
+    class="cardium-viewport"
+    id="cardiumViewport"
+    aria-live="polite"
+  >
+    <svg
+      class="cardium-connections"
+      id="cardiumConnections"
+      aria-hidden="true"
+    ></svg>
+    <div class="cardium-nodes" id="cardiumNodes"></div>
+    <div class="cardium-empty" id="cardiumEmpty" hidden>
+      関連する思考経路を整理中です。
+    </div>
+  </div>
   <article
     class="cardium-focus"
     id="cardiumFocus"
@@ -476,19 +489,9 @@ hidden
   >
     <div class="cardium-focus-head">
       <div>
-        <p
-          class="cardium-focus-type"
-          id="cardiumFocusType"
-        >
-          TOPIC
-        </p>
-
-        <h3
-          class="cardium-focus-title"
-          id="cardiumFocusTitle"
-        ></h3>
+        <p class="cardium-focus-type" id="cardiumFocusType">TOPIC</p>
+        <h3 class="cardium-focus-title" id="cardiumFocusTitle"></h3>
       </div>
-
       <button
         class="cardium-focus-close"
         id="cardiumFocusClose"
@@ -498,51 +501,33 @@ hidden
         X
       </button>
     </div>
-
-    <p
-      class="cardium-focus-summary"
-      id="cardiumFocusSummary"
-    ></p>
-
-    <div
-      class="cardium-focus-meta"
-      id="cardiumFocusMeta"
-    ></div>
-
-    <div
-      class="cardium-focus-actions"
-      id="cardiumFocusActions"
-    ></div>
+    <p class="cardium-focus-summary" id="cardiumFocusSummary"></p>
+    <div class="cardium-focus-meta" id="cardiumFocusMeta"></div>
+    <div class="cardium-focus-actions" id="cardiumFocusActions"></div>
   </article>
 </section>
 
-
-   
 <section
-class="related-thinking-section"
-aria-labelledby="bookshelfTitle"
+  class="related-thinking-section campus-archive"
+  aria-labelledby="bookshelfTitle"
 >
-<div class="related-thinking-heading">
-<div>
-<p class="eyebrow">Campus Bookshelf</p>
-<h3 id="bookshelfTitle">思考を横断して読む。</h3>
-</div>
-
-<p>
-選択した現象との関連度を反映しながら、研究、PDS、現場事例、用語や概念を表示します。
-</p>
-</div>
-
-<div
-class="related-thinking-grid"
-id="bookshelf"
-aria-live="polite"
-aria-busy="true"
->
-<div class="loading-placeholder">
-資料データを読み込んでいます。
-</div>
-</div>
+  <div class="related-thinking-heading">
+    <div>
+      <p class="eyebrow">ARCHIVE</p>
+      <h3 id="bookshelfTitle">さらに資料を探索する。</h3>
+    </div>
+    <p>
+      研究、PDS、現場事例、用語や概念として蓄積された記録から、別の入口を探すことができます。
+    </p>
+  </div>
+  <div
+    class="related-thinking-grid"
+    id="bookshelf"
+    aria-live="polite"
+    aria-busy="true"
+  >
+    <div class="loading-placeholder">資料データを読み込んでいます。</div>
+  </div>
 </section>
 
 </div>
