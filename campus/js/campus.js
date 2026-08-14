@@ -1472,7 +1472,11 @@ nodePositions.set(node.id, { x, y });
       viewModel.visibleConnectionIds
     );
 
-    const connectionHtml = state.cardiumGraph.connections
+    const activeConnectionIdSet = new Set(
+  viewModel.activeConnectionIds
+);
+
+const connectionHtml = state.cardiumGraph.connections
       .filter((connection) => {
         return visibleConnectionIdSet.has(connection.id);
       })
@@ -1492,11 +1496,17 @@ nodePositions.set(node.id, { x, y });
           connection.source === viewModel.center.id ||
           connection.target === viewModel.center.id;
 
-        return (
-          '<line' +
-          ' class="cardium-connection' +
-          (isPrimary ? ' is-primary' : '') +
-          '"' +
+            const isActiveConnection =
+      activeConnectionIdSet.has(
+        connection.id
+      );
+
+    return (
+      '<line' +
+      ' class="cardium-connection' +
+      (isPrimary ? ' is-primary' : '') +
+      (isActiveConnection ? ' is-active-path' : '') +
+      '"' +
           ' x1="' +
           sourcePosition.x.toFixed(2) +
           '"' +
