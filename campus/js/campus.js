@@ -863,6 +863,161 @@ function getCardiumNeighborEntries(nodeId) {
   );
 }
 
+function resetCardiumExploration(nodeId = "") {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  state.activeCardiumNodeId = normalizedNodeId;
+  state.activeCardiumPath = normalizedNodeId ? [normalizedNodeId] : [];
+  state.expandedCardiumNodeIds = new Set(
+    normalizedNodeId ? [normalizedNodeId] : []
+  );
+}
+
+function ensureCardiumExploration(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId || !getCardiumNodeById(normalizedNodeId)) {
+    resetCardiumExploration();
+    return;
+  }
+
+  const activeNodeExists = Boolean(
+    getCardiumNodeById(state.activeCardiumNodeId)
+  );
+
+  const pathIsValid =
+    Array.isArray(state.activeCardiumPath) &&
+    state.activeCardiumPath.length > 0 &&
+    state.activeCardiumPath.every((pathNodeId) => {
+      return Boolean(getCardiumNodeById(pathNodeId));
+    });
+
+  if (!activeNodeExists || !pathIsValid) {
+    resetCardiumExploration(normalizedNodeId);
+    return;
+  }
+
+  if (!(state.expandedCardiumNodeIds instanceof Set)) {
+    state.expandedCardiumNodeIds = new Set();
+  }
+
+  state.activeCardiumPath.forEach((pathNodeId) => {
+    state.expandedCardiumNodeIds.add(pathNodeId);
+  });
+}
+
+function getCardiumPathIndex(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId || !Array.isArray(state.activeCardiumPath)) {
+    return -1;
+  }
+
+  return state.activeCardiumPath.indexOf(normalizedNodeId);
+}
+
+function isCardiumNodeOnActivePath(nodeId) {
+  return getCardiumPathIndex(nodeId) !== -1;
+}
+
+function isCardiumNodeExpanded(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId || !(state.expandedCardiumNodeIds instanceof Set)) {
+    return false;
+  }
+
+  return state.expandedCardiumNodeIds.has(normalizedNodeId);
+}
+
+function getCardiumConnectionBetween(sourceNodeId, targetNodeId) {
+  const source = normalizeString(sourceNodeId);
+  const target = normalizeString(targetNodeId);
+
+  if (
+    !source ||
+    !target ||
+    !state.cardiumGraph ||
+    !Array.isArray(state.cardiumGraph.connections)
+  ) {
+    return null;
+  }
+
+  return (
+    state.cardiumGraph.connections.find((connection) => {
+      return (
+        (connection.source === source && connection.target === target) ||
+        (connection.source === target && connection.target === source)
+      );
+    }) || null
+  );
+}
+
+function buildCardiumActiveConnectionIds() {
+  if (
+    !Array.isArray(state.activeCardiumPath) ||
+    state.activeCardiumPath.length < 2
+  ) {
+    return [];
+  }
+
+  const connectionIds = [];
+
+  for (let index = 0; index < state.activeCardiumPath.length - 1; index += 1) {
+    const connection = getCardiumConnectionBetween(
+      state.activeCardiumPath[index],
+      state.activeCardiumPath[index + 1]
+    );
+
+    if (connection && !connectionIds.includes(connection.id)) {
+      connectionIds.push(connection.id);
+    }
+  }
+
+  return connectionIds;
+}
+
+function selectCardiumExplorationNode(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+  const node = getCardiumNodeById(normalizedNodeId);
+
+  if (!node) {
+    return false;
+  }
+
+  ensureCardiumExploration(normalizedNodeId);
+
+  const pathIndex = getCardiumPathIndex(normalizedNodeId);
+
+  if (pathIndex !== -1) {
+    state.activeCardiumPath = state.activeCardiumPath.slice(0, pathIndex + 1);
+  } else {
+    state.activeCardiumPath.push(normalizedNodeId);
+  }
+
+  state.activeCardiumNodeId = normalizedNodeId;
+  state.expandedCardiumNodeIds.add(normalizedNodeId);
+
+  return true;
+}
+
+function getCardiumExplorationChildren(nodeId) {
+  const normalizedNodeId = normalizeString(nodeId);
+
+  if (!normalizedNodeId) {
+    return [];
+  }
+
+  const pathIndex = getCardiumPathIndex(normalizedNodeId);
+  const previousNodeId =
+    pathIndex > 0 ? state.activeCardiumPath[pathIndex - 1] : "";
+
+  return getCardiumNeighborEntries(normalizedNodeId).filter((entry) => {
+    return entry.node.id !== previousNodeId;
+  });
+}
+  
+  
 function buildCardiumViewModel(centerNodeId) {
   const center =
     getCardiumNodeById(centerNodeId);
