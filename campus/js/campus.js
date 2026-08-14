@@ -862,15 +862,6 @@ function getCardiumNeighborEntries(nodeId) {
     entryMap.values()
   );
 }
-resetCardiumExploration()
-ensureCardiumExploration()
-getCardiumPathIndex()
-isCardiumNodeOnActivePath()
-isCardiumNodeExpanded()
-getCardiumConnectionBetween()
-buildCardiumActiveConnectionIds()
-selectCardiumExplorationNode()
-getCardiumExplorationChildren()
 
 function buildCardiumViewModel(centerNodeId) {
   const center =
