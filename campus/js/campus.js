@@ -4385,95 +4385,89 @@ function renderRelatedContents(phenomenon) {
 }
 
 
-function renderInsight() {
-  if (!state.data) {
-    return;
-  }
-
-  const phenomenon = getActivePhenomenon();
-
-  if (!phenomenon) {
-    if (elements.insightCount) {
-      elements.insightCount.textContent = "STEP 1 / 5";
-    }
-
-    if (elements.questionTitle) {
-      elements.questionTitle.textContent =
-        "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
-    }
-
-    if (elements.questionText) {
-      elements.questionText.textContent =
-        "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
-    }
-
-    [
-      elements.questionChoices,
-      elements.whyPoints,
-      elements.relatedTopicList,
-      elements.relatedList
-    ].forEach((element) => {
-      if (element) {
-        element.innerHTML = "";
-      }
-    });
-
-    [
-      elements.entryPanel,
-      elements.commonTheoryPanel,
-      elements.adjustmentPanel,
-      elements.nextStepPanel,
-      elements.premiumPanel,
-      elements.relatedTopicsPanel
-    ].forEach((panel) => {
-      if (panel) {
-        panel.hidden = true;
-      }
-    });
-
-    [
-      elements.entryTitle,
-      elements.entryText,
-      elements.adjustmentText,
-      elements.whyText,
-      elements.nextStepText,
-      elements.premiumTitle,
-      elements.premiumText
-    ].forEach((element) => {
-      if (element) {
-        element.textContent = "";
-      }
-    });
-
-    hideLegacyThinkingPanels();
-    syncCardiumVisibility();
-    closeCardiumFocus();
-
-    return;
-  }
-
-  if (elements.insightCount) {
-    elements.insightCount.textContent = state.selectedChoiceId
-      ? "EXPLORE"
-      : "STEP 1 / 5";
-  }
-
-  renderQuestion(phenomenon);
-  renderWhy(phenomenon);
-  renderAdjustmentView(phenomenon);
-  renderNextStep(phenomenon);
-
-  hideLegacyThinkingPanels();
-  syncCardiumVisibility();
-
-  if (state.selectedChoiceId) {
-    renderCardium({
-      preserveActiveNode: true
-    });
-  } else {
-    closeCardiumFocus();
-  }
+if (!state.data) {
+  return;
 }
+
+const phenomenon = getActivePhenomenon();
+
+if (!phenomenon) {
+  if (elements.insightCount) {
+    elements.insightCount.textContent = "STEP 1 / 5";
+  }
+
+  if (elements.questionTitle) {
+  elements.questionTitle.textContent =
+    "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
+}
+
+if (elements.questionText) {
+  elements.questionText.textContent =
+    "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
+}
+
+[
+  elements.questionChoices,
+  elements.whyPoints,
+  elements.relatedTopicList,
+  elements.relatedList
+].forEach((element) => {
+  if (element) {
+    element.innerHTML = "";
+  }
+});
+
+[
+  elements.entryPanel,
+  elements.commonTheoryPanel,
+  elements.adjustmentPanel,
+  elements.nextStepPanel,
+  elements.premiumPanel,
+  elements.relatedTopicsPanel
+].forEach((panel) => {
+  if (panel) {
+    panel.hidden = true;
+  }
+});
+
+[
+  elements.entryTitle,
+  elements.entryText,
+  elements.adjustmentText,
+  elements.whyText,
+  elements.nextStepText,
+  elements.premiumTitle,
+  elements.premiumText
+].forEach((element) => {
+  if (element) {
+    element.textContent = "";
+  }
+});
+
+hideLegacyThinkingPanels();
+syncCardiumVisibility();
+
+return;
+
+if (elements.insightCount) {
+  elements.insightCount.textContent = state.selectedChoiceId
+    ? "EXPLORE"
+    : "STEP 1 / 5";
+}
+
+renderQuestion(phenomenon);
+renderWhy(phenomenon);
+renderAdjustmentView(phenomenon);
+renderNextStep(phenomenon);
+
+hideLegacyThinkingPanels();
+syncCardiumVisibility();
+
+if (state.selectedChoiceId) {
+  renderCardium();
+}
+
+
 
 function renderUpdates() {
 if (!elements.updateGrid || !state.data) {
