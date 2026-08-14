@@ -1057,22 +1057,6 @@ function getCardiumExplorationChildren(nodeId) {
 }
 
 
-function getCardiumExplorationChildren(nodeId) {
-  const normalizedNodeId = normalizeString(nodeId);
-
-  if (!normalizedNodeId) {
-    return [];
-  }
-
-  const pathIndex = getCardiumPathIndex(normalizedNodeId);
-  const previousNodeId =
-    pathIndex > 0 ? state.activeCardiumPath[pathIndex - 1] : "";
-
-  return getCardiumNeighborEntries(normalizedNodeId).filter((entry) => {
-    return entry.node.id !== previousNodeId;
-  });
-}
-  
 function buildCardiumViewModel(centerNodeId) {
   const center = getCardiumNodeById(centerNodeId);
 
@@ -1260,38 +1244,35 @@ function syncCardiumExplorationRoot(centerNodeId) {
   ensureCardiumExploration(normalizedNodeId);
 }
 
-function syncCardiumViewModel() {
-const centerNodeId =
-resolveCardiumCenterNodeId();
+function syncCardiumViewModel(options = {}) {
+  const preserveActiveNode = Boolean(options.preserveActiveNode);
 
-if (!centerNodeId) {
-resetCardiumExploration();
-state.cardiumViewModel = null;
-return null;
+  const centerNodeId = resolveCardiumCenterNodeId();
+
+  if (!centerNodeId) {
+    resetCardiumExploration();
+    state.cardiumViewModel = null;
+    return null;
+  }
+
+  syncCardiumExplorationRoot(centerNodeId);
+
+  if (
+    !preserveActiveNode ||
+    !getCardiumNodeById(state.activeCardiumNodeId)
+  ) {
+    state.activeCardiumNodeId = centerNodeId;
+  }
+
+  if (state.expandedCardiumNodeIds instanceof Set) {
+    state.expandedCardiumNodeIds.add(centerNodeId);
+  }
+
+  state.cardiumViewModel = buildCardiumViewModel(centerNodeId);
+
+  return state.cardiumViewModel;
 }
 
-syncCardiumExplorationRoot(
-centerNodeId
-);
-
-state.activeCardiumNodeId =
-centerNodeId;
-
-if (
-state.expandedCardiumNodeIds instanceof Set
-) {
-state.expandedCardiumNodeIds.add(
-centerNodeId
-);
-}
-
-state.cardiumViewModel =
-buildCardiumViewModel(
-centerNodeId
-);
-
-return state.cardiumViewModel;
-}
 
 function getCardiumFocusActionLabel(node) {
   if (!node) {
@@ -1403,19 +1384,25 @@ function activateCardiumFocusNode(nodeId) {
   closeCardiumFocus();
 }
   
-function renderCardium() {
-  if (
-    !elements.cardiumSection ||
-    !elements.cardiumViewport ||
-    !elements.cardiumNodes ||
-    !elements.cardiumEmpty
-  ) {
-    return;
-  }
+function renderCardium(options = {}) {
+if (
+!elements.cardiumSection ||
+!elements.cardiumViewport ||
+!elements.cardiumNodes ||
+!elements.cardiumEmpty
+) {
+return;
+}
 
-  const viewModel = syncCardiumViewModel();
+const viewModel =
+syncCardiumViewModel({
+preserveActiveNode:
+Boolean(
+options.preserveActiveNode
+)
+});
 
-  if (!viewModel || !viewModel.center) {
+if (!viewModel || !viewModel.center) {
     elements.cardiumNodes.innerHTML = "";
     elements.cardiumEmpty.hidden = false;
     if (elements.cardiumConnections) {
@@ -5242,9 +5229,12 @@ content.id;
 
 if (!preserveCardiumExploration) {
 syncCardiumViewModel();
-}
-
 renderCardium();
+} else {
+renderCardium({
+preserveActiveNode: true
+});
+}
 
 if (elements.drawerEyebrow) {
 elements.drawerEyebrow.textContent =
