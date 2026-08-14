@@ -446,31 +446,76 @@ id="relatedList"
     <p>
       現象・概念・研究資料の関係をたどりながら、別の視点へ思考を広げます。
     </p>
-  </div>
-  <div
-    class="cardium-viewport"
-    id="cardiumViewport"
+  </div><div
+class="cardium-viewport"
+id="cardiumViewport"
+aria-live="polite"
+>
+<svg
+class="cardium-connections"
+id="cardiumConnections"
+aria-hidden="true"
+></svg>
+<div
+class="cardium-nodes"
+id="cardiumNodes"
+></div>
+<div
+class="cardium-empty"
+id="cardiumEmpty"
+hidden
+>
+関連する思考経路を整理中です。
+</div>
+</div>
+  <article
+    class="cardium-focus"
+    id="cardiumFocus"
+    hidden
     aria-live="polite"
   >
-    <svg
-      class="cardium-connections"
-      id="cardiumConnections"
-      aria-hidden="true"
-    ></svg>
-<div
-  class="cardium-nodes"
-  id="cardiumNodes"
-></div>
+    <div class="cardium-focus-head">
+      <div>
+        <p
+          class="cardium-focus-type"
+          id="cardiumFocusType"
+        >
+          TOPIC
+        </p>
 
-<div
-  class="cardium-empty"
-  id="cardiumEmpty"
-  hidden
->
-  関連する思考経路を整理中です。
-</div>
-  </div>
+        <h3
+          class="cardium-focus-title"
+          id="cardiumFocusTitle"
+        ></h3>
+      </div>
+
+      <button
+        class="cardium-focus-close"
+        id="cardiumFocusClose"
+        type="button"
+        aria-label="選択した内容を閉じる"
+      >
+        X
+      </button>
+    </div>
+
+    <p
+      class="cardium-focus-summary"
+      id="cardiumFocusSummary"
+    ></p>
+
+    <div
+      class="cardium-focus-meta"
+      id="cardiumFocusMeta"
+    ></div>
+
+    <div
+      class="cardium-focus-actions"
+      id="cardiumFocusActions"
+    ></div>
+  </article>
 </section>
+
 
    
 <section
