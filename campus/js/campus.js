@@ -37,6 +37,9 @@ const state = {
 data: null,
 cardiumGraph: null,
 cardiumViewModel: null,
+activeCardiumNodeId: "",
+activeCardiumPath: [],
+expandedCardiumNodeIds: new Set(),
 activePhenomenonId: "",
 activeTopicId: "",
 selectedChoiceId: "",
@@ -859,6 +862,15 @@ function getCardiumNeighborEntries(nodeId) {
     entryMap.values()
   );
 }
+resetCardiumExploration()
+ensureCardiumExploration()
+getCardiumPathIndex()
+isCardiumNodeOnActivePath()
+isCardiumNodeExpanded()
+getCardiumConnectionBetween()
+buildCardiumActiveConnectionIds()
+selectCardiumExplorationNode()
+getCardiumExplorationChildren()
 
 function buildCardiumViewModel(centerNodeId) {
   const center =
