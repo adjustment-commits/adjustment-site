@@ -28,6 +28,17 @@ case:"\u73fe\u5834\u4e8b\u4f8b",
 dictionary:"\u7528\u8a9e\u30fb\u6982\u5ff5"
 };
 
+const CARDIUM_LIMITS = {
+ring1: 7,
+ring2: 6
+};
+
+const CARDIUM_NODE_PRIORITY = {
+topic: 0,
+phenomenon: 1,
+content: 2
+};
+
 const DEFAULT_META = {
 version:"Campus",
 copyright:"\u00a9 adjustment Digital Research Campus"
@@ -95,17 +106,20 @@ relatedTopicList: document.getElementById("relatedTopicList"),
 
 relatedList: document.getElementById("relatedList"),
 
-cardiumSection: document.getElementById("cardiumSection"),
-cardiumViewport: document.getElementById("cardiumViewport"),
-cardiumConnections: document.getElementById("cardiumConnections"),
-cardiumNodes: document.getElementById("cardiumNodes"),
-cardiumEmpty: document.getElementById("cardiumEmpty"),
-cardiumFocus: document.getElementById("cardiumFocus"),
-cardiumFocusType: document.getElementById("cardiumFocusType"),
-cardiumFocusTitle: document.getElementById("cardiumFocusTitle"),
-cardiumFocusSummary: document.getElementById("cardiumFocusSummary"),
-cardiumFocusAction: document.getElementById("cardiumFocusAction"),
-cardiumFocusClose: document.getElementById("cardiumFocusClose"),
+  cardiumReveal: document.getElementById("cardiumReveal"),
+  cardiumSection: document.getElementById("cardiumSection"),
+  cardiumViewport: document.getElementById("cardiumViewport"),
+  cardiumConnections: document.getElementById("cardiumConnections"),
+  cardiumNodes: document.getElementById("cardiumNodes"),
+  cardiumEmpty: document.getElementById("cardiumEmpty"),
+  cardiumFocus: document.getElementById("cardiumFocus"),
+  cardiumFocusType: document.getElementById("cardiumFocusType"),
+  cardiumFocusTitle: document.getElementById("cardiumFocusTitle"),
+  cardiumFocusSummary: document.getElementById("cardiumFocusSummary"),
+  cardiumFocusMeta: document.getElementById("cardiumFocusMeta"),
+  cardiumFocusActions: document.getElementById("cardiumFocusActions"),
+  cardiumFocusClose: document.getElementById("cardiumFocusClose"),
+campusArchive: document.querySelector(".campus-archive"),
 
 updateGrid:document.getElementById("updateGrid"),
 facilityGrid:document.getElementById("facilityGrid"),
@@ -868,6 +882,107 @@ function getCardiumNeighborEntries(nodeId) {
   );
 }
 
+function getCardiumEntryPriority(entry) {
+  if (!entry || !entry.node) {
+    return 999;
+  }
+
+  const node = entry.node;
+
+  if (isCardiumNodeOnActivePath(node.id)) {
+    return -100;
+  }
+
+  return Object.prototype.hasOwnProperty.call(
+    CARDIUM_NODE_PRIORITY,
+    node.kind
+  )
+    ? CARDIUM_NODE_PRIORITY[node.kind]
+    : 999;
+}
+
+function sortCardiumEntries(entries) {
+  return [...normalizeArray(entries)].sort((a, b) => {
+    const priorityDifference =
+      getCardiumEntryPriority(a) - getCardiumEntryPriority(b);
+    if (priorityDifference !== 0) {
+      return priorityDifference;
+    }
+
+    const aTitle = normalizeString(a?.node?.title || a?.node?.label);
+    const bTitle = normalizeString(b?.node?.title || b?.node?.label);
+
+    return aTitle.localeCompare(bTitle, "ja", {
+      numeric: true,
+      sensitivity: "base"
+    });
+  });
+}
+
+function limitCardiumEntries(entries, limit) {
+  const sortedEntries = sortCardiumEntries(entries);
+
+  if (
+    !Number.isFinite(limit) ||
+    limit <= 0 ||
+    sortedEntries.length <= limit
+  ) {
+    return sortedEntries;
+  }
+
+  const activeEntries = sortedEntries.filter((entry) => {
+    return isCardiumNodeOnActivePath(entry?.node?.id);
+  });
+
+  const passiveEntries = sortedEntries.filter((entry) => {
+    return !isCardiumNodeOnActivePath(entry?.node?.id);
+  });
+
+  const result = [...activeEntries, ...passiveEntries];
+
+  return result.slice(0, Math.max(limit, activeEntries.length));
+}
+
+function isCardiumUnlocked() {
+  return Boolean(
+    state.activePhenomenonId && state.selectedChoiceId
+  );
+}
+
+function syncCardiumVisibility() {
+  const isUnlocked = isCardiumUnlocked();
+
+  if (elements.cardiumReveal) {
+    elements.cardiumReveal.hidden = !isUnlocked;
+    elements.cardiumReveal.classList.toggle("is-unlocked", isUnlocked);
+  }
+
+  if (elements.cardiumSection) {
+    elements.cardiumSection.hidden = !isUnlocked;
+    elements.cardiumSection.classList.toggle("is-unlocked", isUnlocked);
+  }
+
+  if (elements.campusArchive) {
+    elements.campusArchive.hidden = !isUnlocked;
+  }
+
+  if (!isUnlocked) {
+    closeCardiumFocus();
+  }
+}
+
+function hideLegacyThinkingPanels() {
+  [
+    elements.premiumPanel,
+    elements.relatedTopicsPanel,
+    document.getElementById("relatedContentPanel")
+  ].forEach((panel) => {
+    if (panel) {
+      panel.hidden = true;
+    }
+  });
+}
+  
 function resetCardiumExploration(nodeId = "") {
   const normalizedNodeId = normalizeString(nodeId);
 
@@ -1072,19 +1187,19 @@ function buildCardiumViewModel(centerNodeId) {
     };
   }
 
-  const ring1 = getCardiumNeighborEntries(center.id);
+  const ring1 = limitCardiumEntries(
+    getCardiumNeighborEntries(center.id),
+    CARDIUM_LIMITS.ring1
+  );
 
   const ring1NodeIds = new Set(
-    ring1.map((entry) => {
-      return entry.node.id;
-    })
+    ring1.map((entry) => entry.node.id)
   );
 
   const ring2Map = new Map();
 
   ring1.forEach((parentEntry) => {
     const parentNodeId = parentEntry.node.id;
-
     const shouldExpand =
       isCardiumNodeExpanded(parentNodeId) ||
       isCardiumNodeOnActivePath(parentNodeId);
@@ -1129,7 +1244,10 @@ function buildCardiumViewModel(centerNodeId) {
     });
   });
 
-  const ring2 = Array.from(ring2Map.values());
+  const ring2 = limitCardiumEntries(
+    Array.from(ring2Map.values()),
+    CARDIUM_LIMITS.ring2
+  );
 
   const visibleNodeIds = [
     center.id,
@@ -1148,9 +1266,7 @@ function buildCardiumViewModel(centerNodeId) {
               visibleNodeIdSet.has(connection.target)
             );
           })
-          .map((connection) => {
-            return connection.id;
-          })
+          .map((connection) => connection.id)
       : [];
 
   const activeNodeIds = Array.isArray(state.activeCardiumPath)
@@ -1169,6 +1285,7 @@ function buildCardiumViewModel(centerNodeId) {
     activeConnectionIds
   };
 }
+
 
 
 
@@ -1273,25 +1390,82 @@ function syncCardiumViewModel(options = {}) {
   return state.cardiumViewModel;
 }
 
-
 function getCardiumFocusActionLabel(node) {
   if (!node) {
     return "";
   }
 
   if (node.kind === "phenomenon") {
-    return "この現象から考える"; // Unicode unescaped: \u3053\u306e\u73fe\u8c61\u304b\u3089\u8003\u3048\u308b
+    return "この現象から考える";
   }
 
   if (node.kind === "topic") {
-    return "この概念を見る"; // Unicode unescaped: \u3053\u306e\u6982\u5ff5\u3092\u898b\u308b
+    return "この概念を中心に探索する";
   }
 
   if (node.kind === "content") {
-    return "資料を開く"; // Unicode unescaped: \u8cc7\u6599\u3092\u958b\u304f
+    return "資料を開く";
   }
 
   return "";
+}
+
+function getCardiumFocusType(node) {
+  if (!node) {
+    return "CONTENT";
+  }
+
+  if (node.kind === "phenomenon") {
+    return "PHENOMENON";
+  }
+
+  if (node.kind === "topic") {
+    return "TOPIC";
+  }
+
+  if (node.kind === "content") {
+    return formatTypeLabel(node.subtype);
+  }
+
+  return "CONTENT";
+}
+
+function getCardiumFocusDataType(node) {
+  if (!node) {
+    return "content";
+  }
+
+  if (node.kind === "phenomenon") {
+    return "phenomenon";
+  }
+
+  if (node.kind === "topic") {
+    return "topic";
+  }
+
+  return normalizeString(node.subtype, "content");
+}
+
+function buildCardiumFocusMeta(node) {
+  if (!node) {
+    return [];
+  }
+
+  const meta = [];
+
+  if (node.code) {
+    meta.push(node.code);
+  }
+
+  if (node.kind === "topic" && node.category) {
+    meta.push(node.category.toUpperCase());
+  }
+
+  const connections = getCardiumConnectionsForNode(node.id).length;
+
+  meta.push(`${connections} CONNECTIONS`);
+
+  return meta;
 }
 
 function closeCardiumFocus() {
@@ -1300,7 +1474,9 @@ function closeCardiumFocus() {
   }
 
   elements.cardiumFocus.hidden = true;
+
   elements.cardiumFocus.removeAttribute("data-cardium-focus-node-id");
+  elements.cardiumFocus.removeAttribute("data-type");
 
   if (elements.cardiumFocusType) {
     elements.cardiumFocusType.textContent = "";
@@ -1314,9 +1490,13 @@ function closeCardiumFocus() {
     elements.cardiumFocusSummary.textContent = "";
   }
 
-  if (elements.cardiumFocusAction) {
-    elements.cardiumFocusAction.textContent = "";
-    elements.cardiumFocusAction.removeAttribute("data-cardium-focus-action-id");
+  if (elements.cardiumFocusMeta) {
+elements.cardiumFocusMeta.innerHTML = "";
+}
+
+
+  if (elements.cardiumFocusActions) {
+    elements.cardiumFocusActions.innerHTML = "";
   }
 }
 
@@ -1332,21 +1512,17 @@ function renderCardiumFocus(nodeId) {
     return;
   }
 
-  let typeLabel = "CONTENT";
-
-  if (node.kind === "phenomenon") {
-    typeLabel = "PHENOMENON";
-  } else if (node.kind === "topic") {
-    typeLabel = "TOPIC";
-  } else if (node.kind === "content") {
-    typeLabel = formatTypeLabel(node.subtype);
-  }
-
+  const typeLabel = getCardiumFocusType(node);
+  const dataType = getCardiumFocusDataType(node);
   const title = normalizeString(node.title || node.label, "UNTITLED");
   const summary = normalizeString(node.summary);
+  const metaItems = buildCardiumFocusMeta(node);
+  const actionLabel = getCardiumFocusActionLabel(node);
 
   elements.cardiumFocus.hidden = false;
+
   elements.cardiumFocus.setAttribute("data-cardium-focus-node-id", node.id);
+  elements.cardiumFocus.setAttribute("data-type", dataType);
 
   if (elements.cardiumFocusType) {
     elements.cardiumFocusType.textContent = typeLabel;
@@ -1360,9 +1536,18 @@ function renderCardiumFocus(nodeId) {
     elements.cardiumFocusSummary.textContent = summary;
   }
 
-  if (elements.cardiumFocusAction) {
-    elements.cardiumFocusAction.textContent = getCardiumFocusActionLabel(node);
-    elements.cardiumFocusAction.setAttribute("data-cardium-focus-action-id", node.id);
+ if (elements.cardiumFocusMeta) {
+  elements.cardiumFocusMeta.innerHTML = metaItems
+    .map((item) => `<span>${escapeHtml(item)}</span>`)
+    .join("");
+}
+
+  if (elements.cardiumFocusActions) {
+    elements.cardiumFocusActions.innerHTML = actionLabel
+      ? `<button class="cardium-focus-action is-primary" type="button" data-cardium-focus-action-id="${escapeHtml(
+          node.id
+        )}">${escapeHtml(actionLabel)} →</button>`
+      : "";
   }
 }
 
@@ -1374,17 +1559,56 @@ function activateCardiumFocusNode(nodeId) {
   }
 
   if (node.kind === "phenomenon") {
+    closeCardiumFocus();
     selectPhenomenon(node.entityId);
-  } else if (node.kind === "topic") {
-    openTopic(node.entityId, elements.cardiumFocusAction);
-  } else if (node.kind === "content") {
-    openContent(node.entityId, elements.cardiumFocusAction);
+
+    if (elements.insightPanel) {
+      elements.insightPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    return;
   }
 
+  if (node.kind === "topic") {
+    state.activeTopicId = node.entityId;
+    state.selectedContentId = "";
+
+    resetCardiumExploration(node.id);
+
+    updateUrlState({
+      topic: node.entityId,
+      content: ""
+    });
+
+    closeCardiumFocus();
+    renderCardium();
+
+    return;
+  }
+
+  if (node.kind === "content") {
+  openContent(
+    node.entityId,
+    null,
+    {
+      preserveFocus: true,
+      preserveCardiumExploration: true
+    }
+  );
   closeCardiumFocus();
 }
-  
+}
+
 function renderCardium(options = {}) {
+syncCardiumVisibility();
+
+if (!isCardiumUnlocked()) {
+return;
+}
+
 if (
 !elements.cardiumSection ||
 !elements.cardiumViewport ||
@@ -1687,85 +1911,24 @@ button.addEventListener("click", () => {
 const nodeId = normalizeString(
 button.dataset.cardiumNodeId
 );
-    const node = getCardiumNodeById(
-      nodeId
-    );
+          const node = getCardiumNodeById(nodeId);
 
     if (!node) {
       return;
     }
 
     const explorationUpdated =
-      selectCardiumExplorationNode(
-        nodeId
-      );
+      selectCardiumExplorationNode(nodeId);
 
     if (!explorationUpdated) {
       return;
     }
 
-    if (node.kind === "phenomenon") {
-      state.activePhenomenonId =
-        node.entityId;
+    renderCardium({
+      preserveActiveNode: true
+    });
 
-      state.activeTopicId = "";
-      state.selectedChoiceId = "";
-      state.selectedContentId = "";
-      state.activeFacilityType = "";
-      state.phenomenonAccordionOpen = false;
-
-      renderPhenomena();
-      renderBooks();
-      renderInsight();
-      renderFacilities();
-      syncPhenomenonAccordion();
-
-      updateUrlState({
-        phenomenon: node.entityId,
-        content: "",
-        topic: ""
-      });
-
-      renderCardium();
-      return;
-    }
-
-    if (node.kind === "topic") {
-      state.activeTopicId =
-        node.entityId;
-
-      state.selectedContentId = "";
-
-      const topic =
-        getTopicById(
-          node.entityId
-        );
-
-      if (topic) {
-        renderTopicView(
-          topic
-        );
-      }
-
-      updateUrlState({
-        topic: node.entityId,
-        content: ""
-      });
-
-      renderCardium();
-      return;
-    }
-
-    if (node.kind === "content") {
-      openContent(
-        node.entityId,
-        button,
-        {
-          preserveFocus: true,
-          preserveCardiumExploration: true
-        }
-      );
-    }
+    renderCardiumFocus(nodeId);
   });
 });
   }
@@ -3685,7 +3848,6 @@ function selectQuestionChoice(choiceId) {
       .querySelectorAll("[data-choice-id]")
       .forEach((button) => {
         const isSelected = button.dataset.choiceId === choice.id;
-
         button.classList.toggle("is-active", isSelected);
         button.setAttribute("aria-pressed", String(isSelected));
       });
@@ -3696,11 +3858,13 @@ function selectQuestionChoice(choiceId) {
   renderWhy(phenomenon);
   renderAdjustmentView(phenomenon);
   renderNextStep(phenomenon);
-  renderPremium(phenomenon);
-  renderRelatedTopics(phenomenon);
+
+  hideLegacyThinkingPanels();
+  syncCardiumVisibility();
+  renderCardium();
 
   if (elements.insightCount) {
-    elements.insightCount.textContent = "STEP 6 / 6";
+    elements.insightCount.textContent = "EXPLORE";
   }
 }
 
@@ -4221,83 +4385,88 @@ function renderRelatedContents(phenomenon) {
 }
 
 
-function renderInsight() {
-  if (!state.data) {
-    return;
-  }
-
-  const phenomenon = getActivePhenomenon();
-
-  if (!phenomenon) {
-    if (elements.insightCount) {
-      elements.insightCount.textContent = "STEP 1 / 6";
-    }
-
-    if (elements.questionTitle) {
-      elements.questionTitle.textContent = "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
-    }
-
-    if (elements.questionText) {
-      elements.questionText.textContent = "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
-    }
-
-    // \u8981\u7d20\u306e\u30af\u30ea\u30a2\u51e6\u7406\uff08innerHTML\uff09
-    [
-      elements.questionChoices,
-      elements.whyPoints,
-      elements.relatedTopicList,
-      elements.relatedList
-    ].forEach((element) => {
-      if (element) {
-        element.innerHTML = "";
-      }
-    });
-
-    // \u30d1\u30cd\u30eb\u306e\u975e\u8868\u793a\u51e6\u7406
-    [
-      elements.entryPanel,
-      elements.commonTheoryPanel,
-      elements.adjustmentPanel,
-      elements.nextStepPanel,
-      elements.premiumPanel
-    ].forEach((panel) => {
-      if (panel) {
-        panel.hidden = true;
-      }
-    });
-
-    // \u30c6\u30ad\u30b9\u30c8\u8981\u7d20\u306e\u30af\u30ea\u30a2\u51e6\u7406\uff08textContent\uff09
-    [
-      elements.entryTitle,
-elements.entryText,
-elements.adjustmentText,
-elements.whyText,
-elements.nextStepText,
-elements.premiumTitle,
-elements.premiumText
-].forEach((element) => {
-if (element) {
-element.textContent = "";
-      }
-    });
-
-    return;
-  }
-
-  if (elements.insightCount) {
-    elements.insightCount.textContent = state.selectedChoiceId
-      ? "STEP 6 / 6"
-      : "STEP 1 / 6";
-  }
-
-  renderQuestion(phenomenon);
-  renderWhy(phenomenon);
-  renderAdjustmentView(phenomenon);
-  renderNextStep(phenomenon);
-  renderPremium(phenomenon);
-  renderRelatedTopics(phenomenon);
-  renderRelatedContents(phenomenon);
+if (!state.data) {
+  return;
 }
+
+const phenomenon = getActivePhenomenon();
+
+if (!phenomenon) {
+  if (elements.insightCount) {
+    elements.insightCount.textContent = "STEP 1 / 5";
+  }
+
+  if (elements.questionTitle) {
+  elements.questionTitle.textContent =
+    "\u8ab2\u984c\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002";
+}
+
+if (elements.questionText) {
+  elements.questionText.textContent =
+    "\u8ab2\u984c\u3092\u9078\u629e\u3059\u308b\u3068\u8cea\u554f\u304c\u8868\u793a\u3055\u308c\u307e\u3059\u3002";
+}
+
+[
+  elements.questionChoices,
+  elements.whyPoints,
+  elements.relatedTopicList,
+  elements.relatedList
+].forEach((element) => {
+  if (element) {
+    element.innerHTML = "";
+  }
+});
+
+[
+  elements.entryPanel,
+  elements.commonTheoryPanel,
+  elements.adjustmentPanel,
+  elements.nextStepPanel,
+  elements.premiumPanel,
+  elements.relatedTopicsPanel
+].forEach((panel) => {
+  if (panel) {
+    panel.hidden = true;
+  }
+});
+
+[
+  elements.entryTitle,
+  elements.entryText,
+  elements.adjustmentText,
+  elements.whyText,
+  elements.nextStepText,
+  elements.premiumTitle,
+  elements.premiumText
+].forEach((element) => {
+  if (element) {
+    element.textContent = "";
+  }
+});
+
+hideLegacyThinkingPanels();
+syncCardiumVisibility();
+
+return;
+
+if (elements.insightCount) {
+  elements.insightCount.textContent = state.selectedChoiceId
+    ? "EXPLORE"
+    : "STEP 1 / 5";
+}
+
+renderQuestion(phenomenon);
+renderWhy(phenomenon);
+renderAdjustmentView(phenomenon);
+renderNextStep(phenomenon);
+
+hideLegacyThinkingPanels();
+syncCardiumVisibility();
+
+if (state.selectedChoiceId) {
+  renderCardium();
+}
+
 
 
 function renderUpdates() {
@@ -4504,19 +4673,25 @@ function selectPhenomenon(phenomenonId) {
   }
 
   state.activePhenomenonId = phenomenon.id;
+
   state.activeTopicId = "";
   state.selectedChoiceId = "";
   state.selectedContentId = "";
   state.activeFacilityType = "";
   state.phenomenonAccordionOpen = false;
 
-  syncCardiumViewModel();
-  renderCardium();
+  resetCardiumExploration(
+    createCardiumNodeId("phenomenon", phenomenon.id)
+  );
+
+  closeCardiumFocus();
+
   renderPhenomena();
   renderBooks();
   renderInsight();
   renderFacilities();
   syncPhenomenonAccordion();
+  syncCardiumVisibility();
 
   updateUrlState({
     phenomenon: phenomenon.id,
@@ -5641,12 +5816,22 @@ closeDrawer();
 return;
 }
 
-if (state.mobileMenuOpen) {
-closeMobileMenu();
-
-if (elements.mobileMenuButton) {
-elements.mobileMenuButton.focus();
+if (
+  elements.cardiumFocus &&
+  !elements.cardiumFocus.hidden
+) {
+  closeCardiumFocus();
+  return;
 }
+
+if (state.mobileMenuOpen) {
+  closeMobileMenu();
+
+  if (elements.mobileMenuButton) {
+    elements.mobileMenuButton.focus();
+  }
+
+  return;
 }
 }
 
@@ -5663,62 +5848,80 @@ closeDrawer();
 }
 
 function initializeEvents() {
-if (elements.mobileMenuButton) {
-elements.mobileMenuButton.addEventListener(
-"click",
-toggleMobileMenu
-);
+  if (elements.mobileMenuButton) {
+    elements.mobileMenuButton.addEventListener("click", toggleMobileMenu);
+  }
+
+  if (elements.mobileNav) {
+    elements.mobileNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+  }
+
+  if (elements.drawerClose) {
+    elements.drawerClose.addEventListener("click", () => {
+      closeDrawer();
+    });
+  }
+
+  if (elements.cardiumFocusClose) {
+    elements.cardiumFocusClose.addEventListener("click", closeCardiumFocus);
+  }
+
+  if (elements.cardiumFocusActions) {
+    elements.cardiumFocusActions.addEventListener("click", (event) => {
+      const action = event.target.closest("[data-cardium-focus-action-id]");
+      if (!action) {
+        return;
+      }
+
+      activateCardiumFocusNode(action.dataset.cardiumFocusActionId);
+    });
+  }
+
+  if (elements.drawerBackdrop) {
+    elements.drawerBackdrop.addEventListener(
+      "pointerdown",
+      handleBackdropPointerDown
+    );
+  }
+
+  if (elements.reloadDataButton) {
+    elements.reloadDataButton.addEventListener("click", () => {
+      loadCampusData();
+    });
+  }
+
+  document.addEventListener("keydown", handleGlobalKeydown);
+
+  let cardiumResizeFrame = 0;
+
+  window.addEventListener(
+    "resize",
+    () => {
+      syncMobileNavigation();
+      if (!isCardiumUnlocked() || !elements.cardiumViewport) {
+        return;
+      }
+
+      if (cardiumResizeFrame) {
+        window.cancelAnimationFrame(cardiumResizeFrame);
+      }
+
+      cardiumResizeFrame = window.requestAnimationFrame(() => {
+        cardiumResizeFrame = 0;
+
+        renderCardium({
+          preserveActiveNode: true
+        });
+      });
+    },
+    {
+      passive: true
+    }
+  );
 }
 
-if (elements.mobileNav) {
-elements.mobileNav
-.querySelectorAll("a")
-.forEach((link) => {
-link.addEventListener(
-"click",
-closeMobileMenu
-);
-});
-}
-
-if (elements.drawerClose) {
-elements.drawerClose.addEventListener(
-"click",
-() => {
-closeDrawer();
-}
-);
-}
-
-if (elements.drawerBackdrop) {
-elements.drawerBackdrop.addEventListener(
-"pointerdown",
-handleBackdropPointerDown
-);
-}
-
-if (elements.reloadDataButton) {
-elements.reloadDataButton.addEventListener(
-"click",
-() => {
-loadCampusData();
-}
-);
-}
-
-document.addEventListener(
-"keydown",
-handleGlobalKeydown
-);
-
-window.addEventListener(
-"resize",
-syncMobileNavigation,
-{
-passive:true
-}
-);
-}
 
 function initializeHeroMotion() {
 if (
