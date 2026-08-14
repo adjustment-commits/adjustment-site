@@ -1200,20 +1200,74 @@ function resolveCardiumCenterNodeId() {
   return "";
 }
 
-function syncCardiumViewModel() {
-  const centerNodeId =
-    resolveCardiumCenterNodeId();
+function syncCardiumExplorationRoot(centerNodeId) {
+  const normalizedNodeId = normalizeString(centerNodeId);
 
-  state.cardiumViewModel =
-    centerNodeId
-      ? buildCardiumViewModel(
-          centerNodeId
-        )
-      : null;
+  if (!normalizedNodeId || !getCardiumNodeById(normalizedNodeId)) {
+    resetCardiumExploration();
+    return;
+  }
 
-  return state.cardiumViewModel;
+  const currentRootNodeId =
+    Array.isArray(state.activeCardiumPath) &&
+    state.activeCardiumPath.length > 0
+      ? state.activeCardiumPath[0]
+      : "";
+
+  if (
+    !state.activeCardiumNodeId ||
+    !getCardiumNodeById(state.activeCardiumNodeId) ||
+    !currentRootNodeId ||
+    !getCardiumNodeById(currentRootNodeId)
+  ) {
+    resetCardiumExploration(normalizedNodeId);
+    return;
+  }
+
+  if (
+    state.activeCardiumNodeId !== normalizedNodeId &&
+    !isCardiumNodeOnActivePath(normalizedNodeId)
+  ) {
+    resetCardiumExploration(normalizedNodeId);
+    return;
+  }
+
+  ensureCardiumExploration(normalizedNodeId);
 }
 
+function syncCardiumViewModel() {
+const centerNodeId =
+resolveCardiumCenterNodeId();
+
+if (!centerNodeId) {
+resetCardiumExploration();
+state.cardiumViewModel = null;
+return null;
+}
+
+syncCardiumExplorationRoot(
+centerNodeId
+);
+
+state.activeCardiumNodeId =
+centerNodeId;
+
+if (
+state.expandedCardiumNodeIds instanceof Set
+) {
+state.expandedCardiumNodeIds.add(
+centerNodeId
+);
+}
+
+state.cardiumViewModel =
+buildCardiumViewModel(
+centerNodeId
+);
+
+return state.cardiumViewModel;
+}
+  
 function renderCardium() {
   if (
     !elements.cardiumSection ||
@@ -1480,35 +1534,96 @@ function renderCardium() {
     elements.cardiumConnections.innerHTML = connectionHtml;
   }
 
-  // ノードへのクリックイベントハンドラーの設定
-  elements.cardiumNodes
-    .querySelectorAll("[data-cardium-node-id]")
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        const nodeId = button.dataset.cardiumNodeId;
-        const node = getCardiumNodeById(nodeId);
+ // Cardiumノードのクリックを探索経路と画面状態へ接続
+elements.cardiumNodes
+.querySelectorAll("[data-cardium-node-id]")
+.forEach((button) => {
+button.addEventListener("click", () => {
+const nodeId = normalizeString(
+button.dataset.cardiumNodeId
+);
+    const node = getCardiumNodeById(
+      nodeId
+    );
 
-        if (!node) {
-          return;
-        }
+    if (!node) {
+      return;
+    }
 
-        if (node.kind === "phenomenon") {
-          selectPhenomenon(node.entityId);
-          return;
-        }
+    const explorationUpdated =
+      selectCardiumExplorationNode(
+        nodeId
+      );
 
-        if (node.kind === "topic") {
-          openTopic(node.entityId, button);
-          return;
-        }
+    if (!explorationUpdated) {
+      return;
+    }
 
-        if (node.kind === "content") {
-          openContent(node.entityId, button);
-        }
+    if (node.kind === "phenomenon") {
+      state.activePhenomenonId =
+        node.entityId;
+
+      state.activeTopicId = "";
+      state.selectedChoiceId = "";
+      state.selectedContentId = "";
+      state.activeFacilityType = "";
+      state.phenomenonAccordionOpen = false;
+
+      renderPhenomena();
+      renderBooks();
+      renderInsight();
+      renderFacilities();
+      syncPhenomenonAccordion();
+
+      updateUrlState({
+        phenomenon: node.entityId,
+        content: "",
+        topic: ""
       });
-    });
-}
 
+      renderCardium();
+      return;
+    }
+
+    if (node.kind === "topic") {
+      state.activeTopicId =
+        node.entityId;
+
+      state.selectedContentId = "";
+
+      const topic =
+        getTopicById(
+          node.entityId
+        );
+
+      if (topic) {
+        renderTopicView(
+          topic
+        );
+      }
+
+      updateUrlState({
+        topic: node.entityId,
+        content: ""
+      });
+
+      renderCardium();
+      return;
+    }
+
+    if (node.kind === "content") {
+      openContent(
+        node.entityId,
+        button,
+        {
+          preserveFocus: true,
+          preserveCardiumExploration: true
+        }
+      );
+    }
+  });
+});
+  }
   
 function formatTypeLabel(type) {
 return TYPE_LABELS[type] ||
@@ -4951,6 +5066,11 @@ return;
 const preserveFocus =
 Boolean(options.preserveFocus);
 
+const preserveCardiumExploration =
+Boolean(
+options.preserveCardiumExploration
+);
+
 if (
 !preserveFocus &&
 triggerElement instanceof HTMLElement
@@ -4962,7 +5082,10 @@ triggerElement;
 state.selectedContentId =
 content.id;
 
+if (!preserveCardiumExploration) {
 syncCardiumViewModel();
+}
+
 renderCardium();
 
 if (elements.drawerEyebrow) {
@@ -5286,6 +5409,8 @@ return;
 
 state.selectedChoiceId = "";
 state.activeTopicId = "";
+
+resetCardiumExploration();
 
 state.cardiumGraph = buildCardiumGraph(
 state.data
