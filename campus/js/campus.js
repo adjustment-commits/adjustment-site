@@ -1391,24 +1391,19 @@ function syncCardiumViewModel(options = {}) {
 }
 
 function getCardiumFocusActionLabel(node) {
-  if (!node) {
+  if (!node || !node.kind) {
     return "";
   }
 
-  if (node.kind === "phenomenon") {
-    return "Ã£ÂÂÃ£ÂÂ®Ã§ÂÂ¾Ã¨Â±Â¡Ã£ÂÂÃ£ÂÂÃ¨ÂÂÃ£ÂÂÃ£ÂÂ";
-  }
+  const labelMap = {
+    phenomenon: "この現象から考える",
+    topic: "この概念を中心に探索する",
+    content: "資料を開く"
+  };
 
-  if (node.kind === "topic") {
-    return "Ã£ÂÂÃ£ÂÂ®Ã¦Â¦ÂÃ¥Â¿ÂµÃ£ÂÂÃ¤Â¸Â­Ã¥Â¿ÂÃ£ÂÂ«Ã¦ÂÂ¢Ã§Â´Â¢Ã£ÂÂÃ£ÂÂ";
-  }
-
-  if (node.kind === "content") {
-    return "Ã¨Â³ÂÃ¦ÂÂÃ£ÂÂÃ©ÂÂÃ£ÂÂ";
-  }
-
-  return "";
+  return labelMap[node.kind] || "";
 }
+
 
 function getCardiumFocusType(node) {
   if (!node) {
@@ -1542,13 +1537,11 @@ function renderCardiumFocus(nodeId) {
     .join("");
 }
 
-  if (elements.cardiumFocusActions) {
-    elements.cardiumFocusActions.innerHTML = actionLabel
-      ? `<button class="cardium-focus-action is-primary" type="button" data-cardium-focus-action-id="${escapeHtml(
-          node.id
-        )}">${escapeHtml(actionLabel)} Ã¢ÂÂ</button>`
-      : "";
-  }
+if (elements.cardiumFocusActions) {
+  elements.cardiumFocusActions.innerHTML = actionLabel
+    ? `<button class="cardium-focus-action is-primary" type="button" data-cardium-focus-action-id="${escapeHtml(node.id)}">${escapeHtml(actionLabel)} →</button>`
+    : "";
+}
 }
 
 function activateCardiumFocusNode(nodeId) {
@@ -4022,7 +4015,7 @@ function renderRelatedTopics(phenomenon) {
 
   // é¢é£ãããã¯ããªãå ´å
   if (relatedTopics.length === 0) {
-    elements.relatedTopicList.innerHTML = "é¢é£ããæ¦å¿µãæ´çä¸­ã§ãã";
+    elements.relatedTopicList.innerHTML = "\u95a2\u9023\u3059\u308b\u6982\u5ff5\u3092\u6574\u7406\u4e2d\u3067\u3059\u3002";
     return;
   }
 
@@ -4799,31 +4792,37 @@ section.hidden = !isVisible;
 }
   
 function renderDrawerSectionHeadings(contentType) {
-  const isPds = contentType === "pds";
-  const isCase = contentType === "case";
+  // Define heading content based on contentType
+  const headingsMap = {
+    pds: {
+      question: "PDS OVERVIEW / PDSについて",
+      commonTheory: "PURPOSE / 評価の目的",
+      adjustmentView: "PRINCIPLES / 評価の考え方",
+    },
+    case: {
+      question: "BACKGROUND / 背景",
+      commonTheory: "PHENOMENON / 起きていた現象",
+      adjustmentView: "INITIAL INTERPRETATION / 最初の捉え方",
+    },
+    default: {
+      question: "QUESTION / 最初の問い",
+      commonTheory: "COMMON THEORY / 一般的な考え方",
+      adjustmentView: "ADJUSTMENT VIEW / 捉え直し",
+    },
+  };
 
+  // Fallback to default if contentType doesn't match
+  const text = headingsMap[contentType] || headingsMap.default;
+
+  // Update elements if they exist in the DOM
   if (elements.drawerQuestionHeading) {
-    elements.drawerQuestionHeading.textContent = isPds
-      ? "PDS OVERVIEW / PDSã«ã¤ãã¦"
-      : isCase
-      ? "BACKGROUND / èæ¯"
-      : "QUESTION / æåã®åã";
+    elements.drawerQuestionHeading.textContent = text.question;
   }
-
   if (elements.drawerCommonTheoryHeading) {
-    elements.drawerCommonTheoryHeading.textContent = isPds
-      ? "PURPOSE / è©ä¾¡ã®ç®ç"
-      : isCase
-      ? "PHENOMENON / èµ·ãã¦ããç¾è±¡"
-      : "COMMON THEORY / ä¸è¬çãªèãæ¹";
+    elements.drawerCommonTheoryHeading.textContent = text.commonTheory;
   }
-
   if (elements.drawerAdjustmentViewHeading) {
-    elements.drawerAdjustmentViewHeading.textContent = isPds
-      ? "PRINCIPLES / è©ä¾¡ã®èãæ¹"
-      : isCase
-      ? "INITIAL INTERPRETATION / æåã®æãæ¹"
-      : "ADJUSTMENT VIEW / æãç´ã";
+    elements.drawerAdjustmentViewHeading.textContent = text.adjustmentView;
   }
 }
 
