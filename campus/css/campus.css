@@ -4645,6 +4645,24 @@ CARDIUM FOCUS
     0 18px 42px rgba(0, 0, 0, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
+.cardium-overlay .cardium-focus {
+  position: fixed;
+  z-index: 220;
+  left: 50%;
+  bottom: 24px;
+  width: min(760px, calc(100vw - 48px));
+  max-height: min(42vh, 420px);
+  margin: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(-50%);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.62),
+    0 0 32px rgba(104, 245, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+
 
 .cardium-focus[hidden] {
   display: none;
@@ -4837,7 +4855,7 @@ CARDIUM OPEN ANIMATION
 }
 
 .cardium-overlay:not([hidden]) .cardium-section {
-  animation: cardiumPanelIn 0.30s cubic-bezier(0.22, 1, 0.36, 1) both;
+animation: cardiumPanelIn 0.30s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes cardiumBackdropIn {
@@ -4893,13 +4911,15 @@ CARDIUM RESPONSIVE
 }
 
 @media (max-width: 700px) {
+  /* スクロールコンテナのセーフエリア対応 */
   .cardium-overlay-scroll {
-    padding:
+    padding: 
       max(10px, env(safe-area-inset-top))
       8px
       max(16px, env(safe-area-inset-bottom));
   }
 
+  /* セクション全体の最小高さ調整（ビューポート対応） */
   .cardium-overlay .cardium-section {
     width: 100%;
     min-height: calc(
@@ -4911,6 +4931,7 @@ CARDIUM RESPONSIVE
     border-radius: 20px;
   }
 
+  /* トップバー & コントロール */
   .cardium-overlay-topbar {
     gap: 12px;
     padding-bottom: 13px;
@@ -4926,6 +4947,7 @@ CARDIUM RESPONSIVE
     flex-basis: 38px;
   }
 
+  /* 見出し & 説明テキスト */
   .cardium-overlay .cardium-section .section-heading {
     margin: 17px 0 18px;
   }
@@ -4939,6 +4961,7 @@ CARDIUM RESPONSIVE
     line-height: 1.7;
   }
 
+  /* マップビューポート */
   .cardium-overlay .cardium-viewport {
     min-height: 480px;
     border-radius: 16px;
@@ -4948,6 +4971,7 @@ CARDIUM RESPONSIVE
     width: 480px;
   }
 
+  /* カードノード（通常 & 中央強調ノード） */
   .cardium-node {
     width: 112px;
     min-height: 62px;
@@ -4973,6 +4997,17 @@ CARDIUM RESPONSIVE
     font-size: 0.82rem;
   }
 
+  /* フォーカスパネル（フローティングダイアログ） */
+  .cardium-overlay .cardium-focus {
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: auto;
+    max-height: 38vh;
+    margin: 0;
+    transform: none;
+  }
+
   .cardium-focus-head {
     gap: 14px;
     padding: 17px 16px 0 18px;
@@ -4996,7 +5031,10 @@ CARDIUM RESPONSIVE
   }
 }
 
+
+
 @media (max-width: 420px) {
+  /* 外周スクロールの余白縮小 */
   .cardium-overlay-scroll {
     padding:
       max(6px, env(safe-area-inset-top))
@@ -5004,11 +5042,13 @@ CARDIUM RESPONSIVE
       max(10px, env(safe-area-inset-bottom));
   }
 
+  /* セクションカードのコンテナ調整 */
   .cardium-overlay .cardium-section {
     padding: 12px;
     border-radius: 17px;
   }
 
+  /* マップビューポートの最小高さと背景円の調整 */
   .cardium-overlay .cardium-viewport {
     min-height: 450px;
   }
@@ -5017,6 +5057,7 @@ CARDIUM RESPONSIVE
     width: 410px;
   }
 
+  /* カードノードの小型化 */
   .cardium-node {
     width: 100px;
     min-height: 58px;
@@ -5028,6 +5069,15 @@ CARDIUM RESPONSIVE
     min-height: 72px;
   }
 
+  /* フォーカスパネルの配置と高さを超小型画面に最適化 */
+  .cardium-overlay .cardium-focus {
+    left: 8px;
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    max-height: 40vh;
+  }
+
+  /* アクションボタン群を横並びから1列（全幅）に切り替え */
   .cardium-focus-actions {
     display: grid;
     grid-template-columns: 1fr;
@@ -5037,6 +5087,8 @@ CARDIUM RESPONSIVE
     width: 100%;
   }
 }
+
+
 
 @media (hover: none) {
   .cardium-node:hover {
