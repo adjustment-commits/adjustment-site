@@ -1454,23 +1454,30 @@ function getCardiumFocusActionLabel(node) {
 
 function getCardiumFocusType(node) {
   if (!node) {
-    return "CONTENT";
+    return "資料";
   }
 
   if (node.kind === "phenomenon") {
-    return "PHENOMENON";
+    return "課題";
   }
 
   if (node.kind === "topic") {
-    return "TOPIC";
+    return "考え方";
   }
 
   if (node.kind === "content") {
-    return formatTypeLabel(node.subtype);
+    const labelMap = {
+      research: "研究",
+      pds: "PDS評価",
+      case: "現場事例",
+      dictionary: "用語・概念"
+    };
+    return labelMap[node.subtype] || "資料";
   }
 
-  return "CONTENT";
+  return "資料";
 }
+
 
 function getCardiumFocusDataType(node) {
   if (!node) {
@@ -1719,21 +1726,29 @@ if (!viewModel || !viewModel.center) {
     );
   };
 
-  const getCardiumTypeLabel = (node) => {
-    if (!node) {
-      return "CONTENT";
-    }
+const getCardiumTypeLabel = (node) => {
+  if (!node) {
+    return "資料";
+  }
 
-    if (node.kind === "phenomenon") {
-      return "PHENOMENON";
-    }
+  if (node.kind === "phenomenon") {
+    return "課題";
+  }
 
-    if (node.kind === "topic") {
-      return "TOPIC";
-    }
+  if (node.kind === "topic") {
+    return "考え方";
+  }
 
-    return formatTypeLabel(node.subtype);
+  const labelMap = {
+    research: "研究",
+    pds: "PDS評価",
+    case: "現場事例",
+    dictionary: "用語・概念"
   };
+
+  return labelMap[node.subtype] || "資料";
+};
+
 
   const createNodeHtml = (
     node,
