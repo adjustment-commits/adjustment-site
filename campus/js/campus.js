@@ -591,30 +591,6 @@ function buildCardiumGraph(data) {
     return connection;
   };
 
-  // 1. Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ¯Â¼ÂPhenomena, Topics, ContentsÃ¯Â¼ÂÃ£ÂÂ®Ã§ÂÂ»Ã©ÂÂ²
-  normalizeArray(data.phenomena).forEach((phenomenon) => {
-    const entityId = normalizeString(phenomenon.id);
-
-    if (!entityId) {
-      return;
-    }
-
-    addNode({
-      id: createCardiumNodeId(
-        "phenomenon",
-        entityId
-      ),
-      entityId,
-      kind: "phenomenon",
-      subtype: "phenomenon",
-      label: phenomenon.label,
-      title: phenomenon.title,
-      summary: phenomenon.description,
-      code: "",
-      category: ""
-    });
-  });
-
   normalizeArray(data.topics).forEach((topic) => {
     const entityId = normalizeString(topic.id);
 
@@ -657,39 +633,6 @@ function buildCardiumGraph(data) {
       summary: content.summary,
       code: content.code,
       category: content.type
-    });
-  });
-
-  // 2. Ã£ÂÂ³Ã£ÂÂÃ£ÂÂ¯Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¯Â¼ÂÃ©ÂÂ¢Ã©ÂÂ£Ã¦ÂÂ§Ã¯Â¼ÂÃ£ÂÂ®Ã§ÂÂ»Ã©ÂÂ²
-  normalizeArray(data.phenomena).forEach((phenomenon) => {
-    const phenomenonNodeId = createCardiumNodeId(
-      "phenomenon",
-      phenomenon.id
-    );
-    normalizeArray(
-      phenomenon.relatedTopicIds
-    ).forEach((topicId) => {
-      addConnection(
-        phenomenonNodeId,
-        createCardiumNodeId(
-          "topic",
-          topicId
-        ),
-        "phenomenon-topic"
-      );
-    });
-
-    normalizeArray(
-      phenomenon.relatedIds
-    ).forEach((contentId) => {
-      addConnection(
-        phenomenonNodeId,
-        createCardiumNodeId(
-          "content",
-          contentId
-        ),
-        "phenomenon-content"
-      );
     });
   });
 
@@ -1400,40 +1343,35 @@ function buildCardiumViewModel(centerNodeId) {
 
 function resolveCardiumCenterNodeId() {
   if (state.selectedContentId) {
-    const contentNode =
-      getCardiumNode(
-        "content",
-        state.selectedContentId
-      );
+    const contentNode = getCardiumNode("content", state.selectedContentId);
     if (contentNode) {
       return contentNode.id;
     }
   }
 
   if (state.activeTopicId) {
-    const topicNode =
-      getCardiumNode(
-        "topic",
-        state.activeTopicId
-      );
+    const topicNode = getCardiumNode("topic", state.activeTopicId);
     if (topicNode) {
       return topicNode.id;
     }
   }
 
   if (state.activePhenomenonId) {
-    const phenomenonNode =
-      getCardiumNode(
-        "phenomenon",
-        state.activePhenomenonId
-      );
-    if (phenomenonNode) {
-      return phenomenonNode.id;
+    const phenomenon = getPhenomenonById(state.activePhenomenonId);
+    const firstTopicId = normalizeArray(phenomenon?.relatedTopicIds).find(
+      (topicId) => {
+        return Boolean(getCardiumNode("topic", topicId));
+      }
+    );
+
+    if (firstTopicId) {
+      return createCardiumNodeId("topic", firstTopicId);
     }
   }
 
   return "";
 }
+
 
 function syncCardiumExplorationRoot(centerNodeId) {
   const normalizedNodeId = normalizeString(centerNodeId);
@@ -4810,9 +4748,7 @@ function selectPhenomenon(phenomenonId) {
   state.activeFacilityType = "";
   state.phenomenonAccordionOpen = false;
 
-  resetCardiumExploration(
-    createCardiumNodeId("phenomenon", phenomenon.id)
-  );
+  resetCardiumExploration();
 
   closeCardiumFocus();
 
