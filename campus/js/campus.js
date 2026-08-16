@@ -1674,28 +1674,25 @@ function activateCardiumFocusNode(nodeId) {
     return;
   }
 
-  if (node.kind === "topic") {
+if (node.kind === "topic") {
 state.activeTopicId = node.entityId;
 state.selectedContentId = "";
 
-    resetCardiumExploration(node.id);
+resetCardiumExploration(node.id);
 
 updateUrlState({
-  topic: node.entityId,
-  content: ""
+topic: node.entityId,
+content: ""
 });
 
 closeCardiumFocus();
-renderCardium();
 
-const topic = getTopicById(node.entityId);
-
-if (topic) {
-  renderTopicView(topic);
-}
+renderCardium({
+preserveActiveNode: true
+});
 
 return;
-  }
+}
 
   if (node.kind === "content") {
   openContent(
@@ -2465,11 +2462,11 @@ const sectionLocation =
         errors.push(
           `${branchLocation}.next\u304c\u3042\u308a\u307e\u305b\u3093\u3002`
         );
-      } else if (next !== "commonTheory") {
-        errors.push(
-          `${branchLocation}.next\u300c${next}\u300d\u306f\u73fe\u884c\u306e6STEP\u4ed5\u69d8\u3067\u306f\u300ccommonTheory\u300d\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-        );
-      }
+     } else if (next !== "commonTheory") {
+  errors.push(
+    `${branchLocation}.next\u300c${next}\u300d\u306f\u73fe\u884c\u306e5STEP\u4ed5\u69d8\u3067\u306f\u300ccommonTheory\u300d\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
+  );
+}
     });
 
     choiceIds.forEach((choiceId) => {
@@ -2488,25 +2485,6 @@ const sectionLocation =
       }
     });
   }
-
-  const premium = thinkingFlow.premium;
-
-  if (!isPlainObject(premium)) {
-    errors.push(
-      `${location}.premium\u306f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-    return;
-  }
-
-  if (typeof premium.locked !== "boolean") {
-    errors.push(
-      `${location}.premium.locked\u306fboolean\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002`
-    );
-  }
-
-  validateNonEmptyText(premium.title, `${location}.premium.title`, errors);
-
-  validateNonEmptyText(premium.text, `${location}.premium.text`, errors);
 }
 
 
@@ -5968,17 +5946,9 @@ state.cardiumViewModel = null;
 
 
 function handleGlobalKeydown(event) {
-  if (
-    event.key === "Escape" &&
-    isCardiumOpen()
-  ) {
-    event.preventDefault();
-    closeCardiumOverlay();
-    return;
-  }
-
   if (event.key === "Escape") {
     if (state.drawerOpen) {
+      event.preventDefault();
       closeDrawer();
       return;
     }
@@ -5987,11 +5957,20 @@ function handleGlobalKeydown(event) {
       elements.cardiumFocus &&
       !elements.cardiumFocus.hidden
     ) {
+      event.preventDefault();
       closeCardiumFocus();
       return;
     }
 
+    if (isCardiumOpen()) {
+      event.preventDefault();
+      closeCardiumOverlay();
+      return;
+    }
+
     if (state.mobileMenuOpen) {
+      event.preventDefault();
+
       closeMobileMenu();
 
       if (elements.mobileMenuButton) {
@@ -6004,6 +5983,7 @@ function handleGlobalKeydown(event) {
 
   trapDrawerFocus(event);
 }
+
 
 
 function handleBackdropPointerDown(event) {
