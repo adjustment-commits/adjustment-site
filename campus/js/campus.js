@@ -1566,20 +1566,26 @@ function activateCardiumFocusNode(nodeId) {
   }
 
   if (node.kind === "topic") {
-    state.activeTopicId = node.entityId;
-    state.selectedContentId = "";
+state.activeTopicId = node.entityId;
+state.selectedContentId = "";
 
     resetCardiumExploration(node.id);
 
-    updateUrlState({
-      topic: node.entityId,
-      content: ""
-    });
+updateUrlState({
+  topic: node.entityId,
+  content: ""
+});
 
-    closeCardiumFocus();
-    renderCardium();
+closeCardiumFocus();
+renderCardium();
 
-    return;
+const topic = getTopicById(node.entityId);
+
+if (topic) {
+  renderTopicView(topic);
+}
+
+return;
   }
 
   if (node.kind === "content") {
@@ -1765,117 +1771,162 @@ nodePositions.set(node.id, { x, y });
 };
 
 
+const nodeHtml = [];
 
+// Center node
+nodeHtml.push(
+  createNodeHtml(
+    viewModel.center,
+    centerX,
+    centerY,
+    {
+      isCenter: true,
+      ring: "center"
+    }
+  )
+);
 
-  const nodeHtml = [];
+// Ring 1 nodes
+const ring1Count = viewModel.ring1.length;
 
-  // Ã¤Â¸Â­Ã¥Â¤Â®Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
+viewModel.ring1.forEach((entry, index) => {
+  const angle =
+    ring1Count === 1
+      ? -Math.PI / 2
+      : -Math.PI / 2 +
+        (Math.PI * 2 * index) / ring1Count;
+
+  const x =
+    centerX +
+    Math.cos(angle) * ring1Radius;
+
+  const y =
+    centerY +
+    Math.sin(angle) * ring1Radius;
+
   nodeHtml.push(
     createNodeHtml(
-      viewModel.center,
-      centerX,
-      centerY,
+      entry.node,
+      x,
+      y,
       {
-        isCenter: true,
-        ring: "center"
+        ring: "ring1"
       }
     )
   );
+});
 
-  // Ring 1 Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
-  const ring1Count = viewModel.ring1.length;
+// Ring 2 nodes
+const ring2Count = viewModel.ring2.length;
 
-  viewModel.ring1.forEach((entry, index) => {
-    const angle =
-      ring1Count === 1
-        ? -Math.PI / 2
-        : -Math.PI / 2 + (Math.PI * 2 * index) / ring1Count;
+viewModel.ring2.forEach((entry, index) => {
+  const angle =
+    ring2Count === 1
+      ? Math.PI / 2
+      : -Math.PI / 2 +
+        (Math.PI * 2 * index) / ring2Count;
 
-    const x = centerX + Math.cos(angle) * ring1Radius;
-    const y = centerY + Math.sin(angle) * ring1Radius;
+  const x =
+    centerX +
+    Math.cos(angle) * ring2Radius;
 
-    nodeHtml.push(
-      createNodeHtml(entry.node, x, y, {
-        ring: "ring1"
-      })
-    );
-  });
+  const y =
+    centerY +
+    Math.sin(angle) * ring2Radius;
 
-  // Ring 2 Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã©ÂÂÃ§Â½Â®
-  const ring2Count = viewModel.ring2.length;
-
-  viewModel.ring2.forEach((entry, index) => {
-    const angle =
-      ring2Count === 1
-        ? Math.PI / 2
-        : -Math.PI / 2 + (Math.PI * 2 * index) / ring2Count;
-
-    const x = centerX + Math.cos(angle) * ring2Radius;
-    const y = centerY + Math.sin(angle) * ring2Radius;
-
-    nodeHtml.push(
-      createNodeHtml(entry.node, x, y, {
+  nodeHtml.push(
+    createNodeHtml(
+      entry.node,
+      x,
+      y,
+      {
         ring: "ring2"
-      })
-    );
-  });
+      }
+    )
+  );
+});
 
-  elements.cardiumNodes.innerHTML = nodeHtml.join("");
+elements.cardiumNodes.innerHTML =
+  nodeHtml.join("");
 
-  // Ã£ÂÂ³Ã£ÂÂÃ£ÂÂ¯Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¯Â¼ÂÃ¦ÂÂ¥Ã§Â¶ÂÃ§Â·ÂÃ¯Â¼ÂÃ£ÂÂ®Ã¦ÂÂÃ§ÂÂ»
-  if (elements.cardiumConnections) {
-    elements.cardiumConnections.setAttribute(
-      "viewBox",
-      `0 0 ${viewportWidth} ${viewportHeight}`
-    );
-    elements.cardiumConnections.setAttribute(
-      "width",
-      String(viewportWidth)
-    );
-    elements.cardiumConnections.setAttribute(
-      "height",
-      String(viewportHeight)
-    );
+// Connection lines
+if (elements.cardiumConnections) {
+  elements.cardiumConnections.setAttribute(
+    "viewBox",
+    `0 0 ${viewportWidth} ${viewportHeight}`
+  );
 
-    const visibleConnectionIdSet = new Set(
+  elements.cardiumConnections.setAttribute(
+    "width",
+    String(viewportWidth)
+  );
+
+  elements.cardiumConnections.setAttribute(
+    "height",
+    String(viewportHeight)
+  );
+
+  const visibleConnectionIdSet =
+    new Set(
       viewModel.visibleConnectionIds
     );
 
-    const activeConnectionIdSet = new Set(
-  viewModel.activeConnectionIds
-);
+  const activeConnectionIdSet =
+    new Set(
+      viewModel.activeConnectionIds
+    );
 
-const connectionHtml = state.cardiumGraph.connections
+  const connectionHtml =
+    state.cardiumGraph.connections
       .filter((connection) => {
-        return visibleConnectionIdSet.has(connection.id);
+        return visibleConnectionIdSet.has(
+          connection.id
+        );
       })
       .map((connection) => {
-        const sourcePosition = nodePositions.get(
-          connection.source
-        );
-        const targetPosition = nodePositions.get(
-          connection.target
-        );
+        const sourcePosition =
+          nodePositions.get(
+            connection.source
+          );
+        const targetPosition =
+          nodePositions.get(
+            connection.target
+          );
 
-        if (!sourcePosition || !targetPosition) {
+        if (
+          !sourcePosition ||
+          !targetPosition
+        ) {
           return "";
         }
 
         const isPrimary =
-          connection.source === viewModel.center.id ||
-          connection.target === viewModel.center.id;
+          connection.source ===
+            viewModel.center.id ||
+          connection.target ===
+            viewModel.center.id;
 
-            const isActiveConnection =
-      activeConnectionIdSet.has(
-        connection.id
-      );
+        const isActiveConnection =
+          activeConnectionIdSet.has(
+            connection.id
+          );
 
-    return (
-      '<line' +
-      ' class="cardium-connection' +
-      (isPrimary ? ' is-primary' : '') +
-      (isActiveConnection ? ' is-active-path' : '') +
-      '"' +
+        const primaryClass =
+          isPrimary
+            ? " is-primary"
+            : "";
+
+        const activeClass =
+          isActiveConnection
+            ? " is-active-path"
+            : "";
+
+        return (
+          '<line' +
+          ' class="cardium-connection' +
+          primaryClass +
+          activeClass +
+          '"' +
           ' x1="' +
           sourcePosition.x.toFixed(2) +
           '"' +
@@ -1892,43 +1943,54 @@ const connectionHtml = state.cardiumGraph.connections
         );
       })
       .join("");
+  elements.cardiumConnections.innerHTML =
+    connectionHtml;
+}
 
-    elements.cardiumConnections.innerHTML = connectionHtml;
-  }
-
- // CardiumÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ®Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¯Ã£ÂÂÃ¦ÂÂ¢Ã§Â´Â¢Ã§ÂµÂÃ¨Â·Â¯Ã£ÂÂ¨Ã§ÂÂ»Ã©ÂÂ¢Ã§ÂÂ¶Ã¦ÂÂÃ£ÂÂ¸Ã¦ÂÂ¥Ã§Â¶Â
+// Bind Cardium node events
 elements.cardiumNodes
-.querySelectorAll("[data-cardium-node-id]")
-.forEach((button) => {
-button.addEventListener("click", () => {
-const nodeId = normalizeString(
-button.dataset.cardiumNodeId
-);
-          const node = getCardiumNodeById(nodeId);
+  .querySelectorAll(
+    "[data-cardium-node-id]"
+  )
+  .forEach((button) => {
+    button.addEventListener(
+      "click",
+      () => {
+        const nodeId =
+          normalizeString(
+            button.dataset.cardiumNodeId
+          );
+        const node =
+          getCardiumNodeById(nodeId);
 
-    if (!node) {
-      return;
-    }
+        if (!node) {
+          return;
+        }
 
-    const explorationUpdated =
-      selectCardiumExplorationNode(nodeId);
+        const explorationUpdated =
+          selectCardiumExplorationNode(
+            nodeId
+          );
 
-    if (!explorationUpdated) {
-      return;
-    }
+        if (!explorationUpdated) {
+          return;
+        }
 
-    renderCardium({
-      preserveActiveNode: true
-    });
+        renderCardium({
+          preserveActiveNode: true
+        });
 
-    renderCardiumFocus(nodeId);
+        renderCardiumFocus(nodeId);
+      }
+    );
   });
-});
-  }
+}
   
 function formatTypeLabel(type) {
-return TYPE_LABELS[type] ||
-normalizeString(type,"CONTENT").toUpperCase();
+  return (
+    TYPE_LABELS[type] ||
+    normalizeString(type, "CONTENT").toUpperCase()
+  );
 }
 
 function formatTypeJapaneseLabel(type) {
@@ -2486,14 +2548,11 @@ errors
 }
 }
 
-// ==========================================
-// 1. validateCaseDetail Ã©ÂÂ¢Ã¦ÂÂ°Ã£ÂÂ®Ã¤Â¿Â®Ã¦Â­Â£Ã§ÂÂ
-// ==========================================
 function validateCaseDetail(caseDetail, contentIndex, errors) {
   const location = `contents[${contentIndex}].caseDetail`;
 
   if (!isPlainObject(caseDetail)) {
-    errors.push(`${location}Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
+    errors.push(`${location}はオブジェクトである必要があります。`);
     return;
   }
 
@@ -2513,7 +2572,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
     const sectionLocation = `${location}.${sectionName}`;
 
     if (!isPlainObject(section)) {
-      errors.push(`${sectionLocation}Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
+      errors.push(`${sectionLocation}はオブジェクトである必要があります。`);
       return;
     }
 
@@ -2533,7 +2592,7 @@ function validateCaseDetail(caseDetail, contentIndex, errors) {
       Object.prototype.hasOwnProperty.call(section, "points") &&
       !Array.isArray(section.points)
     ) {
-      errors.push(`${sectionLocation}.pointsÃ£ÂÂ¯Ã©ÂÂÃ¥ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`);
+      errors.push(`${sectionLocation}.pointsは配列である必要があります。`);
     }
   });
 }
@@ -2661,41 +2720,28 @@ function validateData(data) {
 
  data.contents.forEach((content, index) => {
   if (!isPlainObject(content)) {
-    errors.push(
-      `contents[${index}]Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂÃ£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â¿ÂÃ¨Â¦ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`
-    );
+    errors.push(`contents[${index}]はオブジェクトである必要があります。`);
     return;
   }
 
   const id = normalizeString(content.id);
 
   if (!id) {
-    errors.push(
-      `contents[${index}].idÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
-    );
+    errors.push(`contents[${index}].idがありません。`);
   } else if (contentIds.has(id)) {
-    errors.push(
-      `contentsÃ¥ÂÂÃ£ÂÂ§idÃ£ÂÂ${id}Ã£ÂÂÃ£ÂÂÃ©ÂÂÃ¨Â¤ÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ`
-    );
+    errors.push(`contents内でid「${id}」が重複しています。`);
   } else {
     contentIds.add(id);
   }
 
   if (!normalizeString(content.type)) {
-    errors.push(
-      `contents[${index}].typeÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
-    );
+    errors.push(`contents[${index}].typeがありません。`);
   }
 
   if (!normalizeString(content.title)) {
-    errors.push(
-      `contents[${index}].titleÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ`
-    );
+    errors.push(`contents[${index}].titleがありません。`);
   }
 });
-
-
-
 
   data.topics.forEach((topic, index) => {
     if (!isPlainObject(topic)) {
