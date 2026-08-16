@@ -250,7 +250,7 @@ id="questionTitle"
 class="thinking-stage-status"
 id="insightCount"
 >
-STEP 1 / 6
+STEP 1 / 5
 </span>
 </div>
 
@@ -365,27 +365,73 @@ hidden
 
 <h5 id="nextStepTitle"></h5>
 <p id="nextStepText"></p>
- <div
-  class="cardium-reveal"
+
+</section>
+
+<section
+  class="cardium-entry"
   id="cardiumReveal"
+  aria-labelledby="cardiumEntryTitle"
   hidden
 >
+  <div class="cardium-entry-background" aria-hidden="true">
+    <span class="cardium-entry-orbit cardium-entry-orbit-01"></span>
+    <span class="cardium-entry-orbit cardium-entry-orbit-02"></span>
+    <span class="cardium-entry-node cardium-entry-node-01"></span>
+    <span class="cardium-entry-node cardium-entry-node-02"></span>
+    <span class="cardium-entry-node cardium-entry-node-03"></span>
+    <span class="cardium-entry-node cardium-entry-node-04"></span>
+  </div>
+  <div class="cardium-entry-inner">
+    <div class="cardium-entry-copy">
+      <div class="cardium-entry-label">
+        <span class="cardium-entry-label-dot" aria-hidden="true"></span>
+        <span>CARDIUM / THINKING MAP</span>
+      </div>
+  <h3
+    class="cardium-entry-title"
+    id="cardiumEntryTitle"
+  >
+    この現象を、<br>
+    別の視点から辿ってみる。
+  </h3>
+
+  <p class="cardium-entry-description">
+    ここまでの思考を一つの答えで終わらせず、
+    身体・動作・力学・データ・研究・PDS・現場事例の
+    つながりから、次に確認できる視点を探索します。
+  </p>
+
+  <div
+    class="cardium-entry-signals"
+    aria-label="Cardiumで探索できる領域"
+  >
+    <span>BODY</span>
+    <span>MOVEMENT</span>
+    <span>MECHANICS</span>
+    <span>DATA</span>
+    <span>RESEARCH</span>
+    <span>PDS</span>
+    <span>CASE</span>
+  </div>
+</div>
+
+<div class="cardium-entry-action">
+  <p class="cardium-entry-action-label">
+    EXPLORE CONNECTIONS
+  </p>
+
   <button
     class="cardium-launch-button"
-    id="cardiumOpenButton"
+    cardiumLaunchButton:document.getElementById("cardiumOpenButton")
     type="button"
     aria-haspopup="dialog"
     aria-controls="cardiumOverlay"
   >
-    <span class="cardium-launch-copy">
-      <span class="cardium-launch-eyebrow">
-        EXPLORE CONNECTIONS
-      </span>
-      <strong>
-        思考のつながりを探索する
-      </strong>
+    <span class="cardium-launch-button-copy">
+      <strong>CARDIUMを開く</strong>
       <small>
-        この現象から身体・動作・力学・データ・概念のつながりを辿ります。
+        思考のつながりを探索する
       </small>
     </span>
 
@@ -396,8 +442,14 @@ hidden
       →
     </span>
   </button>
+
+  <p class="cardium-entry-action-guide">
+    ノードを選択すると、関連する視点へ移動できます。
+  </p>
 </div>
+     </div>
 </section>
+
 
  <section
   class="thinking-block branch-block campus-legacy-flow"
