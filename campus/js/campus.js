@@ -107,7 +107,7 @@ relatedTopicList: document.getElementById("relatedTopicList"),
 relatedList: document.getElementById("relatedList"),
 
   cardiumReveal: document.getElementById("cardiumReveal"),
-cardiumLaunchButton: document.getElementById("cardiumLaunchButton"),
+cardiumLaunchButton: document.getElementById("cardiumOpenButton"),
 cardiumOverlay: document.getElementById("cardiumOverlay"),
 cardiumOverlayBackdrop: document.getElementById("cardiumOverlayBackdrop"),
 cardiumOverlayClose: document.getElementById("cardiumOverlayClose"),
