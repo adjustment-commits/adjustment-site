@@ -455,94 +455,125 @@ hidden
  </section>
 </div>
 
-<section
-  class="cardium-reveal"
-  id="cardiumReveal"
-  aria-labelledby="cardiumRevealTitle"
+<div
+  class="cardium-overlay"
+  id="cardiumOverlay"
   hidden
+  aria-hidden="true"
 >
-
-  <div class="cardium-reveal-inner">
-    <p class="eyebrow">FROM ANSWER TO EXPLORATION</p>
-    <h2 class="cardium-reveal-title" id="cardiumRevealTitle">
-      課題解決への思考の<br />
-      体験に少し遊び心を。
-    </h2>
-    <p class="cardium-reveal-description">
-これは、私が身体や動きをどう見ているかを体験してもらうための空間です。
-一つの現象に対して、身体、動作、力学、データ、感覚など、
-さまざまな情報をつなぎながらアプローチを選択しています。
-正解を探すというより、「こんな見方もあるのか」と、つながりを辿ってみてください。    </p>
-    <div class="cardium-reveal-path" aria-label="思考探索の流れ">
-      <span>PHENOMENON</span>
-      <span aria-hidden="true">→</span>
-      <span>QUESTION</span>
-      <span aria-hidden="true">→</span>
-      <span>VIEW</span>
-      <span aria-hidden="true">→</span>
-      <strong>EXPLORE</strong>
-    </div>
-    <a class="cardium-reveal-action" href="#cardiumSection">
-      思考のつながりを見る ↓
-    </a>
-  </div>
-</section>
-
-<section
-  class="cardium-section"
-  id="cardiumSection"
-  aria-labelledby="cardiumTitle"
-  hidden
->
-
-  <div class="section-heading">
-    <div class="section-heading-copy">
-      <p class="eyebrow">CARDIUM</p>
-      <h2 class="section-title" id="cardiumTitle">
-        思考のつながりを探索する。
-      </h2>
-    </div>
-  </div>
   <div
-    class="cardium-viewport"
-    id="cardiumViewport"
-    aria-live="polite"
-  >
-    <svg
-      class="cardium-connections"
-      id="cardiumConnections"
-      aria-hidden="true"
-    ></svg>
-    <div class="cardium-nodes" id="cardiumNodes"></div>
-    <div class="cardium-empty" id="cardiumEmpty" hidden>
-      関連する思考経路を整理中です。
-    </div>
-  </div>
-  <article
-    class="cardium-focus"
-    id="cardiumFocus"
-    hidden
-    aria-live="polite"
-  >
-    <div class="cardium-focus-head">
-      <div>
-        <p class="cardium-focus-type" id="cardiumFocusType">TOPIC</p>
-        <h3 class="cardium-focus-title" id="cardiumFocusTitle"></h3>
+    class="cardium-overlay-backdrop"
+    id="cardiumOverlayBackdrop"
+    aria-hidden="true"
+  ></div>
+  <div class="cardium-overlay-scroll">
+    <section
+      class="cardium-section"
+      id="cardiumSection"
+      aria-labelledby="cardiumTitle"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="cardium-overlay-topbar">
+        <div>
+          <p class="cardium-overlay-kicker">
+            CARDIUM / EXPLORATION MODE
+          </p>
+          <p class="cardium-overlay-guide">
+            ノードを選択して思考のつながりを辿ってください。
+          </p>
+        </div>
+        <button
+          class="cardium-overlay-close"
+          id="cardiumOverlayClose"
+          type="button"
+          aria-label="Cardiumを閉じる"
+        >
+          X
+        </button>
       </div>
-      <button
-        class="cardium-focus-close"
-        id="cardiumFocusClose"
-        type="button"
-        aria-label="選択した内容を閉じる"
+      <div class="section-heading">
+        <div class="section-heading-copy">
+          <p class="eyebrow">CARDIUM</p>
+          <h2
+            class="section-title"
+            id="cardiumTitle"
+          >
+            思考のつながりを探索する。
+          </h2>
+          <p class="section-description">
+            一つの現象を中心に、身体、動作、力学、データ、感覚、研究、評価、現場事例のつながりを辿ります。
+            正解を探すのではなく、別の見方へ移動するための探索空間です。
+          </p>
+        </div>
+      </div>
+      <div
+        class="cardium-viewport"
+        id="cardiumViewport"
+        aria-live="polite"
       >
-        X
-      </button>
-    </div>
-    <p class="cardium-focus-summary" id="cardiumFocusSummary"></p>
-    <div class="cardium-focus-meta" id="cardiumFocusMeta"></div>
-    <div class="cardium-focus-actions" id="cardiumFocusActions"></div>
-  </article>
-</section>
+        <svg
+          class="cardium-connections"
+          id="cardiumConnections"
+          aria-hidden="true"
+        ></svg>
+        <div
+          class="cardium-nodes"
+          id="cardiumNodes"
+        ></div>
+        <div
+          class="cardium-empty"
+          id="cardiumEmpty"
+          hidden
+        >
+          関連する思考経路を整理中です。
+        </div>
+      </div>
+      <article
+        class="cardium-focus"
+        id="cardiumFocus"
+        hidden
+        aria-live="polite"
+      >
+        <div class="cardium-focus-head">
+          <div>
+            <p
+              class="cardium-focus-type"
+              id="cardiumFocusType"
+            >
+              TOPIC
+            </p>
+            <h3
+              class="cardium-focus-title"
+              id="cardiumFocusTitle"
+            ></h3>
+          </div>
+          <button
+            class="cardium-focus-close"
+            id="cardiumFocusClose"
+            type="button"
+            aria-label="選択した内容を閉じる"
+          >
+            X
+          </button>
+        </div>
+        <p
+          class="cardium-focus-summary"
+          id="cardiumFocusSummary"
+        ></p>
+        <div
+          class="cardium-focus-meta"
+          id="cardiumFocusMeta"
+        ></div>
+        <div
+          class="cardium-focus-actions"
+          id="cardiumFocusActions"
+        ></div>
+      </article>
+    </section>
+  </div>
+</div>
+
 
 <section
   class="related-thinking-section campus-archive"
