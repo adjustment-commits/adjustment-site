@@ -5058,3 +5058,490 @@ CARDIUM TOUCH
     transform: none;
   }
 }
+/* =========================================================
+CARDIUM OVERLAY MODE - FINAL
+========================================================= */
+
+body.cardium-open {
+  overflow: hidden;
+}
+
+.cardium-launch-wrap {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.cardium-launch-wrap[hidden] {
+  display: none !important;
+}
+
+.cardium-launch-label {
+  margin: 0 0 9px;
+  color: var(--accent-dark);
+  font-size: 0.52rem;
+  font-weight: 900;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+}
+
+.cardium-launch-button {
+  position: relative;
+  width: 100%;
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 16px 15px 18px;
+  overflow: hidden;
+  border: 1px solid #a9daca;
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      circle at 88% 20%,
+      rgba(53, 184, 144, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #f3faf7 0%,
+      #ffffff 72%
+    );
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  box-shadow:
+    0 7px 20px rgba(26, 39, 48, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.cardium-launch-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.cardium-launch-button:hover {
+  transform: translateY(-2px);
+  border-color: #73c7aa;
+  background:
+    radial-gradient(
+      circle at 88% 20%,
+      rgba(53, 184, 144, 0.16),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      #eef9f5 0%,
+      #ffffff 74%
+    );
+  box-shadow:
+    0 11px 28px rgba(26, 39, 48, 0.08),
+    0 0 24px rgba(53, 184, 144, 0.07);
+}
+
+.cardium-launch-copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.cardium-launch-copy strong {
+  display: block;
+  color: #19322b;
+  font-size: 0.79rem;
+  font-weight: 850;
+  line-height: 1.5;
+}
+
+.cardium-launch-copy > span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.59rem;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.cardium-launch-icon {
+  position: relative;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #a9daca;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--accent-dark);
+  font-size: 1.25rem;
+  font-weight: 450;
+  line-height: 1;
+  box-shadow: 0 5px 12px rgba(26, 39, 48, 0.06);
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.cardium-launch-button:hover .cardium-launch-icon {
+  transform: rotate(90deg);
+  border-color: var(--accent);
+  background: #eef8f4;
+}
+
+/* Overlay */
+
+.cardium-overlay {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+}
+
+.cardium-overlay[hidden] {
+  display: none !important;
+}
+
+.cardium-overlay-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(53, 184, 144, 0.08),
+      transparent 52%
+    ),
+    rgba(20, 31, 34, 0.42);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.cardium-overlay-scroll {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding:
+    max(28px, env(safe-area-inset-top))
+    24px
+    max(38px, env(safe-area-inset-bottom));
+}
+
+/* Existing floating HUD converted to overlay panel */
+
+.cardium-overlay .cardium-section {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 28px;
+  overflow: visible;
+  border: 1px solid rgba(141, 183, 178, 0.40);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(53, 184, 144, 0.11),
+      rgba(53, 184, 144, 0.025) 36%,
+      transparent 68%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(248, 253, 252, 0.94),
+      rgba(233, 244, 242, 0.92) 50%,
+      rgba(250, 253, 253, 0.95)
+    );
+  backdrop-filter:
+    blur(22px)
+    saturate(1.08);
+  -webkit-backdrop-filter:
+    blur(22px)
+    saturate(1.08);
+  box-shadow:
+    0 38px 100px rgba(9, 24, 26, 0.30),
+    0 10px 32px rgba(9, 24, 26, 0.13),
+    0 0 80px rgba(53, 184, 144, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: none;
+}
+
+.cardium-overlay .cardium-section::before {
+  inset: 10px;
+  opacity: 0.55;
+}
+
+.cardium-overlay .cardium-section::after {
+  z-index: 0;
+  bottom: -42px;
+}
+
+.cardium-overlay .cardium-section .section-heading {
+  position: relative;
+  z-index: 4;
+  margin: 20px 0 24px;
+}
+
+.cardium-overlay-topbar {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(116, 143, 149, 0.24);
+}
+
+.cardium-overlay-kicker {
+  margin: 0;
+  color: var(--accent-dark);
+  font-size: 0.55rem;
+  font-weight: 900;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+}
+
+.cardium-overlay-guide {
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 0.59rem;
+  line-height: 1.55;
+}
+
+.cardium-overlay-close {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(116, 143, 149, 0.38);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text-soft);
+  font-size: 0.65rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cardium-overlay-close:hover {
+  transform: translateY(-1px);
+  border-color: #8ccdb7;
+  background: #ffffff;
+  color: var(--accent-dark);
+}
+
+.cardium-overlay .cardium-viewport {
+  position: relative;
+  z-index: 3;
+  min-height: 560px;
+}
+
+.cardium-overlay .cardium-focus {
+  position: relative;
+  z-index: 4;
+}
+
+/* Opening animation */
+
+.cardium-overlay:not([hidden]) .cardium-overlay-backdrop {
+  animation: cardiumBackdropIn 0.22s ease both;
+}
+
+.cardium-overlay:not([hidden]) .cardium-section {
+  animation: cardiumPanelIn 0.30s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardiumBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cardiumPanelIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(20px)
+      scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .cardium-overlay-scroll {
+    padding:
+      max(20px, env(safe-area-inset-top))
+      18px
+      max(28px, env(safe-area-inset-bottom));
+  }
+
+  .cardium-overlay .cardium-section {
+    margin: 0 auto;
+    padding: 22px;
+    transform: none;
+  }
+
+  .cardium-overlay .cardium-viewport {
+    min-height: 520px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .cardium-launch-wrap {
+    margin-top: 17px;
+    padding-top: 15px;
+  }
+
+  .cardium-launch-button {
+    min-height: 72px;
+    grid-template-columns: minmax(0, 1fr) 38px;
+    gap: 11px;
+    padding: 13px 13px 13px 15px;
+    border-radius: 12px;
+  }
+
+  .cardium-launch-copy strong {
+    font-size: 0.72rem;
+  }
+
+  .cardium-launch-copy > span {
+    font-size: 0.55rem;
+  }
+
+  .cardium-launch-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cardium-overlay-scroll {
+    padding:
+      max(10px, env(safe-area-inset-top))
+      8px
+      max(16px, env(safe-area-inset-bottom));
+  }
+
+  .cardium-overlay .cardium-section {
+    width: 100%;
+    min-height: calc(
+      100dvh -
+      max(20px, env(safe-area-inset-top)) -
+      max(24px, env(safe-area-inset-bottom))
+    );
+    margin: 0;
+    padding: 15px;
+    border-radius: 20px;
+    transform: none;
+  }
+
+  .cardium-overlay-topbar {
+    gap: 12px;
+    padding-bottom: 13px;
+  }
+
+  .cardium-overlay-guide {
+    font-size: 0.54rem;
+  }
+
+  .cardium-overlay-close {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .cardium-overlay .cardium-section .section-heading {
+    margin: 17px 0 18px;
+  }
+
+  .cardium-overlay .section-title {
+    font-size: 1.42rem;
+  }
+
+  .cardium-overlay .section-description {
+    font-size: 0.66rem;
+    line-height: 1.7;
+  }
+
+  .cardium-overlay .cardium-viewport {
+    min-height: 480px;
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 420px) {
+  .cardium-overlay-scroll {
+    padding:
+      max(6px, env(safe-area-inset-top))
+      5px
+      max(10px, env(safe-area-inset-bottom));
+  }
+
+  .cardium-overlay .cardium-section {
+    padding: 12px;
+    border-radius: 17px;
+  }
+
+  .cardium-overlay .cardium-viewport {
+    min-height: 450px;
+  }
+
+  .cardium-overlay-kicker {
+    font-size: 0.49rem;
+  }
+
+  .cardium-overlay-guide {
+    max-width: 235px;
+  }
+}
+
+/* Touch */
+
+@media (hover: none) {
+  .cardium-launch-button:hover,
+  .cardium-overlay-close:hover {
+    transform: none;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .cardium-overlay:not([hidden]) .cardium-overlay-backdrop,
+  .cardium-overlay:not([hidden]) .cardium-section {
+    animation: none !important;
+  }
+}
