@@ -107,7 +107,11 @@ relatedTopicList: document.getElementById("relatedTopicList"),
 relatedList: document.getElementById("relatedList"),
 
   cardiumReveal: document.getElementById("cardiumReveal"),
-  cardiumSection: document.getElementById("cardiumSection"),
+cardiumLaunchButton: document.getElementById("cardiumLaunchButton"),
+cardiumOverlay: document.getElementById("cardiumOverlay"),
+cardiumOverlayBackdrop: document.getElementById("cardiumOverlayBackdrop"),
+cardiumOverlayClose: document.getElementById("cardiumOverlayClose"),
+cardiumSection: document.getElementById("cardiumSection"),
   cardiumViewport: document.getElementById("cardiumViewport"),
   cardiumConnections: document.getElementById("cardiumConnections"),
   cardiumNodes: document.getElementById("cardiumNodes"),
@@ -945,28 +949,133 @@ function limitCardiumEntries(entries, limit) {
 
 function isCardiumUnlocked() {
   return Boolean(
-    state.activePhenomenonId && state.selectedChoiceId
+    state.activePhenomenonId &&
+    state.selectedChoiceId
   );
 }
 
-function syncCardiumVisibility() {
-  const isUnlocked = isCardiumUnlocked();
+function isCardiumOpen() {
+  return Boolean(
+    elements.cardiumOverlay &&
+    !elements.cardiumOverlay.hidden
+  );
+}
 
-  if (elements.cardiumReveal) {
-    elements.cardiumReveal.hidden = !isUnlocked;
-    elements.cardiumReveal.classList.toggle("is-unlocked", isUnlocked);
+function openCardiumOverlay() {
+  if (
+    !isCardiumUnlocked() ||
+    !elements.cardiumOverlay ||
+    !elements.cardiumSection
+  ) {
+    return;
   }
 
+  elements.cardiumOverlay.hidden = false;
+  elements.cardiumOverlay.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  elements.cardiumSection.hidden = false;
+
+  document.body.classList.add(
+    "cardium-open"
+  );
+
+  if (elements.cardiumLaunchButton) {
+    elements.cardiumLaunchButton.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+  }
+
+  closeCardiumFocus();
+
+  window.requestAnimationFrame(() => {
+    renderCardium({
+      preserveActiveNode: true
+    });
+    window.requestAnimationFrame(() => {
+      renderCardium({
+        preserveActiveNode: true
+      });
+    });
+  });
+
+  if (elements.cardiumOverlayClose) {
+    window.requestAnimationFrame(() => {
+      elements.cardiumOverlayClose.focus({
+        preventScroll: true
+      });
+    });
+  }
+}
+
+function closeCardiumOverlay(options = {}) {
+  if (!elements.cardiumOverlay) {
+    return;
+  }
+
+  const restoreFocus =
+    options.restoreFocus !== false;
+
+  elements.cardiumOverlay.hidden = true;
+  elements.cardiumOverlay.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
   if (elements.cardiumSection) {
-    elements.cardiumSection.hidden = !isUnlocked;
-    elements.cardiumSection.classList.toggle("is-unlocked", isUnlocked);
+    elements.cardiumSection.hidden = true;
+  }
+
+  document.body.classList.remove(
+    "cardium-open"
+  );
+
+  if (elements.cardiumLaunchButton) {
+    elements.cardiumLaunchButton.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+  }
+
+  closeCardiumFocus();
+
+  if (
+    restoreFocus &&
+    elements.cardiumLaunchButton
+  ) {
+    window.requestAnimationFrame(() => {
+      elements.cardiumLaunchButton.focus({
+        preventScroll: true
+      });
+    });
+  }
+}
+
+function syncCardiumVisibility() {
+  const isUnlocked =
+    isCardiumUnlocked();
+
+  if (elements.cardiumReveal) {
+    elements.cardiumReveal.hidden =
+      !isUnlocked;
+    elements.cardiumReveal.classList.toggle(
+      "is-unlocked",
+      isUnlocked
+    );
   }
 
   if (elements.campusArchive) {
-    elements.campusArchive.hidden = !isUnlocked;
+    elements.campusArchive.hidden =
+      !isUnlocked;
   }
 
   if (!isUnlocked) {
+    closeCardiumOverlay({
+      restoreFocus: false
+    });
     closeCardiumFocus();
   }
 }
@@ -5859,33 +5968,43 @@ state.cardiumViewModel = null;
 
 
 function handleGlobalKeydown(event) {
-if (event.key === "Escape") {
-if (state.drawerOpen) {
-closeDrawer();
-return;
-}
-
-if (
-  elements.cardiumFocus &&
-  !elements.cardiumFocus.hidden
-) {
-  closeCardiumFocus();
-  return;
-}
-
-if (state.mobileMenuOpen) {
-  closeMobileMenu();
-
-  if (elements.mobileMenuButton) {
-    elements.mobileMenuButton.focus();
+  if (
+    event.key === "Escape" &&
+    isCardiumOpen()
+  ) {
+    event.preventDefault();
+    closeCardiumOverlay();
+    return;
   }
 
-  return;
-}
+  if (event.key === "Escape") {
+    if (state.drawerOpen) {
+      closeDrawer();
+      return;
+    }
+
+    if (
+      elements.cardiumFocus &&
+      !elements.cardiumFocus.hidden
+    ) {
+      closeCardiumFocus();
+      return;
+    }
+
+    if (state.mobileMenuOpen) {
+      closeMobileMenu();
+
+      if (elements.mobileMenuButton) {
+        elements.mobileMenuButton.focus();
+      }
+
+      return;
+    }
+  }
+
+  trapDrawerFocus(event);
 }
 
-trapDrawerFocus(event);
-}
 
 function handleBackdropPointerDown(event) {
 if (
@@ -5912,6 +6031,32 @@ function initializeEvents() {
       closeDrawer();
     });
   }
+if (elements.cardiumLaunchButton) {
+  elements.cardiumLaunchButton.addEventListener(
+    "click",
+    () => {
+      openCardiumOverlay();
+    }
+  );
+}
+
+if (elements.cardiumOverlayClose) {
+  elements.cardiumOverlayClose.addEventListener(
+    "click",
+    () => {
+      closeCardiumOverlay();
+    }
+  );
+}
+
+if (elements.cardiumOverlayBackdrop) {
+  elements.cardiumOverlayBackdrop.addEventListener(
+    "click",
+    () => {
+      closeCardiumOverlay();
+    }
+  );
+}
 
   if (elements.cardiumFocusClose) {
     elements.cardiumFocusClose.addEventListener("click", closeCardiumFocus);
@@ -5945,30 +6090,37 @@ function initializeEvents() {
 
   let cardiumResizeFrame = 0;
 
-  window.addEventListener(
-    "resize",
-    () => {
-      syncMobileNavigation();
-      if (!isCardiumUnlocked() || !elements.cardiumViewport) {
-        return;
-      }
+ window.addEventListener(
+  "resize",
+  () => {
+    syncMobileNavigation();
 
-      if (cardiumResizeFrame) {
-        window.cancelAnimationFrame(cardiumResizeFrame);
-      }
+    if (
+      !isCardiumOpen() ||
+      !elements.cardiumViewport
+    ) {
+      return;
+    }
 
-      cardiumResizeFrame = window.requestAnimationFrame(() => {
+    if (cardiumResizeFrame) {
+      window.cancelAnimationFrame(
+        cardiumResizeFrame
+      );
+    }
+
+    cardiumResizeFrame =
+      window.requestAnimationFrame(() => {
         cardiumResizeFrame = 0;
 
         renderCardium({
           preserveActiveNode: true
         });
       });
-    },
-    {
-      passive: true
-    }
-  );
+  },
+  {
+    passive: true
+  }
+);
 }
 
 
