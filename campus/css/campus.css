@@ -4081,8 +4081,8 @@ CARDIUM FLOATING HUD
   position: relative;
   z-index: 12;
   isolation: isolate;
-  margin-top: -18px;
-  margin-bottom: -30px;
+  margin-top: 32px;
+  margin-bottom: 0;
   padding: 30px;
   overflow: visible;
   border: 1px solid rgba(130, 180, 175, 0.22);
@@ -4111,11 +4111,9 @@ CARDIUM FLOATING HUD
     0 12px 32px rgba(23, 45, 49, 0.07),
     0 0 84px rgba(53, 184, 144, 0.075),
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  transform:
-    translateY(-48px)
-    perspective(1200px)
-    rotateX(0.35deg);
+  transform: perspective(1200px) rotateX(0.35deg);
 }
+
 
 .cardium-section::before {
   content: "";
@@ -4810,7 +4808,6 @@ CARDIUM TABLET
     margin-bottom: -24px;
     padding: 25px;
     transform:
-      translateY(-38px)
       perspective(1200px)
       rotateX(0.25deg);
   }
@@ -4849,7 +4846,6 @@ CARDIUM MOBILE
     margin-bottom: -18px;
     padding: 15px;
     border-radius: 20px;
-    transform: translateY(-28px);
     backdrop-filter:
       blur(10px)
       saturate(1.05);
