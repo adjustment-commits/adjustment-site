@@ -4731,3 +4731,585 @@ CARDIUM FOCUS
     transform: none;
   }
 }
+
+/* =========================================================
+CARDIUM WORLD OVERRIDE
+========================================================= */
+
+.cardium-section {
+  position: relative;
+  isolation: isolate;
+  margin-top: 48px;
+  padding: 34px;
+  overflow: hidden;
+  border: 1px solid rgba(108, 139, 147, 0.34);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 50% 34%,
+      rgba(74, 191, 157, 0.12) 0%,
+      rgba(74, 191, 157, 0.035) 28%,
+      transparent 54%
+    ),
+    linear-gradient(
+      145deg,
+      #edf3f2 0%,
+      #e7efee 46%,
+      #eef3f4 100%
+    );
+  box-shadow:
+    0 24px 54px rgba(26, 39, 48, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.cardium-section::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(
+      rgba(70, 104, 111, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(70, 104, 111, 0.035) 1px,
+      transparent 1px
+    );
+  background-size: 42px 42px;
+  mask-image:
+    radial-gradient(
+      circle at 50% 45%,
+      #000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 82%
+    );
+  -webkit-mask-image:
+    radial-gradient(
+      circle at 50% 45%,
+      #000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 82%
+    );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.cardium-section::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -220px;
+  left: 50%;
+  width: 720px;
+  height: 720px;
+  border: 1px solid rgba(53, 184, 144, 0.08);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow:
+    0 0 0 90px rgba(53, 184, 144, 0.018),
+    0 0 0 180px rgba(53, 184, 144, 0.012);
+  pointer-events: none;
+}
+
+.cardium-section .section-heading {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 26px;
+}
+
+.cardium-section .eyebrow {
+  color: #176a56;
+}
+
+.cardium-section .section-heading h2 {
+  color: #17262a;
+}
+
+.cardium-section .section-heading > p:last-child {
+  color: #65767b;
+}
+
+/* ———————————————————
+CARDIUM VIEWPORT
+——————————————————— */
+
+.cardium-viewport {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid rgba(106, 139, 147, 0.32);
+  border-radius: 21px;
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(53, 184, 144, 0.16) 0%,
+      rgba(53, 184, 144, 0.065) 17%,
+      rgba(53, 184, 144, 0.018) 34%,
+      transparent 57%
+    ),
+    radial-gradient(
+      circle at 20% 16%,
+      rgba(72, 122, 156, 0.07) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 84% 82%,
+      rgba(47, 115, 200, 0.055) 0%,
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #e8efef 0%,
+      #f1f5f4 48%,
+      #e6eeef 100%
+    );
+  box-shadow:
+    inset 0 0 80px rgba(36, 65, 70, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.cardium-viewport::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: min(62vw, 720px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(53, 184, 144, 0.075);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 72px rgba(53, 184, 144, 0.018),
+    0 0 0 144px rgba(53, 184, 144, 0.012);
+  pointer-events: none;
+}
+
+.cardium-viewport::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.24) 38%,
+      transparent 62%
+    );
+  pointer-events: none;
+}
+
+/* ———————————————————
+CONNECTIONS
+——————————————————— */
+
+.cardium-connections {
+  z-index: 1;
+  opacity: 0.72;
+}
+
+.cardium-connection {
+  fill: none;
+  stroke: rgba(95, 122, 130, 0.38);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  transition:
+    stroke 180ms ease,
+    stroke-width 180ms ease,
+    opacity 180ms ease;
+}
+
+.cardium-connection.is-primary {
+  stroke: rgba(53, 184, 144, 0.76);
+  stroke-width: 1.8;
+}
+
+.cardium-connection.is-active-path {
+  stroke: #188766;
+  stroke-width: 2.8;
+  opacity: 1;
+}
+
+/* ———————————————————
+NODES
+——————————————————— */
+
+.cardium-nodes {
+  z-index: 2;
+}
+
+.cardium-node {
+  position: absolute;
+  width: 150px;
+  min-height: 74px;
+  padding: 14px 16px;
+  border: 1px solid rgba(119, 145, 151, 0.56);
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(244, 248, 248, 0.82) 100%
+    );
+  color: #1d292d;
+  box-shadow:
+    0 8px 22px rgba(31, 52, 57, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.cardium-node:hover,
+.cardium-node:focus-visible {
+  z-index: 5;
+  border-color: #35b890;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(239, 249, 245, 0.96)
+    );
+  box-shadow:
+    0 16px 34px rgba(31, 52, 57, 0.14),
+    0 0 0 1px rgba(53, 184, 144, 0.12),
+    0 0 30px rgba(53, 184, 144, 0.11);
+}
+
+.cardium-node.is-active {
+  border-color: rgba(53, 184, 144, 0.74);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(248, 255, 252, 0.96),
+      rgba(231, 247, 241, 0.92)
+    );
+}
+
+.cardium-node.is-active-path {
+  border-color: #35b890;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(250, 255, 253, 0.98),
+      rgba(230, 247, 241, 0.96)
+    );
+  box-shadow:
+    0 11px 27px rgba(31, 52, 57, 0.11),
+    0 0 0 1px rgba(53, 184, 144, 0.12),
+    0 0 24px rgba(53, 184, 144, 0.10);
+}
+
+.cardium-node.is-current {
+  z-index: 4;
+  border-color: #146c54;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 1),
+      rgba(230, 246, 240, 0.98)
+    );
+  box-shadow:
+    0 16px 38px rgba(26, 57, 50, 0.16),
+    0 0 0 2px rgba(53, 184, 144, 0.17),
+    0 0 38px rgba(53, 184, 144, 0.13);
+}
+
+/* ———————————————————
+CENTER PHENOMENON
+——————————————————— */
+
+.cardium-node.is-center {
+  width: 184px;
+  min-height: 96px;
+  border: 1px solid #176d57;
+  border-radius: 19px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(53, 184, 144, 0.12),
+      transparent 58%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 1),
+      rgba(238, 249, 245, 0.98)
+    );
+  box-shadow:
+    0 18px 42px rgba(23, 73, 61, 0.17),
+    0 0 0 1px rgba(53, 184, 144, 0.12),
+    0 0 46px rgba(53, 184, 144, 0.14);
+}
+
+.cardium-node.is-center::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 128%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(53, 184, 144, 0.12);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cardium-node.is-center .cardium-node-type {
+  color: #47716a;
+}
+
+.cardium-node.is-center .cardium-node-title {
+  color: #152723;
+  font-size: 1rem;
+  font-weight: 780;
+}
+
+/* ———————————————————
+NODE TYPOGRAPHY
+——————————————————— */
+
+.cardium-node-type {
+  color: #718287;
+  font-size: 0.64rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
+}
+
+.cardium-node-title {
+  color: #233136;
+  font-size: 0.87rem;
+  font-weight: 760;
+}
+
+/* Topic */
+
+.cardium-node[data-type="topic"] {
+  border-color: rgba(47, 115, 200, 0.48);
+}
+
+.cardium-node[data-type="topic"] .cardium-node-type {
+  color: #55748e;
+}
+
+/* Research */
+
+.cardium-node[data-type="research"] {
+  border-color: rgba(117, 88, 184, 0.52);
+}
+
+/* PDS */
+
+.cardium-node[data-type="pds"] {
+  border-color: rgba(44, 155, 112, 0.55);
+}
+
+/* Case */
+
+.cardium-node[data-type="case"] {
+  border-color: rgba(200, 117, 35, 0.52);
+}
+
+/* Dictionary */
+
+.cardium-node[data-type="dictionary"] {
+  border-color: rgba(111, 123, 132, 0.52);
+}
+
+/* ———————————————————
+FOCUS PANEL
+——————————————————— */
+
+.cardium-focus {
+  z-index: 2;
+  margin-top: 18px;
+  border-color: rgba(104, 137, 143, 0.34);
+  background:
+    radial-gradient(
+      circle at 92% 20%,
+      rgba(53, 184, 144, 0.08),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(235, 243, 241, 0.98) 0%,
+      rgba(247, 250, 249, 0.98) 54%,
+      rgba(232, 240, 240, 0.98) 100%
+    );
+  box-shadow:
+    0 14px 32px rgba(26, 48, 52, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.cardium-focus::after {
+  border-color: rgba(53, 184, 144, 0.12);
+}
+
+.cardium-focus-close {
+  border-color: rgba(116, 143, 149, 0.35);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.cardium-focus-meta-item {
+  border-color: rgba(116, 143, 149, 0.32);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.cardium-focus-actions {
+  border-top-color: rgba(116, 143, 149, 0.22);
+}
+
+/* ———————————————————
+EMPTY STATE
+——————————————————— */
+
+.cardium-empty {
+  border-color: rgba(109, 138, 145, 0.46);
+  background: rgba(238, 245, 243, 0.88);
+  color: #65777c;
+  box-shadow: 0 12px 30px rgba(31, 52, 57, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ———————————————————
+TABLET
+——————————————————— */
+
+@media (max-width: 900px) {
+  .cardium-section {
+    padding: 26px;
+  }
+
+  .cardium-viewport {
+    min-height: 520px;
+  }
+
+  .cardium-viewport::before {
+    width: 620px;
+  }
+}
+
+/* ———————————————————
+MOBILE
+——————————————————— */
+
+@media (max-width: 700px) {
+  .cardium-section {
+    margin-top: 32px;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .cardium-section::before {
+    background-size: 32px 32px;
+  }
+
+  .cardium-section::after {
+    top: -170px;
+    width: 520px;
+    height: 520px;
+  }
+
+  .cardium-viewport {
+    min-height: 480px;
+    border-radius: 16px;
+  }
+
+  .cardium-viewport::before {
+    width: 480px;
+    box-shadow:
+      0 0 0 54px rgba(53, 184, 144, 0.016),
+      0 0 0 108px rgba(53, 184, 144, 0.01);
+  }
+
+  .cardium-node {
+    width: 112px;
+    min-height: 62px;
+    padding: 10px;
+    border-radius: 13px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .cardium-node.is-center {
+    width: 140px;
+    min-height: 78px;
+    border-radius: 16px;
+  }
+
+  .cardium-node.is-center::before {
+    width: 118%;
+  }
+
+  .cardium-node-type {
+    font-size: 0.56rem;
+  }
+
+  .cardium-node-title {
+    font-size: 0.73rem;
+  }
+
+  .cardium-node.is-center .cardium-node-title {
+    font-size: 0.83rem;
+  }
+
+  .cardium-focus {
+    margin-top: 14px;
+  }
+}
+
+/* ———————————————————
+SMALL MOBILE
+——————————————————— */
+
+@media (max-width: 420px) {
+  .cardium-section {
+    padding: 14px;
+  }
+
+  .cardium-viewport {
+    min-height: 450px;
+  }
+
+  .cardium-viewport::before {
+    width: 410px;
+  }
+
+  .cardium-node {
+    width: 100px;
+    min-height: 58px;
+    padding: 9px;
+  }
+
+  .cardium-node.is-center {
+    width: 128px;
+    min-height: 72px;
+  }
+}
+
+/* ———————————————————
+TOUCH
+——————————————————— */
+
+@media (hover: none) {
+  .cardium-node:hover {
+    box-shadow:
+      0 8px 22px rgba(31, 52, 57, 0.075),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    transform: translate(-50%, -50%);
+  }
+
+  .cardium-node.is-current {
+    box-shadow:
+      0 16px 38px rgba(26, 57, 50, 0.16),
+      0 0 0 2px rgba(53, 184, 144, 0.17),
+      0 0 38px rgba(53, 184, 144, 0.13);
+  }
+}
