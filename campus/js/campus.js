@@ -1210,7 +1210,7 @@ function selectCardiumExplorationNode(nodeId) {
   return true;
 }
 
-function getCardiumExplorationChildren(nodeId) {
+const getFilteredCardiumNeighbors = (nodeId) => {
   const normalizedNodeId = normalizeString(nodeId);
 
   if (!normalizedNodeId) {
@@ -1229,6 +1229,7 @@ function getCardiumExplorationChildren(nodeId) {
 
   return getCardiumNeighborEntries(normalizedNodeId).filter((entry) => {
     const childNodeId = entry.node.id;
+    const childNode = entry.node;
 
     if (childNodeId === previousNodeId) {
       return false;
@@ -1238,9 +1239,17 @@ function getCardiumExplorationChildren(nodeId) {
       return false;
     }
 
+    if (
+      childNode.kind === "phenomenon" &&
+      childNode.entityId !== state.activePhenomenonId
+    ) {
+      return false;
+    }
+
     return true;
   });
-}
+};
+
 
 
 function buildCardiumViewModel(centerNodeId) {
