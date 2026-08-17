@@ -5581,3 +5581,41 @@ Thinking Flow -> Cardium -> Archive
     transition: none;
   }
 }
+
+/* =========================================================
+CARDIUM FOCUS FINAL OVERRIDE
+========================================================= */
+
+@media (max-width: 700px) {
+.cardium-overlay .cardium-focus {
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+width: 100%;
+max-height: none;
+height: 100%;
+margin: 0;
+
+overflow-x: hidden;
+overflow-y: auto;
+
+border-radius: 16px;
+transform: none;
+}
+}
+
+@media (max-width: 420px) {
+.cardium-overlay .cardium-focus {
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+width: 100%;
+max-height: none;
+height: 100%;
+margin: 0;
+
+border-radius: 14px;
+}
+}
