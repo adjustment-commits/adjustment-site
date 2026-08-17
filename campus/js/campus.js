@@ -1785,8 +1785,7 @@ const isCurrentNode =
 node.id === state.activeCardiumNodeId;
 
 nodePositions.set(node.id, { x, y });
-
-  return (
+return (
   '<button' +
   ' class="cardium-node' +
   (isCenter ? ' is-center' : '') +
@@ -1816,9 +1815,11 @@ nodePositions.set(node.id, { x, y });
   '"' +
   '>' +
   '<span class="cardium-node-inner">' +
-  '<span class="cardium-node-type">' +
-  escapeHtml(typeLabel) +
-  '</span>' +
+  (node.kind !== "topic"
+    ? '<span class="cardium-node-type">' +
+      escapeHtml(typeLabel) +
+      '</span>'
+    : '') +
   '<span class="cardium-node-title">' +
   escapeHtml(title) +
   '</span>' +
@@ -1830,7 +1831,7 @@ nodePositions.set(node.id, { x, y });
   '</span>' +
   '</button>'
 );
-};
+
 
 
 const nodeHtml = [];
