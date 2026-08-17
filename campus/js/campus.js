@@ -1326,9 +1326,9 @@ function buildCardiumViewModel(centerNodeId) {
         }
       });
 
-      if (!ring3EntryParentCheck(ring2Entry.parentNodeIds, parentNodeId)) {
-        ring2Entry.parentNodeIds.push(parentNodeId);
-      }
+      if (!ring2Entry.parentNodeIds.includes(parentNodeId)) {
+ring2Entry.parentNodeIds.push(parentNodeId);
+}
     });
   });
 
