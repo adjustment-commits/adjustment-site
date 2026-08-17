@@ -1831,6 +1831,7 @@ return (
   '</span>' +
   '</button>'
 );
+};
 
 
 
