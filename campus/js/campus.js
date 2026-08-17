@@ -6279,3 +6279,58 @@ once:true
 initialize();
 }
 })();
+
+.cardium-node {
+transition:
+opacity 180ms ease,
+filter 180ms ease,
+transform 180ms ease,
+border-color 180ms ease,
+box-shadow 180ms ease;
+}
+
+.cardium-node.is-dimmed {
+opacity:0.34;
+filter:saturate(0.55);
+}
+
+.cardium-node.is-active-path {
+opacity:1;
+filter:none;
+}
+
+.cardium-node.is-current {
+z-index:6;
+opacity:1;
+filter:none;
+box-shadow:
+0 0 0 1px rgba(104,245,255,0.34),
+0 0 24px rgba(104,245,255,0.20),
+0 14px 32px rgba(0,0,0,0.34);
+}
+
+.cardium-node.is-current .cardium-node-inner {
+transform:scale(1.035);
+}
+
+.cardium-connection {
+transition:
+opacity 180ms ease,
+stroke 180ms ease,
+stroke-width 180ms ease;
+}
+
+.cardium-connection.is-dimmed {
+opacity:0.16;
+}
+
+.cardium-connection.is-active-path {
+opacity:1;
+stroke:rgba(104,245,255,0.88);
+stroke-width:2;
+}
+
+.cardium-node.is-center.is-active-path {
+opacity:1;
+filter:none;
+}
