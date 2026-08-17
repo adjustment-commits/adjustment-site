@@ -1250,7 +1250,17 @@ const getFilteredCardiumNeighbors = (nodeId) => {
   });
 };
 
+function getCardiumExplorationChildren(nodeId) {
+const normalizedNodeId = normalizeString(nodeId);
 
+if (!normalizedNodeId) {
+return [];
+}
+
+return sortCardiumEntries(
+getFilteredCardiumNeighbors(normalizedNodeId)
+);
+}
 
 function buildCardiumViewModel(centerNodeId) {
   const center = getCardiumNodeById(centerNodeId);
@@ -1260,6 +1270,7 @@ function buildCardiumViewModel(centerNodeId) {
       center: null,
       ring1: [],
       ring2: [],
+      ring3: [],
       visibleNodeIds: [],
       visibleConnectionIds: [],
       activeNodeIds: [],
@@ -1267,22 +1278,19 @@ function buildCardiumViewModel(centerNodeId) {
     };
   }
 
+  // --- Ring 1 ---
   const ring1 = limitCardiumEntries(
-    getCardiumNeighborEntries(center.id),
+    getFilteredCardiumNeighbors(center.id),
     CARDIUM_LIMITS.ring1
   );
+  const ring1NodeIds = new Set(ring1.map((entry) => entry.node.id));
 
-  const ring1NodeIds = new Set(
-    ring1.map((entry) => entry.node.id)
-  );
-
+  // --- Ring 2 ---
   const ring2Map = new Map();
 
   ring1.forEach((parentEntry) => {
     const parentNodeId = parentEntry.node.id;
-    const shouldExpand =
-      isCardiumNodeExpanded(parentNodeId) ||
-      isCardiumNodeOnActivePath(parentNodeId);
+    const shouldExpand = isCardiumNodeExpanded(parentNodeId) || isCardiumNodeOnActivePath(parentNodeId);
 
     if (!shouldExpand) {
       return;
@@ -1318,7 +1326,7 @@ function buildCardiumViewModel(centerNodeId) {
         }
       });
 
-      if (!ring2Entry.parentNodeIds.includes(parentNodeId)) {
+      if (!ring3EntryParentCheck(ring2Entry.parentNodeIds, parentNodeId)) {
         ring2Entry.parentNodeIds.push(parentNodeId);
       }
     });
@@ -1328,26 +1336,79 @@ function buildCardiumViewModel(centerNodeId) {
     Array.from(ring2Map.values()),
     CARDIUM_LIMITS.ring2
   );
+  const ring2NodeIds = new Set(ring2.map((entry) => entry.node.id));
 
+  // --- Ring 3 ---
+  const ring3Map = new Map();
+
+  ring2.forEach((parentEntry) => {
+    const parentNodeId = parentEntry.node.id;
+    const shouldExpand = isCardiumNodeExpanded(parentNodeId) || isCardiumNodeOnActivePath(parentNodeId);
+
+    if (!shouldExpand) {
+      return;
+    }
+
+    getCardiumExplorationChildren(parentNodeId).forEach((entry) => {
+      const nodeId = entry.node.id;
+
+      if (nodeId === center.id || ring1NodeIds.has(nodeId) || ring2NodeIds.has(nodeId)) {
+        return;
+      }
+
+      if (!ring3Map.has(nodeId)) {
+        ring3Map.set(nodeId, {
+          node: entry.node,
+          relations: [],
+          connectionIds: [],
+          parentNodeIds: []
+        });
+      }
+
+      const ring3Entry = ring3Map.get(nodeId);
+
+      entry.relations.forEach((relation) => {
+        if (!ring3Entry.relations.includes(relation)) {
+          ring3Entry.relations.push(relation);
+        }
+      });
+
+      entry.connectionIds.forEach((connectionId) => {
+        if (!ring3Entry.connectionIds.includes(connectionId)) {
+          ring3Entry.connectionIds.push(connectionId);
+        }
+      });
+
+      if (!ring3Entry.parentNodeIds.includes(parentNodeId)) {
+        ring3Entry.parentNodeIds.push(parentNodeId);
+      }
+    });
+  });
+
+  const ring3Limit = CARDIUM_LIMITS && Number.isFinite(CARDIUM_LIMITS.ring3)
+    ? CARDIUM_LIMITS.ring3
+    : 8;
+
+  const ring3 = limitCardiumEntries(
+    Array.from(ring3Map.values()),
+    ring3Limit
+  );
+
+  // --- Visible Nodes & Connections ---
   const visibleNodeIds = [
     center.id,
     ...ring1.map((entry) => entry.node.id),
-    ...ring2.map((entry) => entry.node.id)
+    ...ring2.map((entry) => entry.node.id),
+    ...ring3.map((entry) => entry.node.id)
   ];
 
   const visibleNodeIdSet = new Set(visibleNodeIds);
 
-  const visibleConnectionIds =
-    state.cardiumGraph && Array.isArray(state.cardiumGraph.connections)
-      ? state.cardiumGraph.connections
-          .filter((connection) => {
-            return (
-              visibleNodeIdSet.has(connection.source) &&
-              visibleNodeIdSet.has(connection.target)
-            );
-          })
-          .map((connection) => connection.id)
-      : [];
+  const visibleConnectionIds = state.cardiumGraph && Array.isArray(state.cardiumGraph.connections)
+    ? state.cardiumGraph.connections
+        .filter((connection) => visibleNodeIdSet.has(connection.source) && visibleNodeIdSet.has(connection.target))
+        .map((connection) => connection.id)
+    : [];
 
   const activeNodeIds = Array.isArray(state.activeCardiumPath)
     ? [...state.activeCardiumPath]
@@ -1359,6 +1420,7 @@ function buildCardiumViewModel(centerNodeId) {
     center,
     ring1,
     ring2,
+    ring3,
     visibleNodeIds,
     visibleConnectionIds,
     activeNodeIds,
@@ -1456,7 +1518,7 @@ function getCardiumFocusActionLabel(node) {
 
   const labelMap = {
     phenomenon: "この現象から考える",
-    topic: "この概念を中心に探索する",
+    topic: "この概念から思考の枝を展開する",
     content: "資料を開く"
   };
 
@@ -1639,15 +1701,16 @@ function activateCardiumFocusNode(nodeId) {
     return;
   }
 
-if (node.kind === "topic") {
+if (node.kind === "topic") {if (!selectCardiumExplorationNode(node.id)) {
+return;
+}
+
 state.activeTopicId = node.entityId;
 state.selectedContentId = "";
 
-resetCardiumExploration(node.id);
-
 updateUrlState({
-topic: node.entityId,
-content: ""
+    topic: node.entityId,
+    content: ""
 });
 
 closeCardiumFocus();
@@ -1722,9 +1785,21 @@ if (!viewModel || !viewModel.center) {
   );
 
   const ring2Radius = Math.min(
-    viewportWidth * 0.43,
-    viewportHeight * 0.43
-  );
+viewportWidth * 0.43,
+viewportHeight * 0.43
+);
+
+const ring3RadiusX =
+Math.max(
+ring2Radius + 110,
+viewportWidth * 0.46
+);
+
+const ring3RadiusY =
+Math.max(
+ring2Radius + 70,
+viewportHeight * 0.39
+);
 
   const nodePositions = new Map();
 
@@ -1904,31 +1979,53 @@ viewModel.ring2.forEach((entry, index) => {
   const angle =
     ring2Count === 1
       ? Math.PI / 2
-      : -Math.PI / 2 +
-        (Math.PI * 2 * index) / ring2Count;
+      : -Math.PI / 2 + (Math.PI * 2 * index) / ring2Count;
 
-  const x =
-    centerX +
-    Math.cos(angle) * ring2Radius;
-
-  const y =
-    centerY +
-    Math.sin(angle) * ring2Radius;
+  const x = centerX + Math.cos(angle) * ring2Radius;
+  const y = centerY + Math.sin(angle) * ring2Radius;
 
   nodeHtml.push(
-    createNodeHtml(
-      entry.node,
-      x,
-      y,
-      {
-        ring: "ring2"
-      }
-    )
+    createNodeHtml(entry.node, x, y, {
+      ring: "ring2"
+    })
   );
 });
 
-elements.cardiumNodes.innerHTML =
-  nodeHtml.join("");
+// Ring 3 nodes
+const ring3 = Array.isArray(viewModel.ring3) ? viewModel.ring3 : [];
+const ring3Count = ring3.length;
+
+ring3.forEach((entry, index) => {
+  const angle =
+    ring3Count === 1
+      ? 0
+      : -Math.PI / 2 + Math.PI / ring3Count + (Math.PI * 2 * index) / ring3Count;
+
+  let x = centerX + Math.cos(angle) * ring3RadiusX;
+  let y = centerY + Math.sin(angle) * ring3RadiusY;
+
+  const horizontalPadding = viewportWidth <= 700 ? 58 : 82;
+  const verticalPadding = viewportWidth <= 700 ? 38 : 46;
+
+  x = Math.max(
+    horizontalPadding,
+    Math.min(viewportWidth - horizontalPadding, x)
+  );
+
+  y = Math.max(
+    verticalPadding,
+    Math.min(viewportHeight - verticalPadding, y)
+  );
+
+  nodeHtml.push(
+    createNodeHtml(entry.node, x, y, {
+      ring: "ring3"
+    })
+  );
+});
+
+elements.cardiumNodes.innerHTML = nodeHtml.join("");
+
 
 // Connection lines
 if (elements.cardiumConnections) {
@@ -2055,6 +2152,15 @@ event.stopPropagation();
 
     if (!node) {
       return;
+    }
+ if (node.id !== viewModel.center.id) {
+      const didSelect = selectCardiumExplorationNode(node.id);
+
+      if (didSelect) {
+        renderCardium({
+          preserveActiveNode: true
+        });
+      }
     }
 
     renderCardiumFocus(
