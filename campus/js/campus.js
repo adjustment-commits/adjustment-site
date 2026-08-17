@@ -1576,9 +1576,17 @@ function renderCardiumFocus(nodeId) {
   const typeLabel = getCardiumFocusType(node);
   const dataType = getCardiumFocusDataType(node);
   const title = normalizeString(node.title || node.label, "UNTITLED");
-  const summary = normalizeString(node.summary);
+
+  let summary = normalizeString(node.summary);
+
+  if (node.kind === "topic" && !summary) {
+    const topic = getTopicById(node.entityId);
+    summary = normalizeString(topic?.summary);
+  }
+
   const metaItems = buildCardiumFocusMeta(node);
   const actionLabel = getCardiumFocusActionLabel(node);
+
 
   elements.cardiumFocus.hidden = false;
 
@@ -2028,11 +2036,20 @@ elements.cardiumNodes
 .forEach((button) => {
 button.addEventListener(
 "click",
-() => {
-const nodeId =
-normalizeString(
-button.dataset.cardiumNodeId
-);
+(event) => {
+event.preventDefault();
+event.stopPropagation();
+    const nodeId =
+      normalizeString(
+        button.getAttribute(
+          "data-cardium-node-id"
+        )
+      );
+
+    if (!nodeId) {
+      return;
+    }
+
     const node =
       getCardiumNodeById(nodeId);
 
@@ -2040,11 +2057,14 @@ button.dataset.cardiumNodeId
       return;
     }
 
-    renderCardiumFocus(nodeId);
+    renderCardiumFocus(
+      node.id
+    );
   }
 );
   });
 }
+  
   
 function formatTypeLabel(type) {
   return (
