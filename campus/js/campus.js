@@ -591,82 +591,101 @@ function buildCardiumGraph(data) {
     return connection;
   };
 
-  normalizeArray(data.topics).forEach((topic) => {
-    const entityId = normalizeString(topic.id);
+// 1. 現象（phenomena）ノードの追加
+normalizeArray(data.phenomena).forEach((phenomenon) => {
+  const entityId = normalizeString(phenomenon.id);
+  if (!entityId) {
+    return;
+  }
 
-    if (!entityId) {
-      return;
-    }
-
-    addNode({
-      id: createCardiumNodeId(
-        "topic",
-        entityId
-      ),
-      entityId,
-      kind: "topic",
-      subtype: topic.category,
-      label: topic.label,
-      title: topic.label,
-      summary: topic.summary,
-      code: "",
-      category: topic.category
-    });
+  addNode({
+    id: createCardiumNodeId("phenomenon", entityId),
+    entityId,
+    kind: "phenomenon",
+    subtype: "",
+    label: phenomenon.label,
+    title: phenomenon.label,
+    summary: phenomenon.summary,
+    code: phenomenon.code,
+    category: ""
   });
+});
 
-  normalizeArray(data.contents).forEach((content) => {
-    const entityId = normalizeString(content.id);
-    if (!entityId) {
-      return;
-    }
+// 2. トピック（topics）ノードの追加
+normalizeArray(data.topics).forEach((topic) => {
+  const entityId = normalizeString(topic.id);
+  if (!entityId) {
+    return;
+  }
 
-    addNode({
-      id: createCardiumNodeId(
-        "content",
-        entityId
-      ),
-      entityId,
-      kind: "content",
-      subtype: content.type,
-      label: content.title,
-      title: content.title,
-      summary: content.summary,
-      code: content.code,
-      category: content.type
-    });
+  addNode({
+    id: createCardiumNodeId("topic", entityId),
+    entityId,
+    kind: "topic",
+    subtype: topic.category,
+    label: topic.label,
+    title: topic.label,
+    summary: topic.summary,
+    code: "",
+    category: topic.category
   });
+});
 
-  normalizeArray(data.topics).forEach((topic) => {
-    const topicNodeId = createCardiumNodeId(
-      "topic",
-      topic.id
+// 3. コンテンツ（contents）ノードの追加
+normalizeArray(data.contents).forEach((content) => {
+  const entityId = normalizeString(content.id);
+  if (!entityId) {
+    return;
+  }
+
+  addNode({
+    id: createCardiumNodeId("content", entityId),
+    entityId,
+    kind: "content",
+    subtype: content.type,
+    label: content.title,
+    title: content.title,
+    summary: content.summary,
+    code: content.code,
+    category: content.type
+  });
+});
+
+// 4. 現象 -> トピック の接続構築
+normalizeArray(data.phenomena).forEach((phenomenon) => {
+  const phenomenonNodeId = createCardiumNodeId("phenomenon", phenomenon.id);
+  
+  normalizeArray(phenomenon.relatedTopicIds).forEach((topicId) => {
+    addConnection(
+      phenomenonNodeId,
+      createCardiumNodeId("topic", topicId),
+      "phenomenon-topic"
     );
-    normalizeArray(
-      topic.relatedTopicIds
-    ).forEach((relatedTopicId) => {
-      addConnection(
-        topicNodeId,
-        createCardiumNodeId(
-          "topic",
-          relatedTopicId
-        ),
-        "topic-topic"
-      );
-    });
-
-    normalizeArray(
-      topic.relatedContentIds
-    ).forEach((contentId) => {
-      addConnection(
-        topicNodeId,
-        createCardiumNodeId(
-          "content",
-          contentId
-        ),
-        "topic-content"
-      );
-    });
   });
+});
+
+// 5. トピック -> 関連トピック / 関連コンテンツ の接続構築
+normalizeArray(data.topics).forEach((topic) => {
+  const topicNodeId = createCardiumNodeId("topic", topic.id);
+
+  // トピック -> 関連トピック
+  normalizeArray(topic.relatedTopicIds).forEach((relatedTopicId) => {
+    addConnection(
+      topicNodeId,
+      createCardiumNodeId("topic", relatedTopicId),
+      "topic-topic"
+    );
+  });
+
+  // トピック -> 関連コンテンツ
+  normalizeArray(topic.relatedContentIds).forEach((contentId) => {
+    addConnection(
+      topicNodeId,
+      createCardiumNodeId("content", contentId),
+      "topic-content"
+    );
+  });
+});
 
   normalizeArray(data.contents).forEach((content) => {
     const contentNodeId = createCardiumNodeId(
@@ -1342,34 +1361,18 @@ function buildCardiumViewModel(centerNodeId) {
 
 
 function resolveCardiumCenterNodeId() {
-  if (state.selectedContentId) {
-    const contentNode = getCardiumNode("content", state.selectedContentId);
-    if (contentNode) {
-      return contentNode.id;
-    }
-  }
+if (!state.activePhenomenonId) {
+return "";
+}
 
-  if (state.activeTopicId) {
-    const topicNode = getCardiumNode("topic", state.activeTopicId);
-    if (topicNode) {
-      return topicNode.id;
-    }
-  }
+const phenomenonNode = getCardiumNode(
+"phenomenon",
+state.activePhenomenonId
+);
 
-  if (state.activePhenomenonId) {
-    const phenomenon = getPhenomenonById(state.activePhenomenonId);
-    const firstTopicId = normalizeArray(phenomenon?.relatedTopicIds).find(
-      (topicId) => {
-        return Boolean(getCardiumNode("topic", topicId));
-      }
-    );
-
-    if (firstTopicId) {
-      return createCardiumNodeId("topic", firstTopicId);
-    }
-  }
-
-  return "";
+return phenomenonNode
+? phenomenonNode.id
+: "";
 }
 
 
