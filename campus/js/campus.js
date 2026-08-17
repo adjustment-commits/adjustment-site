@@ -1876,14 +1876,25 @@ node.id
 const isCurrentNode =
 node.id === state.activeCardiumNodeId;
 
+const hasActiveExploration =
+Array.isArray(viewModel.activeNodeIds) &&
+viewModel.activeNodeIds.length > 1;
+
+const isDimmedNode =
+hasActiveExploration &&
+!isActiveNode &&
+!isCenter;
+
 nodePositions.set(node.id, { x, y });
 return (
   '<button' +
   ' class="cardium-node' +
-  (isCenter ? ' is-center' : '') +
-  (isActiveNode ? ' is-active-path' : '') +
-  (isCurrentNode ? ' is-current' : '') +
-  '"' +
+(isCenter ? ' is-center' : '') +
+(isActiveNode ? ' is-active-path' : '') +
+(isCurrentNode ? ' is-current' : '') +
+(isDimmedNode ? ' is-dimmed' : '') +
+'"' +
+
   ' type="button"' +
   ' data-cardium-node-id="' +
   escapeHtml(node.id) +
@@ -2084,27 +2095,25 @@ if (elements.cardiumConnections) {
           connection.target ===
             viewModel.center.id;
 
-        const isActiveConnection =
-          activeConnectionIdSet.has(
-            connection.id
-          );
+        const isActiveConnection = activeConnectionIdSet.has(connection.id);
 
-        const primaryClass =
-          isPrimary
-            ? " is-primary"
-            : "";
+const hasActiveExploration =
+  Array.isArray(viewModel.activeNodeIds) && viewModel.activeNodeIds.length > 1;
 
-        const activeClass =
-          isActiveConnection
-            ? " is-active-path"
-            : "";
+const isDimmedConnection = hasActiveExploration && !isActiveConnection;
+
+const primaryClass = isPrimary ? " is-primary" : "";
+const activeClass = isActiveConnection ? " is-active-path" : "";
+const dimmedClass = isDimmedConnection ? " is-dimmed" : "";
+
 
         return (
           '<line' +
           ' class="cardium-connection' +
-          primaryClass +
-          activeClass +
-          '"' +
+primaryClass +
+activeClass +
+dimmedClass +
+'"' +
           ' x1="' +
           sourcePosition.x.toFixed(2) +
           '"' +
