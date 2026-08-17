@@ -2022,40 +2022,27 @@ if (elements.cardiumConnections) {
 
 // Bind Cardium node events
 elements.cardiumNodes
-  .querySelectorAll(
-    "[data-cardium-node-id]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        const nodeId =
-          normalizeString(
-            button.dataset.cardiumNodeId
-          );
-        const node =
-          getCardiumNodeById(nodeId);
+.querySelectorAll(
+"[data-cardium-node-id]"
+)
+.forEach((button) => {
+button.addEventListener(
+"click",
+() => {
+const nodeId =
+normalizeString(
+button.dataset.cardiumNodeId
+);
+    const node =
+      getCardiumNodeById(nodeId);
 
-        if (!node) {
-          return;
-        }
+    if (!node) {
+      return;
+    }
 
-        const explorationUpdated =
-          selectCardiumExplorationNode(
-            nodeId
-          );
-
-        if (!explorationUpdated) {
-          return;
-        }
-
-        renderCardium({
-          preserveActiveNode: true
-        });
-
-        renderCardiumFocus(nodeId);
-      }
-    );
+    renderCardiumFocus(nodeId);
+  }
+);
   });
 }
   
