@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>adjustmentの原理原則｜整-adjustment-</title>
-<meta name="description" content="adjustmentが選手を見るときの3本柱「荷重利用・運動順序・加速距離」と、現場で用いる原理原則。">
+<meta name="description" content="adjustmentの哲学、選手を見るための3本柱「荷重利用・運動順序・加速距離」、現場で使う技術原則をまとめています。">
 <meta name="theme-color" content="#ffffff">
 <link rel="manifest" href="../manifest.json">
 <link rel="apple-touch-icon" sizes="192x192" href="../assets/icon-192.png">
@@ -19,8 +19,8 @@
 :root {
   --bg: #ffffff;
   --text: #171717;
-  --sub: #72726d;
-  --line: #d8d8d2;
+  --sub: #74746f;
+  --line: #d9d9d3;
   --soft: #f5f5f1;
   --accent: #13856b;
   --max: 920px;
@@ -89,7 +89,7 @@ a {
 .hero {
   width: min(calc(100% - 40px), var(--max));
   margin: 0 auto;
-  padding: 58px 0 72px;
+  padding: 58px 0 76px;
 }
 
 .hero h1 {
@@ -101,10 +101,10 @@ a {
 }
 
 .hero p {
-  max-width: 690px;
+  max-width: 700px;
   margin: 26px 0 0;
-  font-size: 0.96rem;
   color: #373734;
+  font-size: 0.96rem;
 }
 
 .hero-note {
@@ -121,7 +121,7 @@ main {
 }
 
 .section {
-  padding: 0 0 82px;
+  padding: 0 0 84px;
 }
 
 .section-title {
@@ -132,11 +132,40 @@ main {
   font-weight: 500;
 }
 
-.lead {
+.section-lead {
   max-width: 720px;
   margin: 0 0 34px;
-  color: #3f3f3b;
+  color: #41413d;
   font-size: 0.91rem;
+}
+
+.philosophy-list {
+  border-top: 1px solid var(--line);
+}
+
+.philosophy-item {
+  display: grid;
+  grid-template-columns: 44px 220px minmax(0, 1fr);
+  gap: 22px;
+  padding: 22px 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.philosophy-num {
+  color: var(--sub);
+  font-size: 0.72rem;
+}
+
+.philosophy-item h3 {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 500;
+}
+
+.philosophy-item p {
+  margin: 0;
+  color: #40403c;
+  font-size: 0.86rem;
 }
 
 .three-pillars {
@@ -157,7 +186,7 @@ main {
 
 .pillar h3 {
   margin: 0 0 10px;
-  font-size: 1.12rem;
+  font-size: 1.08rem;
   font-weight: 500;
 }
 
@@ -171,87 +200,87 @@ main {
   display: block;
   margin-top: 14px;
   color: var(--sub);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
 }
 
-.principles {
+.technical-list {
   border-top: 1px solid var(--line);
 }
 
-.principle {
-  padding: 25px 0 28px;
+.technical-item {
+  padding: 24px 0 26px;
   border-bottom: 1px solid var(--line);
 }
 
-.principle-head {
+.technical-head {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-columns: 44px minmax(0, 1fr);
   gap: 12px;
   align-items: baseline;
 }
 
-.num {
+.technical-num {
   color: var(--sub);
   font-size: 0.72rem;
 }
 
-.principle h3 {
+.technical-item h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 500;
 }
 
-.definition {
-  margin: 12px 0 0 58px;
+.technical-item > p {
+  margin: 12px 0 0 56px;
   max-width: 720px;
-  color: #333330;
-  font-size: 0.9rem;
+  color: #373734;
+  font-size: 0.88rem;
 }
 
-.meta {
-  margin: 18px 0 0 58px;
+.technical-meta {
+  margin: 18px 0 0 56px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 34px;
   max-width: 760px;
 }
 
-.meta strong {
+.technical-meta strong {
   display: block;
   margin-bottom: 5px;
   color: var(--accent);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   font-weight: 500;
 }
 
-.meta p {
+.technical-meta p {
   margin: 0;
-  color: #555550;
-  font-size: 0.82rem;
+  color: #575752;
+  font-size: 0.81rem;
 }
 
-.use-list {
+.connection {
   border-top: 1px solid var(--line);
 }
 
-.use-item {
-  padding: 18px 0;
+.connection-row {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
   gap: 30px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.use-item h3 {
-  margin: 0;
-  font-size: 0.88rem;
+.connection-row strong {
+  font-size: 0.86rem;
   font-weight: 500;
 }
 
-.use-item p {
+.connection-row p {
   margin: 0;
   color: #41413d;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
 }
 
 .bottom-links {
@@ -262,7 +291,7 @@ main {
 .bottom-links p {
   margin: 0 0 14px;
   color: var(--sub);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
 }
 
 .bottom-links nav {
@@ -309,6 +338,15 @@ footer a {
     padding-bottom: 64px;
   }
 
+  .philosophy-item {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px 12px;
+  }
+
+  .philosophy-item p {
+    grid-column: 2;
+  }
+
   .three-pillars {
     grid-template-columns: 1fr;
   }
@@ -323,23 +361,23 @@ footer a {
     border-top: 1px solid var(--line);
   }
 
-  .definition,
-  .meta {
-    margin-left: 0;
-  }
-
-  .principle-head {
+  .technical-head {
     grid-template-columns: 34px minmax(0, 1fr);
   }
 
-  .meta {
+  .technical-item > p,
+  .technical-meta {
+    margin-left: 0;
+  }
+
+  .technical-meta {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .use-item {
+  .connection-row {
     grid-template-columns: 1fr;
-    gap: 7px;
+    gap: 6px;
   }
 
   footer {
@@ -365,27 +403,118 @@ footer a {
   <h1>adjustmentの原理原則</h1>
 
   <p>
-    動作の形を直接整えるのではなく、
-    その動作が生まれている条件を見る。
-    adjustmentでは、選手の身体と競技動作をつなぐために、
-    いくつかの共通した視点を使っています。
+    原理原則は、正しいフォームを決めるためのものではありません。
+    現場で起きている現象をどう捉え、
+    何を変え、何を変えないかを判断するための基準です。
   </p>
 
   <div class="hero-note">
-    何を見るか。何を変えるか。なぜそれを行うか。<br>
-    現場で判断するときの基準として整理しています。
+    哲学 → 観察 → 技術。<br>
+    adjustmentでは、この3つを分けながらつなげて考えます。
   </div>
 </section>
 
 <main>
 
   <section class="section">
-    <h2 class="section-title">3本柱</h2>
+    <h2 class="section-title">哲学</h2>
 
-    <p class="lead">
-      選手を見るときの入口になるのが、
+    <p class="section-lead">
+      最上位にあるのは技術論ではなく、
+      選手と現象をどう見るかという考え方です。
+      方法や種目が変わっても、この基準は残ります。
+    </p>
+
+    <div class="philosophy-list">
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">01</div>
+        <h3>現象から考える</h3>
+        <p>
+          フォームの形から入るのではなく、
+          今そこで何が起きているかを見る。
+          動き、反応、タイミング、結果を含めて現象として捉える。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">02</div>
+        <h3>結果から逆算する</h3>
+        <p>
+          動作を整えること自体を目的にしない。
+          競技で必要な結果から逆算し、
+          その結果を生むために何が必要かを考える。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">03</div>
+        <h3>条件を整える</h3>
+        <p>
+          正しい動きを直接教えるより、
+          必要な動きが起こる条件をつくる。
+          トレーニングはその条件へ介入するために使う。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">04</div>
+        <h3>関係性で見る</h3>
+        <p>
+          身体の一部を単独で評価しない。
+          胸郭と肩甲帯、骨盤と大腿骨、身体と道具、
+          選手と相手など、何に対して何がどう動いたかを見る。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">05</div>
+        <h3>タイミングを扱う</h3>
+        <p>
+          同じ形でも、いつ起きたかで結果は変わる。
+          動作全体ではなく、勝負を分けるコンマ何秒の前後関係を見る。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">06</div>
+        <h3>出力は結果として捉える</h3>
+        <p>
+          球速、打球速度、ジャンプ高などの出力だけを直接追わない。
+          出力が自然に現れる条件が揃っているかを見る。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">07</div>
+        <h3>数値は判断材料として使う</h3>
+        <p>
+          測定値は使う。
+          ただし、一つの数値で選手やパフォーマンスを説明し切らない。
+          数値は現象を考えるための材料として扱う。
+        </p>
+      </div>
+
+      <div class="philosophy-item">
+        <div class="philosophy-num">08</div>
+        <h3>個体に合わせる</h3>
+        <p>
+          同じ競技、同じポジションでも、
+          同じ正解を当てはめない。
+          その選手にとって成立する方法と再現可能な条件を探す。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">選手を見る3本柱</h2>
+
+    <p class="section-lead">
+      哲学を現場で使うための観察フレームが、
       「荷重利用」「運動順序」「加速距離」です。
-      どれか一つで動作を説明するのではなく、
+      どれか一つを正解にするのではなく、
       3つの関係から現在の状態を捉えます。
     </p>
 
@@ -396,7 +525,7 @@ footer a {
         <p>
           身体の重さや外力を、
           どこで受け、どこへ伝えているかを見る。
-          単に「体重を乗せる」ことではなく、
+          単に体重を乗せるのではなく、
           荷重が次の動きへ使われているかを確認する。
         </p>
         <small>LOAD / ACCEPT / TRANSFER</small>
@@ -407,7 +536,8 @@ footer a {
         <p>
           胴体と四肢が、
           どの順番・タイミングで動いているかを見る。
-          形ではなく、動き始めと切り替わりの前後関係を確認する。
+          形ではなく、
+          動き始めと切り替わりの前後関係を確認する。
         </p>
         <small>SEQUENCE / TIMING</small>
       </div>
@@ -427,318 +557,193 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">原理原則 10項目</h2>
+    <h2 class="section-title">技術原則</h2>
 
-    <p class="lead">
-      3本柱を使って現象を見たあと、
-      さらに細かく整理するときに使っている考え方です。
-      それぞれを「定義」「見る点」「現場的意味」でまとめています。
+    <p class="section-lead">
+      3本柱からさらに現象を掘り下げるときに使う技術的な原則です。
+      投球や打撃など競技動作によって適用の仕方は変わります。
     </p>
 
-    <div class="principles">
+    <div class="technical-list">
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">01</div>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">01</div>
           <h3>動作は通り道で決まる</h3>
         </div>
 
-        <p class="definition">
-          動作の再現性は末端をどう操作したかではなく、
-          末端が毎回どの通り道を通ったかで決まる。
+        <p>
+          動作の再現性は、
+          末端をどう操作したかではなく、
+          毎回どの通り道を通ったかに強く影響される。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
-              手部、前腕、バット、ボールの通過位置。
-              リリースやインパクト前のズレ。ミスの散り方。
+              手部、前腕、バット、ボールなどの通過位置。
+              リリースやインパクト前のズレ。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              制球、打球方向、故障リスクは末端軌道の安定性に依存する。
-              まず見るべきは「どう振ったか」ではなく「どこを通ったか」。
+              「どう振ったか」より、
+              「どこを通ったか」を先に見る。
             </p>
           </div>
         </div>
       </article>
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">02</div>
-          <h3>肘角度は結果である</h3>
-        </div>
-
-        <p class="definition">
-          肘の屈曲・伸展は主役ではなく、
-          上腕骨の動きと末端軌道の結果として決まる。
-        </p>
-
-        <div class="meta">
-          <div>
-            <strong>見る点</strong>
-            <p>
-              上腕骨が前に入ると肘が自然にほどけるか。
-              後ろに入ると肘が自然にたたまれるか。
-              肘を自分で作りにいっていないか。
-            </p>
-          </div>
-
-          <div>
-            <strong>現場的意味</strong>
-            <p>
-              肘を直接いじるより上腕骨の通り道を整える方が本質。
-              肘主導の修正は代償を増やしやすい。
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">03</div>
-          <h3>肩甲平面は基準面である</h3>
-        </div>
-
-        <p class="definition">
-          肩甲平面を基準に上腕骨が水平内転すれば肘は伸展傾向、
-          水平外転すれば肘は屈曲傾向を示す。
-        </p>
-
-        <div class="meta">
-          <div>
-            <strong>見る点</strong>
-            <p>
-              肩甲平面後方で肘がたたまれるか。
-              肩甲平面へ戻る中で肘がほどけるか。
-              前方で伸展傾向が強まるか。
-            </p>
-          </div>
-
-          <div>
-            <strong>現場的意味</strong>
-            <p>
-              肩甲平面は肘角度の正解位置ではなく肘傾向の切り替え基準。
-              角度ではなく運動傾向で捉える。
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">04</div>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">02</div>
           <h3>本質は相対運動にある</h3>
         </div>
 
-        <p class="definition">
+        <p>
           動作は局所の形ではなく、
-          「何に対して何がどう動いたか」という相対運動で決まる。
+          何に対して何がどう動いたかという関係で捉える。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
               胸郭に対する肩甲帯。
-              肩甲帯に対する上腕骨。
               骨盤に対する大腿骨。
-              一緒に動いているのか、相対差があるのか。
+              胴体に対する四肢。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              「胸椎伸展している」「肩甲骨が動いている」だけでは浅い。
-              形ではなく関係性で評価する。
+              「動いているか」ではなく、
+              相対差が生まれているかを見る。
             </p>
           </div>
         </div>
       </article>
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">05</div>
-          <h3>しなりは胸郭先行で生まれる</h3>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">03</div>
+          <h3>動作は方向転換で変わる</h3>
         </div>
 
-        <p class="definition">
-          しなりの本質は大きく反ることではなく、
-          肩甲帯に対して胸郭の方向転換が先行することで生まれる相対差である。
+        <p>
+          大きく動けることよりも、
+          必要な局面で適切に向きを変えられることが重要になる。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
-              切り返しで胸郭が先に向きを変えられるか。
-              肩甲帯ごと一緒に回っていないか。
-              腰を反って代償していないか。
+              接地、切り返し、胸郭の方向転換、
+              荷重の移り変わり。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              「反る」より「胸郭が先に切り返す」の方が現象に近い。
-              投球でも打撃でも通用しやすい。
+              可動域の大きさより、
+              どこで切り替えられるかを見る。
             </p>
           </div>
         </div>
       </article>
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">06</div>
-          <h3>エクササイズは可変性の学習である</h3>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">04</div>
+          <h3>エクササイズは可変性をつくる</h3>
         </div>
 
-        <p class="definition">
-          エクササイズで入れるべきものはモーションそのものではなく、
-          必要局面で使える可変性である。
+        <p>
+          エクササイズで競技動作そのものを再現するのではなく、
+          必要な局面で使える選択肢を増やす。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
-              胸椎の屈曲伸展や股関節回旋が出るか。
-              その可変性が実動作の方向転換や切り返しに活きているか。
+              股関節、胸郭、肩甲帯などが、
+              必要な方向へ変化できるか。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              可動域を増やすこと自体が目的ではない。
-              必要なタイミングで使えることが目的である。
+              可動域を増やすこと自体を目的にしない。
+              使える可変性かどうかを見る。
             </p>
           </div>
         </div>
       </article>
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">07</div>
-          <h3>トレーニングは発生条件への介入である</h3>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">05</div>
+          <h3>バラつきと故障は代償から考える</h3>
         </div>
 
-        <p class="definition">
-          トレーニングはフォームを直接変えるものではなく、
-          フォームが変わる条件を身体へ入れるものである。
+        <p>
+          必要な通り道や順序が成立しないとき、
+          身体は局所で帳尻を合わせる。
+          その代償がバラつきや負担として現れることがある。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
-              どの局面を変えたいのかが明確か。
-              エクササイズ後に狙った局面が変わったか。
-              今の癖を再生産していないか。
+              手首操作、肩すくめ、急停止、
+              過度な局所緊張など。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              モーションをなぞるだけでは現状の動きを強化しやすい。
-              変えたいなら発生条件へ介入する。
+              痛い場所やミスだけを見るのではなく、
+              その前に何が成立していなかったかを探る。
             </p>
           </div>
         </div>
       </article>
 
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">08</div>
-          <h3>変えるべきはコンマ何秒である</h3>
-        </div>
-
-        <p class="definition">
-          野球選手のトレーニングは動作全体を変えるためではなく、
-          勝負を分ける一瞬の質を変えるために行う。
-        </p>
-
-        <div class="meta">
-          <div>
-            <strong>見る点</strong>
-            <p>
-              接地、切り返し、胸郭方向転換、肘のほどけ、
-              末端通過などの一瞬に変化があるか。
-            </p>
-          </div>
-
-          <div>
-            <strong>現場的意味</strong>
-            <p>
-              全体をいじるのではなく一瞬の質を変えることで、
-              結果として全体が変わる。
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">09</div>
-          <h3>バラつきと故障は代償の結果である</h3>
-        </div>
-
-        <p class="definition">
-          通り道が不安定なとき身体は局所で帳尻を合わせる。
-          その代償の集中がバラつきと故障を生む。
-        </p>
-
-        <div class="meta">
-          <div>
-            <strong>見る点</strong>
-            <p>
-              前腕回外、手首操作、肩すくめ、急停止などで合わせていないか。
-              肘内側や肩前方へ負担が集中していないか。
-            </p>
-          </div>
-
-          <div>
-            <strong>現場的意味</strong>
-            <p>
-              再現性低下と故障は別問題ではない。
-              通り道の乱れを局所で修正し続けた結果として捉える。
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="principle">
-        <div class="principle-head">
-          <div class="num">10</div>
+      <article class="technical-item">
+        <div class="technical-head">
+          <div class="technical-num">06</div>
           <h3>出力は条件の結果である</h3>
         </div>
 
-        <p class="definition">
-          出力は「出すもの」ではなく、
-          「出る条件が揃った結果」として現れる。
+        <p>
+          出力は無理に「出すもの」ではなく、
+          荷重、順序、加速の条件が揃った結果として現れる。
         </p>
 
-        <div class="meta">
+        <div class="technical-meta">
           <div>
             <strong>見る点</strong>
             <p>
-              力まなくても腕やバットが走るか。
-              通り道が整うと結果が上がるか。
-              出そうとした瞬間に壊れていないか。
+              力感を上げずに速度が上がるか。
+              動きの通り道が整うと結果が変わるか。
             </p>
           </div>
 
           <div>
-            <strong>現場的意味</strong>
+            <strong>考え方</strong>
             <p>
-              球速や打球速度は力感だけで決まらない。
-              まず出力が通る条件を整える。
+              数値だけを追わず、
+              数値が上がる条件を探す。
             </p>
           </div>
         </div>
@@ -748,31 +753,39 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">現場での使い方</h2>
+    <h2 class="section-title">現場へのつなぎ方</h2>
 
-    <div class="use-list">
+    <div class="connection">
 
-      <div class="use-item">
-        <h3>選手を見るとき</h3>
+      <div class="connection-row">
+        <strong>哲学</strong>
         <p>
-          まず荷重利用・運動順序・加速距離のどこに特徴があるかを見る。
-          そのうえで、10項目のどの現象とつながっているかを整理する。
+          何を正解とするかではなく、
+          何を見て、どう考えるかを決める。
         </p>
       </div>
 
-      <div class="use-item">
-        <h3>種目を選ぶとき</h3>
+      <div class="connection-row">
+        <strong>3本柱</strong>
         <p>
-          「効きそうだから」ではなく、
-          何を変えるための種目なのかを先に決める。
+          荷重利用・運動順序・加速距離から、
+          選手の現在地を整理する。
         </p>
       </div>
 
-      <div class="use-item">
-        <h3>説明するとき</h3>
+      <div class="connection-row">
+        <strong>技術原則</strong>
         <p>
-          フォームの正解を伝えるのではなく、
-          何を使い、何が先に動き、どこまで加速するのかを共有する。
+          起きている現象をさらに細かく捉え、
+          評価やトレーニングへ落とし込む。
+        </p>
+      </div>
+
+      <div class="connection-row">
+        <strong>実践</strong>
+        <p>
+          必要な条件を選手へ渡し、
+          競技動作や結果の変化を確認する。
         </p>
       </div>
 
