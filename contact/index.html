@@ -1,9 +1,14 @@
+ok?
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>contact｜思考を共有する</title>
+<title>お問い合わせ｜整-adjustment-</title>
+<meta
+name="description"
+content="整-adjustment-へのパーソナルトレーニング、チームサポート、オンライン講習・相談のお問い合わせ。"
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#ffffff">
 <style>
@@ -15,236 +20,500 @@
 
 :root {
   --bg: #ffffff;
-  --text: #1a1a1a;
-  --accent: #00b386;
-  --sub: #555;
-  --line: rgba(0,0,0,0.08);
-  font-family: 'Noto Sans JP', sans-serif;
+  --text: #111111;
+  --sub: #777777;
+  --line: #dddddd;
+
+  font-family:
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    YuGothic,
+    "Noto Sans JP",
+    sans-serif;
+}
+
+html {
+  background: var(--bg);
 }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.9;
+  line-height: 1.8;
 }
 
-/* Header */
+a {
+  color: inherit;
+}
+
 header {
-  text-align: center;
-  padding: 80px 20px 40px;
-}
-h1 {
-  font-size: 2rem;
-  font-weight: 500;
-  margin-bottom: 0.3em;
-}
-p.sub {
-  color: var(--sub);
-  font-size: 1rem;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 72px 24px 28px;
 }
 
-/* Form Area */
-form {
-  max-width: 720px;
-  margin: 0 auto 100px;
-  padding: 40px 30px;
-  background: #fafafa;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
 }
+
+header p {
+  margin: 12px 0 0;
+  color: var(--sub);
+  font-size: 0.94rem;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+form {
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.field {
+  margin-bottom: 24px;
+}
+
 label {
   display: block;
-  margin-bottom: 6px;
-  color: var(--accent);
-  font-size: 0.95rem;
+  margin-bottom: 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
 }
-input, select, textarea {
+
+.required {
+  margin-left: 6px;
+  color: var(--sub);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
   width: 100%;
-  background: #fff;
+  padding: 12px 13px;
+
+  background: #ffffff;
+  color: var(--text);
+
   border: 1px solid var(--line);
-  color: var(--text);
-  font-size: 1rem;
-  padding: 10px 12px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-textarea { min-height: 120px; resize: vertical; }
+  border-radius: 0;
 
-button.submit {
-  display: block;
-  background: none;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 0.6em 1.6em;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 3px;
-  margin: 20px auto 0;
-  transition: 0.3s ease;
-}
-button.submit:hover {
-  background: var(--accent);
-  color: #fff;
+  font: inherit;
+  outline: none;
 }
 
-/* Thanks Overlay */
-#thanks {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(255,255,255,0.96);
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #111111;
+}
+
+textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.help {
+  margin: 7px 0 0;
+  color: var(--sub);
+  font-size: 0.76rem;
+}
+
+.course-wrap[hidden] {
+  display: none;
+}
+
+.actions {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  color: var(--text);
-  font-size: 1.1rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
-  z-index: 999;
-}
-#thanks.active {
-  opacity: 1;
-  pointer-events: all;
-}
-#thanks button {
-  background: none;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 0.5em 1.2em;
-  border-radius: 4px;
-  margin-top: 24px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#thanks button:hover {
-  background: var(--accent);
-  color: #fff;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  margin-top: 32px;
 }
 
-/* ===== フッター ===== */
-footer {
-text-align:center;
-padding:40px 0;
-font-size:0.85rem;
-color:#888;
+button {
+  appearance: none;
+
+  padding: 12px 24px;
+
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  cursor: pointer;
 }
-footer a {
-color:var(--accent);
-text-decoration:none;
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-footer a:hover{text-decoration:underline;}
+
+.status {
+  margin: 0;
+  color: var(--sub);
+  font-size: 0.82rem;
+}
 
 .back-home {
+  display: inline-block;
+
+  margin-top: 40px;
+  padding-bottom: 2px;
+
+  border-bottom: 1px solid #111111;
+
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+footer {
+  padding: 24px;
+
+  border-top: 1px solid var(--line);
+
   text-align: center;
-  margin: 80px 0 40px;
+  color: var(--sub);
+  font-size: 0.72rem;
 }
-.back-home button {
-  background: none;
-  border: 1px solid #00b386;
-  color: #00b386;
-  padding: 0.7em 1.6em;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
+
+footer a {
+  text-decoration: none;
 }
-.back-home button:hover {
-  background: #00b386;
-  color: #fff;
+
+.honeypot {
+  position: absolute !important;
+
+  left: -9999px !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  overflow: hidden !important;
+}
+
+.send-target {
+  display: none;
+
+  width: 0;
+  height: 0;
+
+  border: 0;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 48px 18px 24px;
+  }
+
+  main {
+    padding: 0 18px 64px;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .status {
+    text-align: center;
+  }
 }
 </style>
 </head>
 <body>
 <header>
-  <h1>contact</h1>
-  <p class="sub">思考を共有し、現場を変える対話へ。</p>
-</header>
-<!-- Googleフォームへ送信 -->
-<form id="contactForm"
-  action="https://docs.google.com/forms/d/e/1FAIpQLScwQjGggPl8kY4APVn5LvC14kPLkM-f5D60So0LWi1_O8fVhg/formResponse"
-  method="POST"
-  target="_blank">
-
-  <label>お名前</label>
-  <input type="text" name="entry.349420975" required>
-
-  <label>チーム名（任意）</label>
-  <input type="text" name="entry.937748586">
-
-<label>電話番号</label>
-<input type="tel" name="entry.1445538402" required>
-
-  <label>ご利用区分</label>
-<select name="entry.393390493" required>
-  <option value="">選択してください</option>
-  <option value="初回">初回</option>
-  <option value="継続">継続</option>
-</select>
-
-<label>希望コース（パーソナル）</label>
-<select name="entry.253594082" required>
-  <option value="">選択してください</option>
-  <option value="30分（5,500円）コース">30分（5,500円）コース</option>
-<option value="60分（8,800円）コース">60分（8,800円）コース</option>
-</select>
-
-<label>パーソナルトレーニングの目的</label>
-<select name="entry.1427467978" required>
-  <option value="">選択してください</option>
-  <option value="動作改善">動作改善</option>
-  <option value="パフォーマンス向上">パフォーマンス向上</option>
-  <option value="可動域改善">可動域改善</option>
-  <option value="不調の原因チェック">不調の原因チェック</option>
-  <option value="その他">その他</option>
-</select>
-
-<div id="otherPurposeWrapper" style="display:none;">
-  <label>その他の内容（任意）</label>
-  <textarea name="entry.67558877"
-    placeholder="その他の場合は内容をご記入ください。"></textarea>
-</div>
-
-  <button type="submit" class="submit">送信する</button>
-</form>
-<div id="thanks">
-  <p>送信が完了しました。</p>
-  <p>toughな体作りへ！共に進みましょう！</p>
-  <button onclick="window.location.href='https://adjustment.jp'">ホームへ戻る</button>
-</div>
-<div class="back-home">
-  <button onclick="window.location.href='https://adjustment.jp'">← ホームへ戻る</button>
-</div>  
-<footer>
+  <h1>お問い合わせ</h1>
   <p>
-    <a href="../legal.html">販売・利用規約</a>｜
-    <a href="../contact/index.html">お問い合わせ</a><br>
-    <small>© 2025 adjustment-lab</small>
+    パーソナルトレーニング、チームサポート、
+    オンライン講習・相談など。
   </p>
+</header>
+<main>
+  <iframe
+    id="contactSink"
+    name="contactSink"
+    class="send-target"
+    title="送信先"
+  ></iframe>
+  <form
+    id="contactForm"
+    action="https://script.google.com/macros/s/AKfycbzBL48eQRTbnah8XvYcSRuLDSlNnUrztTU3cYDY7sgAmAC9EstmoQ4-9EO9RsiYpmM_3Q/exec"
+    method="POST"
+    target="contactSink"
+  >
+<div class="field">
+  <label for="name">
+    お名前
+    <span class="required">必須</span>
+  </label>
+
+  <input
+    id="name"
+    name="name"
+    type="text"
+    autocomplete="name"
+    required
+  >
+</div>
+
+<div class="field">
+  <label for="email">
+    メールアドレス
+    <span class="required">必須</span>
+  </label>
+
+  <input
+    id="email"
+    name="email"
+    type="email"
+    autocomplete="email"
+    required
+  >
+
+  <p class="help">
+    送信完了後、このメールアドレスへ受付メールを自動送信します。
+  </p>
+</div>
+
+<div class="field">
+  <label for="phone">
+    電話番号
+  </label>
+
+  <input
+    id="phone"
+    name="phone"
+    type="tel"
+    autocomplete="tel"
+  >
+</div>
+
+<div class="field">
+  <label for="team">
+    所属・チーム名
+  </label>
+
+  <input
+    id="team"
+    name="team"
+    type="text"
+    autocomplete="organization"
+  >
+</div>
+
+<div class="field">
+  <label for="category">
+    お問い合わせ区分
+    <span class="required">必須</span>
+  </label>
+
+  <select
+    id="category"
+    name="category"
+    required
+  >
+    <option value="">
+      選択してください
+    </option>
+
+    <option value="パーソナルトレーニング">
+      パーソナルトレーニング
+    </option>
+
+    <option value="チームサポート">
+      チームサポート
+    </option>
+
+    <option value="オンライン講習・相談">
+      オンライン講習・相談
+    </option>
+
+    <option value="その他">
+      その他
+    </option>
+  </select>
+</div>
+
+<div
+  class="field course-wrap"
+  id="courseWrap"
+  hidden
+>
+  <label for="course">
+    希望コース
+  </label>
+
+  <select
+    id="course"
+    name="course"
+  >
+    <option value="">
+      未定
+    </option>
+
+    <option value="30分（5,500円・税込）">
+      30分（5,500円・税込）
+    </option>
+
+    <option value="60分（11,000円・税込）">
+      60分（11,000円・税込）
+    </option>
+  </select>
+</div>
+
+<div class="field">
+  <label for="message">
+    お問い合わせ内容
+    <span class="required">必須</span>
+  </label>
+
+  <textarea
+    id="message"
+    name="message"
+    required
+  ></textarea>
+</div>
+
+<div
+  class="honeypot"
+  aria-hidden="true"
+>
+  <label for="website">
+    Website
+  </label>
+
+  <input
+    id="website"
+    name="website"
+    type="text"
+    tabindex="-1"
+    autocomplete="off"
+  >
+</div>
+
+<div class="actions">
+
+  <button
+    id="submitButton"
+    type="submit"
+  >
+    送信する
+  </button>
+
+  <p
+    class="status"
+    id="status"
+    role="status"
+    aria-live="polite"
+  ></p>
+
+</div>
+  </form>
+<a
+class="back-home"
+href="../index.html"
+  ></a>
+ホームへ戻る
+  </a>
+</main>
+<footer>
+  <a href="../legal.html">
+    販売・利用規約
+  </a>
+  <span>
+    © 2025-2026 adjustment
+  </span>
 </footer>
 <script>
-const form = document.getElementById('contactForm');
-const thanks = document.getElementById('thanks');
-const purposeSelect = document.querySelector('select[name="entry.1427467978"]');
-const otherPurposeWrapper = document.getElementById('otherPurposeWrapper');
+const form =
+  document.getElementById("contactForm");
 
-form.addEventListener('submit', () => {
-  setTimeout(() => {
-    thanks.classList.add('active');
-  }, 800);
-});
+const category =
+  document.getElementById("category");
 
-purposeSelect.addEventListener('change', () => {
-  if (purposeSelect.value === "その他") {
-    otherPurposeWrapper.style.display = "block";
-  } else {
-    otherPurposeWrapper.style.display = "none";
+const courseWrap =
+  document.getElementById("courseWrap");
+
+const course =
+  document.getElementById("course");
+
+const submitButton =
+  document.getElementById("submitButton");
+
+const status =
+  document.getElementById("status");
+
+const sink =
+  document.getElementById("contactSink");
+
+let submitting = false;
+
+category.addEventListener(
+  "change",
+  () => {
+    const isPersonal =
+      category.value ===
+      "パーソナルトレーニング";
+
+    courseWrap.hidden =
+      !isPersonal;
+
+    if (!isPersonal) {
+      course.value = "";
+    }
   }
-});
-</script>
+);
 
+form.addEventListener(
+  "submit",
+  () => {
+    submitting = true;
+
+    submitButton.disabled = true;
+
+    status.textContent =
+      "送信中...";
+  }
+);
+
+sink.addEventListener(
+  "load",
+  () => {
+    if (!submitting) {
+      return;
+    }
+
+    submitting = false;
+
+    form.reset();
+
+    courseWrap.hidden = true;
+
+    submitButton.disabled = false;
+
+    status.textContent =
+      "送信しました。受付メールをご確認ください。";
+  }
+);
+</script>
 </body>
 </html>
+
+  
