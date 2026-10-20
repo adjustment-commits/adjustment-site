@@ -191,27 +191,30 @@ img {
   letter-spacing: 0.01em;
 }
 
-/* 実画像のランナーを見出し線の上に配置 */
+/* 実画像の5ポーズを、見出し線の上に個別配置 */
 .title-runners {
   position: absolute;
   left: 0;
   right: 0;
-  top: -26px;
-  height: 25px;
+  top: -34px;
+  height: 34px;
   pointer-events: none;
   overflow: visible;
 }
 
-.title-runners img {
+.title-runner-img {
   position: absolute;
-  left: 0;
   bottom: -1px;
-  width: 100%;
-  height: 25px;
-  object-fit: contain;
-  object-position: center bottom;
+  width: 54px;
+  height: auto;
   user-select: none;
 }
+
+.title-runner-img:nth-child(1) { left: 5%; }
+.title-runner-img:nth-child(2) { left: 25%; }
+.title-runner-img:nth-child(3) { left: 45%; }
+.title-runner-img:nth-child(4) { left: 65%; }
+.title-runner-img:nth-child(5) { left: 84%; }
 
 .service-item {
   display: grid;
@@ -471,13 +474,19 @@ footer a {
   }
 
   .title-runners {
-    top: -21px;
-    height: 20px;
+    top: -27px;
+    height: 27px;
   }
 
-  .title-runners img {
-    height: 20px;
+  .title-runner-img {
+    width: 42px;
   }
+
+  .title-runner-img:nth-child(1) { left: 2%; }
+  .title-runner-img:nth-child(2) { left: 22%; }
+  .title-runner-img:nth-child(3) { left: 43%; }
+  .title-runner-img:nth-child(4) { left: 64%; }
+  .title-runner-img:nth-child(5) { left: 82%; }
 
   .service-item {
     grid-template-columns: 1fr;
@@ -560,7 +569,11 @@ footer a {
   <section class="section" id="service">
     <h2 class="section-title">
       <span class="title-runners" aria-hidden="true">
-        <img src="./assets/henchmen-runners.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       サービス・料金
     </h2>
@@ -626,7 +639,11 @@ footer a {
   <section class="section">
     <h2 class="section-title">
       <span class="title-runners" aria-hidden="true">
-        <img src="./assets/henchmen-runners.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       セッションポイント
     </h2>
@@ -641,7 +658,11 @@ footer a {
   <section class="section" id="profile">
     <h2 class="section-title">
       <span class="title-runners" aria-hidden="true">
-        <img src="./assets/henchmen-runners.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       プロフィール
     </h2>
@@ -691,7 +712,11 @@ footer a {
   <section class="section contact">
     <h2 class="section-title">
       <span class="title-runners" aria-hidden="true">
-        <img src="./assets/henchmen-runners.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       お問い合わせ
     </h2>
