@@ -133,7 +133,7 @@ main {
   font-weight: 500;
 }
 
-/* 見出し線の上を走る戦闘員ダッシュ */
+/* 各段を1体ずつ右へ進んでいく戦闘員ダッシュ */
 .title-runners {
   position: absolute;
   left: 0;
@@ -153,11 +153,24 @@ main {
   user-select: none;
 }
 
-.title-runner-img:nth-child(1) { left: 5%; }
-.title-runner-img:nth-child(2) { left: 25%; }
-.title-runner-img:nth-child(3) { left: 45%; }
-.title-runner-img:nth-child(4) { left: 65%; }
-.title-runner-img:nth-child(5) { left: 84%; }
+.stage-1 .title-runner-img { left: 5%; }
+.stage-2 .title-runner-img { left: 25%; }
+.stage-3 .title-runner-img { left: 45%; }
+.stage-4 .title-runner-img { left: 65%; }
+
+.bottom-links {
+  position: relative;
+}
+
+.bottom-runner {
+  position: absolute;
+  top: -34px;
+  left: 84%;
+  width: 54px;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
 
 .section-lead {
   max-width: 720px;
@@ -370,15 +383,20 @@ footer a {
     height: 27px;
   }
 
-  .title-runner-img {
+  .title-runner-img,
+  .bottom-runner {
     width: 42px;
   }
 
-  .title-runner-img:nth-child(1) { left: 2%; }
-  .title-runner-img:nth-child(2) { left: 22%; }
-  .title-runner-img:nth-child(3) { left: 43%; }
-  .title-runner-img:nth-child(4) { left: 64%; }
-  .title-runner-img:nth-child(5) { left: 82%; }
+  .stage-1 .title-runner-img { left: 3%; }
+  .stage-2 .title-runner-img { left: 22%; }
+  .stage-3 .title-runner-img { left: 42%; }
+  .stage-4 .title-runner-img { left: 62%; }
+
+  .bottom-runner {
+    top: -27px;
+    left: 80%;
+  }
 
   .philosophy-item {
     grid-template-columns: 34px minmax(0, 1fr);
@@ -460,12 +478,8 @@ footer a {
 
   <section class="section">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
+      <span class="title-runners stage-1" aria-hidden="true">
         <img class="title-runner-img" src="../assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
       </span>
       哲学
     </h2>
@@ -561,12 +575,8 @@ footer a {
 
   <section class="section">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
+      <span class="title-runners stage-2" aria-hidden="true">
         <img class="title-runner-img" src="../assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
       </span>
       選手を見る3本柱
     </h2>
@@ -618,12 +628,8 @@ footer a {
 
   <section class="section">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
+      <span class="title-runners stage-3" aria-hidden="true">
         <img class="title-runner-img" src="../assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
       </span>
       技術原則
     </h2>
@@ -823,12 +829,8 @@ footer a {
 
   <section class="section">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
+      <span class="title-runners stage-4" aria-hidden="true">
         <img class="title-runner-img" src="../assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
       </span>
       現場へのつなぎ方
     </h2>
@@ -871,6 +873,7 @@ footer a {
   </section>
 
   <section class="bottom-links">
+    <img class="bottom-runner" src="../assets/runner-5.png" alt="" aria-hidden="true">
     <p>関連ページ</p>
 
     <nav>
