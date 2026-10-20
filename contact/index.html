@@ -1,16 +1,13 @@
-ok?
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>お問い合わせ｜整-adjustment-</title>
-<meta
-name="description"
-content="整-adjustment-へのパーソナルトレーニング、チームサポート、オンライン講習・相談のお問い合わせ。"
+<meta name="description" content="整-adjustment-へのパーソナルトレーニング、チームサポート、オンライン講習・相談のお問い合わせ。">
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#ffffff">
+
 <style>
 *,
 *::before,
@@ -99,13 +96,10 @@ select,
 textarea {
   width: 100%;
   padding: 12px 13px;
-
   background: #ffffff;
   color: var(--text);
-
   border: 1px solid var(--line);
   border-radius: 0;
-
   font: inherit;
   outline: none;
 }
@@ -136,23 +130,18 @@ textarea {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-
   margin-top: 32px;
 }
 
 button {
   appearance: none;
-
   padding: 12px 24px;
-
   border: 1px solid #111111;
   background: #111111;
   color: #ffffff;
-
   font: inherit;
   font-size: 0.86rem;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -169,21 +158,16 @@ button:disabled {
 
 .back-home {
   display: inline-block;
-
   margin-top: 40px;
   padding-bottom: 2px;
-
   border-bottom: 1px solid #111111;
-
   text-decoration: none;
   font-size: 0.8rem;
 }
 
 footer {
   padding: 24px;
-
   border-top: 1px solid var(--line);
-
   text-align: center;
   color: var(--sub);
   font-size: 0.72rem;
@@ -195,21 +179,16 @@ footer a {
 
 .honeypot {
   position: absolute !important;
-
   left: -9999px !important;
-
   width: 1px !important;
   height: 1px !important;
-
   overflow: hidden !important;
 }
 
 .send-target {
   display: none;
-
   width: 0;
   height: 0;
-
   border: 0;
 }
 
@@ -237,283 +216,238 @@ footer a {
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <h1>お問い合わせ</h1>
+
   <p>
-    パーソナルトレーニング、チームサポート、
-    オンライン講習・相談など。
+    パーソナルトレーニング、チームサポート、オンライン講習・相談など。
   </p>
 </header>
+
 <main>
+
   <iframe
     id="contactSink"
     name="contactSink"
     class="send-target"
     title="送信先"
   ></iframe>
+
   <form
     id="contactForm"
     action="https://script.google.com/macros/s/AKfycbzBL48eQRTbnah8XvYcSRuLDSlNnUrztTU3cYDY7sgAmAC9EstmoQ4-9EO9RsiYpmM_3Q/exec"
     method="POST"
     target="contactSink"
   >
-<div class="field">
-  <label for="name">
-    お名前
-    <span class="required">必須</span>
-  </label>
 
-  <input
-    id="name"
-    name="name"
-    type="text"
-    autocomplete="name"
-    required
-  >
-</div>
+    <div class="field">
+      <label for="name">
+        お名前
+        <span class="required">必須</span>
+      </label>
 
-<div class="field">
-  <label for="email">
-    メールアドレス
-    <span class="required">必須</span>
-  </label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+      >
+    </div>
 
-  <input
-    id="email"
-    name="email"
-    type="email"
-    autocomplete="email"
-    required
-  >
+    <div class="field">
+      <label for="email">
+        メールアドレス
+        <span class="required">必須</span>
+      </label>
 
-  <p class="help">
-    送信完了後、このメールアドレスへ受付メールを自動送信します。
-  </p>
-</div>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+      >
 
-<div class="field">
-  <label for="phone">
-    電話番号
-  </label>
+      <p class="help">
+        送信完了後、このメールアドレスへ受付メールを自動送信します。
+      </p>
+    </div>
 
-  <input
-    id="phone"
-    name="phone"
-    type="tel"
-    autocomplete="tel"
-  >
-</div>
+    <div class="field">
+      <label for="phone">
+        電話番号
+      </label>
 
-<div class="field">
-  <label for="team">
-    所属・チーム名
-  </label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+      >
+    </div>
 
-  <input
-    id="team"
-    name="team"
-    type="text"
-    autocomplete="organization"
-  >
-</div>
+    <div class="field">
+      <label for="team">
+        所属・チーム名
+      </label>
 
-<div class="field">
-  <label for="category">
-    お問い合わせ区分
-    <span class="required">必須</span>
-  </label>
+      <input
+        id="team"
+        name="team"
+        type="text"
+        autocomplete="organization"
+      >
+    </div>
 
-  <select
-    id="category"
-    name="category"
-    required
-  >
-    <option value="">
-      選択してください
-    </option>
+    <div class="field">
+      <label for="category">
+        お問い合わせ区分
+        <span class="required">必須</span>
+      </label>
 
-    <option value="パーソナルトレーニング">
-      パーソナルトレーニング
-    </option>
+      <select
+        id="category"
+        name="category"
+        required
+      >
+        <option value="">選択してください</option>
+        <option value="パーソナルトレーニング">パーソナルトレーニング</option>
+        <option value="チームサポート">チームサポート</option>
+        <option value="オンライン講習・相談">オンライン講習・相談</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
 
-    <option value="チームサポート">
-      チームサポート
-    </option>
+    <div
+      class="field course-wrap"
+      id="courseWrap"
+      hidden
+    >
+      <label for="course">
+        希望コース
+      </label>
 
-    <option value="オンライン講習・相談">
-      オンライン講習・相談
-    </option>
+      <select
+        id="course"
+        name="course"
+      >
+        <option value="">未定</option>
+        <option value="30分（5,500円・税込）">30分（5,500円・税込）</option>
+        <option value="60分（11,000円・税込）">60分（11,000円・税込）</option>
+      </select>
+    </div>
 
-    <option value="その他">
-      その他
-    </option>
-  </select>
-</div>
+    <div class="field">
+      <label for="message">
+        お問い合わせ内容
+        <span class="required">必須</span>
+      </label>
 
-<div
-  class="field course-wrap"
-  id="courseWrap"
-  hidden
->
-  <label for="course">
-    希望コース
-  </label>
+      <textarea
+        id="message"
+        name="message"
+        required
+      ></textarea>
+    </div>
 
-  <select
-    id="course"
-    name="course"
-  >
-    <option value="">
-      未定
-    </option>
+    <div
+      class="honeypot"
+      aria-hidden="true"
+    >
+      <label for="website">
+        Website
+      </label>
 
-    <option value="30分（5,500円・税込）">
-      30分（5,500円・税込）
-    </option>
+      <input
+        id="website"
+        name="website"
+        type="text"
+        tabindex="-1"
+        autocomplete="off"
+      >
+    </div>
 
-    <option value="60分（11,000円・税込）">
-      60分（11,000円・税込）
-    </option>
-  </select>
-</div>
+    <div class="actions">
 
-<div class="field">
-  <label for="message">
-    お問い合わせ内容
-    <span class="required">必須</span>
-  </label>
+      <button
+        id="submitButton"
+        type="submit"
+      >
+        送信する
+      </button>
 
-  <textarea
-    id="message"
-    name="message"
-    required
-  ></textarea>
-</div>
+      <p
+        class="status"
+        id="status"
+        role="status"
+        aria-live="polite"
+      ></p>
 
-<div
-  class="honeypot"
-  aria-hidden="true"
->
-  <label for="website">
-    Website
-  </label>
+    </div>
 
-  <input
-    id="website"
-    name="website"
-    type="text"
-    tabindex="-1"
-    autocomplete="off"
-  >
-</div>
-
-<div class="actions">
-
-  <button
-    id="submitButton"
-    type="submit"
-  >
-    送信する
-  </button>
-
-  <p
-    class="status"
-    id="status"
-    role="status"
-    aria-live="polite"
-  ></p>
-
-</div>
   </form>
-<a
-class="back-home"
-href="../index.html"
-  ></a>
-ホームへ戻る
+
+  <a
+    class="back-home"
+    href="../index.html"
+  >
+    ホームへ戻る
   </a>
+
 </main>
+
 <footer>
-  <a href="../legal.html">
-    販売・利用規約
-  </a>
-  <span>
-    © 2025-2026 adjustment
-  </span>
+  <a href="../legal.html">販売・利用規約</a>
+  <span> ｜ </span>
+  <span>© 2025-2026 adjustment</span>
 </footer>
+
 <script>
-const form =
-  document.getElementById("contactForm");
-
-const category =
-  document.getElementById("category");
-
-const courseWrap =
-  document.getElementById("courseWrap");
-
-const course =
-  document.getElementById("course");
-
-const submitButton =
-  document.getElementById("submitButton");
-
-const status =
-  document.getElementById("status");
-
-const sink =
-  document.getElementById("contactSink");
+const form = document.getElementById("contactForm");
+const category = document.getElementById("category");
+const courseWrap = document.getElementById("courseWrap");
+const course = document.getElementById("course");
+const submitButton = document.getElementById("submitButton");
+const status = document.getElementById("status");
+const sink = document.getElementById("contactSink");
 
 let submitting = false;
 
-category.addEventListener(
-  "change",
-  () => {
-    const isPersonal =
-      category.value ===
-      "パーソナルトレーニング";
+category.addEventListener("change", () => {
+  const isPersonal =
+    category.value === "パーソナルトレーニング";
 
-    courseWrap.hidden =
-      !isPersonal;
+  courseWrap.hidden = !isPersonal;
 
-    if (!isPersonal) {
-      course.value = "";
-    }
+  if (!isPersonal) {
+    course.value = "";
   }
-);
+});
 
-form.addEventListener(
-  "submit",
-  () => {
-    submitting = true;
+form.addEventListener("submit", () => {
+  submitting = true;
+  submitButton.disabled = true;
+  status.textContent = "送信中...";
+});
 
-    submitButton.disabled = true;
-
-    status.textContent =
-      "送信中...";
+sink.addEventListener("load", () => {
+  if (!submitting) {
+    return;
   }
-);
 
-sink.addEventListener(
-  "load",
-  () => {
-    if (!submitting) {
-      return;
-    }
+  submitting = false;
+  form.reset();
+  courseWrap.hidden = true;
+  submitButton.disabled = false;
 
-    submitting = false;
-
-    form.reset();
-
-    courseWrap.hidden = true;
-
-    submitButton.disabled = false;
-
-    status.textContent =
-      "送信しました。受付メールをご確認ください。";
-  }
-);
+  status.textContent =
+    "送信しました。受付メールをご確認ください。";
+});
 </script>
+
 </body>
 </html>
-
-  
