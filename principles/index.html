@@ -125,12 +125,39 @@ main {
 }
 
 .section-title {
+  position: relative;
   margin: 0 0 30px;
   padding-top: 16px;
   border-top: 1px solid var(--text);
   font-size: 1.05rem;
   font-weight: 500;
 }
+
+/* 見出し線の上を走る戦闘員ダッシュ */
+.title-runners {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -34px;
+  height: 34px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.title-runner-img {
+  position: absolute;
+  bottom: -1px;
+  width: 54px;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+.title-runner-img:nth-child(1) { left: 5%; }
+.title-runner-img:nth-child(2) { left: 25%; }
+.title-runner-img:nth-child(3) { left: 45%; }
+.title-runner-img:nth-child(4) { left: 65%; }
+.title-runner-img:nth-child(5) { left: 84%; }
 
 .section-lead {
   max-width: 720px;
@@ -338,6 +365,21 @@ footer a {
     padding-bottom: 64px;
   }
 
+  .title-runners {
+    top: -27px;
+    height: 27px;
+  }
+
+  .title-runner-img {
+    width: 42px;
+  }
+
+  .title-runner-img:nth-child(1) { left: 2%; }
+  .title-runner-img:nth-child(2) { left: 22%; }
+  .title-runner-img:nth-child(3) { left: 43%; }
+  .title-runner-img:nth-child(4) { left: 64%; }
+  .title-runner-img:nth-child(5) { left: 82%; }
+
   .philosophy-item {
     grid-template-columns: 34px minmax(0, 1fr);
     gap: 8px 12px;
@@ -417,7 +459,16 @@ footer a {
 <main>
 
   <section class="section">
-    <h2 class="section-title">哲学</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
+      </span>
+      哲学
+    </h2>
 
     <p class="section-lead">
       最上位にあるのは技術論ではなく、
@@ -509,7 +560,16 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">選手を見る3本柱</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
+      </span>
+      選手を見る3本柱
+    </h2>
 
     <p class="section-lead">
       哲学を現場で使うための観察フレームが、
@@ -557,7 +617,16 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">技術原則</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
+      </span>
+      技術原則
+    </h2>
 
     <p class="section-lead">
       3本柱からさらに現象を掘り下げるときに使う技術的な原則です。
@@ -753,7 +822,16 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">現場へのつなぎ方</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <img class="title-runner-img" src="../assets/runner-1.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-2.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-3.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-4.png" alt="">
+        <img class="title-runner-img" src="../assets/runner-5.png" alt="">
+      </span>
+      現場へのつなぎ方
+    </h2>
 
     <div class="connection">
 
