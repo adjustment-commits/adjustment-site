@@ -26,10 +26,10 @@
   --max: 980px;
 
   font-family:
-"Hiragino Sans",
-"Hiragino Kaku Gothic ProN",
-"Yu Gothic",
-sans-serif;
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
 }
 
 html {
@@ -80,9 +80,9 @@ img {
 }
 
 .brand span {
-font-size: 0.84rem;
-font-weight: 500;
-letter-spacing: 0.01em;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .nav {
@@ -108,12 +108,12 @@ letter-spacing: 0.01em;
 }
 
 .hero-name {
-margin: 0;
-font-family: inherit;
-font-size: clamp(2.4rem, 6vw, 4.4rem);
-line-height: 1.1;
-font-weight: 500;
-letter-spacing: -0.03em;
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
 .hero-role {
@@ -123,7 +123,7 @@ letter-spacing: -0.03em;
 .hero-role strong {
   display: block;
   font-size: 0.98rem;
-  font-weight: 00;
+  font-weight: 500;
 }
 
 .hero-role span {
@@ -171,7 +171,6 @@ letter-spacing: -0.03em;
   font-weight: 600;
 }
 
-
 .section {
   width: min(calc(100% - 40px), var(--max));
   margin: 0 auto;
@@ -182,14 +181,46 @@ letter-spacing: -0.03em;
   padding-top: 8px;
 }
 
+/* 見出し線の上を走る小さなキャラクター */
 .section-title {
-margin: 0 0 30px;
-padding-top: 18px;
-border-top: 1px solid var(--text);
-font-size: 1.02rem;
-font-weight: 500;
-letter-spacing: 0.01em;
+  position: relative;
+  margin: 0 0 30px;
+  padding-top: 18px;
+  border-top: 1px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
+
+.title-runners {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -22px;
+  height: 22px;
+  pointer-events: none;
+  color: var(--text);
+}
+
+.title-runner {
+  position: absolute;
+  bottom: -2px;
+  width: 30px;
+  height: 24px;
+}
+
+.title-runner svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.title-runner:nth-child(1) { left: 7%;  transform: translateY(1px); }
+.title-runner:nth-child(2) { left: 25%; transform: translateY(-1px); }
+.title-runner:nth-child(3) { left: 44%; transform: translateY(0); }
+.title-runner:nth-child(4) { left: 64%; transform: translateY(-2px); }
+.title-runner:nth-child(5) { left: 84%; transform: translateY(1px); }
 
 .service-item {
   display: grid;
@@ -204,9 +235,9 @@ letter-spacing: 0.01em;
 }
 
 .service-name h3 {
-margin: 0;
-font-size: 0.96rem;
-font-weight: 500;
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 500;
 }
 
 .service-name small {
@@ -234,11 +265,12 @@ font-weight: 500;
 }
 
 .service-price strong {
-display: block;
-color: var(--text);
-font-size: 0.96rem;
-font-weight: 500;
+  display: block;
+  color: var(--text);
+  font-size: 0.96rem;
+  font-weight: 500;
 }
+
 .service-price .spacer {
   margin-top: 13px;
 }
@@ -248,13 +280,13 @@ font-weight: 500;
 }
 
 .work-copy p {
-margin: 0;
-padding: 14px 0;
-border-top: 1px solid var(--line);
-font-family: inherit;
-font-size: 1.03rem;
-font-weight: 400;
-line-height: 1.9;
+  margin: 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  font-family: inherit;
+  font-size: 1.03rem;
+  font-weight: 400;
+  line-height: 1.9;
 }
 
 .work-copy p:last-child {
@@ -272,11 +304,11 @@ line-height: 1.9;
 }
 
 .profile-heading strong {
-display: block;
-font-family: inherit;
-font-size: 1.55rem;
-font-weight: 500;
-letter-spacing: -0.01em;
+  display: block;
+  font-family: inherit;
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .profile-heading span {
@@ -447,6 +479,22 @@ footer a {
     padding-bottom: 68px;
   }
 
+  .title-runners {
+    top: -19px;
+    height: 19px;
+  }
+
+  .title-runner {
+    width: 26px;
+    height: 21px;
+  }
+
+  .title-runner:nth-child(1) { left: 6%;  transform: translateY(1px); }
+  .title-runner:nth-child(2) { left: 28%; transform: translateY(-1px); }
+  .title-runner:nth-child(3) { left: 50%; transform: translateY(0); }
+  .title-runner:nth-child(4) { left: 72%; transform: translateY(-2px); }
+  .title-runner:nth-child(5) { left: 89%; transform: translateY(1px); }
+
   .service-item {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -487,6 +535,71 @@ footer a {
 
 <body>
 
+<!-- 見出し線の上を走るSDキャラクター -->
+<svg
+  width="0"
+  height="0"
+  aria-hidden="true"
+  focusable="false"
+  style="position:absolute"
+>
+  <defs>
+    <symbol id="sd-runner" viewBox="0 0 80 64">
+      <!-- speed lines -->
+      <path d="M2 18h17M0 28h14M5 38h18"
+            stroke="currentColor"
+            stroke-width="3.2"
+            stroke-linecap="round"/>
+
+      <!-- head -->
+      <circle cx="38" cy="13" r="9" fill="currentColor"/>
+
+      <!-- torso -->
+      <path d="M33 23
+               C38 20 44 20 49 24
+               L57 31
+               L51 37
+               L44 31
+               L37 39
+               L28 34
+               Z"
+            fill="currentColor"/>
+
+      <!-- rear arm -->
+      <path d="M34 26L24 19"
+            stroke="currentColor"
+            stroke-width="7"
+            stroke-linecap="round"/>
+
+      <!-- front arm -->
+      <path d="M48 27L61 22"
+            stroke="currentColor"
+            stroke-width="7"
+            stroke-linecap="round"/>
+
+      <!-- rear leg -->
+      <path d="M37 38L25 49L43 54"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+
+      <!-- front leg -->
+      <path d="M43 39L54 47L67 57"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+
+      <!-- visor -->
+      <path d="M40 10h7l-3 4h-6z"
+            fill="#ffffff"/>
+    </symbol>
+  </defs>
+</svg>
+
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="./index.html">
@@ -526,7 +639,16 @@ footer a {
   </section>
 
   <section class="section" id="service">
-    <h2 class="section-title">サービス・料金</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+      </span>
+      サービス・料金
+    </h2>
 
     <div class="service-item">
       <div class="service-name">
@@ -587,7 +709,16 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">セッションポイント</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+      </span>
+      セッションポイント
+    </h2>
 
     <div class="work-copy">
       <p>身体・動作・出力の評価</p>
@@ -597,7 +728,16 @@ footer a {
   </section>
 
   <section class="section" id="profile">
-    <h2 class="section-title">プロフィール</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+      </span>
+      プロフィール
+    </h2>
 
     <div class="profile">
       <div class="profile-heading">
@@ -642,7 +782,16 @@ footer a {
   </section>
 
   <section class="section contact">
-    <h2 class="section-title">お問い合わせ</h2>
+    <h2 class="section-title">
+      <span class="title-runners" aria-hidden="true">
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+        <span class="title-runner"><svg><use href="#sd-runner"></use></svg></span>
+      </span>
+      お問い合わせ
+    </h2>
 
     <div class="contact-box">
       <p>
