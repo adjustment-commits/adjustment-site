@@ -191,7 +191,21 @@ img {
   letter-spacing: 0.01em;
 }
 
-/* 実画像の5ポーズを、見出し線の上に個別配置 */
+/* 各段を1体ずつ右へ進んでいくランナー */
+.hero {
+  position: relative;
+}
+
+.hero-runner {
+  position: absolute;
+  top: 28px;
+  left: 5%;
+  width: 54px;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
 .title-runners {
   position: absolute;
   left: 0;
@@ -207,14 +221,14 @@ img {
   bottom: -1px;
   width: 54px;
   height: auto;
+  display: block;
   user-select: none;
 }
 
-.title-runner-img:nth-child(1) { left: 5%; }
-.title-runner-img:nth-child(2) { left: 25%; }
-.title-runner-img:nth-child(3) { left: 45%; }
-.title-runner-img:nth-child(4) { left: 65%; }
-.title-runner-img:nth-child(5) { left: 84%; }
+.stage-2 .title-runner-img { left: 25%; }
+.stage-3 .title-runner-img { left: 45%; }
+.stage-4 .title-runner-img { left: 65%; }
+.stage-5 .title-runner-img { left: 84%; }
 
 .service-item {
   display: grid;
@@ -473,6 +487,12 @@ footer a {
     padding-bottom: 68px;
   }
 
+  .hero-runner {
+    top: 22px;
+    left: 4%;
+    width: 42px;
+  }
+
   .title-runners {
     top: -27px;
     height: 27px;
@@ -482,11 +502,10 @@ footer a {
     width: 42px;
   }
 
-  .title-runner-img:nth-child(1) { left: 2%; }
-  .title-runner-img:nth-child(2) { left: 22%; }
-  .title-runner-img:nth-child(3) { left: 43%; }
-  .title-runner-img:nth-child(4) { left: 64%; }
-  .title-runner-img:nth-child(5) { left: 82%; }
+  .stage-2 .title-runner-img { left: 20%; }
+  .stage-3 .title-runner-img { left: 40%; }
+  .stage-4 .title-runner-img { left: 61%; }
+  .stage-5 .title-runner-img { left: 80%; }
 
   .service-item {
     grid-template-columns: 1fr;
@@ -546,6 +565,7 @@ footer a {
 <main>
 
   <section class="hero">
+    <img class="hero-runner" src="./assets/runner-1.png" alt="" aria-hidden="true">
     <h1 class="hero-name">整-adjustment-</h1>
 
     <div class="hero-role">
@@ -568,12 +588,8 @@ footer a {
 
   <section class="section" id="service">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
+      <span class="title-runners stage-2" aria-hidden="true">
         <img class="title-runner-img" src="./assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       サービス・料金
     </h2>
@@ -638,12 +654,8 @@ footer a {
 
   <section class="section">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
+      <span class="title-runners stage-3" aria-hidden="true">
         <img class="title-runner-img" src="./assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       セッションポイント
     </h2>
@@ -657,12 +669,8 @@ footer a {
 
   <section class="section" id="profile">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+      <span class="title-runners stage-4" aria-hidden="true">
         <img class="title-runner-img" src="./assets/runner-4.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       プロフィール
     </h2>
@@ -711,11 +719,7 @@ footer a {
 
   <section class="section contact">
     <h2 class="section-title">
-      <span class="title-runners" aria-hidden="true">
-        <img class="title-runner-img" src="./assets/runner-1.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-2.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
-        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+      <span class="title-runners stage-5" aria-hidden="true">
         <img class="title-runner-img" src="./assets/runner-5.png" alt="">
       </span>
       お問い合わせ
