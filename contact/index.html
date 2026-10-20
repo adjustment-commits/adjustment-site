@@ -243,6 +243,9 @@ footer a {
     target="contactSink"
   >
 
+    <input id="formStartedAt" name="formStartedAt" type="hidden" value="">
+    <input id="formToken" name="formToken" type="hidden" value="">
+
     <div class="field">
       <label for="name">
         お名前
@@ -254,6 +257,7 @@ footer a {
         name="name"
         type="text"
         autocomplete="name"
+        maxlength="80"
         required
       >
     </div>
@@ -269,6 +273,7 @@ footer a {
         name="email"
         type="email"
         autocomplete="email"
+        maxlength="254"
         required
       >
 
@@ -287,6 +292,7 @@ footer a {
         name="phone"
         type="tel"
         autocomplete="tel"
+        maxlength="40"
       >
     </div>
 
@@ -300,6 +306,7 @@ footer a {
         name="team"
         type="text"
         autocomplete="organization"
+        maxlength="120"
       >
     </div>
 
@@ -350,6 +357,8 @@ footer a {
       <textarea
         id="message"
         name="message"
+        minlength="5"
+        maxlength="4000"
         required
       ></textarea>
     </div>
@@ -414,8 +423,34 @@ const course = document.getElementById("course");
 const submitButton = document.getElementById("submitButton");
 const status = document.getElementById("status");
 const sink = document.getElementById("contactSink");
+const formStartedAt = document.getElementById("formStartedAt");
+const formToken = document.getElementById("formToken");
 
 let submitting = false;
+
+function createFormToken() {
+  if (
+    window.crypto &&
+    typeof window.crypto.randomUUID === "function"
+  ) {
+    return window.crypto.randomUUID();
+  }
+
+  return (
+    Date.now().toString(36) +
+    "-" +
+    Math.random().toString(36).slice(2) +
+    "-" +
+    Math.random().toString(36).slice(2)
+  );
+}
+
+function resetAntiSpamFields() {
+  formStartedAt.value = String(Date.now());
+  formToken.value = createFormToken();
+}
+
+resetAntiSpamFields();
 
 category.addEventListener("change", () => {
   const isPersonal =
@@ -441,6 +476,7 @@ sink.addEventListener("load", () => {
 
   submitting = false;
   form.reset();
+  resetAntiSpamFields();
   courseWrap.hidden = true;
   submitButton.disabled = false;
 
