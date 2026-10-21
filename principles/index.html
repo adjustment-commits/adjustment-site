@@ -162,16 +162,6 @@ main {
   position: relative;
 }
 
-.bottom-runner {
-  position: absolute;
-  top: -82px;
-  left: 89%;
-  width: 120px;
-  height: auto;
-  pointer-events: none;
-  user-select: none;
-}
-
 .section-lead {
   max-width: 720px;
   margin: 0 0 34px;
@@ -393,12 +383,6 @@ footer a {
   .stage-3 .title-runner-img { left: 42%; }
   .stage-4 .title-runner-img { left: 62%; }
 
- .bottom-runner {
-  top: -66px;
-  left: 86%;
-  width: 96px;
-}
-
   .philosophy-item {
     grid-template-columns: 34px minmax(0, 1fr);
     gap: 8px 12px;
@@ -444,6 +428,92 @@ footer a {
   footer {
     flex-direction: column;
     gap: 4px;
+  }
+}
+/* runner5：関連ページの線で石をジャンプ */
+.bottom-links {
+  position: relative;
+}
+
+.bottom-runner-scene {
+  position: absolute;
+  right: 0;
+  top: -66px;
+  width: 150px;
+  height: 76px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* 石 */
+.bottom-runner-stone {
+  position: absolute;
+  left: 44px;
+  bottom: 3px;
+  width: 48px;
+  height: 30px;
+  background: #6f6f6a;
+  border-radius: 56% 44% 52% 48% / 58% 52% 48% 42%;
+  transform: rotate(-8deg);
+  box-shadow:
+    inset -4px -3px 0 rgba(0,0,0,0.12),
+    inset 5px 4px 0 rgba(255,255,255,0.12);
+}
+
+.bottom-runner-stone::before,
+.bottom-runner-stone::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.22);
+  border-radius: 999px;
+}
+
+.bottom-runner-stone::before {
+  width: 12px;
+  height: 3px;
+  left: 8px;
+  top: 8px;
+  transform: rotate(-10deg);
+}
+
+.bottom-runner-stone::after {
+  width: 9px;
+  height: 3px;
+  left: 22px;
+  top: 14px;
+  transform: rotate(12deg);
+}
+
+/* runner5 */
+.bottom-runner-jump {
+  position: absolute;
+  left: 66px;
+  bottom: 20px;
+  width: 82px;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+@media (max-width: 720px) {
+  .bottom-runner-scene {
+    right: 0;
+    top: -52px;
+    width: 118px;
+    height: 62px;
+  }
+
+  .bottom-runner-stone {
+    left: 34px;
+    bottom: 2px;
+    width: 36px;
+    height: 23px;
+  }
+
+  .bottom-runner-jump {
+    left: 50px;
+    bottom: 15px;
+    width: 64px;
   }
 }
 </style>
@@ -874,8 +944,17 @@ footer a {
   </section>
 
   <section class="bottom-links">
-    <img class="bottom-runner" src="../assets/runner-5.png" alt="" aria-hidden="true">
-    <p>関連ページ</p>
+
+  <span class="bottom-runner-scene" aria-hidden="true">
+    <span class="bottom-runner-stone"></span>
+    <img
+      class="bottom-runner-jump"
+      src="../assets/runner-5.png"
+      alt=""
+    >
+  </span>
+
+  <p>関連ページ</p>
 
     <nav>
       <a href="../field/index.html">field</a>
