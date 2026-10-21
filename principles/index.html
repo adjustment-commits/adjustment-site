@@ -87,9 +87,11 @@ a {
 }
 
 .hero {
+  position: relative;
   width: min(calc(100% - 40px), var(--max));
   margin: 0 auto;
   padding: 58px 0 76px;
+  overflow: visible;
 }
 
 .hero h1 {
@@ -113,6 +115,112 @@ a {
   border-top: 1px solid var(--line);
   color: var(--sub);
   font-size: 0.82rem;
+}
+
+
+/* UFO：runner-1の登場演出 */
+.hero-ufo-scene {
+  position: absolute;
+  left: 0;
+  top: -12px;
+  width: 190px;
+  height: 138px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+.hero-ufo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 104px;
+  height: 36px;
+  background: #171717;
+  border-radius: 50% / 58%;
+  transform: rotate(-5deg);
+  box-shadow:
+    inset 0 -4px 0 rgba(255,255,255,0.08),
+    0 2px 0 rgba(0,0,0,0.08);
+  animation: ufoFloat 4s ease-in-out infinite;
+}
+
+.hero-ufo::before {
+  content: "";
+  position: absolute;
+  left: 29px;
+  top: -15px;
+  width: 44px;
+  height: 23px;
+  background: #30302d;
+  border-radius: 52% 52% 44% 44%;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.08);
+}
+
+.hero-ufo::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 7px;
+  height: 4px;
+  background:
+    radial-gradient(circle at 10% 50%, rgba(255,255,255,0.22) 0 2px, transparent 2px),
+    radial-gradient(circle at 30% 50%, rgba(255,255,255,0.22) 0 2px, transparent 2px),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0 2px, transparent 2px),
+    radial-gradient(circle at 70% 50%, rgba(255,255,255,0.22) 0 2px, transparent 2px),
+    radial-gradient(circle at 90% 50%, rgba(255,255,255,0.22) 0 2px, transparent 2px);
+}
+
+.hero-ufo-beam {
+  position: absolute;
+  left: 24px;
+  top: 26px;
+  width: 92px;
+  height: 96px;
+  background: linear-gradient(
+    to bottom,
+    rgba(23,23,23,0.15) 0%,
+    rgba(23,23,23,0.08) 50%,
+    rgba(23,23,23,0) 100%
+  );
+  clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+}
+
+.hero-ufo-drop {
+  position: absolute;
+  left: 67px;
+  top: 44px;
+  width: 2px;
+  height: 62px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(23,23,23,0.58) 0 4px,
+    transparent 4px 8px
+  );
+}
+
+.hero-ufo-soldier {
+  position: absolute;
+  left: 53px;
+  top: 47px;
+  width: 27px;
+  height: auto;
+  opacity: 0;
+  transform: rotate(7deg);
+  animation: soldierDropOnce 1.7s ease-in 0.35s both;
+}
+
+@keyframes ufoFloat {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-3px) rotate(-5deg); }
+}
+
+@keyframes soldierDropOnce {
+  0% { transform: translateY(0) rotate(7deg); opacity: 0; }
+  12% { opacity: 0.9; }
+  82% { transform: translateY(58px) rotate(2deg); opacity: 1; }
+  100% { transform: translateY(64px) rotate(0deg); opacity: 0; }
 }
 
 main {
@@ -161,6 +269,7 @@ main {
 .bottom-links {
   position: relative;
 }
+
 
 .section-lead {
   max-width: 720px;
@@ -336,6 +445,70 @@ main {
   font-size: 0.8rem;
 }
 
+
+/* runner5：関連ページの線で石をジャンプ */
+.bottom-links {
+  position: relative;
+}
+
+.bottom-runner-scene {
+  position: absolute;
+  right: 0;
+  top: -66px;
+  width: 160px;
+  height: 82px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.bottom-runner-stone {
+  position: absolute;
+  left: 40px;
+  bottom: 10px;
+  width: 56px;
+  height: 36px;
+  background: #77776f;
+  clip-path: polygon(8% 72%,12% 38%,26% 18%,48% 10%,70% 14%,88% 28%,96% 48%,90% 72%,72% 88%,46% 94%,22% 88%);
+  transform: rotate(-8deg);
+  box-shadow:
+    inset -5px -4px 0 rgba(0,0,0,0.16),
+    inset 6px 5px 0 rgba(255,255,255,0.10);
+}
+
+.bottom-runner-stone::before,
+.bottom-runner-stone::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.18);
+  clip-path: polygon(0 40%,18% 0,100% 10%,82% 100%,8% 88%);
+}
+
+.bottom-runner-stone::before {
+  width: 16px;
+  height: 7px;
+  left: 10px;
+  top: 9px;
+  transform: rotate(-8deg);
+}
+
+.bottom-runner-stone::after {
+  width: 12px;
+  height: 6px;
+  left: 28px;
+  top: 17px;
+  transform: rotate(10deg);
+}
+
+.bottom-runner-jump {
+  position: absolute;
+  left: 72px;
+  bottom: 22px;
+  width: 82px;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
 footer {
   width: min(calc(100% - 40px), var(--max));
   margin: 0 auto;
@@ -353,6 +526,43 @@ footer a {
 }
 
 @media (max-width: 720px) {
+
+  .hero-ufo-scene {
+    width: 136px;
+    height: 106px;
+    top: -2px;
+  }
+
+  .hero-ufo {
+    width: 76px;
+    height: 27px;
+  }
+
+  .hero-ufo::before {
+    left: 21px;
+    top: -10px;
+    width: 31px;
+    height: 16px;
+  }
+
+  .hero-ufo-beam {
+    left: 18px;
+    top: 19px;
+    width: 66px;
+    height: 74px;
+  }
+
+  .hero-ufo-drop {
+    left: 48px;
+    top: 33px;
+    height: 44px;
+  }
+
+  .hero-ufo-soldier {
+    left: 37px;
+    top: 36px;
+    width: 20px;
+  }
   .site-header,
   .hero,
   main,
@@ -373,9 +583,7 @@ footer a {
     height: 27px;
   }
 
-  .title-runner-img{
-    width: 42px;
-  }
+  .title-runner-img,
 
   .stage-1 .title-runner-img { left: 3%; }
   .stage-2 .title-runner-img { left: 22%; }
@@ -424,90 +632,7 @@ footer a {
     gap: 6px;
   }
 
-  footer {
-    flex-direction: column;
-    gap: 4px;
-  }
-}
-/* runner5：関連ページの線で石をジャンプ */
-.bottom-links {
-  position: relative;
-}
 
-.bottom-runner-scene {
-  position: absolute;
-  right: 0;
-  top: -66px;
-  width: 160px;
-  height: 82px;
-  pointer-events: none;
-  overflow: visible;
-}
-
-/* 石：少し上に上げて、ゴツゴツ形状にする */
-.bottom-runner-stone {
-  position: absolute;
-  left: 40px;
-  bottom: 10px; /* ← 3px から上げる */
-  width: 56px;
-  height: 36px;
-  background: #77776f;
-  clip-path: polygon(
-    8% 72%,
-    12% 38%,
-    26% 18%,
-    48% 10%,
-    70% 14%,
-    88% 28%,
-    96% 48%,
-    90% 72%,
-    72% 88%,
-    46% 94%,
-    22% 88%
-  );
-  transform: rotate(-8deg);
-  box-shadow:
-    inset -5px -4px 0 rgba(0,0,0,0.16),
-    inset 6px 5px 0 rgba(255,255,255,0.10);
-}
-
-/* 石の面っぽさ */
-.bottom-runner-stone::before,
-.bottom-runner-stone::after {
-  content: "";
-  position: absolute;
-  background: rgba(255,255,255,0.18);
-  clip-path: polygon(0 40%, 18% 0, 100% 10%, 82% 100%, 8% 88%);
-}
-
-.bottom-runner-stone::before {
-  width: 16px;
-  height: 7px;
-  left: 10px;
-  top: 9px;
-  transform: rotate(-8deg);
-}
-
-.bottom-runner-stone::after {
-  width: 12px;
-  height: 6px;
-  left: 28px;
-  top: 17px;
-  transform: rotate(10deg);
-}
-
-/* runner5 */
-.bottom-runner-jump {
-  position: absolute;
-  left: 72px;
-  bottom: 22px;
-  width: 82px;
-  height: auto;
-  display: block;
-  user-select: none;
-}
-
-@media (max-width: 720px) {
   .bottom-runner-scene {
     right: 0;
     top: -54px;
@@ -517,7 +642,7 @@ footer a {
 
   .bottom-runner-stone {
     left: 30px;
-    bottom: 8px;   /* ← スマホでも少し上げる */
+    bottom: 8px;
     width: 40px;
     height: 26px;
   }
@@ -527,6 +652,16 @@ footer a {
     bottom: 17px;
     width: 64px;
   }
+
+  footer {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ufo { animation: none; }
+  .hero-ufo-soldier { display: none; }
 }
 </style>
 </head>
@@ -543,6 +678,13 @@ footer a {
 </header>
 
 <section class="hero">
+  <div class="hero-ufo-scene" aria-hidden="true">
+    <span class="hero-ufo"></span>
+    <span class="hero-ufo-beam"></span>
+    <span class="hero-ufo-drop"></span>
+    <img class="hero-ufo-soldier" src="../assets/runner-1.png" alt="">
+  </div>
+
   <h1>adjustmentの原理原則</h1>
 
   <p>
@@ -956,17 +1098,11 @@ footer a {
   </section>
 
   <section class="bottom-links">
-
-  <span class="bottom-runner-scene" aria-hidden="true">
-    <span class="bottom-runner-stone"></span>
-    <img
-      class="bottom-runner-jump"
-      src="../assets/runner-5.png"
-      alt=""
-    >
-  </span>
-
-  <p>関連ページ</p>
+    <span class="bottom-runner-scene" aria-hidden="true">
+      <span class="bottom-runner-stone"></span>
+      <img class="bottom-runner-jump" src="../assets/runner-5.png" alt="">
+    </span>
+    <p>関連ページ</p>
 
     <nav>
       <a href="../field/index.html">field</a>
