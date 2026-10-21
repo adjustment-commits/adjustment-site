@@ -438,56 +438,69 @@ footer a {
   position: absolute;
   right: 0;
   top: -66px;
-  width: 150px;
-  height: 76px;
+  width: 160px;
+  height: 82px;
   pointer-events: none;
   overflow: visible;
 }
 
-/* 石 */
+/* 石：少し上に上げて、ゴツゴツ形状にする */
 .bottom-runner-stone {
   position: absolute;
-  left: 44px;
-  bottom: 3px;
-  width: 48px;
-  height: 30px;
-  background: #6f6f6a;
-  border-radius: 56% 44% 52% 48% / 58% 52% 48% 42%;
+  left: 40px;
+  bottom: 10px; /* ← 3px から上げる */
+  width: 56px;
+  height: 36px;
+  background: #77776f;
+  clip-path: polygon(
+    8% 72%,
+    12% 38%,
+    26% 18%,
+    48% 10%,
+    70% 14%,
+    88% 28%,
+    96% 48%,
+    90% 72%,
+    72% 88%,
+    46% 94%,
+    22% 88%
+  );
   transform: rotate(-8deg);
   box-shadow:
-    inset -4px -3px 0 rgba(0,0,0,0.12),
-    inset 5px 4px 0 rgba(255,255,255,0.12);
+    inset -5px -4px 0 rgba(0,0,0,0.16),
+    inset 6px 5px 0 rgba(255,255,255,0.10);
 }
 
+/* 石の面っぽさ */
 .bottom-runner-stone::before,
 .bottom-runner-stone::after {
   content: "";
   position: absolute;
-  background: rgba(255,255,255,0.22);
-  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  clip-path: polygon(0 40%, 18% 0, 100% 10%, 82% 100%, 8% 88%);
 }
 
 .bottom-runner-stone::before {
-  width: 12px;
-  height: 3px;
-  left: 8px;
-  top: 8px;
-  transform: rotate(-10deg);
+  width: 16px;
+  height: 7px;
+  left: 10px;
+  top: 9px;
+  transform: rotate(-8deg);
 }
 
 .bottom-runner-stone::after {
-  width: 9px;
-  height: 3px;
-  left: 22px;
-  top: 14px;
-  transform: rotate(12deg);
+  width: 12px;
+  height: 6px;
+  left: 28px;
+  top: 17px;
+  transform: rotate(10deg);
 }
 
 /* runner5 */
 .bottom-runner-jump {
   position: absolute;
-  left: 66px;
-  bottom: 20px;
+  left: 72px;
+  bottom: 22px;
   width: 82px;
   height: auto;
   display: block;
@@ -497,21 +510,21 @@ footer a {
 @media (max-width: 720px) {
   .bottom-runner-scene {
     right: 0;
-    top: -52px;
-    width: 118px;
-    height: 62px;
+    top: -54px;
+    width: 126px;
+    height: 66px;
   }
 
   .bottom-runner-stone {
-    left: 34px;
-    bottom: 2px;
-    width: 36px;
-    height: 23px;
+    left: 30px;
+    bottom: 8px;   /* ← スマホでも少し上げる */
+    width: 40px;
+    height: 26px;
   }
 
   .bottom-runner-jump {
-    left: 50px;
-    bottom: 15px;
+    left: 54px;
+    bottom: 17px;
     width: 64px;
   }
 }
