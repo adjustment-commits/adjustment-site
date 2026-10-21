@@ -519,79 +519,87 @@ footer a {
   overflow: visible;
 }
 
-/* 石 */
 .stage-5 .runner5-stone {
   position: absolute;
-  left: 44px;
-  bottom: 3px;
-  width: 44px;
-  height: 28px;
-  background: #6f6f6a;
-  border-radius: 56% 44% 52% 48% / 58% 52% 48% 42%;
+  left: 42px;
+  bottom: 10px; /* ← 線とかぶらないように上げる */
+  width: 52px;
+  height: 34px;
+  background: #77776f;
+  clip-path: polygon(
+    8% 72%,
+    12% 38%,
+    26% 18%,
+    48% 10%,
+    70% 14%,
+    88% 28%,
+    96% 48%,
+    90% 72%,
+    72% 88%,
+    46% 94%,
+    22% 88%
+  );
   transform: rotate(-8deg);
   box-shadow:
-    inset -4px -3px 0 rgba(0,0,0,0.12),
-    inset 5px 4px 0 rgba(255,255,255,0.12);
+    inset -5px -4px 0 rgba(0,0,0,0.16),
+    inset 6px 5px 0 rgba(255,255,255,0.10);
 }
 
-/* 石の質感を少し出す */
 .stage-5 .runner5-stone::before,
 .stage-5 .runner5-stone::after {
   content: "";
   position: absolute;
-  background: rgba(255,255,255,0.22);
-  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  clip-path: polygon(0 40%, 18% 0, 100% 10%, 82% 100%, 8% 88%);
 }
 
 .stage-5 .runner5-stone::before {
-  width: 12px;
-  height: 3px;
-  left: 8px;
+  width: 15px;
+  height: 6px;
+  left: 9px;
   top: 8px;
-  transform: rotate(-10deg);
+  transform: rotate(-8deg);
 }
 
 .stage-5 .runner5-stone::after {
-  width: 9px;
-  height: 3px;
-  left: 22px;
-  top: 14px;
-  transform: rotate(12deg);
+  width: 11px;
+  height: 5px;
+  left: 26px;
+  top: 16px;
+  transform: rotate(10deg);
 }
 
-/* ジャンプ中のrunner5 */
 .stage-5 .runner5-jump {
   position: absolute;
-  left: 62px;
-  bottom: 14px;
+  left: 66px;
+  bottom: 20px;
   width: 74px;
   height: auto;
   display: block;
 }
-
-/* スマホ */
 @media (max-width: 760px) {
   .stage-5 {
-    top: -44px;
-    height: 52px;
+    top: -46px;
+    height: 56px;
   }
 
   .stage-5 .runner5-scene {
     right: 0;
-    width: 108px;
-    height: 58px;
+    bottom: -1px;
+    width: 112px;
+    height: 62px;
   }
 
   .stage-5 .runner5-stone {
-    left: 34px;
-    bottom: 2px;
-    width: 34px;
-    height: 22px;
+    left: 32px;
+    bottom: 8px;
+    width: 36px;
+    height: 24px;
   }
 
   .stage-5 .runner5-jump {
     left: 48px;
-    bottom: 10px;
+    bottom: 14px;
     width: 56px;
   }
 }
