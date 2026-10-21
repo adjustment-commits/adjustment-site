@@ -117,7 +117,6 @@ a {
   font-size: 0.82rem;
 }
 
-
 /* UFO：runner-1の登場演出 */
 .hero-ufo-scene {
   position: absolute;
@@ -129,7 +128,7 @@ a {
   overflow: visible;
   z-index: 1;
 }
-  
+
 .hero-ufo {
   position: absolute;
   left: 0;
@@ -223,6 +222,42 @@ a {
   100% { transform: translateY(64px) rotate(0deg); opacity: 0; }
 }
 
+/* 追跡ライト */
+.chase-light {
+  position: absolute;
+  width: 112px;
+  height: 82px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.chase-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(23,23,23,0.16) 0%,
+    rgba(23,23,23,0.08) 45%,
+    rgba(23,23,23,0) 100%
+  );
+  clip-path: polygon(0 0, 48% 0, 100% 100%, 20% 100%);
+  filter: blur(0.8px);
+}
+
+.chase-light::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 4px;
+  width: 30px;
+  height: 10px;
+  background: rgba(255,255,255,0.32);
+  border-radius: 50%;
+  filter: blur(5px);
+}
+
 main {
   width: min(calc(100% - 40px), var(--max));
   margin: 0 auto;
@@ -259,20 +294,41 @@ main {
   height: auto;
   display: block;
   user-select: none;
+  z-index: 2;
 }
 
 .stage-1 .title-runner-img {
   left: 5%;
   bottom: -14px;
 }
+
 .stage-2 .title-runner-img { left: 25%; }
 .stage-3 .title-runner-img { left: 45%; }
 .stage-4 .title-runner-img { left: 65%; }
 
-.bottom-links {
-  position: relative;
+.stage-1 .light-1 {
+  left: -1%;
+  top: -10px;
+  transform: rotate(8deg);
 }
 
+.stage-2 .light-2 {
+  left: 17%;
+  top: -20px;
+  transform: rotate(8deg);
+}
+
+.stage-3 .light-3 {
+  left: 37%;
+  top: -20px;
+  transform: rotate(8deg);
+}
+
+.stage-4 .light-4 {
+  left: 57%;
+  top: -20px;
+  transform: rotate(8deg);
+}
 
 .section-lead {
   max-width: 720px;
@@ -426,6 +482,7 @@ main {
 }
 
 .bottom-links {
+  position: relative;
   padding: 28px 0 42px;
   border-top: 1px solid var(--text);
 }
@@ -448,20 +505,23 @@ main {
   font-size: 0.8rem;
 }
 
-
 /* runner5：関連ページの線で石をジャンプ */
-.bottom-links {
-  position: relative;
-}
-
 .bottom-runner-scene {
   position: absolute;
   right: 0;
   top: -66px;
-  width: 160px;
-  height: 82px;
+  width: 190px;
+  height: 104px;
   pointer-events: none;
   overflow: visible;
+}
+
+.bottom-light-5 {
+  left: 4px;
+  top: 2px;
+  width: 148px;
+  height: 96px;
+  transform: rotate(10deg);
 }
 
 .bottom-runner-stone {
@@ -510,6 +570,7 @@ main {
   height: auto;
   display: block;
   user-select: none;
+  z-index: 2;
 }
 
 footer {
@@ -529,13 +590,12 @@ footer a {
 }
 
 @media (max-width: 720px) {
-
   .hero-ufo-scene {
-  left: 0;
-  top: 10px;
-  width: 136px;
-  height: 106px;
-}
+    left: 0;
+    top: 10px;
+    width: 136px;
+    height: 106px;
+  }
 
   .hero-ufo {
     width: 76px;
@@ -567,6 +627,7 @@ footer a {
     top: 36px;
     width: 20px;
   }
+
   .site-header,
   .hero,
   main,
@@ -575,8 +636,8 @@ footer a {
   }
 
   .hero {
-  padding: 88px 0 58px;
-}
+    padding: 88px 0 58px;
+  }
 
   .section {
     padding-bottom: 64px;
@@ -587,15 +648,28 @@ footer a {
     height: 27px;
   }
 
-  .title-runner-img,
+  .title-runner-img {
+    width: 42px;
+  }
+
+  .chase-light {
+    width: 84px;
+    height: 62px;
+  }
 
   .stage-1 .title-runner-img {
-  left: 3%;
-  bottom: -10px;
-}
+    left: 3%;
+    bottom: -10px;
+  }
+
   .stage-2 .title-runner-img { left: 22%; }
   .stage-3 .title-runner-img { left: 42%; }
   .stage-4 .title-runner-img { left: 62%; }
+
+  .stage-1 .light-1 { left: -3%; top: -8px; }
+  .stage-2 .light-2 { left: 13%; top: -16px; }
+  .stage-3 .light-3 { left: 33%; top: -16px; }
+  .stage-4 .light-4 { left: 53%; top: -16px; }
 
   .philosophy-item {
     grid-template-columns: 34px minmax(0, 1fr);
@@ -639,12 +713,18 @@ footer a {
     gap: 6px;
   }
 
-
   .bottom-runner-scene {
     right: 0;
     top: -54px;
-    width: 126px;
-    height: 66px;
+    width: 148px;
+    height: 82px;
+  }
+
+  .bottom-light-5 {
+    left: 0;
+    top: 0;
+    width: 112px;
+    height: 72px;
   }
 
   .bottom-runner-stone {
@@ -711,6 +791,7 @@ footer a {
   <section class="section">
     <h2 class="section-title">
       <span class="title-runners stage-1" aria-hidden="true">
+        <span class="chase-light light-1"></span>
         <img class="title-runner-img" src="../assets/runner-1.png" alt="">
       </span>
       哲学
@@ -808,6 +889,7 @@ footer a {
   <section class="section">
     <h2 class="section-title">
       <span class="title-runners stage-2" aria-hidden="true">
+        <span class="chase-light light-2"></span>
         <img class="title-runner-img" src="../assets/runner-2.png" alt="">
       </span>
       選手を見る3本柱
@@ -861,6 +943,7 @@ footer a {
   <section class="section">
     <h2 class="section-title">
       <span class="title-runners stage-3" aria-hidden="true">
+        <span class="chase-light light-3"></span>
         <img class="title-runner-img" src="../assets/runner-3.png" alt="">
       </span>
       技術原則
@@ -878,13 +961,11 @@ footer a {
           <div class="technical-num">01</div>
           <h3>動作は通り道で決まる</h3>
         </div>
-
         <p>
           動作の再現性は、
           末端をどう操作したかではなく、
           毎回どの通り道を通ったかに強く影響される。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -893,7 +974,6 @@ footer a {
               リリースやインパクト前のズレ。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -909,12 +989,10 @@ footer a {
           <div class="technical-num">02</div>
           <h3>本質は相対運動にある</h3>
         </div>
-
         <p>
           動作は局所の形ではなく、
           何に対して何がどう動いたかという関係で捉える。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -924,7 +1002,6 @@ footer a {
               胴体に対する四肢。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -940,12 +1017,10 @@ footer a {
           <div class="technical-num">03</div>
           <h3>動作は方向転換で変わる</h3>
         </div>
-
         <p>
           大きく動けることよりも、
           必要な局面で適切に向きを変えられることが重要になる。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -954,7 +1029,6 @@ footer a {
               荷重の移り変わり。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -970,12 +1044,10 @@ footer a {
           <div class="technical-num">04</div>
           <h3>エクササイズは可変性をつくる</h3>
         </div>
-
         <p>
           エクササイズで競技動作そのものを再現するのではなく、
           必要な局面で使える選択肢を増やす。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -984,7 +1056,6 @@ footer a {
               必要な方向へ変化できるか。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -1000,13 +1071,11 @@ footer a {
           <div class="technical-num">05</div>
           <h3>バラつきと故障は代償から考える</h3>
         </div>
-
         <p>
           必要な通り道や順序が成立しないとき、
           身体は局所で帳尻を合わせる。
           その代償がバラつきや負担として現れることがある。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -1015,7 +1084,6 @@ footer a {
               過度な局所緊張など。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -1031,12 +1099,10 @@ footer a {
           <div class="technical-num">06</div>
           <h3>出力は条件の結果である</h3>
         </div>
-
         <p>
           出力は無理に「出すもの」ではなく、
           荷重、順序、加速の条件が揃った結果として現れる。
         </p>
-
         <div class="technical-meta">
           <div>
             <strong>見る点</strong>
@@ -1045,7 +1111,6 @@ footer a {
               動きの通り道が整うと結果が変わるか。
             </p>
           </div>
-
           <div>
             <strong>考え方</strong>
             <p>
@@ -1062,6 +1127,7 @@ footer a {
   <section class="section">
     <h2 class="section-title">
       <span class="title-runners stage-4" aria-hidden="true">
+        <span class="chase-light light-4"></span>
         <img class="title-runner-img" src="../assets/runner-4.png" alt="">
       </span>
       現場へのつなぎ方
@@ -1106,9 +1172,11 @@ footer a {
 
   <section class="bottom-links">
     <span class="bottom-runner-scene" aria-hidden="true">
+      <span class="chase-light bottom-light-5"></span>
       <span class="bottom-runner-stone"></span>
       <img class="bottom-runner-jump" src="../assets/runner-5.png" alt="">
     </span>
+
     <p>関連ページ</p>
 
     <nav>
