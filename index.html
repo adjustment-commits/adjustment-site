@@ -189,12 +189,24 @@ img {
   letter-spacing: 0.01em;
 }
 
+.fold-summary {
+  position: relative;
+  margin: 0 0 24px;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .fold-summary::after {
   content: "+";
-  position: absolute;
-  right: 2px;
-  top: 10px;
-  font-size: 1.35rem;
+  position: static;
+  font-size: 1.2rem;
   line-height: 1;
   font-weight: 300;
   color: var(--sub);
