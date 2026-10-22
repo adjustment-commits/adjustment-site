@@ -163,6 +163,51 @@ img {
   letter-spacing: 0.01em;
 }
 
+/* 折りたたみ */
+.fold {
+  margin: 0;
+}
+
+.fold > summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold-summary {
+  position: relative;
+  margin: 0 0 24px;
+  padding: 18px 44px 0 0;
+  border-top: 1px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.fold-summary::after {
+  content: "+";
+  position: absolute;
+  right: 2px;
+  top: 10px;
+  font-size: 1.35rem;
+  line-height: 1;
+  font-weight: 300;
+  color: var(--sub);
+}
+
+.fold[open] > .fold-summary::after {
+  content: "−";
+}
+
+.fold-body {
+  padding-top: 2px;
+}
+
 /* UFO：runner-1の登場演出 */
 .hero-ufo-scene {
   position: absolute;
@@ -755,6 +800,11 @@ footer a {
   .stage-3 .light-3 { left: 31%; top: -16px; }
   .stage-4 .light-4 { left: 52%; top: -16px; }
 
+  .fold-summary {
+    margin-bottom: 18px;
+    padding-right: 36px;
+  }
+
   .service-item {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -868,7 +918,7 @@ footer a {
     </div>
 
     <p class="hero-copy">
-      富山を拠点に社会人・学生野球選手を中心として
+      富山を拠点に、社会人・学生野球選手を中心として、
       身体評価、フィジカルトレーニング、
       コンディショニングを行っています。
     </p>
@@ -891,7 +941,7 @@ footer a {
 
       <p class="service-copy">
         身体評価、動作評価、フィジカルトレーニング、
-        コンディショニング。<br>
+        コンディショニング。
         選手の状態と競技上の課題を確認しながら内容を決めます。
       </p>
 
@@ -912,7 +962,7 @@ footer a {
 
       <p class="service-copy">
         トレーニング指導、年間計画、測定・評価、
-        講習、スタッフ連携など。<br>
+        講習、スタッフ連携など。
         チームの目的と環境に合わせて対応します。
       </p>
 
@@ -942,70 +992,78 @@ footer a {
   </section>
 
   <section class="section">
-    <h2 class="section-title">
-      <span class="title-runners stage-3" aria-hidden="true">
-        <span class="chase-light light-3"></span>
-        <img class="title-runner-img" src="./assets/runner-3.png" alt="">
-      </span>
-      セッションポイント
-    </h2>
+    <details class="fold">
+      <summary class="fold-summary">
+        <span class="title-runners stage-3" aria-hidden="true">
+          <span class="chase-light light-3"></span>
+          <img class="title-runner-img" src="./assets/runner-3.png" alt="">
+        </span>
+        セッションポイント
+      </summary>
 
-    <div class="work-copy">
-      <p>身体・動作・出力の評価</p>
-      <p>パフォーマンスの制限要因の見極め</p>
-      <p>トレーニングを競技動作へ</p>
-    </div>
+      <div class="fold-body">
+        <div class="work-copy">
+          <p>身体・動作・出力の評価</p>
+          <p>パフォーマンスの制限要因の見極め</p>
+          <p>トレーニングを競技動作へ</p>
+        </div>
+      </div>
+    </details>
   </section>
 
   <section class="section" id="profile">
-    <h2 class="section-title">
-      <span class="title-runners stage-4" aria-hidden="true">
-        <span class="chase-light light-4"></span>
-        <img class="title-runner-img" src="./assets/runner-4.png" alt="">
-      </span>
-      プロフィール
-    </h2>
+    <details class="fold">
+      <summary class="fold-summary">
+        <span class="title-runners stage-4" aria-hidden="true">
+          <span class="chase-light light-4"></span>
+          <img class="title-runner-img" src="./assets/runner-4.png" alt="">
+        </span>
+        プロフィール
+      </summary>
 
-    <div class="profile">
-      <div class="profile-heading">
-        <strong>西本 裕 Hiroshi Nishimoto</strong>
-        <span>トレーナー</span>
-        <small>Physical Performance Coach</small>
+      <div class="fold-body">
+        <div class="profile">
+          <div class="profile-heading">
+            <strong>西本 裕 Hiroshi Nishimoto</strong>
+            <span>トレーナー</span>
+            <small>Physical Performance Coach</small>
+          </div>
+
+          <div class="profile-body">
+            <p>
+              富山を拠点に活動。
+              社会人硬式野球を中心に、
+              フィジカルトレーニング、
+              コンディショニング、
+              身体・動作評価を行っています。
+            </p>
+
+            <p>
+              解剖学・運動学・力学を土台にしながら、
+              身体だけを見るのではなく、
+              競技で起きている現象との関係から必要なアプローチを考えます。
+            </p>
+
+            <a class="profile-link" href="./field/index.html">
+              詳しいプロフィール・活動実績
+            </a>
+          </div>
+        </div>
+
+        <div class="career">
+          <h3>主な活動</h3>
+
+          <ul>
+            <li>伏木海陸運送硬式野球部 トレーナー</li>
+            <li>AWB2025 台湾JABA選抜チーム トレーナー</li>
+            <li>BCL 富山GRNサンダーバーズ トレーナー2013〜2016</li>
+            <li>OBC高島 トレーナー2018〜2022</li>
+            <li>Trainer's Baseball Academy</li>
+            <li>学生・社会人野球選手のパーソナルトレーニング</li>
+          </ul>
+        </div>
       </div>
-
-      <div class="profile-body">
-        <p>
-          富山を拠点に活動。
-          社会人硬式野球を中心に、
-          フィジカルトレーニング、
-          コンディショニング、
-          身体・動作評価を行っています。
-        </p>
-
-        <p>
-          解剖学・運動学・力学を土台にしながら、
-          身体だけを見るのではなく、
-          競技で起きている現象との関係から必要なアプローチを考えます。
-        </p>
-
-        <a class="profile-link" href="./field/index.html">
-          詳しいプロフィール・活動実績
-        </a>
-      </div>
-    </div>
-
-    <div class="career">
-      <h3>主な活動</h3>
-
-      <ul>
-        <li>伏木海陸運送硬式野球部 トレーナー</li>
-        <li>AWB2025 台湾JABA選抜チーム トレーナー</li>
-        <li>BCL 富山GRNサンダーバーズ トレーナー2013〜2016</li>
-        <li>OBC高島 トレーナー2018〜2022</li>
-        <li>Trainer's Baseball Academy</li>
-        <li>学生・社会人野球選手のパーソナルトレーニング</li>
-      </ul>
-    </div>
+    </details>
   </section>
 
   <section class="section contact">
@@ -1025,7 +1083,7 @@ footer a {
         パーソナルトレーニング、
         チームサポート、
         オンライン講習・相談など。
-        <br>内容が決まっていない場合もお問い合わせ下さい。
+        <br>内容が決まっていない場合もお問い合わせください。
       </p>
 
       <a class="contact-link" href="./contact/index.html">
